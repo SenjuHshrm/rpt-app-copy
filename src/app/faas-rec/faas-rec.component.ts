@@ -1,6 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { selectOpt } from '../interfaces/selectOpt';
 import { searchRec } from '../services/searchFaasRec.service';
+import { landTaxTable } from '../interfaces/landTaxTable';
+import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
+import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
+import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as _ from 'lodash';
+
+var info: landTaxTable[] = [];
+var owner: landTaxInfOwn[] = [];
+var admin: landTaxInfAdm[] = [];
 
 
 @Component({
@@ -10,9 +20,27 @@ import { searchRec } from '../services/searchFaasRec.service';
 })
 export class FaasRecComponent implements OnInit {
 
-  param1: string;
-  param2: string;
+  param1: string = 'land';
+  param2: string = 'pin';
   req: string;
+
+  infoLs = new MatTableDataSource(info);
+  ownerLs = new MatTableDataSource(owner);
+  adminLs = new MatTableDataSource(admin);
+
+  infoHeader: string[] = [
+    'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',
+    'streetNo', 'brgy', 'subd', 'city', 'province',
+    'class', 'subclass', 'area', 'assessedVal', 'stat'
+  ];
+
+  ownerHeader: string[] = [
+    'ownName', 'ownAddress', 'ownContact', 'ownTIN'
+  ];
+
+  adminHeader: string[] = [
+    'admName', 'admAddress', 'admContact', 'admTIN'
+  ];
 
   params1: selectOpt[] = [
     { value: 'land', viewVal: 'Land' },
@@ -24,38 +52,18 @@ export class FaasRecComponent implements OnInit {
     { value: 'name', viewVal: 'Name' },
   ];
 
-  constructor(private sRec: searchRec) { }
+  constructor(private sRec: searchRec, private matDialog: MatDialog) { }
 
   ngOnInit() {
   }
 
-  arpNo: any;
-  surveyNo: any;
-  octtct: any;
-  lotNo: any;
-  streetNo: any;
-  barangay: any;
-  subdv: any;
-  city: any;
-  province: any;
-  north: any;
-  south: any;
-  east: any;
-  west: any;
-  owners: any = [];
-  lClass: any;
-  lsubClass: any;
-  area: any;
-  unitVal: any;
-  baseMVal: any;
-  totalBaseMVal: any;
-  actualUse: any;
-  paMVal: any;
-  paAssessLvl: any;
-  paAssessVal: any;
-  paTotalAssessVal: any;
   search() {
-    this.owners = [];
+    info = [];
+    owner = [];
+    admin = [];
+    this.infoLs = new MatTableDataSource(info);
+    this.ownerLs = new MatTableDataSource(owner);
+    this.adminLs = new MatTableDataSource(admin);
     let data: any = {
       SearchIn: this.param1,
       SearchBy: this.param2,
@@ -63,37 +71,103 @@ export class FaasRecComponent implements OnInit {
     }
     this.sRec.search(data).subscribe(res => {
       let resdata = res.data;
-      this.arpNo = resdata.landfaas.arp_no;
-      this.surveyNo = resdata.landfaas.survey_no;
-      this.octtct = resdata.landfaas.OCT_TCT_no;
-      this.lotNo = resdata.landfaas.lot_no;
-      this.streetNo = resdata.landfaas.street_no;
-      this.barangay = resdata.landfaas.barangay;
-      this.subdv = resdata.landfaas.subdivision;
-      this.city = resdata.landfaas.city;
-      this.province = resdata.landfaas.province;
-      this.north = resdata.landfaas.north;
-      this.south = resdata.landfaas.south;
-      this.east = resdata.landfaas.east;
-      this.west = resdata.landfaas.west;
-      this.lClass = resdata.landfaas.class;
-      this.lsubClass = resdata.landfaas.subclass;
-      this.area = resdata.landfaas.area;
-      this.unitVal = resdata.landfaas.unit_value;
-      this.baseMVal = resdata.landfaas.base_market_value;
-      this.totalBaseMVal = resdata.landfaas.total_base_market_value;
-      this.actualUse = resdata.landfaas.pa_actual_use;
-      this.paMVal = resdata.landfaas.pa_market_value;
-      this.paAssessLvl = resdata.landfaas.pa_assessment_value;
-      this.paAssessVal = resdata.landfaas.pa_assessed_value;
-      this.paTotalAssessVal = resdata.landfaas.pa_total_assessed_value;
-      for (let i = 0; i < resdata.owner.length; i++) {
-        this.owners.push(resdata.owner[i]);
-      }
-      console.log(resdata);
+      let faas = resdata.faas;
+      let resOwner = resdata.owner;
+      let resAdmin = resdata.admin;
+      console.log(resdata)
+      _.forEach(faas, arr => {
+        info.push({
+          arpNo: arr.ARPNo,
+          pin: arr.PIN,
+          surveyNo: arr.SurveyNo,
+          lotNo: arr.LotNo,
+          blockNo: arr.BlockNo,
+          streetNo: arr.StreetNo,
+          brgy: arr.Barangay,
+          subd: arr.Subdivision,
+          city: arr.City,
+          province: arr.Province,
+          class: arr.Class,
+          subclass: arr.SubClass,
+          area: arr.Area,
+          assessedVal: arr.AssessedValue,
+          stat: arr.Status
+        });
+      });
+      _.forEach(resOwner, arr => {
+        _.forEach(arr, arr=> {
+          owner.push({
+            ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+            ownAddress: arr.address,
+            ownContact: arr.contact,
+            ownTIN: arr.TIN
+          });
+        });
+      });
+      _.forEach(resAdmin, arr => {
+        _.forEach(arr, arr => {
+          admin.push({
+            admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+            admAddress: arr.address,
+            admContact: arr.contact,
+            admTIN: arr.TIN
+          });
+        });
+      });
+      this.infoLs = new MatTableDataSource(info);
+      this.ownerLs = new MatTableDataSource(owner);
+      this.adminLs = new MatTableDataSource(admin);
     });
+  }
+
+  chooseInfo() {
+    return (this.param1 == 'land') ? 'Land' : 'Building';
+  }
+
+  generateFaas() {
+    this.matDialog.open(DialogFaasRecF, {
+      width: '80%',
+      height: '90%',
+      data: ''
+    })
+  }
+
+  generateTD() {
+    this.matDialog.open(DialogFaasRecTD, {
+      width: '80%',
+      height: '90%',
+      data: ''
+    })
   }
 
 }
 
-export default FaasRecComponent;
+@Component({
+  selector: 'app-dialog-faas-rec-faas',
+  templateUrl: './dialog-faas-rec-faas.html'
+})
+export class DialogFaasRecF implements OnInit {
+  constructor(
+    private dialogRef: MatDialogRef<DialogFaasRecF>,
+    @Inject(MAT_DIALOG_DATA)public data: any) { }
+  ngOnInit() {
+
+  }
+}
+
+@Component({
+  selector: 'app-dialog-faas-rec-td',
+  templateUrl: './dialog-faas-rec-td.html'
+})
+export class DialogFaasRecTD implements OnInit {
+
+  constructor(
+    private dialogRef: MatDialogRef<DialogFaasRecTD>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  ngOnInit() {
+
+  }
+}
+
+

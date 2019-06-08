@@ -111,11 +111,11 @@ export class ClearanceComponent implements OnInit {
     }
     this.srchRec.search(reqdata).subscribe(res => {
       let resdata = res.data;
-      let landFaas = resdata.landfaas;
+      let faas = resdata.faas;
       let owner = resdata.owner;
       let admin = resdata.admin;
       console.log(resdata);
-      _.forEach(landFaas, arr => {
+      _.forEach(faas, arr => {
         ltTableLs.push({
           arpNo: arr.ARPNo,
           pin: arr.PIN,
