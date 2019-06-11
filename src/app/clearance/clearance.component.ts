@@ -19,6 +19,7 @@ import * as JSZip from 'jszip';
 import * as JSZipUtils from 'jszip-utils';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 var ltTableLs: landTaxTable[] = []
 var ltTableInfOwner: landTaxInfOwn[] = []
@@ -244,7 +245,7 @@ export class ClearanceComponent implements OnInit {
         type: 'base64',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       });
-      let fileName = 'LTC_' + data.pin + '_' + this.getCurDate + '.docx';
+      let fileName = 'LTC_' + data.pin + '_' + this.getCurDate();
       let updData:any = {
         'file': outFile,
         'filename': fileName
@@ -285,13 +286,17 @@ export class DialogClearance implements OnInit{
 
   constructor(
     public dialogRef: MatDialogRef<DialogClearance>,
-    @Inject(MAT_DIALOG_DATA) public genData: lTaxClearance,
-    private genFile: genLandTaxCl
+    @Inject(MAT_DIALOG_DATA) public genData: any,
+    public http: HttpClient
   ) {}
 
   ngOnInit() {
     //console.log(this.genData)
-    //this.docxSrc = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + this.genData
+    this.http.get('http://192.168.100.24:5000/api/get-file/land-tax/' + this.genData.filename + '.pdf').subscribe(response => {
+
+      this.docxSrc = response[0];
+    })
+    // this.docxSrc = 'http://192.168.100.24:5000/api/get-file/land-tax/' + this.genData.filename + '.pdf';
     // this.docxSrc = 'data:document;base64,' + this.genData
   }
 
