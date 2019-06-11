@@ -44,6 +44,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  nonAuth() {
+    return localStorage.getItem('auth') == null
+  }
+
   public hasError = (controlName: string, errorName: string) => {
     return this.loginForm.controls[controlName].hasError(errorName);
   }
