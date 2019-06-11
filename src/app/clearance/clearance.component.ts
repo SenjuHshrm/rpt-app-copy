@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { fileUpload } from '../services/fileUpload.service';
 
 import docxtemplater from 'docxtemplater';
 import * as JSZip from 'jszip';
@@ -66,7 +67,8 @@ export class ClearanceComponent implements OnInit {
 
   constructor(private srchRec: searchRec,
     private gPos: getPosHolders,
-    public matDialog: MatDialog) { }
+    public matDialog: MatDialog,
+    private upd: fileUpload) { }
 
   ngOnInit() {
     this.encoder1 = this.getEncoder();
@@ -242,7 +244,15 @@ export class ClearanceComponent implements OnInit {
         type: 'base64',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       });
-      this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: outFile })
+      let fileName = 'LTC_' + data.pin + '_' + this.getCurDate + '.docx';
+      let updData:any = {
+        'file': outFile,
+        'filename': fileName
+      }
+      this.upd.uploadCl(updData).subscribe(res => {
+        (res.res) ? this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: updData }) : undefined;
+      });
+      //this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: outFile })
     });
   }
 
@@ -281,7 +291,7 @@ export class DialogClearance implements OnInit{
 
   ngOnInit() {
     //console.log(this.genData)
-    this.docxSrc = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + this.genData
+    //this.docxSrc = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + this.genData
     // this.docxSrc = 'data:document;base64,' + this.genData
   }
 
