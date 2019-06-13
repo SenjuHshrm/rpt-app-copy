@@ -1,5 +1,49 @@
 <!--<div class='login-form'>-->
-<div class='login-form' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+<div class="topMargin"></div>
+
+<div class='divCard' *ngIf='nonAuth()'>
+	<div class='divHeader'><span class='mleft'>RPT Web Application</span></div>
+	<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+		fxLayoutGap.xs='10px' style='margin: 10px;'>
+		<div class="item item-1 imgCon" fxFlex='50%'>
+			<img class="spc_Logo" src='../assets/SPCLOGO.png'>
+		</div>
+		<div class="item item-2" fxFlex='50%'>
+			<div class='rptTitle'><span>Real Property Tax</span></div>
+			<form [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)' novalidate>
+			<mat-card-content>
+				<br>
+				<div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='1px'>
+					<h3>Login</h3>
+					<mat-form-field class="item item-1">
+						<input formControlName='username' type='text' matInput placeholder='Username' required>
+						<mat-error *ngIf="hasError('username','required')">Username field should not be empty</mat-error>
+					</mat-form-field>
+					<mat-form-field class="item item-2">
+						<input formControlName='password' type='password' matInput placeholder='Password' required>
+						<mat-error *ngIf="hasError('password','required')">Password field should not be empty</mat-error>
+					</mat-form-field>
+				</div>
+				<br>
+				<div class='container' fxLayout fxLayoutAlign='left' fxLayoutGap='10px'>
+					<div fxFlex='47%'>
+						<a routerLink="/register">
+							<button type='button' mat-raised-button class="regBtn">Register</button>
+						</a>
+					</div>
+					<div fxFlex='47%'>
+							<button type='submit' mat-raised-button color='primary' class="loginBtn">Login</button>
+					</div>
+				</div>
+			</mat-card-content>
+			</form>
+		</div>
+	</div>
+</div>
+
+<br><br>
+
+<!--<div class='login-form' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
 	fxLayoutGap.xs='10px'>
 	<mat-card fxFlex='50%'>
 		<div class="center">
@@ -26,4 +70,4 @@
 		</mat-card-actions>
 		</form>
 	</mat-card>
-</div>
+</div>-->

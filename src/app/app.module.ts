@@ -27,6 +27,7 @@ import { ClearanceComponent, DialogClearance, DialogClearancePipe } from './clea
 import { MachAssessmentComponent } from './mach-assessment/mach-assessment.component';
 import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment.component';
 import { PrintingComponent } from './printing/printing.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { PrintingComponent } from './printing/printing.component';
     MatRadioModule,
     FormsModule,
     MatDialogModule,
+    NgxExtendedPdfViewerModule
   ],
   providers: [
     MatDatepickerModule,

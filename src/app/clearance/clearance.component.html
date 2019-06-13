@@ -1,3 +1,11 @@
+<div class='spinnerCon' *ngIf='isVisible_spinner' (click)='isVisible_spinner=false'>
+  <div class="spinner">
+    <span class="spinner-inner-1"></span>
+    <span class="spinner-inner-2"></span>
+    <span class="spinner-inner-3"></span>
+  </div>
+</div>
+
 <mat-card>
   <mat-card-header>
     <mat-card-title>Land Tax Clearance</mat-card-title>
@@ -20,7 +28,7 @@
           <mat-form-field class='item item-1' fxFlex='40%'>
             <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
           </mat-form-field>
-          <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search()'>Search</button>
+          <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
         </div>
       </mat-card-content>
     </mat-card>

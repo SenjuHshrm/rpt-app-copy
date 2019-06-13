@@ -12,12 +12,14 @@ import * as _ from 'lodash';
 import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { fileUpload } from '../services/fileUpload.service';
 
 import docxtemplater from 'docxtemplater';
 import * as JSZip from 'jszip';
 import * as JSZipUtils from 'jszip-utils';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
+import { getClFile } from '../services/getClFile.service';
 
 var ltTableLs: landTaxTable[] = []
 var ltTableInfOwner: landTaxInfOwn[] = []
@@ -66,18 +68,19 @@ export class ClearanceComponent implements OnInit {
 
   constructor(private srchRec: searchRec,
     private gPos: getPosHolders,
-    public matDialog: MatDialog) { }
+    public matDialog: MatDialog,
+    private upd: fileUpload) { }
 
   ngOnInit() {
     this.encoder1 = this.getEncoder();
     this.gPos.getPosHoldersCl().subscribe(res => {
-      this.posHolders = res;  
+      this.posHolders = res;
     })
   }
 
-  param1: string;
-  param2: string;
-  req: string;
+  param1: string = 'land';
+  param2: string = 'name';
+  req: string = 'CHEUNG TIN CHEE';
 
   params1: selectOpt[] = [
     { value: 'land', viewVal: 'Land' },
@@ -97,7 +100,9 @@ export class ClearanceComponent implements OnInit {
     { value: 's5', viewVal: 'Others: For whatever legal purpose' },
   ]
 
+  isVisible_spinner = false
   search() {
+    this.isVisible_spinner = true;
     ltTableLs = []
     ltTableInfOwner = []
     ltTableInfAdmin = []
@@ -114,7 +119,7 @@ export class ClearanceComponent implements OnInit {
       let faas = resdata.faas;
       let owner = resdata.owner;
       let admin = resdata.admin;
-      console.log(resdata);
+      console.table(resdata);
       _.forEach(faas, arr => {
         ltTableLs.push({
           arpNo: arr.ARPNo,
@@ -157,6 +162,7 @@ export class ClearanceComponent implements OnInit {
       this.LTTable = new MatTableDataSource(ltTableLs);
       this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
       this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+      this.isVisible_spinner = false;
     });
   }
 
@@ -242,7 +248,15 @@ export class ClearanceComponent implements OnInit {
         type: 'base64',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       });
-      this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: outFile })
+      let fileName = 'LTC_' + data.pin + '_' + this.getCurDate();
+      let updData:any = {
+        'file': outFile,
+        'filename': fileName
+      }
+      this.upd.uploadCl(updData).subscribe(res => {
+        (res.res) ? this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: updData }) : undefined;
+      });
+      //this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: outFile })
     });
   }
 
@@ -275,13 +289,21 @@ export class DialogClearance implements OnInit{
 
   constructor(
     public dialogRef: MatDialogRef<DialogClearance>,
-    @Inject(MAT_DIALOG_DATA) public genData: lTaxClearance,
-    private genFile: genLandTaxCl
+    @Inject(MAT_DIALOG_DATA) public genData: any,
+    private gC: getClFile
   ) {}
 
   ngOnInit() {
-    //console.log(this.genData)
-    this.docxSrc = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + this.genData
+    // console.log(this.genData)
+    let req = {
+      file: this.genData.filename + '.pdf'
+    }
+    this.gC.getFile(req).subscribe(res => {
+      console.log(res);
+      this.docxSrc = 'data:pdf;base64,' + res.file;
+    })
+    
+    // this.docxSrc = 'http://192.168.100.24:5000/api/get-file/land-tax/' + this.genData.filename + '.pdf';
     // this.docxSrc = 'data:document;base64,' + this.genData
   }
 

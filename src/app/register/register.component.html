@@ -1,4 +1,83 @@
-<div class='reg-form'>
+<div class="topMargin"></div>
+<div class="divCard">
+	<form [formGroup]='regForm' (ngSubmit)='regist(regForm.value)' novalidate>
+	<div class="divHeader"><span class='mleft'>RPT Web Application</span></div>
+	<h3>&nbsp;&nbsp;&nbsp;Register new user</h3>
+	<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+		fxLayoutGap.xs='10px' style='margin: 10px;'>
+		<div class="item item-1" fxFlex='100%'>
+			<span>Personal Info</span>
+			<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+				fxLayoutGap.xs='10px'>
+				<div fxFlex='33%'>
+					<mat-form-field fxFlex='100%' class="fsize">
+						<input formControlName='fName' type='text' matInput placeholder='First name' required>
+						<mat-error *ngIf="hasError('fName','required')">First name field should not be empty</mat-error>
+					</mat-form-field>
+				</div>
+				<div fxFlex='33%'>
+					<mat-form-field fxFlex='100%' class="fsize">
+						<input formControlName='mName' type='text' matInput placeholder='Middle name'>
+					</mat-form-field>
+				</div>
+				<div fxFlex='33%'>
+					<mat-form-field fxFlex='100%' class="fsize">
+						<input formControlName='lName' type='text' matInput placeholder='Last name' required>
+						<mat-error *ngIf="hasError('lName','required')">Last name field should not be empty</mat-error>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="h"></div>
+
+			<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+				fxLayoutGap.xs='10px'>
+				<div fxFlex='50%'>
+					<mat-form-field fxFlex='100%' class="fsize">
+						<input formControlName='address' type='text' matInput placeholder='Address' required>
+						<mat-error *ngIf="hasError('address','required')">Address field should not be empty</mat-error>
+					</mat-form-field>
+				</div>
+				<div fxFlex='50%'>
+					<mat-form-field fxFlex='100%' class="fsize">
+						<input formControlName='contact' type='text' matInput placeholder='Contact No.' required>
+						<mat-error *ngIf="hasError('contact','required')">Contact field should not be empty</mat-error>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+
+		<div class="dashed"></div>
+		<div class="item item-2" fxFlex='100%'>
+			<span>Account Info</span>
+			<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+				fxLayoutGap.xs='10px'>
+				<mat-form-field fxFlex='50%' class="fsize">
+					<input formControlName='username' type='text' matInput placeholder='Username' required>
+					<mat-error *ngIf="hasError('username','required')">Username field should not be empty</mat-error>
+				</mat-form-field>
+				<mat-form-field fxFlex='50%' class="fsize">
+					<input formControlName='password' type='password' matInput placeholder='Password' required>
+					<mat-error *ngIf="hasError('password','required')">Password field should not be empty</mat-error>
+				</mat-form-field>
+			</div>
+			<br>
+			<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+				fxLayoutGap.xs='10px'>
+				<div class="item item-1" fxFlex='100%'>
+					<button type='submit' mat-raised-button color='primary'>Register</button>
+				</div>
+				<div class="item item-1" fxFlex='100%'>
+					<a routerLink='/login'>
+						<button type='button' mat-raised-button>Or click here to Login</button>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+
+<!--<div class='reg-form'>
 	<mat-card class='whole-card'>
 		<mat-card-header>
 			<mat-card-title>Register new user</mat-card-title>
@@ -29,7 +108,7 @@
 					<!--</mat-card>
 					<br>
 					<mat-card>-->
-						<mat-card-header>
+						<!--<mat-card-header>
 							<mat-card-title>Personal Info</mat-card-title>
 						</mat-card-header>
 						<mat-card-content>
@@ -76,4 +155,4 @@
 			</mat-card-content>
 		</form>
 	</mat-card>
-</div>
+</div>-->
