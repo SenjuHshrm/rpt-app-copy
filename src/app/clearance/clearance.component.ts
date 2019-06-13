@@ -117,7 +117,6 @@ export class ClearanceComponent implements OnInit {
       let owner = resdata.owner;
       let admin = resdata.admin;
       console.table(resdata);
-      //this.isVisible_spinner = false;
       _.forEach(faas, arr => {
         ltTableLs.push({
           arpNo: arr.ARPNo,
