@@ -71,7 +71,7 @@ export class ClearanceComponent implements OnInit {
   ngOnInit() {
     this.encoder1 = this.getEncoder();
     this.gPos.getPosHoldersCl().subscribe(res => {
-      this.posHolders = res;  
+      this.posHolders = res;
     })
   }
 
@@ -97,7 +97,9 @@ export class ClearanceComponent implements OnInit {
     { value: 's5', viewVal: 'Others: For whatever legal purpose' },
   ]
 
+  isVisible_spinner = false
   search() {
+    this.isVisible_spinner = true;
     ltTableLs = []
     ltTableInfOwner = []
     ltTableInfAdmin = []
@@ -115,6 +117,7 @@ export class ClearanceComponent implements OnInit {
       let owner = resdata.owner;
       let admin = resdata.admin;
       console.log(resdata);
+      //this.isVisible_spinner = false;
       _.forEach(faas, arr => {
         ltTableLs.push({
           arpNo: arr.ARPNo,
@@ -157,6 +160,7 @@ export class ClearanceComponent implements OnInit {
       this.LTTable = new MatTableDataSource(ltTableLs);
       this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
       this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+      this.isVisible_spinner = false;
     });
   }
 
