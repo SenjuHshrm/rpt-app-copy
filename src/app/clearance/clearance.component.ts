@@ -19,7 +19,7 @@ import * as JSZip from 'jszip';
 import * as JSZipUtils from 'jszip-utils';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { getClFile } from '../services/getClFile.service';
 
 var ltTableLs: landTaxTable[] = []
 var ltTableInfOwner: landTaxInfOwn[] = []
@@ -78,9 +78,9 @@ export class ClearanceComponent implements OnInit {
     })
   }
 
-  param1: string;
-  param2: string;
-  req: string;
+  param1: string = 'land';
+  param2: string = 'name';
+  req: string = 'CHEUNG TIN CHEE';
 
   params1: selectOpt[] = [
     { value: 'land', viewVal: 'Land' },
@@ -117,7 +117,7 @@ export class ClearanceComponent implements OnInit {
       let faas = resdata.faas;
       let owner = resdata.owner;
       let admin = resdata.admin;
-      console.log(resdata);
+      console.table(resdata);
       _.forEach(faas, arr => {
         ltTableLs.push({
           arpNo: arr.ARPNo,
@@ -287,15 +287,19 @@ export class DialogClearance implements OnInit{
   constructor(
     public dialogRef: MatDialogRef<DialogClearance>,
     @Inject(MAT_DIALOG_DATA) public genData: any,
-    public http: HttpClient
+    private gC: getClFile
   ) {}
 
   ngOnInit() {
-    //console.log(this.genData)
-    this.http.get('http://192.168.100.24:5000/api/get-file/land-tax/' + this.genData.filename + '.pdf').subscribe(response => {
-
-      this.docxSrc = response[0];
+    // console.log(this.genData)
+    let req = {
+      file: this.genData.filename + '.pdf'
+    }
+    this.gC.getFile(req).subscribe(res => {
+      console.log(res);
+      this.docxSrc = 'data:pdf;base64,' + res.file;
     })
+    
     // this.docxSrc = 'http://192.168.100.24:5000/api/get-file/land-tax/' + this.genData.filename + '.pdf';
     // this.docxSrc = 'data:document;base64,' + this.genData
   }
