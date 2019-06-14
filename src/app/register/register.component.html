@@ -1,8 +1,8 @@
 <div class="topMargin"></div>
 <div class="divCard">
 	<form [formGroup]='regForm' (ngSubmit)='regist(regForm.value)' novalidate>
-	<div class="divHeader"><span class='mleft'>RPT Web Application</span></div>
-	<h3>&nbsp;&nbsp;&nbsp;Register new user</h3>
+	<div class="divHeader"><span class='mleft'>Register</span></div>
+	<div class="h"></div>
 	<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
 		fxLayoutGap.xs='10px' style='margin: 10px;'>
 		<div class="item item-1" fxFlex='100%'>
@@ -63,18 +63,19 @@
 			<br>
 			<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
 				fxLayoutGap.xs='10px'>
-				<div class="item item-1" fxFlex='100%'>
-					<button type='submit' mat-raised-button color='primary'>Register</button>
+				<div class="item item-1" fxFlex='100%' (mousedown)='clicked=true' (mouseup)='clicked=false' (mouseleave)='clicked=false'>
+					<button type='submit' mat-raised-button color='primary' [ngClass]="{ 'regBtnMouseDwn': clicked, 'regBtnMouseUp': !clicked }">Register</button>
 				</div>
-				<div class="item item-1" fxFlex='100%'>
+				<div class="item item-1" fxFlex='100%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false'>
 					<a routerLink='/login'>
-						<button type='button' mat-raised-button>Or click here to Login</button>
+						<button type='button' mat-raised-button [ngClass]="{ 'loginBtnMouseDwn': clckd, 'loginBtnMouseUp': !clckd }">Or click here to Login</button>
 					</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	</form>
+	<div class="h"></div>
 </div>
 
 <!--<div class='reg-form'>

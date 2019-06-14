@@ -2,18 +2,21 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        <div class='fl'><img src='../assets/land.png'></div>
+        <div class='fl'><img class='imgLogo' src='../assets/land.png'></div>
         <div class='mat-stitle'>&nbsp;Add land</div>
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <!-- Transaction code -->
       <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='10px'
-        fxLayoutGap.xs='10px' fxLayoutGap.sm='10px' >
-          <mat-card class='item item-1' fxFlex='60%'>
-
-            <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-              fxLayoutGap.xs='10px'>
+        fxLayoutGap.xs='10px' fxLayoutGap.sm='10px'>
+        <div class="divCard item item-1" fxFlex='50%'>
+          <div class='divHeader'>&nbsp;&nbsp;Transaction Code
+          <div><img class='pin' src='../assets/wytpin.png'></div>
+          </div>
+          <br>
+          <div>
+            <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayoutAlign='center' fxLayoutGap='10px' fxLayoutGap.xs='10px' >
             <mat-form-field class='item item-1' fxFlex='45%'>
               <mat-label>Transaction Code</mat-label>
               <mat-select formControlName='trnsCode'>
@@ -79,14 +82,14 @@
                 <input matInput type='text' placeholder='Block No.' formControlName='blockNo' required>
               </mat-form-field>
             </div>
+          </div>
+        </div>
 
-          </mat-card>
-
-        <mat-card class='item item-2' fxFlex='40%'>
-          <!-- Property Location -->
-          <mat-card-header>
-            <mat-card-subtitle>Property Location</mat-card-subtitle>
-          </mat-card-header>
+        <div class="divCard item item-2" fxFlex='40%'>
+          <div class='divHeader'>&nbsp;&nbsp;Property Location
+          <div><img class='pin' src='../assets/wytpin2.png'></div>
+          </div>
+          <br>
           <mat-card-content formGroupName='propertyLocation'>
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
               fxLayoutGap.xs='10px'>
@@ -128,7 +131,7 @@
               </mat-form-field>
             </div>
           </mat-card-content>
-        </mat-card>
+        </div>
       </div>
       <div class="h"></div>
 
