@@ -2,7 +2,7 @@
 <div class="topMargin"></div>
 
 <div class='divCard' *ngIf='nonAuth()'>
-	<div class='divHeader'><span class='mleft'>RPT Web Application</span></div>
+	<div class='divHeader'><span class='mleft'>Login</span></div>
 	<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
 		fxLayoutGap.xs='10px' style='margin: 10px;'>
 		<div class="item item-1 imgCon" fxFlex='50%'>
@@ -14,8 +14,8 @@
 			<mat-card-content>
 				<br>
 				<div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='1px'>
-					<h3>Login</h3>
-					<mat-form-field class="item item-1">
+					<!--<h3>Login</h3>-->
+					<mat-form-field class="mt item item-1">
 						<input formControlName='username' type='text' matInput placeholder='Username' required>
 						<mat-error *ngIf="hasError('username','required')">Username field should not be empty</mat-error>
 					</mat-form-field>
@@ -26,13 +26,15 @@
 				</div>
 				<br>
 				<div class='container' fxLayout fxLayoutAlign='left' fxLayoutGap='10px'>
-					<div fxFlex='47%'>
+					<div fxFlex='47%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false'>
 						<a routerLink="/register">
-							<button type='button' mat-raised-button class="regBtn">Register</button>
+							<button type='button' mat-raised-button class="regBtn" [ngClass]="{ 'regBtnMouseUp': !clckd, 'regBtnMouseDwn': clckd }">Register</button>
 						</a>
 					</div>
-					<div fxFlex='47%'>
-							<button type='submit' mat-raised-button color='primary' class="loginBtn">Login</button>
+					<div fxFlex='47%' (mousedown)='clicked=true' (mouseup)='clicked=false' (mouseleave)='clicked=false'>
+						<button type='submit' mat-raised-button color='primary' [ngClass]="{ 'logInBtnMouseUp': !clicked, 'logInBtnMouseDwn': clicked }">
+						Login
+						</button>
 					</div>
 				</div>
 			</mat-card-content>

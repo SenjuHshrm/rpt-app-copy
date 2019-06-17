@@ -6,3 +6,49 @@
 .fl { float: left; }
 .mat-stitle { float: left; line-height:40px; }
 img { width: 50px; height: 50px; }
+
+.divCard {
+  background: #FFF;
+  /*width: 50%;*/
+  /*margin: 0 auto;*/
+  border-bottom: 1px solid rgba(128, 128, 128, 0.8);
+  border-right: 1px solid rgba(128, 128, 128, 0.8);
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px 2px rgba(128, 128, 128, 0.6);
+  margin-bottom: 40px;
+  /*background-image: linear-gradient(to top, #96daff, #b2deff, #cae2ff, #dde8ff, #eceefc, #eceefc, #eceefc, #eceefc, #dde8ff, #cae2ff, #b2deff, #96daff);*/
+}
+
+.imgLogo {
+  width: 50px;
+  height: 50px;
+}
+
+.pin {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  margin-left: -30px;
+}
+
+.divHeader {
+  background: rgba(#0063EA, 0.9);
+  width: 100%;
+  height: 40px;
+  color: #FFF;
+  font-size: 15px;
+  line-height: 40px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  position: relative;
+}
+
+.flexWdth-50 {
+  width: 50%;
+}
+
+.flexWdth-40 {
+  width: 40%;
+}

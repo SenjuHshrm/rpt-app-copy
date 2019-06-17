@@ -1,17 +1,4 @@
 <form [formGroup]='bldgAssessment' novalidate>
-
-  <!--<button type='button' mat-raised-button color='primary'>btn</button>
-  <mat-card>
-    <div class="">
-      123
-    </div>
-    <mat-tab-group>
-      <mat-tab label="First"> Content 1 </mat-tab>
-      <mat-tab label="Second"> Content 2 </mat-tab>
-      <mat-tab label="Third"> Content 3 </mat-tab>
-    </mat-tab-group>
-  </mat-card>-->
-
   <mat-card>
     <mat-card-header>
       <mat-card-title>
@@ -19,70 +6,76 @@
         <div class='mat-stitle'>&nbsp;Add Building</div>
       </mat-card-title>
     </mat-card-header>
-    <mat-card>
-      <mat-card-content>
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <div class="item item-1" fxFlex='20%'>
-            <mat-form-field fxFlex='100%'>
-              <mat-label>Transaction Code</mat-label>
-              <mat-select formControlName='bldgCode' required>
-                <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value'>{{ bldg.viewVal }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+
+      <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='10px'
+        fxLayoutGap.xs='10px' fxLayoutGap.sm='10px'>
+        <div class="divCard" fxFlex='90%'>
+          <div class="divHeader">&nbsp;&nbsp;Transaction Code</div>
+          <div>
+            <br>
+            <mat-card-content>
+              <div class='container divCardMargin' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+                fxLayoutGap.xs='10px'>
+                <div class="item item-1" fxFlex='25%'>
+                  <mat-form-field fxFlex='100%'>
+                    <mat-label>Transaction Code</mat-label>
+                    <mat-select formControlName='bldgCode' required>
+                      <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value'>{{ bldg.viewVal }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="item item-2" fxFlex='25%'>
+                  <mat-form-field fxFlex='100%'>
+                    <input matInput type='text' placeholder='ARP No.' formControlName='arpNo' required>
+                  </mat-form-field>
+                </div>
+                <div class="item item-3" fxFlex='50%'>
+                  <div formGroupName='pin' class='item item-2' fxFlex='100%'>
+                    <span>PIN* </span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='city' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='district' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='barangay' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='section' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='parcel' required>
+                    </mat-form-field>
+
+                    <span>&nbsp;&nbsp;&nbsp;</span>
+                    <button type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
+                  </div>
+                </div>
+              </div>
+
+            </mat-card-content>
           </div>
-          <div class="item item-2" fxFlex='20%'>
-            <mat-form-field fxFlex='100%'>
-              <input matInput type='text' placeholder='ARP No.' formControlName='arpNo' required>
-            </mat-form-field>
-          </div>
-          <div class="item item-3" fxFlex='50%'>
-            <div formGroupName='pin' class='item item-2' fxFlex='100%'>
-              <span>PIN* </span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='city' required>
-              </mat-form-field>
 
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='district' required>
-              </mat-form-field>
-
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='barangay' required>
-              </mat-form-field>
-
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='section' required>
-              </mat-form-field>
-
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='parcel' required>
-              </mat-form-field>
-
-              <span>&nbsp;&nbsp;&nbsp;</span>
-              <button type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
+          <div class='container divCardMargin' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+            fxLayoutGap.xs='10px'>
+            <div fxFlex='50%'>
+              <div class="divHeader">&nbsp;&nbsp;Owner Details</div>
+            </div>
+            <div fxFlex='50%'>
+              <div class="divHeader">&nbsp;&nbsp;Administrator / Benificial User</div>
             </div>
           </div>
         </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <div fxFlex='91%'>
-
-          </div>
-        </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-        </div>
-
-      </mat-card-content>
-    </mat-card>
-    <div class='h'></div>
+      </div>
 
     <div class='container' fxLayout fxLayout.xs='column' fxLayout.md='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='10px'
       fxLayoutGap.xs='10px' fxLayoutGap.md='10px' fxLayoutGap.sm='10px'>
@@ -430,100 +423,7 @@
     </div>
     <div class='h'></div>
 
-    <!--generalDescription -->
-    <!--<mat-card>
-      <mat-card-header>
-        <mat-card-subtitle>General Description</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content formGroupName='genDescG'>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <mat-form-field class='item item-1' fxFlex='30%'>
-            <mat-label>Kind of Building</mat-label>
-            <mat-select formControlName='genDesc' required>
-              <mat-option *ngFor='let kindOfBldg of kof' [value]='kindOfBldg.value'>{{ kindOfBldg.viewVal }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class='item item-2' fxFlex='30%'>
-            <input matInput placeholder='Cert. of Completion Issued On' [matDatepicker]="certcom"
-              formControlName='certcom' required>
-            <mat-datepicker-toggle matSuffix [for]="certcom"></mat-datepicker-toggle>
-            <mat-datepicker #certcom></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <mat-form-field class='item item-1' fxFlex='30%'>
-            <mat-label>Structural Type</mat-label>
-            <mat-select formControlName='strType' required>
-              <mat-option *ngFor='let sType of st' [value]='sType.value'>{{ sType.viewVal }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field class='item item-2' fxFlex='30%'>
-            <input matInput placeholder='Cert. of Occupancy Issued On' [matDatepicker]="certOcc"
-              formControlName='certOcc' required>
-            <mat-datepicker-toggle matSuffix [for]="certOcc"></mat-datepicker-toggle>
-            <mat-datepicker #certOcc></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <mat-form-field class='item item-1' fxFlex='30%'>
-            <input matInput type='text' formControlName='bldgPNo' placeholder='Building Permit No.'>
-          </mat-form-field>
-
-          <mat-form-field class='item item-2' fxFlex='30%'>
-            <input matInput placeholder='Date Constructed / Completed' [matDatepicker]="dateCC" formControlName='dateCC'
-              required>
-            <mat-datepicker-toggle matSuffix [for]="dateCC"></mat-datepicker-toggle>
-            <mat-datepicker #dateCC></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <mat-form-field class='item item-1' fxFlex='30%'>
-            <input matInput placeholder='Permit Issued On' [matDatepicker]="permitIssue" formControlName='permitIssue'
-              required>
-            <mat-datepicker-toggle matSuffix [for]="permitIssue"></mat-datepicker-toggle>
-            <mat-datepicker #permitIssue></mat-datepicker>
-          </mat-form-field>
-
-          <mat-form-field class='item item-2' fxFlex='30%'>
-            <input matInput placeholder='Date Occupied' [matDatepicker]="dateOccupied" formControlName='dateOccupied'
-              required>
-            <mat-datepicker-toggle matSuffix [for]="dateOccupied"></mat-datepicker-toggle>
-            <mat-datepicker #permitIssue></mat-datepicker>
-          </mat-form-field>
-        </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <mat-form-field class='item item-1' fxFlex='30%'>
-            <input matInput type='text' formControlName='cct' placeholder='Condominium Certificate of Title (CCT)'>
-          </mat-form-field>
-
-          <mat-form-field class='item item-2' fxFlex='30%'>
-            <input matInput type='text' formControlName='aob' placeholder='Age of Building' required>
-          </mat-form-field>
-        </div>
-
-      </mat-card-content>
-    </mat-card>
-    <div class='h'></div>-->
-
     <!--StructuralDesctription-->
-    <div class='container' fxLayout fxLayout.sm='column' fxLayout.xs='column' fxLayoutAlign='center'
-      fxLayoutGap='10px' fxLayoutGap.sm='10px' fxLayoutGap.xs='10px'>
-      <mat-card class="item item-1" fxFlex='50%'></mat-card>
-      <mat-card class="item item-2" fxFlex='50%'></mat-card>
-    </div>
     <mat-card>
       <mat-card-header>
         <mat-card-subtitle>Structural Description</mat-card-subtitle>
