@@ -84,8 +84,8 @@ export class ClearanceComponent implements OnInit {
   }
 
   param1: string = 'land';
-  param2: string = 'name';
-  req: string = 'CHEUNG TIN CHEE';
+  param2: string = 'pin';
+  req: string;
 
   params1: selectOpt[] = [
     { value: 'land', viewVal: 'Land' },
