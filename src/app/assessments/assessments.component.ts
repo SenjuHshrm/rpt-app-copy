@@ -13,7 +13,7 @@ export class AssessmentsComponent implements OnInit {
 
   ngOnInit() {
     if(!localStorage.getItem('auth')){
-      this.router.navigate(['/login'])
+      window.location.href = '/'
     }
   }
 

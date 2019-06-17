@@ -12,7 +12,7 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit() {
     if(!localStorage.getItem('auth')){
-      this.route.navigate(['/login'])
+      window.location.href = '/'
     }
   }
 

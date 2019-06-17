@@ -79,7 +79,7 @@ export class ClearanceComponent implements OnInit {
         this.posHolders = res;
       })
     } else {
-      this.route.navigate(['/login']);
+      window.location.href = '/'
     }
   }
 

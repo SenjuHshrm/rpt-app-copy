@@ -7,6 +7,7 @@ import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
 import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
+import { Router } from '@angular/router';
 
 var info: landTaxTable[] = [];
 var owner: landTaxInfOwn[] = [];
@@ -52,9 +53,12 @@ export class FaasRecComponent implements OnInit {
     { value: 'name', viewVal: 'Name' },
   ];
 
-  constructor(private sRec: searchRec, private matDialog: MatDialog) { }
+  constructor(private sRec: searchRec, private matDialog: MatDialog, private route: Router) { }
 
   ngOnInit() {
+    if(!localStorage.getItem('auth')) {
+      window.location.href = '/'
+    }
   }
 
   search() {

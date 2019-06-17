@@ -330,7 +330,7 @@ export class BuildingReassessmentComponent implements OnInit {
 
   ngOnInit() {
     if (!localStorage.getItem('auth')) {
-      this.router.navigate(['/login'])
+      window.location.href = '/'
     }
     this.bldgReassessment = new FormGroup({
       bldgCode: new FormControl('', [Validators.required]),

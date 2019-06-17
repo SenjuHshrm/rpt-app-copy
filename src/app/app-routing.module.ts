@@ -20,9 +20,7 @@ import { PrintingComponent } from './printing/printing.component';
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
   { path: '', component: LoginComponent },
-  { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'user/:username', component: LandingPageComponent },
   { path: 'user/:username/assessments', component: AssessmentsComponent },
