@@ -6,70 +6,76 @@
         <div class='mat-stitle'>&nbsp;Add Building</div>
       </mat-card-title>
     </mat-card-header>
-    <mat-card>
-      <mat-card-content>
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <div class="item item-1" fxFlex='20%'>
-            <mat-form-field fxFlex='100%'>
-              <mat-label>Transaction Code</mat-label>
-              <mat-select formControlName='bldgCode' required>
-                <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value'>{{ bldg.viewVal }}</mat-option>
-              </mat-select>
-            </mat-form-field>
+
+      <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='10px'
+        fxLayoutGap.xs='10px' fxLayoutGap.sm='10px'>
+        <div class="divCard" fxFlex='90%'>
+          <div class="divHeader">&nbsp;&nbsp;Transaction Code</div>
+          <div>
+            <br>
+            <mat-card-content>
+              <div class='container divCardMargin' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+                fxLayoutGap.xs='10px'>
+                <div class="item item-1" fxFlex='25%'>
+                  <mat-form-field fxFlex='100%'>
+                    <mat-label>Transaction Code</mat-label>
+                    <mat-select formControlName='bldgCode' required>
+                      <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value'>{{ bldg.viewVal }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="item item-2" fxFlex='25%'>
+                  <mat-form-field fxFlex='100%'>
+                    <input matInput type='text' placeholder='ARP No.' formControlName='arpNo' required>
+                  </mat-form-field>
+                </div>
+                <div class="item item-3" fxFlex='50%'>
+                  <div formGroupName='pin' class='item item-2' fxFlex='100%'>
+                    <span>PIN* </span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='city' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='district' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='barangay' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='section' required>
+                    </mat-form-field>
+
+                    <span>-</span>
+                    <mat-form-field class='width-10'>
+                      <input matInput type='text' formControlName='parcel' required>
+                    </mat-form-field>
+
+                    <span>&nbsp;&nbsp;&nbsp;</span>
+                    <button type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
+                  </div>
+                </div>
+              </div>
+
+            </mat-card-content>
           </div>
-          <div class="item item-2" fxFlex='20%'>
-            <mat-form-field fxFlex='100%'>
-              <input matInput type='text' placeholder='ARP No.' formControlName='arpNo' required>
-            </mat-form-field>
-          </div>
-          <div class="item item-3" fxFlex='50%'>
-            <div formGroupName='pin' class='item item-2' fxFlex='100%'>
-              <span>PIN* </span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='city' required>
-              </mat-form-field>
 
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='district' required>
-              </mat-form-field>
-
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='barangay' required>
-              </mat-form-field>
-
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='section' required>
-              </mat-form-field>
-
-              <span>-</span>
-              <mat-form-field class='width-10'>
-                <input matInput type='text' formControlName='parcel' required>
-              </mat-form-field>
-
-              <span>&nbsp;&nbsp;&nbsp;</span>
-              <button type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
+          <div class='container divCardMargin' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+            fxLayoutGap.xs='10px'>
+            <div fxFlex='50%'>
+              <div class="divHeader">&nbsp;&nbsp;Owner Details</div>
+            </div>
+            <div fxFlex='50%'>
+              <div class="divHeader">&nbsp;&nbsp;Administrator / Benificial User</div>
             </div>
           </div>
         </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-          <div fxFlex='91%'>
-
-          </div>
-        </div>
-
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-          fxLayoutGap.xs='10px'>
-        </div>
-
-      </mat-card-content>
-    </mat-card>
-    <div class='h'></div>
+      </div>
 
     <div class='container' fxLayout fxLayout.xs='column' fxLayout.md='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='10px'
       fxLayoutGap.xs='10px' fxLayoutGap.md='10px' fxLayoutGap.sm='10px'>
