@@ -181,7 +181,9 @@
               &nbsp;&nbsp;&nbsp;dated&nbsp;&nbsp;&nbsp;
             </span>
             <mat-form-field>
-              <input matInput type='text' [(ngModel)]='dated'>
+              <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
+              <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
+              <mat-datepicker #cdated></mat-datepicker>
             </mat-form-field>
           </div>
           <div class='item item-3' fxFlex='100%'>
@@ -211,7 +213,9 @@
             </mat-form-field>
             <span>&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;</span>
             <mat-form-field>
-              <input matInput type='text' [(ngModel)]='date'>
+              <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
+              <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
+              <mat-datepicker #currdate></mat-datepicker>
             </mat-form-field>
           </div>
           <div class='item item-5' fxFlex='100%'>

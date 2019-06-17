@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import docxtemplater from 'docxtemplater';
 import * as JSZip from 'jszip';
 import * as JSZipUtils from 'jszip-utils';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import * as jwt_decode from 'jwt-decode';
-import * as async from 'async';
+import { HttpClient } from '@angular/common/http';
+import { saveAs } from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +12,6 @@ import * as async from 'async';
 export class genLandTaxCl {
 
   private URL: string = '../assets/temp/clearance_template.docx';
-  public outFile: any = null;
 
   constructor(private http: HttpClient) { }
 
@@ -30,21 +27,12 @@ export class genLandTaxCl {
         console.log(JSON.stringify({ error: e }))
         throw e;
       }
-      this.outFile = doc.getZip().generate({
+      let outFile = doc.getZip().generate({
         type: 'blob',
         mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       });
+      let fileName = 'LTC_' + data.pin + '_' + data.current_date + '.docx';
+      saveAs(outFile, fileName);
     });
-    return this.outFile
-  }
-
-  lTaxCl(data: any) {
-    return this.loadFile
-  }
-
-  getUser() {
-    let token = localStorage.getItem('auth');
-    let obj = jwt_decode(token)
-    return obj.username;
   }
 }

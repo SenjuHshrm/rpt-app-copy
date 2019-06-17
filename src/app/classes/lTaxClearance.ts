@@ -8,6 +8,7 @@ export class lTaxClearance {
    payment_reason: string;
    total_amount: string;
    cto_no: string;
+   dated: string;
    name_of_requestor: string;
    s1: string;
    s2: string;

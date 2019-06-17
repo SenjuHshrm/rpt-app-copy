@@ -5,21 +5,20 @@ import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
 import { getPosHolders } from '../services/getPosHolders'
-import { genLandTaxCl } from '../services/genLandTaxCl';
 import { MatTableDataSource } from '@angular/material';
 import { lTaxClearance } from '../classes/lTaxClearance';
 import * as _ from 'lodash';
 import * as jwt_decode from 'jwt-decode';
-import * as moment from 'moment';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { fileUpload } from '../services/fileUpload.service';
-
-import docxtemplater from 'docxtemplater';
-import * as JSZip from 'jszip';
-import * as JSZipUtils from 'jszip-utils';
+import { genLandTaxCl } from '../services/genLandTaxCl';
+// import docxtemplater from 'docxtemplater';
+// import * as JSZip from 'jszip';
+// import * as JSZipUtils from 'jszip-utils';
+import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { getClFile } from '../services/getClFile.service';
+import { Router } from '@angular/router';
 
 var ltTableLs: landTaxTable[] = []
 var ltTableInfOwner: landTaxInfOwn[] = []
@@ -67,15 +66,21 @@ export class ClearanceComponent implements OnInit {
   ];
 
   constructor(private srchRec: searchRec,
+    private genCL: genLandTaxCl,
+    private route: Router,
     private gPos: getPosHolders,
-    public matDialog: MatDialog,
-    private upd: fileUpload) { }
+    public matDialog: MatDialog) { }
 
   ngOnInit() {
-    this.encoder1 = this.getEncoder();
-    this.gPos.getPosHoldersCl().subscribe(res => {
-      this.posHolders = res;
-    })
+    if(localStorage.getItem('auth')) {
+      let obj = jwt_decode(localStorage.getItem('auth'));
+      this.encoder1 = obj.name;
+      this.gPos.getPosHoldersCl().subscribe(res => {
+        this.posHolders = res;
+      })
+    } else {
+      this.route.navigate(['/login']);
+    }
   }
 
   param1: string = 'land';
@@ -167,8 +172,9 @@ export class ClearanceComponent implements OnInit {
   }
 
   genCl() {
+    console.log(this.date);
     let data: lTaxClearance = {
-      current_date: this.getCurDate(),
+      current_date: moment(new Date).format('MM-DD-YYYY'),
       owner_names: this.getOwners(),
       pin: ltTableLs[0].pin,
       arp_no: ltTableLs[0].arpNo,
@@ -177,18 +183,19 @@ export class ClearanceComponent implements OnInit {
       payment_reason: this.input1,
       total_amount: this.amount,
       cto_no: this.CTONo,
+      dated: moment(this.dated).format('MM/DD/YYYY'),
       name_of_requestor: this.requestor,
-      s1: '',
-      s2: '',
-      s3: '',
-      s4: '',
-      s5: '',
+      s1: ' ',
+      s2: ' ',
+      s3: ' ',
+      s4: ' ',
+      s5: ' ',
       verified_by: this.encoder1,
       by_name1: this.posHolders[0].holder_name,
       by_title1: this.posHolders[0].position_name,
       certification_fee: this.certfee,
       or_no: this.orNo,
-      date: this.date,
+      date: moment(this.date).format('MM/DD/YYYY'),
       amount: this.amt,
       by_name2: this.posHolders[1].holder_name,
       by_title2: this.posHolders[1].position_name,
@@ -197,78 +204,45 @@ export class ClearanceComponent implements OnInit {
     switch(this.purpose) {
       case 's1':
         data.s1 = 'x';
-        data.s2 = ' ';
-        data.s3 = ' ';
-        data.s4 = ' ';
-        data.s5 = ' ';
         break;
       case 's2':
-        data.s1 = ' ';
         data.s2 = 'x';
-        data.s3 = ' ';
-        data.s4 = ' ';
-        data.s5 = ' ';
         break;
       case 's3':
-        data.s1 = ' ';
-        data.s2 = ' ';
         data.s3 = 'x';
-        data.s4 = ' ';
-        data.s5 = ' ';
         break;
       case 's4':
-        data.s1 = ' ';
-        data.s2 = ' ';
-        data.s3 = ' ';
         data.s4 = 'x';
-        data.s5 = ' ';
         break;
       case 's5':
-        data.s1 = ' ';
-        data.s2 = ' ';
-        data.s3 = ' ';
-        data.s4 = ' ';
         data.s5 = 'x';
         break;
     }
-    //this.genFile.lTaxCl(data)
-    // this.matDialog.open(DialogClearance, { width: '80%', data: data })
-    JSZipUtils.getBinaryContent('../assets/temp/clearance_template.docx', (err, cont) => {
-      if (err) { throw err; }
-      const zip = new JSZip(cont);
-      const doc = new docxtemplater().loadZip(zip)
-      doc.setData(data)
-      try {
-        doc.render()
-      } catch (e) {
-        console.log(JSON.stringify({ error: e }))
-        throw e;
-      }
-      let outFile = doc.getZip().generate({
-        type: 'base64',
-        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      });
-      let fileName = 'LTC_' + data.pin + '_' + this.getCurDate();
-      let updData:any = {
-        'file': outFile,
-        'filename': fileName
-      }
-      this.upd.uploadCl(updData).subscribe(res => {
-        (res.res) ? this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: updData }) : undefined;
-      });
-      //this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: outFile })
-    });
-  }
-
-  getEncoder(): string {
-    let token = localStorage.getItem('auth');
-    let obj = jwt_decode(token)
-    return obj.name;
-  }
-
-  getCurDate(): string {
-    let date = moment(new Date()).format('MM-DD-YYYY');
-    return date.toString();
+    this.genCL.loadFile(data);
+    // JSZipUtils.getBinaryContent('../assets/temp/clearance_template.docx', (err, cont) => {
+    //   if (err) { throw err; }
+    //   const zip = new JSZip(cont);
+    //   const doc = new docxtemplater().loadZip(zip)
+    //   doc.setData(data)
+    //   try {
+    //     doc.render()
+    //   } catch (e) {
+    //     console.log(JSON.stringify({ error: e }))
+    //     throw e;
+    //   }
+    //   let outFile = doc.getZip().generate({
+    //     type: 'base64',
+    //     mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    //   });
+    //   let fileName = 'LTC_' + data.pin + '_' + new Date().toString();
+      // let updData:any = {
+      //   'file': outFile,
+      //   'filename': fileName
+      // }
+      // this.upd.uploadCl(updData).subscribe(res => {
+      //   (res.res) ? this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: updData }) : undefined;
+      // });
+    // });
   }
 
   getOwners(): string {
