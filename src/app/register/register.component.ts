@@ -28,8 +28,11 @@ export class RegisterComponent implements OnInit {
       contact: new FormControl('', [Validators.required]),
     })
   }
+
+  isVisible_spinner = false
   regist(form){
     if(this.regForm.valid){
+      this.isVisible_spinner = true;
       let data: RegisterUser = {
         username: form.username,
         password: form.password,

@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
       password: new FormControl('', [Validators.required])
     })
   }
+
+  loginErr = false
+  isVisible_spinner = false
   login(form) {
     if(this.loginForm.valid){
       let data: Credentials = {
@@ -36,8 +39,9 @@ export class LoginComponent implements OnInit {
       }
       this.auth.authenticateUser(data).subscribe(res => {
         if(!res.success){
-
+          this.loginErr = true
         } else {
+          this.isVisible_spinner = true
           this.setRoute.storeToken(res.token)
         }
       })

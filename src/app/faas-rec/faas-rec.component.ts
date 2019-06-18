@@ -61,7 +61,9 @@ export class FaasRecComponent implements OnInit {
     }
   }
 
+  isVisible_spinner = false
   search() {
+    this.isVisible_spinner = true
     info = [];
     owner = [];
     admin = [];
@@ -121,6 +123,7 @@ export class FaasRecComponent implements OnInit {
       this.infoLs = new MatTableDataSource(info);
       this.ownerLs = new MatTableDataSource(owner);
       this.adminLs = new MatTableDataSource(admin);
+      this.isVisible_spinner = false
     });
   }
 
@@ -176,5 +179,3 @@ export class DialogFaasRecTD implements OnInit {
 
   }
 }
-
-

@@ -28,6 +28,7 @@ import { MachAssessmentComponent } from './mach-assessment/mach-assessment.compo
 import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment.component';
 import { PrintingComponent } from './printing/printing.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
     MatRadioModule,
     FormsModule,
     MatDialogModule,
-    NgxExtendedPdfViewerModule
+    NgxExtendedPdfViewerModule,
+    MatExpansionModule
   ],
   providers: [
     MatDatepickerModule,

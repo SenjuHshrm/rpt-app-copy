@@ -7,6 +7,7 @@
 .fl { float: left; }
 .mat-stitle { float: left; line-height:40px; }
 .w100 { width: 100% }
+.mat-expansion-panel { border: none; }
 img { width: 50px; height: 50px; }
 
 @media (max-width: 701px){
@@ -46,6 +47,11 @@ img { width: 50px; height: 50px; }
   margin-right: 5px;
 }
 
+.divCardMargin3 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .brdr {
   border: 1px solid #0063EA;
   border-top: none;
@@ -60,4 +66,12 @@ img { width: 50px; height: 50px; }
     margin-left: 10px;
     margin-right: 10px;
   }
+}
+
+.dashedHr {
+  width: 98%;
+  border-top: 1px dashed #0063EA;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
