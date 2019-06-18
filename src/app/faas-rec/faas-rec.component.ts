@@ -129,19 +129,22 @@ export class FaasRecComponent implements OnInit {
   }
 
   generateFaas() {
-    this.matDialog.open(DialogFaasRecF, {
-      width: '80%',
-      height: '90%',
-      data: ''
-    })
+    // this.matDialog.open(DialogFaasRecF, {
+    //   width: '80%',
+    //   height: '90%',
+    //   data: ''
+    // })
+    let data: any = {
+      
+    }
   }
 
   generateTD() {
-    this.matDialog.open(DialogFaasRecTD, {
-      width: '80%',
-      height: '90%',
-      data: ''
-    })
+    // this.matDialog.open(DialogFaasRecTD, {
+    //   width: '80%',
+    //   height: '90%',
+    //   data: ''
+    // })
   }
 
 }
