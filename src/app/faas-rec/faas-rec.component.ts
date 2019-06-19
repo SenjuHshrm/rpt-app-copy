@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
+import { landFaasTmp } from '../classes/landFaasTmp';
 
 var info: landTaxTable[] = [];
 var owner: landTaxInfOwn[] = [];
@@ -24,6 +25,7 @@ export class FaasRecComponent implements OnInit {
   param1: string = 'land';
   param2: string = 'pin';
   req: string;
+  faasId: number;
 
   infoLs = new MatTableDataSource(info);
   ownerLs = new MatTableDataSource(owner);
@@ -73,7 +75,8 @@ export class FaasRecComponent implements OnInit {
     let data: any = {
       SearchIn: this.param1,
       SearchBy: this.param2,
-      info: this.req
+      info: this.req,
+      sysCaller: 'RPTAS'
     }
     this.sRec.search(data).subscribe(res => {
       let resdata = res.data;
@@ -81,6 +84,7 @@ export class FaasRecComponent implements OnInit {
       let resOwner = resdata.owner;
       let resAdmin = resdata.admin;
       console.log(resdata)
+      this.faasId = faas[0].id;
       _.forEach(faas, arr => {
         info.push({
           arpNo: arr.ARPNo,
@@ -132,14 +136,7 @@ export class FaasRecComponent implements OnInit {
   }
 
   generateFaas() {
-    // this.matDialog.open(DialogFaasRecF, {
-    //   width: '80%',
-    //   height: '90%',
-    //   data: ''
-    // })
-    let data: any = {
-      
-    }
+    let data = ''
   }
 
   generateTD() {

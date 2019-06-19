@@ -30,5 +30,28 @@ export class landFaasTmp {
    base_market_value: string;
    total_base_market_value: string;
    pa_actual_use: string;
-   
+   pa_market_value: string;
+   pa_assessment_level: string;
+   pa_assessed_value: string;
+   pa_total_assessed_value: string;
+   pa_effectivity_assess_quarter: string;
+   pa_effectivity_assess_year: string;
+   appraised_by: string;
+   appraised_by_date: string;
+   recommending: string;
+   recommending_date: string;
+   approved_by: string;
+   approved_by_date: string;
+   memoranda: string;
+   date_created: string;
+   entry_by: string;
+   superseded_pin: string;
+   superseded_arp_no: string;
+   superseded_td_no: string;
+   superseded_total_assessed_value: string;
+   superseded_previous_owner: string;
+   superseded_effectivity_assess: string;
+   superseded_ar_page_no: string;
+   superseded_recording_personnel: string;
+   superseded_date: string;
 }

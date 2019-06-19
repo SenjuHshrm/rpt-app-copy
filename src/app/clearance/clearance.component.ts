@@ -118,6 +118,7 @@ export class ClearanceComponent implements OnInit {
       SearchIn: this.param1,
       SearchBy: this.param2,
       info: this.req,
+      sysCaller: 'LAND TAX'
     }
     this.srchRec.search(reqdata).subscribe(res => {
       let resdata = res.data;
