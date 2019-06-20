@@ -8,7 +8,9 @@ import { MatTableDataSource } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
+import { genFaas } from '../services/genFaas.service';
 import { landFaasTmp } from '../classes/landFaasTmp';
+import * as moment from 'moment';
 
 var info: landTaxTable[] = [];
 var owner: landTaxInfOwn[] = [];
@@ -25,7 +27,7 @@ export class FaasRecComponent implements OnInit {
   param1: string = 'land';
   param2: string = 'pin';
   req: string;
-  faasId: number;
+  resdata: any;
 
   infoLs = new MatTableDataSource(info);
   ownerLs = new MatTableDataSource(owner);
@@ -55,7 +57,7 @@ export class FaasRecComponent implements OnInit {
     { value: 'name', viewVal: 'Name' },
   ];
 
-  constructor(private sRec: searchRec, private matDialog: MatDialog, private route: Router) { }
+  constructor(private sRec: searchRec, private matDialog: MatDialog, private route: Router, private faas: genFaas) { }
 
   ngOnInit() {
     if(!localStorage.getItem('auth')) {
@@ -79,12 +81,11 @@ export class FaasRecComponent implements OnInit {
       sysCaller: 'RPTAS'
     }
     this.sRec.search(data).subscribe(res => {
-      let resdata = res.data;
-      let faas = resdata.faas;
-      let resOwner = resdata.owner;
-      let resAdmin = resdata.admin;
-      console.log(resdata)
-      this.faasId = faas[0].id;
+      this.resdata = res.data;
+      let faas = this.resdata.faas;
+      let resOwner = this.resdata.owner;
+      let resAdmin = this.resdata.admin;
+      console.log(this.resdata)
       _.forEach(faas, arr => {
         info.push({
           arpNo: arr.ARPNo,
@@ -136,7 +137,131 @@ export class FaasRecComponent implements OnInit {
   }
 
   generateFaas() {
-    let data = ''
+    this.faas.generate({ id: this.resdata.faas[0].id }).subscribe(res => {
+      let info: landFaasTmp = {
+        transaction_code: res.transaction_code,
+        arp_no: res.arp_no,
+        pin: res.pin_city + '-' + res.pin_district + '-' + res.pin_barangay + '-' + res.pin_section + '-' + res.pin_parcel,
+        otc_tct_no: res.OCT_TCT_no,
+        oct_tct_date: ' ',
+        survey_no: res.survey_no,
+        lot_no: res.lot_no,
+        block: res.block_no,
+        owner_names: this.getOwners(this.resdata.owner[0]),
+        owner_addresses: this.getOwnerAddr(this.resdata.owner[0]),
+        owner_contact_nos: this.getOwnerContact(this.resdata.owner[0]),
+        owner_tins: this.getOwnerTIN(this.resdata.owner[0]),
+        admin_names: this.getAdmins(this.resdata.admin[0]),
+        admin_addresses: this.getAdmAddr(this.resdata.admin[0]),
+        admin_contact_nos: this.getAdmContact(this.resdata.admin[0]),
+        admin_tins: this.getAdmTIN(this.resdata.admin[0]),
+        street_no: res.street_no,
+        barangay_district: res.barangay,
+        municipality: res.city,
+        province_city: res.province,
+        north: res.north,
+        east: res.east,
+        south: res.south,
+        west: res.west,
+        class: res.class,
+        sub_class: res.sub_class,
+        area: res.area,
+        unit_value: res.unit_value,
+        base_market_value: res.base_market_value,
+        total_base_market_value: res.total_base_market_value,
+        pa_actual_use: res.pa_actual_use,
+        pa_market_value: res.pa_market_value,
+        pa_assessment_level: res.pa_assessment_level,
+        pa_assessed_value: res.pa_assessed_value,
+        pa_total_assessed_value: res.pa_total_assessed_value,
+        pa_effectivity_assess_quarter: res.pa_effectivity_assess_quarter,
+        pa_effectivity_assess_year: res.pa_effectivity_assess_year,
+        appraised_by: res.appraised_by,
+        appraised_by_date: res.appraised_by_date,
+        recommending: res.recommending,
+        recommending_date: res.recommending_date,
+        approved_by: res.approved_by,
+        approved_by_date: res.approved_by_date,
+        memoranda: res.memoranda,
+        date_created: moment(res.date_created).format('MM-DD-YYYY'),
+        entry_by: res.encoder_id,
+        superseded_pin: res.superseded_pin,
+        superseded_arp_no: res.superseded_arp_no,
+        superseded_td_no: res.superseded_td_no,
+        superseded_total_assessed_value: res.superseded_total_assessed_value,
+        superseded_previous_owner: res.superseded_previous_owner,
+        superseded_effectivity_assess: res.superseded_effectivity_assess,
+        superseded_ar_page_no: res.superseded_ar_page_no,
+        superseded_recording_personnel: res.superseded_recording_personnel,
+        superseded_date: res.superseded_date,
+      }
+      console.log(info)
+      this.faas.file(info);
+    })
+  }
+
+  getOwners(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+    })
+    return res;
+  }
+
+  getOwnerContact(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.contact_no + '\n';
+    })
+    return res;
+  }
+
+  getOwnerAddr(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.address + '\n';
+    })
+    return res;
+  }
+
+  getOwnerTIN(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.TIN + '\n';
+    });
+    return res;
+  }
+
+  getAdmins(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+    })
+    return res;
+  }
+
+  getAdmContact(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.contact_no + '\n';
+    })
+    return res;
+  }
+
+  getAdmAddr(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.address + '\n';
+    })
+    return res;
+  }
+
+  getAdmTIN(obj: any) {
+    let res = '';
+    _.forEach(obj, arr => {
+      res = res + arr.TIN + '\n';
+    });
+    return res;
   }
 
   generateTD() {
