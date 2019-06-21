@@ -14,6 +14,9 @@ export class RegisterComponent implements OnInit {
   public regForm: FormGroup;
   constructor(private reg: register, private auth: SetAuthRoute, private router: Router) { }
 
+  clicked: boolean;
+  clckd: boolean;
+
   ngOnInit() {
     if(localStorage.getItem('auth')){
       this.auth.alreadyAuth()

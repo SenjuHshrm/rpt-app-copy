@@ -9,6 +9,13 @@ import * as jwt_decode from 'jwt-decode';
 })
 export class AssessmentsComponent implements OnInit {
 
+  lndTxtClr: boolean;
+  lndImg: boolean;
+  bldgImg: boolean;
+  bldgTxtClr: boolean;
+  machImg: boolean;
+  machTxtClr: boolean;
+
   constructor(private router: Router) {}
 
   ngOnInit() {
