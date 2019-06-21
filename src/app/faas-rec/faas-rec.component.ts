@@ -10,7 +10,9 @@ import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import { genFaas } from '../services/genFaas.service';
 import { landFaasTmp } from '../classes/landFaasTmp';
+import { taxDecTmp } from '../classes/taxDecTmp';
 import * as moment from 'moment';
+import { genTaxDec } from '../services/genTaxDec.service';
 
 var info: landTaxTable[] = [];
 var owner: landTaxInfOwn[] = [];
@@ -57,7 +59,11 @@ export class FaasRecComponent implements OnInit {
     { value: 'name', viewVal: 'Name' },
   ];
 
-  constructor(private sRec: searchRec, private matDialog: MatDialog, private route: Router, private faas: genFaas) { }
+  constructor(private sRec: searchRec,
+    private matDialog: MatDialog,
+    private route: Router,
+    private faas: genFaas,
+    private taxDec: genTaxDec) { }
 
   ngOnInit() {
     if(!localStorage.getItem('auth')) {
@@ -200,6 +206,72 @@ export class FaasRecComponent implements OnInit {
     })
   }
 
+  generateTD() {
+    let data: any = {
+      param1: this.param1,
+      id: this.resdata.faas[0].id
+    }
+    this.taxDec.generate(data).subscribe(res => {
+      let tmp: taxDecTmp = {
+        td_no: '',
+        pin: '',
+        owner_names: '',
+        owner_tins: '',
+        owner_addresses: '',
+        owner_contact_nos: '',
+        admin_names: '',
+        admin_tins: '',
+        admin_addresses: '',
+        admin_contact_nos: '',
+        street_no: '',
+        brgy_district: '',
+        oct_tct_no: '',
+        survey_no: '',
+        condo_cert: '',
+        lot_no: '',
+        dated: '',
+        block_no: '',
+        north: '',
+        south: '',
+        east: '',
+        west: '',
+        s1: '',
+        s2: '',
+        s3: '',
+        s4: '',
+        no_of_storey: '',
+        desc_mchn: '',
+        desc_bldg: '',
+        others_specify: '',
+        class: '',
+        area: '',
+        market_val: '',
+        actual_use: '',
+        assess_level: '',
+        assessed_val: '',
+        total_market_val: '',
+        total_assessed_val: '',
+        total_assessed_value_in_words: '',
+        tax: '',
+        exp: '',
+        pa_effectivity_assess_quarter: '',
+        pa_effectivity_assess_year: '',
+        approved_by1: '',
+        approver_title1: '',
+        approved_by2: '',
+        approver_title2: '',
+        approved_by_date: '',
+        previous_td_no: '',
+        previous_owner: '',
+        previous_assessed_value: '',
+        memoranda: '',
+        diag_date_printed: '',
+        diag_printed_by: '',
+      }
+      this.taxDec.file(tmp);
+    })
+  }
+
   getOwners(obj: any) {
     let res = '';
     _.forEach(obj, arr => {
@@ -262,14 +334,6 @@ export class FaasRecComponent implements OnInit {
       res = res + arr.TIN + '\n';
     });
     return res;
-  }
-
-  generateTD() {
-    // this.matDialog.open(DialogFaasRecTD, {
-    //   width: '80%',
-    //   height: '90%',
-    //   data: ''
-    // })
   }
 
 }
