@@ -4,8 +4,29 @@
 .lnd-table { overflow: scroll }
 .h { height: 10px; }
 .fl { float: left; }
-.mat-stitle { float: left; line-height:40px; }
+.mat-stitle { float: left; line-height:50px; }
 img { width: 50px; height: 50px; }
+
+/*th {
+  border: 1px solid #0063EA;
+  background: #0063EA;
+  color: #FFF;
+  font-weight: bold;
+}*/
+
+.mat-title-con {
+  width: 95%;
+  height: 50px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
 
 .divCard {
   background: #FFF;
@@ -30,11 +51,25 @@ img { width: 50px; height: 50px; }
   border-bottom-right-radius: 3px;
 }
 
-@media (max-width: 701px){
+.cardMargin {
+  width: 95%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.dashedHr {
+  width: 100%;
+  border-top: 1px dashed #0063EA;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/*@media (max-width: 701px){
   .divCardMargin {
     margin: 20px;
   }
-}
+}*/
 
 .w45 {
   width: 45%;
@@ -85,6 +120,10 @@ img { width: 50px; height: 50px; }
   width: 10px;
   height: 10px;
   position: relative;
+}
+
+.spnrMl {
+  margin-left: 11px;
 }
 
 .sk-fading-circle {
