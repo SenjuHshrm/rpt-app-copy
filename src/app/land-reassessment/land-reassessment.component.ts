@@ -289,7 +289,10 @@ export class LandReassessmentComponent implements OnInit {
     grp.controls['baseMarketVal'].reset();
   }
 
+  isVisible_spinner = false
+  pinspinner = true
   checkPIN(grp: any) {
+    this.pinspinner = false
     let pin = {
       city: grp.controls['city'].value,
       dist: grp.controls['district'].value,
@@ -299,6 +302,8 @@ export class LandReassessmentComponent implements OnInit {
     }
     this.chckpin.checkPin(pin).subscribe(res => {
       (res.success) ? this.checkpinresult = 'check' : this.checkpinresult = 'close';
+      this.isVisible_spinner = false
+      this.pinspinner = true
     });
   }
 
