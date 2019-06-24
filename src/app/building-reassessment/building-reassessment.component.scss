@@ -7,3 +7,75 @@
 .fl { float: left; }
 .mat-stitle { float: left; line-height:40px; }
 img { width: 50px; height: 50px; }
+.mat-title-con {
+  width: 95%;
+  height: 50px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 701px){
+  .fsize { font-size: 11px; } }
+
+.divCard {
+  background: #FFF;
+  /*width: 50%;*/
+  /*margin: 0 auto;*/
+  /*border-bottom: 1px solid rgba(128, 128, 128, 0.8);
+  border-right: 1px solid rgba(128, 128, 128, 0.8);*/
+  border: 1px solid rgba(128, 128, 128, 0.8);
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px 2px rgba(128, 128, 128, 0.6);
+  margin-bottom: 10px;
+  /*background-image: linear-gradient(to top, #96daff, #b2deff, #cae2ff, #dde8ff, #eceefc, #eceefc, #eceefc, #eceefc, #dde8ff, #cae2ff, #b2deff, #96daff);*/
+}
+
+.divCard2 {
+  background: #FFF;
+  border: 1px solid #0063EA;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.divHeader {
+  background: rgba(#0063EA, 0.9);
+  width: 100%;
+  height: 40px;
+  color: #FFF;
+  font-size: 15px;
+  line-height: 40px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  position: relative;
+}
+
+.brdr {
+  border: 1px solid #0063EA;
+  border-top: none;
+}
+
+.brdrBtm {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.cardMargin {
+  width: 95%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.dashedHr {
+  width: 100%;
+  border-top: 1px dashed #0063EA;
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
