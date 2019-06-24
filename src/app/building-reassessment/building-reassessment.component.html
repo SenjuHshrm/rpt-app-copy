@@ -61,7 +61,7 @@
                   </mat-form-field>
 
                   <span>&nbsp;&nbsp;&nbsp;</span>
-                  <button type='button' mat-raised-button color='primary' (click)="chckPIN(bldgReassessment.get('pin'))">Check PIN</button>
+                  <button type='button' mat-raised-button color='primary' (click)="chckPIN()">Check PIN</button>
                 </div>
               </div>
             </div>
@@ -107,7 +107,7 @@
                     </mat-form-field>
 
                     <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                      (click)="addOwner(bldgReassessment.get('ownerDetails'))">Add</button>
+                      (click)="addOwner()">Add</button>
                   </div>
                   <br>
 
@@ -187,7 +187,7 @@
                 </mat-form-field>
 
                 <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                  (click)="addAdmin(bldgReassessment.get('adminOwnerLs'))">Add</button>
+                  (click)="addAdmin()">Add</button>
               </div>
               <br>
 
@@ -472,7 +472,7 @@
                 </div>
 
                 <div class='container' fxLayout fxLayout.sm='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.sm='10px' fxLayoutGap.xs='10px'>
-                  <mat-checkbox formControlName='chckBoxFlrA' class='item item-1' (click)="smeAreaToggleBtn(bldgReassessment.get('strDescG'))">Floor with
+                  <mat-checkbox formControlName='chckBoxFlrA' class='item item-1' (click)="smeAreaToggleBtn()">Floor with
                     same Area</mat-checkbox>
                 </div>
 
@@ -886,7 +886,7 @@
               fxLayoutGap.xs='10px'>
                 <div class="item item-1" fxFlex="50%">
                   <button fxFlex="100%" mat-raised-button type='button' color='primary'
-                  (click)="addAddItems(bldgReassessment.get('additionalItems'))">Add</button>
+                  (click)="addAddItems()">Add</button>
                 </div>
               <div class="item item-2" fxFlex="50%">
                 <button fxFlex="100%" mat-raised-button type='button' color='primary'>Remove</button>
