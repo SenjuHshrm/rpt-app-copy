@@ -1,0 +1,41 @@
+export class bldgFaasTmp {
+   transaction_code: string;
+   arp_no: string;
+   pin: string;
+   otc_tct_no: string;
+   oct_tct_date: string;
+   survey_no: string;
+   lot_no: string;
+   block: string;
+   owner_names: string;
+   owner_addresses: string;
+   owner_contact_nos: string;
+   owner_tins: string;
+   admin_names: string;
+   admin_addresses: string;
+   admin_contact_nos: string;
+   admin_tins: string;
+   street_no: string;
+   barangay_district: string;
+   municipality: string;
+   province_city: string;
+   
+   appraised_by: string;
+   appraised_by_date: string;
+   recommending: string;
+   recommending_date: string;
+   approved_by: string;
+   approved_by_date: string;
+   memoranda: string;
+   date_created: string;
+   entry_by: string;
+   superseded_pin: string;
+   superseded_arp_no: string;
+   superseded_td_no: string;
+   superseded_total_assessed_value: string;
+   superseded_previous_owner: string;
+   superseded_effectivity_assess: string;
+   superseded_ar_page_no: string;
+   superseded_recording_personnel: string;
+   superseded_date: string;
+}
