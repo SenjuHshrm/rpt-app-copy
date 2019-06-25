@@ -13,6 +13,7 @@ import { landFaasTmp } from '../classes/landFaasTmp';
 import { taxDecTmp } from '../classes/taxDecTmp';
 import * as moment from 'moment';
 import { genTaxDec } from '../services/genTaxDec.service';
+import { bldgFaasTmp } from '../classes/bldgFaasTmp';
 
 var info: landTaxTable[] = [];
 var owner: landTaxInfOwn[] = [];
@@ -203,10 +204,83 @@ export class FaasRecComponent implements OnInit {
           superseded_date: res.superseded_date,
         }
         console.log(info)
-        this.faas.file(info);
+        this.faas.fileLand(info);
       })
     } else {
-      
+      this.faas.generateBldg({ id: this.resdata.faas[0].id }).subscribe(res => {
+        let data: bldgFaasTmp = {
+          transaction_code: res.transaction_code,
+          arp_no: res.arp_no,
+          pin: res.pin_city + '-' + res.pin_district + '-' + res.pin_barangay + '-' + res.pin_section + '-' + res.pin_parcel + '-' + res.pin_building_no,
+          owner_names: this.getOwners(this.resdata.owner[0]),
+          owner_addresses: this.getOwnerAddr(this.resdata.owner[0]),
+          owner_contact_nos: this.getOwnerContact(this.resdata.owner[0]),
+          owner_tins: this.getOwnerTIN(this.resdata.owner[0]),
+          admin_names: this.getAdmins(this.resdata.admin[0]),
+          admin_addresses: this.getAdmAddr(this.resdata.admin[0]),
+          admin_contact_nos: this.getAdmContact(this.resdata.admin[0]),
+          admin_tins: this.getAdmTIN(this.resdata.admin[0]),
+          street_no: res.street_no,
+          barangay_district: res.barangay,
+          municipality: res.city,
+          province_city: res.province,
+          land_owner: this.getOwners(this.resdata.owner[0]),
+          land_oct_tct_no: res.land_oct_tct_no,
+          land_survey_no: res.land_survey_no,
+          land_lot_no: res.land_lot_no,
+          land_block_no: res.land_block_no,
+          land_arp_no: res.land_arp_no,
+          land_area: res.land_area,
+          kind_of_building: res.type,
+          structural_type: res.building_type,
+          building_permit_no: res.building_permit_no,
+          permit_issue_date: res.building_permit_issue_date,
+          condominium_certificate: res.condominium_certificate_title,
+          completion_issue_date: res.completion_cert_issue_date,
+          occupancy_issue_date: res.occupancy_cert_issue_date,
+          date_constructed: res.constructed_date,
+          date_occcupied: res.occupied_date,
+          building_age: res.building_age,
+          no_of_storeys: res.no_of_storeys,
+          floor1_area: ' ',
+          floor2_area: ' ',
+          floor3_area: ' ',
+          floor4_area: ' ',
+          total_floor_area: res.total_floor_area,
+          bc_unit_construction_cost: res.bc_unit_construction_cost,
+          depreciation_rate: res.depreciation_rate,
+          depreciation_cost: res.depreciation_cost,
+          ad_sub_total: res.ad_sub_total_construction_cost,
+          total_percent_depreciation: res.total_percent_depreciated,
+          depreciated_market_value: res.depreciated_market_value,
+          pa_actual_use: res.pa_actual_use,
+          pa_market_value: res.pa_market_value,
+          pa_assessment_level: res.pa_assessment_level,
+          pa_assessed_value: res.pa_assessed_value,
+          pa_total_assessed_value: res.pa_total_assessed_value,
+          pa_effectivity_assess_quarter: res.pa_effectivity_assess_quarter,
+          pa_effectivity_assess_year: res.pa_effectivity_assess_year,
+          appraised_by: res.appraised_by,
+          appraised_by_date: res.appraised_by_date,
+          recommending: res.recommending,
+          recommending_date: res.recommending_date,
+          approved_by: res.approved_by,
+          approved_by_date: res.approved_by_date,
+          memoranda: res.memoranda,
+          date_created: res.date_created,
+          entry_by: res.encoder_id,
+          superseded_pin: res.superseded_pin,
+          superseded_arp_no: res.superseded_arp_no,
+          superseded_td_no: res.superseded_td_no,
+          superseded_total_assessed_value: res.superseded_total_assessed_value,
+          superseded_previous_owner: res.superseded_previous_owner,
+          superseded_effectivity_assess: res.superseded_effectivity_assess,
+          superseded_ar_page_no: res.superseded_ar_page_no,
+          superseded_recording_personnel: res.superseded_recording_personnel,
+          superseded_date: res.superseded_date,
+        }
+        this.faas.fileBldg(data);
+      })
     }
   }
 

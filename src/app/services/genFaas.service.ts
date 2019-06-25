@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { landFaasTmp } from '../classes/landFaasTmp';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
+import { bldgFaasTmp } from '../classes/bldgFaasTmp';
 
 @Injectable({
    providedIn: 'root'
@@ -15,22 +16,33 @@ import { Observable } from 'rxjs';
 
 export class genFaas {
 
-   private URL: string = '../assets/temp/land_faas_template.docx';
+   private URL_land: string = '../assets/temp/land_faas_template.docx';
+   private URL_bldg: string = '../assets/temp/building_faas_template.docx';
    
    constructor(private http: HttpClient) { }
 
    generateLand(data: any): Observable<any> {
       let headers = new HttpHeaders({
-         'Content-Type': 'application/json'
+         'Content-Type': 'application/json',
+         'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-      return this.http.post('http://192.168.100.24:5000/api/get-faas', data, opt);
+      return this.http.post('http://192.168.100.24:5000/api/get-faas/land', data, opt);
+   }
+
+   generateBldg(data: any): Observable<any> {
+      let headers = new HttpHeaders({
+         'Content-Type': 'application/json',
+         'Authorization': 'Bearer ' + localStorage.getItem('auth')
+      });
+      let opt = { headers: headers };
+      return this.http.post('http://192.168.100.24:5000/api/get-faas/bldg', data, opt);
    }
 
    
 
-   file(data: landFaasTmp) {
-      JSZipUtils.getBinaryContent(this.URL, (err, cont) => {
+   fileLand(data: landFaasTmp) {
+      JSZipUtils.getBinaryContent(this.URL_land, (err, cont) => {
          if (err) { throw err; }
          const zip = new JSZip(cont);
          const doc = new docxtemplater().loadZip(zip)
@@ -45,7 +57,28 @@ export class genFaas {
             type: 'blob',
             mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
          });
-         let fileName = 'FAAS_' + data.pin + '_' + moment(new Date()).format('MM-DD-YYYY') + '.docx';
+         let fileName = 'LandFAAS_' + data.pin + '_' + moment(new Date()).format('MM-DD-YYYY') + '.docx';
+         saveAs(outFile, fileName);
+      })
+   }
+
+   fileBldg(data: bldgFaasTmp) {
+      JSZipUtils.getBinaryContent(this.URL_bldg, (err, cont) => {
+         if (err) { throw err; }
+         const zip = new JSZip(cont);
+         const doc = new docxtemplater().loadZip(zip)
+         doc.setData(data)
+         try {
+            doc.render()
+         } catch (e) {
+            console.log(JSON.stringify({ error: e }))
+            throw e;
+         }
+         let outFile = doc.getZip().generate({
+            type: 'blob',
+            mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+         });
+         let fileName = 'BldgFAAS_' + data.pin + '_' + moment(new Date()).format('MM-DD-YYYY') + '.docx';
          saveAs(outFile, fileName);
       })
    }
