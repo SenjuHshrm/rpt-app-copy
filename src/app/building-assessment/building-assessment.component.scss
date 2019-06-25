@@ -21,8 +21,21 @@ img { width: 50px; height: 50px; }
   margin-bottom: 40px;
 }
 
+@media (max-width: 1101px) {
+  .wrapper {
+    width: 95%;
+  }
+}
+
+@media (max-width: 816px) {
+  .wrapper {
+    width: 98%;
+  }
+}
+
 @media (max-width: 701px){
-  .fsize { font-size: 11px; } }
+  .fsize { font-size: 11px; }
+}
 
 .divCard {
   background: #FFF;

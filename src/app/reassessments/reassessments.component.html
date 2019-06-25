@@ -26,10 +26,10 @@
   </div>
   <div class='item item-3' fxFlex='30%' fxLayoutAlign='center center'>
     <div class='rBtn'>
-      <img src='../assets/Machineries logo 2.png' (mouseover)='machTxtClr=true' (mouseleave)="machTxtClr=false"
+      <img src='../assets/Machineries logo 2.png' (click)='machReassessment()' (mouseover)='machTxtClr=true' (mouseleave)="machTxtClr=false"
       [ngClass]="{ 'imgZoomIn': machImg, 'imgZoomOut': !machImg }">
       <div>
-        <span class='modName' [ngClass]="{ 'blue': machTxtClr, 'blck': !machTxtClr }"
+        <span class='modName' (click)='machReassessment()' [ngClass]="{ 'blue': machTxtClr, 'blck': !machTxtClr }"
         (mouseover)='machImg=true' (mouseleave)="machImg=false">
           Machinery Reassessment
         </span>

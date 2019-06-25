@@ -17,7 +17,7 @@
 
 
 <div class="topMargin"></div>
-<div class="divCard">
+<div class="divCard brdr">
 	<form [formGroup]='regForm' (ngSubmit)='regist(regForm.value)' novalidate>
 	<div class="divHeader"><span class='mleft'>Register</span></div>
 	<div class="h"></div>
@@ -95,83 +95,3 @@
 	</form>
 	<div class="h"></div>
 </div>
-
-<!--<div class='reg-form'>
-	<mat-card class='whole-card'>
-		<mat-card-header>
-			<mat-card-title>Register new user</mat-card-title>
-		</mat-card-header>
-		<form [formGroup]='regForm' (ngSubmit)='regist(regForm.value)' novalidate>
-			<mat-card-content>
-					<mat-card>
-						<mat-card-header>
-							<mat-card-title>Account Info</mat-card-title>
-						</mat-card-header>
-						<mat-card-content>
-							<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-		            fxLayoutGap.xs='10px'>
-								<div class='item item-1' fxFlex='45%'>
-							<mat-form-field>
-								<input formControlName='username' type='text' matInput placeholder='Username' required>
-								<mat-error *ngIf="hasError('username','required')">Username field should not be empty</mat-error>
-							</mat-form-field>
-							</div>
-							<div class='item item-2' fxFlex='45%'>
-							<mat-form-field>
-								<input formControlName='password' type='password' matInput placeholder='Password' required>
-								<mat-error *ngIf="hasError('password','required')">Password field should not be empty</mat-error>
-							</mat-form-field>
-							</div>
-							</div>
-						</mat-card-content>
-					<!--</mat-card>
-					<br>
-					<mat-card>-->
-						<!--<mat-card-header>
-							<mat-card-title>Personal Info</mat-card-title>
-						</mat-card-header>
-						<mat-card-content>
-							<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-		            fxLayoutGap.xs='10px'>
-								<div class='item item-1' fxFlex='30%'>
-							<mat-form-field>
-								<input formControlName='fName' type='text' matInput placeholder='First name' required>
-								<mat-error *ngIf="hasError('fName','required')">First name field should not be empty</mat-error>
-							</mat-form-field>
-							</div>
-							<div class='item item-2' fxFlex='30%'>
-							<mat-form-field>
-								<input formControlName='mName' type='text' matInput placeholder='Middle name'>
-							</mat-form-field>
-							</div>
-							<div class='item item-3' fxFlex='30%'>
-							<mat-form-field>
-								<input formControlName='lName' type='text' matInput placeholder='Last name' required>
-								<mat-error *ngIf="hasError('lName','required')">Last name field should not be empty</mat-error>
-							</mat-form-field>
-							</div>
-							</div>
-							<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-		            fxLayoutGap.xs='10px'>
-								<div class='item item-1' fxFlex='45%'>
-							<mat-form-field>
-								<input formControlName='address' type='text' matInput placeholder='Address' required>
-								<mat-error *ngIf="hasError('address','required')">Address field should not be empty</mat-error>
-							</mat-form-field>
-							</div>
-							<div class='item item-2' fxFlex='45%'>
-							<mat-form-field>
-								<input formControlName='contact' type='text' matInput placeholder='Contact No.' required>
-								<mat-error *ngIf="hasError('contact','required')">Contact field should not be empty</mat-error>
-							</mat-form-field>
-							</div>
-							</div>
-							<mat-card-actions align='center'>
-								<button type='submit' mat-raised-button color='primary'>Register</button>
-							</mat-card-actions>
-						</mat-card-content>
-					</mat-card>
-			</mat-card-content>
-		</form>
-	</mat-card>
-</div>-->
