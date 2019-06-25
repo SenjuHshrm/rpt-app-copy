@@ -18,7 +18,7 @@
 <!--<div class='login-form'>-->
 <div class="topMargin"></div>
 
-<div class='divCard' *ngIf='nonAuth()'>
+<div class='divCard brdr' *ngIf='nonAuth()'>
 	<div class='divHeader'><span class='mleft'>Login</span></div>
 	<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
 		fxLayoutGap.xs='10px' style='margin: 10px;'>
@@ -61,32 +61,3 @@
 </div>
 
 <br><br>
-
-<!--<div class='login-form' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-	fxLayoutGap.xs='10px'>
-	<mat-card fxFlex='50%'>
-		<div class="center">
-			<h2>Real Property Tax</h2>
-		<img src='../assets/SPCLOGO.png'>
-		</div>
-		<form [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)' novalidate>
-		<mat-card-header>
-			<mat-card-title>Login</mat-card-title>
-		</mat-card-header>
-		<mat-card-content>
-				<mat-form-field>
-					<input formControlName='username' type='text' matInput placeholder='Username' required>
-					<mat-error *ngIf="hasError('username','required')">Username field should not be empty</mat-error>
-				</mat-form-field>
-				<br>
-				<mat-form-field>
-					<input formControlName='password' type='password' matInput placeholder='Password' required>
-					<mat-error *ngIf="hasError('password','required')">Password field should not be empty</mat-error>
-				</mat-form-field>
-		</mat-card-content>
-		<mat-card-actions align='center'>
-			<button type='submit' mat-raised-button color='primary'>Login</button>
-		</mat-card-actions>
-		</form>
-	</mat-card>
-</div>-->

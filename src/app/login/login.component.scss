@@ -47,8 +47,14 @@ button { width: 100%; }
   color: #FFF;
   font-size: 18px;
   line-height: 40px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.brdr {
+  border: 1px solid #0063EA;
+  border-radius: 4px;
+  border-top: none;
 }
 
 .mleft {
