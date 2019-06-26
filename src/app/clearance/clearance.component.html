@@ -15,242 +15,238 @@
 </div>
 </div>
 
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Land Tax Clearance</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-card>
-      <mat-card-content>
-        <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-          <label>Search record in:</label>
-          <mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
-            <mat-radio-button *ngFor='let p1 of params1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
-          </mat-radio-group>
-          <label>Search record by:</label>
-          <mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
-            <mat-radio-button *ngFor='let p2 of params2' [value]='p2.value'>{{ p2.viewVal }}</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <br>
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-          <mat-form-field class='item item-1' fxFlex='40%'>
-            <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
-          </mat-form-field>
-          <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-content>
-        <!-- land info -->
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
-          <div class='ltax-con item item-1' fxFlex='100%'>
-            <mat-label>Land info</mat-label>
-            <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
-              <ng-container matColumnDef='arpNo'>
-                <th mat-header-cell *matHeaderCellDef>ARP No.</th>
-                <td mat-cell *matCellDef='let data'>{{ data.arpNo }}</td>
-              </ng-container>
-              <ng-container matColumnDef='pin'>
-                <th mat-header-cell *matHeaderCellDef>PIN</th>
-                <td mat-cell *matCellDef='let data'>{{ data.pin }}</td>
-              </ng-container>
-              <ng-container matColumnDef='surveyNo'>
-                <th mat-header-cell *matHeaderCellDef>Survey No.</th>
-                <td mat-cell *matCellDef='let data'>{{ data.surveyNo }}</td>
-              </ng-container>
-              <ng-container matColumnDef='lotNo'>
-                <th mat-header-cell *matHeaderCellDef>Lot No.</th>
-                <td mat-cell *matCellDef='let data'>{{ data.lotNo }}</td>
-              </ng-container>
-              <ng-container matColumnDef='blockNo'>
-                <th mat-header-cell *matHeaderCellDef>Block No.</th>
-                <td mat-cell *matCellDef='let data'>{{ data.blockNo }}</td>
-              </ng-container>
-              <ng-container matColumnDef='streetNo'>
-                <th mat-header-cell *matHeaderCellDef>Street No.</th>
-                <td mat-cell *matCellDef='let data'>{{ data.streetNo }}</td>
-              </ng-container>
-              <ng-container matColumnDef='brgy'>
-                <th mat-header-cell *matHeaderCellDef>Barangay</th>
-                <td mat-cell *matCellDef='let data'>{{ data.brgy }}</td>
-              </ng-container>
-              <ng-container matColumnDef='subd'>
-                <th mat-header-cell *matHeaderCellDef>Subdivision</th>
-                <td mat-cell *matCellDef='let data'>{{ data.subd }}</td>
-              </ng-container>
-              <ng-container matColumnDef='city'>
-                <th mat-header-cell *matHeaderCellDef>City</th>
-                <td mat-cell *matCellDef='let data'>{{ data.city }}</td>
-              </ng-container>
-              <ng-container matColumnDef='province'>
-                <th mat-header-cell *matHeaderCellDef>Province</th>
-                <td mat-cell *matCellDef='let data'>{{ data.province }}</td>
-              </ng-container>
-              <ng-container matColumnDef='class'>
-                <th mat-header-cell *matHeaderCellDef>Class</th>
-                <td mat-cell *matCellDef='let data'>{{ data.class }}</td>
-              </ng-container>
-              <ng-container matColumnDef='subclass'>
-                <th mat-header-cell *matHeaderCellDef>Subclass</th>
-                <td mat-cell *matCellDef='let data'>{{ data.subclass }}</td>
-              </ng-container>
-              <ng-container matColumnDef='area'>
-                <th mat-header-cell *matHeaderCellDef>Area</th>
-                <td mat-cell *matCellDef='let data'>{{ data.area }}</td>
-              </ng-container>
-              <ng-container matColumnDef='assessedVal'>
-                <th mat-header-cell *matHeaderCellDef>Assessed Value</th>
-                <td mat-cell *matCellDef='let data'>{{ data.assessedVal }}</td>
-              </ng-container>
-              <ng-container matColumnDef='stat'>
-                <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td mat-cell *matCellDef='let data'>{{ data.stat }}</td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef='lTaxHeader'></tr>
-              <tr mat-row *matRowDef='let row; columns: lTaxHeader'></tr>
-            </table>
-          </div>
-        </div>
-        <!-- owner admin info -->
-        <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
-          <div class='ltax-con-inf item item-1' fxFlex='50%'>
-            <mat-label>Owner info</mat-label>
-            <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
-              <ng-container matColumnDef='ownName'>
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef='let data'>{{ data.ownName }}</td>
-              </ng-container>
-              <ng-container matColumnDef='ownAddress'>
-                <th mat-header-cell *matHeaderCellDef>Address</th>
-                <td mat-cell *matCellDef='let data'>{{ data.ownAddress }}</td>
-              </ng-container>
-              <ng-container matColumnDef='ownContact'>
-                <th mat-header-cell *matHeaderCellDef>Contact</th>
-                <td mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
-              </ng-container>
-              <ng-container matColumnDef='ownTIN'>
-                <th mat-header-cell *matHeaderCellDef>TIN</th>
-                <td mat-cell *matCellDef='let data'>{{ data.ownTIN }}</td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderOwn'></tr>
-              <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderOwn'></tr>
-            </table>
-          </div>
-          <div class='ltax-con-inf item item-2' fxFlex='50%'>
-            <mat-label>Admin info</mat-label>
-            <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
-              <ng-container matColumnDef='admName'>
-                <th mat-header-cell *matHeaderCellDef>Name</th>
-                <td mat-cell *matCellDef='let data'>{{ data.admName }}</td>
-              </ng-container>
-              <ng-container matColumnDef='admAddress'>
-                <th mat-header-cell *matHeaderCellDef>Address</th>
-                <td mat-cell *matCellDef='let data'>{{ data.admAddress }}</td>
-              </ng-container>
-              <ng-container matColumnDef='admContact'>
-                <th mat-header-cell *matHeaderCellDef>Contact</th>
-                <td mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
-              </ng-container>
-              <ng-container matColumnDef='admTIN'>
-                <th mat-header-cell *matHeaderCellDef>TIN</th>
-                <td mat-cell *matCellDef='let data'>{{ data.admTIN }}</td>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderAdm'></tr>
-              <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderAdm'></tr>
-            </table>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-    <mat-card>
-      <mat-card-content>
-        <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-          <div class='item item-1' fxFlex='100%'>
-            <span>
-              The latest payment of the tax of the above-described property is for the&nbsp;&nbsp;&nbsp;
-            </span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='input1'>
-            </mat-form-field>
-            <span>&nbsp;&nbsp;&nbsp;for the total amount of P&nbsp;&nbsp;&nbsp;</span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='amount'>
-            </mat-form-field>
-          </div>
-          <div class='item item-2' fxFlex='100%'>
-            <span>
-              acknowledge under Real Estate Tax Receipt No. CTO.&nbsp;&nbsp;&nbsp;
-            </span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='CTONo'>
-            </mat-form-field>
-            <span>
-              &nbsp;&nbsp;&nbsp;dated&nbsp;&nbsp;&nbsp;
-            </span>
-            <mat-form-field>
-              <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
-              <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
-              <mat-datepicker #cdated></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class='item item-3' fxFlex='100%'>
-            <span>
-              This certification has been issued upon the request of&nbsp;&nbsp;&nbsp;
-            </span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='requestor'>
-            </mat-form-field>
-            <span>
-              &nbsp;&nbsp;&nbsp;for the purpose of:&nbsp;&nbsp;&nbsp;
-            </span>
-            <mat-form-field>
-              <!-- <input matInput type='text' [(ngModel)]='purpose'> -->
-              <mat-select [(ngModel)]='purpose'>
-                <mat-option *ngFor='let prp of prps' [value]='prp.value'>{{ prp.viewVal }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <br>
-          <div class='item item-4' fxFlex='100%'>
-            <span>
-              Verified by:&nbsp;&nbsp;&nbsp;
-            </span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='encoder1'>
-            </mat-form-field>
-            <span>&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;</span>
-            <mat-form-field>
-              <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
-              <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
-              <mat-datepicker #currdate></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div class='item item-5' fxFlex='100%'>
-            <span>
-              Certification Fee:&nbsp;&nbsp;&nbsp;
-            </span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='certfee'>
-            </mat-form-field>
-            <span>&nbsp;&nbsp;&nbsp;Amount:&nbsp;&nbsp;&nbsp;</span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='amt'>
-            </mat-form-field>
-          </div>
-          <div class='item item-6' fxFlex='100%'>
-            <span>O.R. No.:&nbsp;&nbsp;&nbsp;</span>
-            <mat-form-field>
-              <input matInput type='text' [(ngModel)]='orNo'>
-            </mat-form-field>
-          </div>
-          <mat-form-field class='item item-7' fxFlex='100%'>
-            <textarea matInput placeholder='Remarks' [(ngModel)]='remarks'></textarea>
-          </mat-form-field>
-          <button mat-raised-button color='primary' type='button' (click)='genCl()'>Generate Clearance</button>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </mat-card-content>
-</mat-card>
+<div class="h"></div>
+<div class="mat-title-con">
+<mat-card-header>
+  <mat-card-title>
+    <div class='mat-stitle'>&nbsp;&nbsp;<b>Land Tax Clearance</b></div>
+  </mat-card-title>
+</mat-card-header>
+</div>
+
+<div class="wrapper">
+  <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+    <label>Search record in:</label>
+    <mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
+      <mat-radio-button *ngFor='let p1 of params1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
+    </mat-radio-group>
+    <label>Search record by:</label>
+    <mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
+      <mat-radio-button *ngFor='let p2 of params2' [value]='p2.value'>{{ p2.viewVal }}</mat-radio-button>
+    </mat-radio-group>
+
+    <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+      <mat-form-field class='item item-1' fxFlex='40%'>
+        <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
+      </mat-form-field>
+      <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
+    </div>
+  </div>
+
+  <!-- land info -->
+  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+    <div class='ltax-con item item-1' fxFlex='100%'>
+      <mat-label>Land info</mat-label>
+      <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
+        <ng-container matColumnDef='arpNo'>
+          <th mat-header-cell *matHeaderCellDef>ARP No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.arpNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='pin'>
+          <th mat-header-cell *matHeaderCellDef>PIN</th>
+          <td mat-cell *matCellDef='let data'>{{ data.pin }}</td>
+        </ng-container>
+        <ng-container matColumnDef='surveyNo'>
+          <th mat-header-cell *matHeaderCellDef>Survey No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.surveyNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='lotNo'>
+          <th mat-header-cell *matHeaderCellDef>Lot No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.lotNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='blockNo'>
+          <th mat-header-cell *matHeaderCellDef>Block No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.blockNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='streetNo'>
+          <th mat-header-cell *matHeaderCellDef>Street No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.streetNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='brgy'>
+          <th mat-header-cell *matHeaderCellDef>Barangay</th>
+          <td mat-cell *matCellDef='let data'>{{ data.brgy }}</td>
+        </ng-container>
+        <ng-container matColumnDef='subd'>
+          <th mat-header-cell *matHeaderCellDef>Subdivision</th>
+          <td mat-cell *matCellDef='let data'>{{ data.subd }}</td>
+        </ng-container>
+        <ng-container matColumnDef='city'>
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef='let data'>{{ data.city }}</td>
+        </ng-container>
+        <ng-container matColumnDef='province'>
+          <th mat-header-cell *matHeaderCellDef>Province</th>
+          <td mat-cell *matCellDef='let data'>{{ data.province }}</td>
+        </ng-container>
+        <ng-container matColumnDef='class'>
+          <th mat-header-cell *matHeaderCellDef>Class</th>
+          <td mat-cell *matCellDef='let data'>{{ data.class }}</td>
+        </ng-container>
+        <ng-container matColumnDef='subclass'>
+          <th mat-header-cell *matHeaderCellDef>Subclass</th>
+          <td mat-cell *matCellDef='let data'>{{ data.subclass }}</td>
+        </ng-container>
+        <ng-container matColumnDef='area'>
+          <th mat-header-cell *matHeaderCellDef>Area</th>
+          <td mat-cell *matCellDef='let data'>{{ data.area }}</td>
+        </ng-container>
+        <ng-container matColumnDef='assessedVal'>
+          <th mat-header-cell *matHeaderCellDef>Assessed Value</th>
+          <td mat-cell *matCellDef='let data'>{{ data.assessedVal }}</td>
+        </ng-container>
+        <ng-container matColumnDef='stat'>
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef='let data'>{{ data.stat }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef='lTaxHeader'></tr>
+        <tr mat-row *matRowDef='let row; columns: lTaxHeader'></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- owner admin info -->
+  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+    <div class='ltax-con-inf item item-1' fxFlex='50%'>
+      <mat-label>Owner info</mat-label>
+      <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
+        <ng-container matColumnDef='ownName'>
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef='let data'>{{ data.ownName }}</td>
+        </ng-container>
+        <ng-container matColumnDef='ownAddress'>
+          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <td mat-cell *matCellDef='let data'>{{ data.ownAddress }}</td>
+        </ng-container>
+        <ng-container matColumnDef='ownContact'>
+          <th mat-header-cell *matHeaderCellDef>Contact</th>
+          <td mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
+        </ng-container>
+        <ng-container matColumnDef='ownTIN'>
+          <th mat-header-cell *matHeaderCellDef>TIN</th>
+          <td mat-cell *matCellDef='let data'>{{ data.ownTIN }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderOwn'></tr>
+        <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderOwn'></tr>
+      </table>
+    </div>
+    <div class='ltax-con-inf item item-2' fxFlex='50%'>
+      <mat-label>Admin info</mat-label>
+      <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
+        <ng-container matColumnDef='admName'>
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef='let data'>{{ data.admName }}</td>
+        </ng-container>
+        <ng-container matColumnDef='admAddress'>
+          <th mat-header-cell *matHeaderCellDef>Address</th>
+          <td mat-cell *matCellDef='let data'>{{ data.admAddress }}</td>
+        </ng-container>
+        <ng-container matColumnDef='admContact'>
+          <th mat-header-cell *matHeaderCellDef>Contact</th>
+          <td mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
+        </ng-container>
+        <ng-container matColumnDef='admTIN'>
+          <th mat-header-cell *matHeaderCellDef>TIN</th>
+          <td mat-cell *matCellDef='let data'>{{ data.admTIN }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderAdm'></tr>
+        <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderAdm'></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+    <div class='item item-1' fxFlex='100%'>
+      <span>
+        The latest payment of the tax of the above-described property is for the&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='input1'>
+      </mat-form-field>
+      <span>&nbsp;&nbsp;&nbsp;for the total amount of P&nbsp;&nbsp;&nbsp;</span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='amount'>
+      </mat-form-field>
+    </div>
+    <div class='item item-2' fxFlex='100%'>
+      <span>
+        acknowledge under Real Estate Tax Receipt No. CTO.&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='CTONo'>
+      </mat-form-field>
+      <span>
+        &nbsp;&nbsp;&nbsp;dated&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-form-field>
+        <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
+        <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
+        <mat-datepicker #cdated></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class='item item-3' fxFlex='100%'>
+      <span>
+        This certification has been issued upon the request of&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='requestor'>
+      </mat-form-field>
+      <span>
+        &nbsp;&nbsp;&nbsp;for the purpose of:&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-form-field>
+        <!-- <input matInput type='text' [(ngModel)]='purpose'> -->
+        <mat-select [(ngModel)]='purpose'>
+          <mat-option *ngFor='let prp of prps' [value]='prp.value'>{{ prp.viewVal }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <br>
+    <div class='item item-4' fxFlex='100%'>
+      <span>
+        Verified by:&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='encoder1'>
+      </mat-form-field>
+      <span>&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;</span>
+      <mat-form-field>
+        <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
+        <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
+        <mat-datepicker #currdate></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class='item item-5' fxFlex='100%'>
+      <span>
+        Certification Fee:&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='certfee'>
+      </mat-form-field>
+      <span>&nbsp;&nbsp;&nbsp;Amount:&nbsp;&nbsp;&nbsp;</span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='amt'>
+      </mat-form-field>
+    </div>
+    <div class='item item-6' fxFlex='100%'>
+      <span>O.R. No.:&nbsp;&nbsp;&nbsp;</span>
+      <mat-form-field>
+        <input matInput type='text' [(ngModel)]='orNo'>
+      </mat-form-field>
+    </div>
+    <mat-form-field class='item item-7' fxFlex='100%'>
+      <textarea matInput placeholder='Remarks' [(ngModel)]='remarks'></textarea>
+    </mat-form-field>
+    <button mat-raised-button color='primary' type='button' (click)='genCl()'>Generate Clearance</button>
+  </div>
+</div>
+<br><br>
