@@ -17,6 +17,8 @@ import { RPTOPComponent } from './rptop/rptop.component';
 import { MachAssessmentComponent } from './mach-assessment/mach-assessment.component';
 import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment.component';
 import { PrintingComponent } from './printing/printing.component';
+import { SegregationComponent } from './segregation/segregation.component';
+import { SubdivisionComponent } from './subdivision/subdivision.component';
 
 
 const routes: Routes = [
@@ -35,7 +37,9 @@ const routes: Routes = [
   { path: 'user/:username/land-tax', component: LandTaxComponent },
   { path: 'user/:username/land-tax/clearance', component: ClearanceComponent },
   { path: 'user/:username/land-tax/rptop', component: RPTOPComponent },
-  { path: 'user/:username/print/:file', component: PrintingComponent }
+  { path: 'user/:username/print/:file', component: PrintingComponent },
+  { path: 'user/:username/segregation', component: SegregationComponent },
+  { path: 'user/:username/subdivision', component: SubdivisionComponent }
 ];
 
 @NgModule({
@@ -60,5 +64,7 @@ export const routingComponents = [
   RPTOPComponent,
   MachAssessmentComponent,
   MachReassessmentComponent,
-  PrintingComponent
+  PrintingComponent,
+  SegregationComponent,
+  SubdivisionComponent
 ]

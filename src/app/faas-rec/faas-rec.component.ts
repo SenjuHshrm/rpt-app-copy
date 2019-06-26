@@ -92,7 +92,7 @@ export class FaasRecComponent implements OnInit {
       let faas = this.resdata.faas;
       let resOwner = this.resdata.owner;
       let resAdmin = this.resdata.admin;
-      console.log(this.resdata)
+      console.log(res)
       _.forEach(faas, arr => {
         info.push({
           arpNo: arr.ARPNo,
@@ -278,6 +278,13 @@ export class FaasRecComponent implements OnInit {
           superseded_ar_page_no: res.superseded_ar_page_no,
           superseded_recording_personnel: res.superseded_recording_personnel,
           superseded_date: res.superseded_date,
+        }
+        for(var i = 1; i <= res.no_of_storey; i++) {
+          Object.keys(data).forEach(key => {
+            if(key == ('floor' + i.toString() + '_area')) {
+              key = res.total_floor_area;
+            }
+          })
         }
         this.faas.fileBldg(data);
       })

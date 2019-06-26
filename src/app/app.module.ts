@@ -29,6 +29,8 @@ import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment
 import { PrintingComponent } from './printing/printing.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { SegregationComponent } from './segregation/segregation.component';
+import { SubdivisionComponent } from './subdivision/subdivision.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     PrintingComponent,
     DialogClearancePipe,
     DialogFaasRecF,
-    DialogFaasRecTD
+    DialogFaasRecTD,
+    SegregationComponent,
+    SubdivisionComponent
   ],
   imports: [
     BrowserModule,
