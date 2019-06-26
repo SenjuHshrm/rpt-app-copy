@@ -1,3 +1,21 @@
-<p>
-  segregation works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Segregation</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card>
+      <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+        <label>Search By:</label>
+        <mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param'>
+          <mat-radio-button *ngFor='let p of params' [value]='p.value'>{{ p.viewVal }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+        <mat-form-field class='item item-1' fxFlex='40%'>
+          <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
+        </mat-form-field>
+        <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search()'>Search</button>
+      </div>
+    </mat-card>
+  </mat-card-content>
+</mat-card>
