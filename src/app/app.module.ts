@@ -20,7 +20,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReassessmentsComponent } from './reassessments/reassessments.component';
 import { LandReassessmentComponent } from './land-reassessment/land-reassessment.component';
 import { BuildingReassessmentComponent } from './building-reassessment/building-reassessment.component';
-import { FaasRecComponent, DialogFaasRecTD, DialogFaasRecF } from './faas-rec/faas-rec.component';
+import { FaasRecComponent, DialogFaasRecTD, DialogFaasRecF, DialogErr } from './faas-rec/faas-rec.component';
 import { LandTaxComponent } from './land-tax/land-tax.component';
 import { RPTOPComponent } from './rptop/rptop.component';
 import { ClearanceComponent, DialogClearance, DialogClearancePipe } from './clearance/clearance.component';
@@ -57,6 +57,7 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     DialogClearancePipe,
     DialogFaasRecF,
     DialogFaasRecTD,
+    DialogErr,
     SegregationComponent,
     SubdivisionComponent
   ],
@@ -98,7 +99,8 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     DialogClearance,
     FaasRecComponent,
     DialogFaasRecF,
-    DialogFaasRecTD
+    DialogFaasRecTD,
+    DialogErr
   ],
   bootstrap: [AppComponent]
 })

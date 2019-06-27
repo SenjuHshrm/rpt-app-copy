@@ -74,69 +74,81 @@ export class FaasRecComponent implements OnInit {
 
   isVisible_spinner = false
   search() {
-    this.isVisible_spinner = true
-    info = [];
-    owner = [];
-    admin = [];
-    this.infoLs = new MatTableDataSource(info);
-    this.ownerLs = new MatTableDataSource(owner);
-    this.adminLs = new MatTableDataSource(admin);
-    let data: any = {
-      SearchIn: this.param1,
-      SearchBy: this.param2,
-      info: this.req,
-      sysCaller: 'RPTAS'
-    }
-    this.sRec.search(data).subscribe(res => {
-      this.resdata = res.data;
-      let faas = this.resdata.faas;
-      let resOwner = this.resdata.owner;
-      let resAdmin = this.resdata.admin;
-      console.log(res)
-      _.forEach(faas, arr => {
-        info.push({
-          arpNo: arr.ARPNo,
-          pin: arr.PIN,
-          surveyNo: arr.SurveyNo,
-          lotNo: arr.LotNo,
-          blockNo: arr.BlockNo,
-          streetNo: arr.StreetNo,
-          brgy: arr.Barangay,
-          subd: arr.Subdivision,
-          city: arr.City,
-          province: arr.Province,
-          class: arr.Class,
-          subclass: arr.SubClass,
-          area: arr.Area,
-          assessedVal: arr.AssessedValue,
-          stat: arr.Status
-        });
-      });
-      _.forEach(resOwner, arr => {
-        _.forEach(arr, arr=> {
-          owner.push({
-            ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
-            ownAddress: arr.address,
-            ownContact: arr.contact,
-            ownTIN: arr.TIN
-          });
-        });
-      });
-      _.forEach(resAdmin, arr => {
-        _.forEach(arr, arr => {
-          admin.push({
-            admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
-            admAddress: arr.address,
-            admContact: arr.contact,
-            admTIN: arr.TIN
-          });
-        });
-      });
+    if(this.req != null) {
+      this.isVisible_spinner = true
+      info = [];
+      owner = [];
+      admin = [];
       this.infoLs = new MatTableDataSource(info);
       this.ownerLs = new MatTableDataSource(owner);
       this.adminLs = new MatTableDataSource(admin);
-      this.isVisible_spinner = false
-    });
+      let data: any = {
+        SearchIn: this.param1,
+        SearchBy: this.param2,
+        info: this.req,
+        sysCaller: 'RPTAS'
+      }
+      this.sRec.search(data).subscribe(res => {
+        if(res.success) {
+          this.resdata = res.data;
+          let faas = this.resdata.faas;
+          let resOwner = this.resdata.owner;
+          let resAdmin = this.resdata.admin;
+          console.log(res)
+          if (faas.length > 0 || resOwner.length > 0 || resAdmin.length > 0) {
+            _.forEach(faas, arr => {
+              info.push({
+                arpNo: arr.ARPNo,
+                pin: arr.PIN,
+                surveyNo: arr.SurveyNo,
+                lotNo: arr.LotNo,
+                blockNo: arr.BlockNo,
+                streetNo: arr.StreetNo,
+                brgy: arr.Barangay,
+                subd: arr.Subdivision,
+                city: arr.City,
+                province: arr.Province,
+                class: arr.Class,
+                subclass: arr.SubClass,
+                area: arr.Area,
+                assessedVal: arr.AssessedValue,
+                stat: arr.Status
+              });
+            });
+            _.forEach(resOwner, arr => {
+              _.forEach(arr, arr => {
+                owner.push({
+                  ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+                  ownAddress: arr.address,
+                  ownContact: arr.contact,
+                  ownTIN: arr.TIN
+                });
+              });
+            });
+            _.forEach(resAdmin, arr => {
+              _.forEach(arr, arr => {
+                admin.push({
+                  admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+                  admAddress: arr.address,
+                  admContact: arr.contact,
+                  admTIN: arr.TIN
+                });
+              });
+            });
+            this.infoLs = new MatTableDataSource(info);
+            this.ownerLs = new MatTableDataSource(owner);
+            this.adminLs = new MatTableDataSource(admin);
+          } else {
+            this.matDialog.open(DialogErr, { disableClose: true, data: 'Data not found' });
+          }
+        } else {
+          this.matDialog.open(DialogErr, { disableClose: true, data: res.err });
+        }
+        this.isVisible_spinner = false
+      });
+    } else {
+      this.matDialog.open(DialogErr, { disableClose: true, data: 'Empty input' });
+    }
   }
 
   chooseInfo() {
@@ -452,5 +464,19 @@ export class DialogFaasRecTD implements OnInit {
 
   ngOnInit() {
 
+  }
+}
+
+@Component({
+  selector:'app-dialog-faas-rec-err',
+  templateUrl: './dialog-faas-rec-err.html'
+})
+export class DialogErr {
+  msg: string = '\t ' + this.data;
+  constructor(private dialogRef: MatDialogRef<DialogErr>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  close() {
+    this.dialogRef.close()
   }
 }

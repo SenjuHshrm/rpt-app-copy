@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { selectOpt } from '../interfaces/selectOpt';
+import { searchSG } from '../services/searchSG.service';
 
 @Component({
   selector: 'app-segregation',
@@ -17,7 +18,7 @@ export class SegregationComponent implements OnInit {
     { value: 'name', viewVal: 'Name' }
   ];
 
-  constructor() { }
+  constructor(private ssg: searchSG) { }
 
   ngOnInit() {
     if(!localStorage.getItem('auth')) {
@@ -26,7 +27,23 @@ export class SegregationComponent implements OnInit {
   }
 
   search() {
+    if(this.req != null) {
+      let data: any = {
+        SearchBy: this.param,
+        info: this.req,
+        SysCaller: 'RPTAS'
+      };
+      this.ssg.search(data).subscribe(res => {
+        console.log(res);
+        if (res.success) {
 
+        } else {
+
+        }
+      })
+    } else {
+      console.log('Empty input')
+    }
   }
 
 }
