@@ -42,9 +42,16 @@
       <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
     </div>
   </div>
+  <br>
+  <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px'
+    fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
+      <div [innerHTML]='clearanceTble' fxFlex='100%'>
+
+      </div>
+  </div>
 
   <!-- land info -->
-  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+  <!--<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con item item-1' fxFlex='100%'>
       <mat-label>Land info</mat-label>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
@@ -115,7 +122,7 @@
   </div>
 
   <!-- owner admin info -->
-  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+  <!--<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con-inf item item-1' fxFlex='50%'>
       <mat-label>Owner info</mat-label>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
@@ -162,8 +169,8 @@
         <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderAdm'></tr>
       </table>
     </div>
-  </div>
-
+  </div>-->
+  <br><br>
   <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div class='item item-1' fxFlex='100%'>
       <span>
