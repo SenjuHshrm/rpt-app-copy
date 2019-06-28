@@ -32,7 +32,7 @@ var ltTableInfAdmin: landTaxInfAdm[] = []
   encapsulation: ViewEncapsulation.None,
 })
 export class ClearanceComponent implements OnInit {
-  private clearanceTble = '';
+  clearanceTble = '';
 
   LTTable = new MatTableDataSource(ltTableLs);
   LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
