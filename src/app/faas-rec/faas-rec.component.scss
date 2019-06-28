@@ -18,7 +18,7 @@
 .spinnerCon {
   width: 100%;
   height: 100%;
-  @include bg-opacity(#000, 0.6)
+  @include bg-opacity(#000, 0.6);
   position: fixed;
   z-index: 1;
   top:0;
