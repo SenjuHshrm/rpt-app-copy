@@ -7,6 +7,71 @@
   margin: 0 auto;
 }
 
+.divCard {
+  background: #FFF;
+  border: 1px solid rgba(128, 128, 128, 0.8);
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px 2px rgba(128, 128, 128, 0.6);
+  margin-bottom: 10px;
+}
+
+.divHeader {
+  background: rgba(#0063EA, 0.9);
+  width: 100%;
+  height: 40px;
+  color: #FFF;
+  font-size: 15px;
+  line-height: 40px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  position: relative;
+}
+
+.cardMargin {
+  width: 95%;
+  height: auto;
+  margin: 0 auto;
+  position: relative;
+}
+
+.flex-container {
+  /*display: flex;
+  flex-wrap: nowrap;*/
+  display: grid;
+  grid-template-columns: 25% 1% 24% 1% 24% 1% 24%;
+  /*grid-column-gap: 10px;*/
+}
+
+.flex-container > div {
+  width: 100%;
+  height: auto;
+  font-size: 14px;
+}
+
+@media (max-width: 1000px) {
+  .flex-container {
+    grid-template-columns: 49% 49%;
+    grid-column-gap: 2%;
+    grid-row-gap: 2%;
+  }
+
+  .margin {
+    display: none;
+  }
+
+  .flex-container > div {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 601px) {
+  .flex-container {
+    grid-template-columns: 98%;
+    grid-row-gap: 2%;
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+}
 
 .mat-radio-button { margin: 0px 5px 0px 5px; }
 .ltax-con { width: 50%; height: 300px; overflow: auto }
