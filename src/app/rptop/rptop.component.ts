@@ -13,21 +13,14 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { sortAscendingPriority } from '@angular/flex-layout';
 
+const moment = _moment;
+
 //might put to /interfaces later
 interface rptopComp {
   yearPay: string;
   basic: string;
   pendisc: string;
   total: string;
-}
-
-const DATE_FORMATS = {
-  parse: {
-    dateInput: 'YYYY',
-  },
-  display: {
-    dateInput: 'YYYY'
-  }
 }
 
 var ltTableLs: landTaxTable[] = []
@@ -105,18 +98,31 @@ export class RPTOPComponent implements OnInit {
   ];
 
   addCompYear(){
-    this.basic = Number(this.value) * 0.1 
-    
-    //computation to be added
-    this.pendisc = 10
-    this.total = this.basic + this.pendisc
+    this.basic = Number(this.value) * 0.1;
+    this.pendisc = 0;
+
+    let monthPay = this.basic/12;
+    let penalty = 0;
+
+    for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
+        dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
+        dateCtr.add(1, 'month')){
+      
+      penalty = (Math.ceil(moment().diff(dateCtr, 'month', true)) * 2);
+      penalty = (penalty > 72) ? (72) : (penalty);
+
+      this.pendisc = this.pendisc + (penalty / 100 * monthPay);
+      
+    };
+
+    this.total = this.basic + this.pendisc;
 
     ltRptopComp.push({
       yearPay: this.yearPay,
       basic: this.basic.toString(),
       pendisc: this.pendisc.toString(),
       total: this.total.toString()
-    })
+    });
 
     this.LTTableRptopComp = new MatTableDataSource(ltRptopComp)
   }
