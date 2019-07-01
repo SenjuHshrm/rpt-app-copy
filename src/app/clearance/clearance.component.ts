@@ -28,11 +28,11 @@ var ltTableInfAdmin: landTaxInfAdm[] = []
   selector: 'app-clearance',
   templateUrl: './clearance.component.html',
   styleUrls: ['./clearance.component.scss'],
-  styles: [''],
-  encapsulation: ViewEncapsulation.None,
+  //styles: [''],
+  //encapsulation: ViewEncapsulation.None,
 })
 export class ClearanceComponent implements OnInit {
-  clearanceTble = '';
+  //clearanceTble = '';
 
   LTTable = new MatTableDataSource(ltTableLs);
   LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
@@ -167,76 +167,12 @@ export class ClearanceComponent implements OnInit {
           })
         })
       });
-      //this.LTTable = new MatTableDataSource(ltTableLs);
-      //this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
-      //this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+      this.LTTable = new MatTableDataSource(ltTableLs);
+      this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+      this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
       this.isVisible_spinner = false;
-      this.clearanceTble = '';
-
-      for (let i = 0; i <= ltTableLs.length-1; i++)
-      {
-
-        this.clearanceTble += '<div class="divCard">';
-        this.clearanceTble += '<div class="divHeader"></div><br>';
-        this.clearanceTble += '<div class="cardMargin">';
-        this.clearanceTble += '<div class="flex-container">';
-
-        this.clearanceTble += '<div>';
-        this.clearanceTble += '<div><b>ARP No:</b>&nbsp;&nbsp;' + ltTableLs[i].arpNo + '</div>';
-        this.clearanceTble += '<div><b>PIN:</b>&nbsp;&nbsp;' + ltTableLs[i].pin + '</div>';
-        this.clearanceTble += '<div><b>Survey No:</b>&nbsp;&nbsp;' + ltTableLs[i].surveyNo + '</div>';
-        this.clearanceTble += '<div><b>Lot No:</b>&nbsp;&nbsp;' + ltTableLs[i].lotNo + '</div>';
-        this.clearanceTble += '<div><b>Block No:</b>&nbsp;&nbsp;' + ltTableLs[i].blockNo + '</div>';
-        this.clearanceTble += '<div><b>Street No:</b>&nbsp;&nbsp;' + ltTableLs[i].streetNo + '</div>';
-        this.clearanceTble += '<div><b>Brgy:</b>&nbsp;&nbsp;' + ltTableLs[i].brgy + '</div>';
-        this.clearanceTble += '<div><b>Subd:</b>&nbsp;&nbsp;' + ltTableLs[i].subd + '</div>';
-        this.clearanceTble += '<div><b>City:</b>&nbsp;&nbsp;' + ltTableLs[i].city + '</div>';
-        this.clearanceTble += '<div><b>Province:</b>&nbsp;&nbsp;' + ltTableLs[i].province + '</div>';
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '<div class="margin"></div>';
-
-        this.clearanceTble += '<div>'
-        this.clearanceTble += '<div><b>Class:</b>&nbsp;&nbsp;' + ltTableLs[i].class + '</div>';
-        this.clearanceTble += '<div><b>Sub Class:</b>&nbsp;&nbsp;' + ltTableLs[i].subclass + '</div>';
-        this.clearanceTble += '<div><b>Area:</b>&nbsp;&nbsp;' + ltTableLs[i].area + '</div>';
-        this.clearanceTble += '<div><b>Assessed Value:</b>&nbsp;&nbsp;' + ltTableLs[i].assessedVal + '</div>';
-        this.clearanceTble += '<div><b>Status:</b>&nbsp;&nbsp;' + ltTableLs[i].stat + '</div>';
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '<div class="margin"></div>';
-
-        this.clearanceTble += '<div>';
-        this.clearanceTble += '<div><b>Owner Info:</b></div>';
-          for (let ii = i; ii <= ltTableLs.length; ii++)
-          {
-            console.log(ii);
-            this.clearanceTble += '<div><b>Name:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownName + '</div>';
-            this.clearanceTble += '<div><b>Address:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownAddress + '</div>';
-            this.clearanceTble += '<div><b>Contact:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownContact + '</div>';
-            this.clearanceTble += '<div><b>TIN:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownTIN + '</div><br>';
-          }
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '<div class="margin"></div>';
-
-        this.clearanceTble += '<div>';
-        this.clearanceTble += '<div><b>Admin Info:</b></div>';
-        for (let iii = i; iii <= ltTableLs.length; iii++)
-        {
-          this.clearanceTble += '<div><b>Name:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admName + '</div>';
-          this.clearanceTble += '<div><b>Address:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admAddress + '</div>';
-          this.clearanceTble += '<div><b>Contact:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admContact + '</div>';
-          this.clearanceTble += '<div><b>TIN:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admTIN + '</div><br>';
-        }
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '</div><br>';
-        this.clearanceTble += '</div><br>';
-      }
 
     });
-  }
-
-  test() {
-    alert('adf');
   }
 
   genCl() {
