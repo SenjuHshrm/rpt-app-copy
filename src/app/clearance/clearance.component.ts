@@ -4,6 +4,7 @@ import { searchRec } from '../services/searchFaasRec.service';
 import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
+import { landTaxTableBldg } from '../interfaces/landTaxTableBldg';
 import { getPosHolders } from '../services/getPosHolders'
 import { MatTableDataSource } from '@angular/material';
 import { lTaxClearance } from '../classes/lTaxClearance';
@@ -21,6 +22,7 @@ import { getClFile } from '../services/getClFile.service';
 import { Router } from '@angular/router';
 
 var ltTableLs: landTaxTable[] = []
+var ltTableBldgLs: landTaxTableBldg[] = []
 var ltTableInfOwner: landTaxInfOwn[] = []
 var ltTableInfAdmin: landTaxInfAdm[] = []
 
@@ -38,6 +40,8 @@ export class ClearanceComponent implements OnInit {
   LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
   LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
 
+  LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+
   input1: string;
   amount: string;
   CTONo: string;
@@ -51,12 +55,19 @@ export class ClearanceComponent implements OnInit {
   orNo: string;
   remarks: string;
   posHolders: any;
+	selectedRow = [];
 
 
   lTaxHeader: string[] = [
     'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',
     'streetNo', 'brgy', 'subd', 'city', 'province',
     'class', 'subclass', 'area', 'assessedVal', 'stat'
+  ];
+
+  lTaxBldgHeader: string[] = [
+    'arpNo', 'pin', 'brgy', 'subd', 'city',
+    'province', 'kind', 'structType', 'bldgPermit', 'dateConstr',
+    'storey', 'actualUse', 'assessedVal'
   ];
 
   lTaxInfHeaderOwn: string[] = [
@@ -107,15 +118,22 @@ export class ClearanceComponent implements OnInit {
     { value: 's5', viewVal: 'Others: For whatever legal purpose' },
   ]
 
+	tableRowSelected(row: any) {
+		this.selectedRow.push(row);
+		console.log(row);
+	}
+
   isVisible_spinner = false
   search() {
     this.isVisible_spinner = true;
     ltTableLs = []
+    ltTableBldgLs = []
     ltTableInfOwner = []
     ltTableInfAdmin = []
     this.LTTable = new MatTableDataSource(ltTableLs);
     this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
     this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+    this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
     let reqdata: any = {
       SearchIn: this.param1,
       SearchBy: this.param2,
@@ -128,25 +146,50 @@ export class ClearanceComponent implements OnInit {
       let owner = resdata.owner;
       let admin = resdata.admin;
       console.table(resdata);
-      _.forEach(faas, arr => {
-        ltTableLs.push({
-          arpNo: arr.ARPNo,
-          pin: arr.PIN,
-          surveyNo: arr.SurveyNo,
-          lotNo: arr.LotNo,
-          blockNo: arr.BlockNo,
-          streetNo: arr.StreetNo,
-          brgy: arr.Barangay,
-          subd: arr.Subdivision,
-          city: arr.City,
-          province: arr.Province,
-          class: arr.Class,
-          subclass: arr.SubClass,
-          area: arr.Area,
-          assessedVal: arr.AssessedValue,
-          stat: arr.Status
-        });
-      });
+      switch(this.param1) {
+        case 'land':
+          _.forEach(faas, arr => {
+            ltTableLs.push({
+              arpNo: arr.ARPNo,
+              pin: arr.PIN,
+              surveyNo: arr.SurveyNo,
+              lotNo: arr.LotNo,
+              blockNo: arr.BlockNo,
+              streetNo: arr.StreetNo,
+              brgy: arr.Barangay,
+              subd: arr.Subdivision,
+              city: arr.City,
+              province: arr.Province,
+              class: arr.Class,
+              subclass: arr.SubClass,
+              area: arr.Area,
+              assessedVal: arr.AssessedValue,
+              stat: arr.Status
+            });
+          });
+          this.LTTable = new MatTableDataSource(ltTableLs);
+          break;
+        case 'building':
+          _.forEach(faas, arr => {
+            ltTableBldgLs.push({
+              arpNo: arr.ARPNo,
+              pin: arr.PIN,
+              brgy: arr.Barangay,
+              subd: arr.Subdivision,
+              city: arr.City,
+              province: arr.Province,
+              kind: arr.Kind,
+              structType: arr.StructuralType,
+              bldgPermit: arr.BldgPermit,
+              dateConstr: arr.DateConstructed,
+              storey: arr.Storey,
+              actualUse: arr.ActualUse,
+              assessedVal: arr.AssessedValue
+            });
+          });
+          this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+          break;
+      }
       _.forEach(owner, arr => {
         _.forEach(arr, arr => {
           ltTableInfOwner.push({
@@ -167,7 +210,7 @@ export class ClearanceComponent implements OnInit {
           })
         })
       });
-      this.LTTable = new MatTableDataSource(ltTableLs);
+
       this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
       this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
       this.isVisible_spinner = false;
@@ -179,11 +222,11 @@ export class ClearanceComponent implements OnInit {
     console.log(this.date);
     let data: lTaxClearance = {
       current_date: moment(new Date).format('MM-DD-YYYY'),
-      owner_names: this.getOwners(),
-      pin: ltTableLs[0].pin,
-      arp_no: ltTableLs[0].arpNo,
-      location: ltTableLs[0].brgy + ', ' + ltTableLs[0].city + ', ' + ltTableLs[0].province,
-      assessed_value: ltTableLs[0].assessedVal,
+      owner_names: ' ',
+      pin: ' ',
+      arp_no: ' ',
+      location: ' ',
+      assessed_value: ' ',
       payment_reason: this.input1,
       total_amount: this.amount,
       cto_no: this.CTONo,
@@ -222,31 +265,15 @@ export class ClearanceComponent implements OnInit {
         data.s5 = 'x';
         break;
     }
+		// switch(this.param1) {
+		// 	case 'land':
+		//
+		// 		break;
+		// 	case 'building':
+		//
+		// 		break;
+		// }
     this.genCL.loadFile(data);
-    // JSZipUtils.getBinaryContent('../assets/temp/clearance_template.docx', (err, cont) => {
-    //   if (err) { throw err; }
-    //   const zip = new JSZip(cont);
-    //   const doc = new docxtemplater().loadZip(zip)
-    //   doc.setData(data)
-    //   try {
-    //     doc.render()
-    //   } catch (e) {
-    //     console.log(JSON.stringify({ error: e }))
-    //     throw e;
-    //   }
-    //   let outFile = doc.getZip().generate({
-    //     type: 'base64',
-    //     mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    //   });
-    //   let fileName = 'LTC_' + data.pin + '_' + new Date().toString();
-      // let updData:any = {
-      //   'file': outFile,
-      //   'filename': fileName
-      // }
-      // this.upd.uploadCl(updData).subscribe(res => {
-      //   (res.res) ? this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: updData }) : undefined;
-      // });
-    // });
   }
 
   getOwners(): string {
