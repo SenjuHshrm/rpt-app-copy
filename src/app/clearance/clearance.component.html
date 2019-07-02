@@ -179,7 +179,9 @@
           <td mat-cell *matCellDef='let data'>{{ data.assessedVal }}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef='lTaxBldgHeader'></tr>
-        <tr mat-row *matRowDef='let row; columns: lTaxBldgHeader'></tr>
+        <tr mat-row *matRowDef='let row; columns: lTaxBldgHeader'
+					(click)='tableRowSelected(row)'
+					[style.background]="selectedRow.indexOf(row) != -1 ? 'lightblue' : ''"></tr>
       </table>
     </div>
   </div>

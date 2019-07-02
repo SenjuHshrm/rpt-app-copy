@@ -56,6 +56,12 @@ export class ClearanceComponent implements OnInit {
   remarks: string;
   posHolders: any;
 	selectedRow = [];
+	selectedOwner = [];
+	selectedAdmin = [];
+
+	faas: any;
+	owner: any;
+	admin: any;
 
 
   lTaxHeader: string[] = [
@@ -119,8 +125,47 @@ export class ClearanceComponent implements OnInit {
   ]
 
 	tableRowSelected(row: any) {
+		ltTableInfOwner = [];
+		ltTableInfAdmin = [];
+		this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+		this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+		this.selectedRow = [];
+		this.selectedOwner = [];
+		this.selectedAdmin = [];
 		this.selectedRow.push(row);
-		console.log(row);
+		let ind: number;
+		if(this.param1 == 'land') {
+			ind = ltTableLs.indexOf(row);
+		} else {
+			ind = ltTableBldgLs.indexOf(row);
+		}
+		_.forEach(this.owner[ind], (arr: any) => {
+			ltTableInfOwner.push({
+				ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+				ownAddress: arr.address,
+				ownContact: arr.contact_no,
+				ownTIN: arr.TIN
+			});
+		});
+		_.forEach(ltTableInfOwner, (arr: any) => {
+			this.selectedOwner.push(arr);
+		})
+		_.forEach(ltTableInfAdmin, (arr: any) => {
+			this.selectedAdmin.push(arr);
+		})
+		_.forEach(this.admin[ind], (arr: any) => {
+			ltTableInfAdmin.push({
+				admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+				admAddress: arr.address,
+				admContact: arr.contact_no,
+				admTIN: arr.TIN
+			});
+		});
+		this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+		this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+		console.table(this.selectedRow);
+		console.table(this.selectedOwner);
+		console.table(this.selectedAdmin);
 	}
 
   isVisible_spinner = false
@@ -142,13 +187,13 @@ export class ClearanceComponent implements OnInit {
     }
     this.srchRec.search(reqdata).subscribe(res => {
       let resdata = res.data;
-      let faas = resdata.faas;
-      let owner = resdata.owner;
-      let admin = resdata.admin;
+      this.faas = resdata.faas;
+      this.owner = resdata.owner;
+      this.admin = resdata.admin;
       console.table(resdata);
       switch(this.param1) {
         case 'land':
-          _.forEach(faas, arr => {
+          _.forEach(this.faas, (arr: any)=> {
             ltTableLs.push({
               arpNo: arr.ARPNo,
               pin: arr.PIN,
@@ -170,7 +215,7 @@ export class ClearanceComponent implements OnInit {
           this.LTTable = new MatTableDataSource(ltTableLs);
           break;
         case 'building':
-          _.forEach(faas, arr => {
+          _.forEach(this.faas, (arr: any) => {
             ltTableBldgLs.push({
               arpNo: arr.ARPNo,
               pin: arr.PIN,
@@ -190,31 +235,7 @@ export class ClearanceComponent implements OnInit {
           this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
           break;
       }
-      _.forEach(owner, arr => {
-        _.forEach(arr, arr => {
-          ltTableInfOwner.push({
-            ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
-            ownAddress: arr.address,
-            ownContact: arr.contact,
-            ownTIN: arr.TIN
-          })
-        })
-      });
-      _.forEach(admin, arr => {
-        _.forEach(arr, arr => {
-          ltTableInfAdmin.push({
-            admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
-            admAddress: arr.address,
-            admContact: arr.contact,
-            admTIN: arr.TIN
-          })
-        })
-      });
-
-      this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
-      this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
       this.isVisible_spinner = false;
-
     });
   }
 
