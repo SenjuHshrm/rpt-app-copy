@@ -13,6 +13,7 @@ import { SetAuthRoute } from '../services/auth.service';
 export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
+	public loginStat: string;
 
   constructor(
     private auth: login,
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit {
       this.auth.authenticateUser(data).subscribe(res => {
         if(!res.success){
           this.loginErr = true
+					this.loginStat = res.status
         } else {
           this.isVisible_spinner = true
           this.setRoute.storeToken(res.token)

@@ -20,7 +20,6 @@ export class SetAuthRoute {
       name: token.name,
       username: token.username
     }
-    console.log(tokenObj)
     window.location.href = '/user/' + tokenObj.username;
   }
 

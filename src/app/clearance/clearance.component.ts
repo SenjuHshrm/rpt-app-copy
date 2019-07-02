@@ -247,11 +247,11 @@ export class ClearanceComponent implements OnInit {
     console.log(this.date);
     let data: lTaxClearance = {
       current_date: moment(new Date).format('MM-DD-YYYY'),
-      owner_names: ' ',
-      pin: ' ',
-      arp_no: ' ',
-      location: ' ',
-      assessed_value: ' ',
+      owner_names: this.getOwners(),
+      pin: this.selectedRow[0].pin,
+      arp_no: this.selectedRow[0].arpNo,
+      location: this.selectedRow[0].brgy + ', ' + this.selectedRow[0].city + ', ' + this.selectedRow[0].province,
+      assessed_value: this.selectedRow[0].assessedVal,
       payment_reason: this.input1,
       total_amount: this.amount,
       cto_no: this.CTONo,
@@ -290,14 +290,6 @@ export class ClearanceComponent implements OnInit {
         data.s5 = 'x';
         break;
     }
-		// switch(this.param1) {
-		// 	case 'land':
-		//
-		// 		break;
-		// 	case 'building':
-		//
-		// 		break;
-		// }
     this.genCL.loadFile(data);
   }
 
