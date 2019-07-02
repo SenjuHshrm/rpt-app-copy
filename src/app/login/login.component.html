@@ -27,7 +27,7 @@
 		</div>
 		<div class="item item-2" fxFlex='50%'>
 			<div class='rptTitle'><span>Real Property Tax</span></div>
-			<div class="loginError"><span *ngIf='loginErr'>Login failed</span></div>
+			<div class="loginError"><span *ngIf='loginErr'>{{ loginStat }}</span></div>
 			<form [formGroup]='loginForm' (ngSubmit)='login(loginForm.value)' novalidate>
 			<mat-card-content>
 				<div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='1px'>

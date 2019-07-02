@@ -170,84 +170,89 @@ export class ClearanceComponent implements OnInit {
 
   isVisible_spinner = false
   search() {
-    this.isVisible_spinner = true;
-    ltTableLs = []
-    ltTableBldgLs = []
-    ltTableInfOwner = []
-    ltTableInfAdmin = []
-    this.LTTable = new MatTableDataSource(ltTableLs);
-    this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
-    this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
-    this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
-    let reqdata: any = {
-      SearchIn: this.param1,
-      SearchBy: this.param2,
-      info: this.req,
-      sysCaller: 'LAND TAX'
-    }
-    this.srchRec.search(reqdata).subscribe(res => {
-      let resdata = res.data;
-      this.faas = resdata.faas;
-      this.owner = resdata.owner;
-      this.admin = resdata.admin;
-      console.table(resdata);
-      switch(this.param1) {
-        case 'land':
-          _.forEach(this.faas, (arr: any)=> {
-            ltTableLs.push({
-              arpNo: arr.ARPNo,
-              pin: arr.PIN,
-              surveyNo: arr.SurveyNo,
-              lotNo: arr.LotNo,
-              blockNo: arr.BlockNo,
-              streetNo: arr.StreetNo,
-              brgy: arr.Barangay,
-              subd: arr.Subdivision,
-              city: arr.City,
-              province: arr.Province,
-              class: arr.Class,
-              subclass: arr.SubClass,
-              area: arr.Area,
-              assessedVal: arr.AssessedValue,
-              stat: arr.Status
-            });
-          });
-          this.LTTable = new MatTableDataSource(ltTableLs);
-          break;
-        case 'building':
-          _.forEach(this.faas, (arr: any) => {
-            ltTableBldgLs.push({
-              arpNo: arr.ARPNo,
-              pin: arr.PIN,
-              brgy: arr.Barangay,
-              subd: arr.Subdivision,
-              city: arr.City,
-              province: arr.Province,
-              kind: arr.Kind,
-              structType: arr.StructuralType,
-              bldgPermit: arr.BldgPermit,
-              dateConstr: arr.DateConstructed,
-              storey: arr.Storey,
-              actualUse: arr.ActualUse,
-              assessedVal: arr.AssessedValue
-            });
-          });
-          this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
-          break;
-      }
-      this.isVisible_spinner = false;
-    });
+		if(this.req != null) {
+			this.isVisible_spinner = true;
+	    ltTableLs = []
+	    ltTableBldgLs = []
+	    ltTableInfOwner = []
+	    ltTableInfAdmin = []
+	    this.LTTable = new MatTableDataSource(ltTableLs);
+	    this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+	    this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+	    this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+	    let reqdata: any = {
+	      SearchIn: this.param1,
+	      SearchBy: this.param2,
+	      info: this.req,
+	      sysCaller: 'LAND TAX'
+	    }
+	    this.srchRec.search(reqdata).subscribe(res => {
+	      let resdata = res.data;
+	      this.faas = resdata.faas;
+	      this.owner = resdata.owner;
+	      this.admin = resdata.admin;
+	      console.table(resdata);
+	      switch(this.param1) {
+	        case 'land':
+	          _.forEach(this.faas, (arr: any)=> {
+	            ltTableLs.push({
+	              arpNo: arr.ARPNo,
+	              pin: arr.PIN,
+	              surveyNo: arr.SurveyNo,
+	              lotNo: arr.LotNo,
+	              blockNo: arr.BlockNo,
+	              streetNo: arr.StreetNo,
+	              brgy: arr.Barangay,
+	              subd: arr.Subdivision,
+	              city: arr.City,
+	              province: arr.Province,
+	              class: arr.Class,
+	              subclass: arr.SubClass,
+	              area: arr.Area,
+	              assessedVal: arr.AssessedValue,
+	              stat: arr.Status
+	            });
+	          });
+	          this.LTTable = new MatTableDataSource(ltTableLs);
+	          break;
+	        case 'building':
+	          _.forEach(this.faas, (arr: any) => {
+	            ltTableBldgLs.push({
+	              arpNo: arr.ARPNo,
+	              pin: arr.PIN,
+	              brgy: arr.Barangay,
+	              subd: arr.Subdivision,
+	              city: arr.City,
+	              province: arr.Province,
+	              kind: arr.Kind,
+	              structType: arr.StructuralType,
+	              bldgPermit: arr.BldgPermit,
+	              dateConstr: arr.DateConstructed,
+	              storey: arr.Storey,
+	              actualUse: arr.ActualUse,
+	              assessedVal: arr.AssessedValue
+	            });
+	          });
+	          this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+	          break;
+	      }
+	      this.isVisible_spinner = false;
+	    });
+		} else {
+
+		}
+
   }
 
   genCl() {
     console.log(this.date);
     let data: lTaxClearance = {
       current_date: moment(new Date).format('MM-DD-YYYY'),
-      owner_names: ' ',
-      pin: ' ',
-      arp_no: ' ',
-      location: ' ',
-      assessed_value: ' ',
+      owner_names: this.getOwners(),
+      pin: this.selectedRow[0].pin,
+      arp_no: this.selectedRow[0].arpNo,
+      location: this.selectedRow[0].brgy + ', ' + this.selectedRow[0].city + ', ' + this.selectedRow[0].province,
+      assessed_value: this.selectedRow[0].assessedVal,
       payment_reason: this.input1,
       total_amount: this.amount,
       cto_no: this.CTONo,
@@ -286,14 +291,6 @@ export class ClearanceComponent implements OnInit {
         data.s5 = 'x';
         break;
     }
-		// switch(this.param1) {
-		// 	case 'land':
-		//
-		// 		break;
-		// 	case 'building':
-		//
-		// 		break;
-		// }
     this.genCL.loadFile(data);
   }
 
