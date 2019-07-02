@@ -39,16 +39,12 @@
       <mat-form-field class='item item-1' fxFlex='40%'>
         <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
       </mat-form-field>
-      <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
+      <div fxFlex='15%' (mousedown)="clicked='true'" (mouseup)="clicked='false'">
+      <button mat-raised-button class='item item-2' color='primary' [ngClass]="{ 'srchBtnClckd': clicked, 'srchBtnDefault': !clicked }" (click)='search();'>Search</button>
+      </div>
     </div>
   </div>
   <br>
-  <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px'
-    fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
-      <!--<div [innerHTML]='clearanceTble' fxFlex='100%'>
-
-      </div>-->
-  </div>
 
   <!-- land info -->
   <div *ngIf="(param1=='land')" class='container tbleBrdr' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
@@ -117,7 +113,7 @@
           <td mat-cell *matCellDef='let data'>{{ data.stat }}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef='lTaxHeader'></tr>
-        <tr mat-row *matRowDef='let row; columns: lTaxHeader'
+        <tr class="clrnceTr" mat-row *matRowDef='let row; columns: lTaxHeader'
 					(click)='tableRowSelected(row)'
 					[style.background]="selectedRow.indexOf(row) != -1 ? 'lightblue' : ''"></tr>
       </table>
@@ -241,90 +237,99 @@
       </table>
     </div>
   </div>
-  <br><br>
-  <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-    <div class='item item-1' fxFlex='100%'>
-      <span>
-        The latest payment of the tax of the above-described property is for the&nbsp;&nbsp;&nbsp;
-      </span>
+  <br><br><hr>
+  <div class="divCard">
+    <div class="divHeader">&nbsp;&nbsp;Clearance</div>
+
+    <div class="clrnce">
+      <div class="clrnceTxt">
+      <span>&nbsp;The latest payment of the tax of the above-described property is for the for the&nbsp;</span>
       <mat-form-field>
         <input matInput type='text' [(ngModel)]='input1'>
       </mat-form-field>
-      <span>&nbsp;&nbsp;&nbsp;for the total amount of P&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='amount'>
-      </mat-form-field>
-    </div>
-    <div class='item item-2' fxFlex='100%'>
-      <span>
-        acknowledge under Real Estate Tax Receipt No. CTO.&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='CTONo'>
-      </mat-form-field>
-      <span>
-        &nbsp;&nbsp;&nbsp;dated&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
-        <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
-        <mat-datepicker #cdated></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class='item item-3' fxFlex='100%'>
-      <span>
-        This certification has been issued upon the request of&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='requestor'>
-      </mat-form-field>
-      <span>
-        &nbsp;&nbsp;&nbsp;for the purpose of:&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <!-- <input matInput type='text' [(ngModel)]='purpose'> -->
+       <span>&nbsp;total amount of &#x20B1;:&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [(ngModel)]='amount'>
+       </mat-form-field>
+       <span>&nbsp;acknowledge under Real Estate Tax Receipt No. CTO.&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [(ngModel)]='CTONo'>
+       </mat-form-field>
+       <span>&nbsp;dated:&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
+         <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
+         <mat-datepicker #cdated></mat-datepicker>
+       </mat-form-field>
+       <br>
+       <span>&nbsp;This certification has been issued upon the request of&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [(ngModel)]='requestor'>
+       </mat-form-field>
+       <span>&nbsp;for the purpose of:&nbsp;</span>
+       <mat-form-field>
         <mat-select [(ngModel)]='purpose'>
-          <mat-option *ngFor='let prp of prps' [value]='prp.value'>{{ prp.viewVal }}</mat-option>
+         <mat-option *ngFor='let prp of prps' [value]='prp.value'>{{ prp.viewVal }}</mat-option>
         </mat-select>
-      </mat-form-field>
+       </mat-form-field>
+      </div>
+       <br><div class="hrDashed"></div><br>
+
+       <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+         <div fxFlex='50%'>
+           <span>Verified by:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [(ngModel)]='encoder1'>
+           </mat-form-field>
+         </div>
+         <div fxFlex='50%'>
+           <span>Date:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
+             <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
+             <mat-datepicker #currdate></mat-datepicker>
+           </mat-form-field>
+         </div>
+       </div>
+
+       <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+         <div fxFlex='50%'>
+           <span>Certification Fee:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [(ngModel)]='certfee'>
+           </mat-form-field>
+         </div>
+
+         <div fxFlex='50%'>
+           <span>Amount:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [(ngModel)]='amt'>
+           </mat-form-field>
+         </div>
+      </div>
+
+      <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+        <div fxFlex='50%'>
+          <span>O.R. No.:&nbsp;&nbsp;&nbsp;</span>
+          <mat-form-field>
+            <input matInput type='text' [(ngModel)]='orNo'>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <br><div class="hrDashed"></div><br>
+
+      <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+        <mat-form-field fxFlex='100%'>
+          <textarea matInput placeholder='Remarks' [(ngModel)]='remarks'></textarea>
+        </mat-form-field>
+      </div>
+      <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px' fxLayoutAlign='center'>
+        <div fxFlex='40%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false'>
+        <button [ngClass]="{ 'genClBtnMd': clckd, 'genClBtn': !clckd }" mat-raised-button color='primary' type='button' (click)='genCl()'>Generate Clearance</button>
+        </div>
+      </div>
     </div>
-    <br>
-    <div class='item item-4' fxFlex='100%'>
-      <span>
-        Verified by:&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='encoder1'>
-      </mat-form-field>
-      <span>&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
-        <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
-        <mat-datepicker #currdate></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class='item item-5' fxFlex='100%'>
-      <span>
-        Certification Fee:&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='certfee'>
-      </mat-form-field>
-      <span>&nbsp;&nbsp;&nbsp;Amount:&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='amt'>
-      </mat-form-field>
-    </div>
-    <div class='item item-6' fxFlex='100%'>
-      <span>O.R. No.:&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='orNo'>
-      </mat-form-field>
-    </div>
-    <mat-form-field class='item item-7' fxFlex='100%'>
-      <textarea matInput placeholder='Remarks' [(ngModel)]='remarks'></textarea>
-    </mat-form-field>
-    <button mat-raised-button color='primary' type='button' (click)='genCl()'>Generate Clearance</button>
   </div>
 </div>
 <br><br>

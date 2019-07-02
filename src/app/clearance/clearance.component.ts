@@ -168,8 +168,11 @@ export class ClearanceComponent implements OnInit {
 		console.table(this.selectedAdmin);
 	}
 
+  clicked = false
+  clckd = false
   isVisible_spinner = false
   search() {
+    this.clicked = false;
     this.isVisible_spinner = true;
     ltTableLs = []
     ltTableBldgLs = []
@@ -236,6 +239,7 @@ export class ClearanceComponent implements OnInit {
           break;
       }
       this.isVisible_spinner = false;
+      this.clicked = false;
     });
   }
 
