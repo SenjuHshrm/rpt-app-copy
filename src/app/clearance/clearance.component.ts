@@ -34,7 +34,6 @@ var ltTableInfAdmin: landTaxInfAdm[] = []
   //encapsulation: ViewEncapsulation.None,
 })
 export class ClearanceComponent implements OnInit {
-  //clearanceTble = '';
 
   LTTable = new MatTableDataSource(ltTableLs);
   LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
@@ -168,7 +167,7 @@ export class ClearanceComponent implements OnInit {
 		console.table(this.selectedAdmin);
 	}
 
-  clicked = false
+  clicked: boolean = false;
   clckd = false
   isVisible_spinner = false
   search() {

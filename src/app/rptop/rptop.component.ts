@@ -40,6 +40,8 @@ export class RPTOPComponent implements OnInit {
   LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
   LTTableRptopComp = new MatTableDataSource(ltRptopComp);
 
+	isVisible_spinner: boolean;
+
   encoder1: string;
   posHolders: any;
 
@@ -97,6 +99,10 @@ export class RPTOPComponent implements OnInit {
     { value: 'name', viewVal: 'Name' },
   ];
 
+	search() {
+		
+	}
+
   addCompYear(){
     this.basic = Number(this.value) * 0.1;
     this.pendisc = 0;
@@ -107,12 +113,12 @@ export class RPTOPComponent implements OnInit {
     for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
         dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
         dateCtr.add(1, 'month')){
-      
+
       penalty = (Math.ceil(moment().diff(dateCtr, 'month', true)) * 2);
       penalty = (penalty > 72) ? (72) : (penalty);
 
       this.pendisc = this.pendisc + (penalty / 100 * monthPay);
-      
+
     };
 
     this.total = this.basic + this.pendisc;
