@@ -168,80 +168,79 @@ export class ClearanceComponent implements OnInit {
 		console.table(this.selectedAdmin);
 	}
 
+  clicked = false
+  clckd = false
   isVisible_spinner = false
   search() {
-		if(this.req != null) {
-			this.isVisible_spinner = true;
-	    ltTableLs = []
-	    ltTableBldgLs = []
-	    ltTableInfOwner = []
-	    ltTableInfAdmin = []
-	    this.LTTable = new MatTableDataSource(ltTableLs);
-	    this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
-	    this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
-	    this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
-	    let reqdata: any = {
-	      SearchIn: this.param1,
-	      SearchBy: this.param2,
-	      info: this.req,
-	      sysCaller: 'LAND TAX'
-	    }
-	    this.srchRec.search(reqdata).subscribe(res => {
-	      let resdata = res.data;
-	      this.faas = resdata.faas;
-	      this.owner = resdata.owner;
-	      this.admin = resdata.admin;
-	      console.table(resdata);
-	      switch(this.param1) {
-	        case 'land':
-	          _.forEach(this.faas, (arr: any)=> {
-	            ltTableLs.push({
-	              arpNo: arr.ARPNo,
-	              pin: arr.PIN,
-	              surveyNo: arr.SurveyNo,
-	              lotNo: arr.LotNo,
-	              blockNo: arr.BlockNo,
-	              streetNo: arr.StreetNo,
-	              brgy: arr.Barangay,
-	              subd: arr.Subdivision,
-	              city: arr.City,
-	              province: arr.Province,
-	              class: arr.Class,
-	              subclass: arr.SubClass,
-	              area: arr.Area,
-	              assessedVal: arr.AssessedValue,
-	              stat: arr.Status
-	            });
-	          });
-	          this.LTTable = new MatTableDataSource(ltTableLs);
-	          break;
-	        case 'building':
-	          _.forEach(this.faas, (arr: any) => {
-	            ltTableBldgLs.push({
-	              arpNo: arr.ARPNo,
-	              pin: arr.PIN,
-	              brgy: arr.Barangay,
-	              subd: arr.Subdivision,
-	              city: arr.City,
-	              province: arr.Province,
-	              kind: arr.Kind,
-	              structType: arr.StructuralType,
-	              bldgPermit: arr.BldgPermit,
-	              dateConstr: arr.DateConstructed,
-	              storey: arr.Storey,
-	              actualUse: arr.ActualUse,
-	              assessedVal: arr.AssessedValue
-	            });
-	          });
-	          this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
-	          break;
-	      }
-	      this.isVisible_spinner = false;
-	    });
-		} else {
-
-		}
-
+    this.clicked = false;
+    this.isVisible_spinner = true;
+    ltTableLs = []
+    ltTableBldgLs = []
+    ltTableInfOwner = []
+    ltTableInfAdmin = []
+    this.LTTable = new MatTableDataSource(ltTableLs);
+    this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+    this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+    this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+    let reqdata: any = {
+      SearchIn: this.param1,
+      SearchBy: this.param2,
+      info: this.req,
+      sysCaller: 'LAND TAX'
+    }
+    this.srchRec.search(reqdata).subscribe(res => {
+      let resdata = res.data;
+      this.faas = resdata.faas;
+      this.owner = resdata.owner;
+      this.admin = resdata.admin;
+      console.table(resdata);
+      switch(this.param1) {
+        case 'land':
+          _.forEach(this.faas, (arr: any)=> {
+            ltTableLs.push({
+              arpNo: arr.ARPNo,
+              pin: arr.PIN,
+              surveyNo: arr.SurveyNo,
+              lotNo: arr.LotNo,
+              blockNo: arr.BlockNo,
+              streetNo: arr.StreetNo,
+              brgy: arr.Barangay,
+              subd: arr.Subdivision,
+              city: arr.City,
+              province: arr.Province,
+              class: arr.Class,
+              subclass: arr.SubClass,
+              area: arr.Area,
+              assessedVal: arr.AssessedValue,
+              stat: arr.Status
+            });
+          });
+          this.LTTable = new MatTableDataSource(ltTableLs);
+          break;
+        case 'building':
+          _.forEach(this.faas, (arr: any) => {
+            ltTableBldgLs.push({
+              arpNo: arr.ARPNo,
+              pin: arr.PIN,
+              brgy: arr.Barangay,
+              subd: arr.Subdivision,
+              city: arr.City,
+              province: arr.Province,
+              kind: arr.Kind,
+              structType: arr.StructuralType,
+              bldgPermit: arr.BldgPermit,
+              dateConstr: arr.DateConstructed,
+              storey: arr.Storey,
+              actualUse: arr.ActualUse,
+              assessedVal: arr.AssessedValue
+            });
+          });
+          this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+          break;
+      }
+      this.isVisible_spinner = false;
+      this.clicked = false;
+    });
   }
 
   genCl() {
