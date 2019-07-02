@@ -10,6 +10,7 @@ import { stripInfo } from '../interfaces/stripInfo';
 import { improvementInfo } from '../interfaces/improvementInfo';
 import { marketValue } from '../interfaces/marketValue';
 import { pincheck } from '../services/pincheck.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -365,12 +366,16 @@ export class LandAssessmentComponent implements OnInit {
 
   addStrip(grp: any) {
     let stripData = grp.value
+
+    let adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (stripData.adjustment / 100));
+    let stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
+
     stripInf.push({
       stripNum: stripData.stripNo,
       stripArea: stripData.stripArea,
       adjustment: stripData.adjustment,
-      adjustedBaseRate: '',
-      stripMarkVal: ''
+      adjustedBaseRate: adjustedBaseRate.toString(),
+      stripMarkVal: stripMarkVal.toString()
     })
     this.stripSetInfo = new MatTableDataSource(stripInf)
     Object.keys(grp.controls).forEach(key => {
@@ -378,10 +383,18 @@ export class LandAssessmentComponent implements OnInit {
         grp.controls[key].reset()
       }
     })
+
+    this.stripComp();
   }
 
   stripComp() {
+    let totalMarketVal = 0;
 
+    for (let strip of stripInf) {
+      totalMarketVal += Number(strip.stripMarkVal);
+    }
+
+    
   }
 
   addImp(grp: any) {
