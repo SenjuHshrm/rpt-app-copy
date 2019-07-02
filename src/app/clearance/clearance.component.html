@@ -51,9 +51,10 @@
   </div>
 
   <!-- land info -->
-  <div *ngIf="(param1=='land')" class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+  <div *ngIf="(param1=='land')" class='container tbleBrdr' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con item item-1' fxFlex='100%'>
-      <mat-label>Land info</mat-label>
+      <mat-label class="label">Land info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
         <ng-container matColumnDef='arpNo'>
           <th mat-header-cell *matHeaderCellDef>ARP No.</th>
@@ -124,7 +125,8 @@
   </div>
   <div *ngIf="(param1=='building')" class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con item item-1' fxFlex='100%'>
-      <label>Building Info</label>
+      <label class="label">Building Info</label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableBldg'>
         <ng-container matColumnDef='arpNo'>
           <th mat-header-cell *matHeaderCellDef>ARP No.</th>
@@ -185,11 +187,14 @@
       </table>
     </div>
   </div>
-
+  <br>
+  <hr>
+  <br>
   <!-- owner admin info -->
   <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con-inf item item-1' fxFlex='50%'>
-      <mat-label>Owner info</mat-label>
+      <mat-label class="label">Owner info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
         <ng-container matColumnDef='ownName'>
           <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -212,7 +217,8 @@
       </table>
     </div>
     <div class='ltax-con-inf item item-2' fxFlex='50%'>
-      <mat-label>Admin info</mat-label>
+      <mat-label class='label'>Admin info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
         <ng-container matColumnDef='admName'>
           <th mat-header-cell *matHeaderCellDef>Name</th>

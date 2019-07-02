@@ -7,6 +7,11 @@
   margin: 0 auto;
 }
 
+.label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .divCard {
   background: #FFF;
   border: 1px solid rgba(128, 128, 128, 0.8);
@@ -86,11 +91,14 @@
 .LTTableW { width: 100% }
 th { background: #0063EA; color: #fff; width: 6%; }
 td { font-size: 12px; text-align: center; cursor: pointer; }
-/*tr {
+tr {
     &:nth-child(even) {
-    background-color: rgba(#333, 0.3);
+    background-color: rgba(#CCC, 0.3);
   }
-}*/
+    &:hover {
+      background-color: rgba(#0063EA, 0.3);
+    }
+}
 
 @media (max-width: 1001px) { .LTTableW { width: 90% } }
 
