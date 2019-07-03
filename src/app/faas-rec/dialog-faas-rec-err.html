@@ -1,7 +1,14 @@
-<h1 mat-dialog-title>System Message</h1>
-<div mat-dialog-content>
-   <p>{{ msg }}</p>
+<b mat-dialog-title class="dbHeader">&nbsp;&nbsp;System Message</b>
+<div class="h"></div>
+<div mat-dialog-content class="errMsg">
+   <span>{{ msg }}</span>
 </div>
+<br>
+<div class="h"></div>
 <div mat-dalog-actions>
-   <button mat-raised-button color='primary' type='button' (click)='close()'>OK</button>
+  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px' fxLayoutAlign='center'>
+    <div fxFlex='50%'></div>
+   <button fxFlex='45%' mat-raised-button color='primary' type='button' (click)='close()'>OK</button>
+   <div fxFlex='5%'></div>
+  </div>
 </div>
