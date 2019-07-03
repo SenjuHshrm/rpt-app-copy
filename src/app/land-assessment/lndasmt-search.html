@@ -1,0 +1,26 @@
+<div mat-dialog-title>
+	<h4>Search Land FAAS</h4>
+</div>
+<div mat-dialog-content>
+	<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='0'>
+		<mat-radio-group class='item item-1' fxFlex='30%' [(ngModel)]='searchBy'>
+			<mat-radio-button *ngFor='let p1 of param1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
+		</mat-radio-group>
+	</div>
+	<br>
+	<div class='container' fxLayout='row' fxLayout.xs='column' fxLayoutGap='0'>
+		<mat-form-field class='item item-1' fxFlex='40%'>
+			<input placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
+		</mat-form-field>
+		<button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search()'>Search</button>
+	</div>
+	<div class='container' fxLayout fxLayout.xs='column' fxLayout='0' fxLayout.xs='10px'>
+		<div class='item item-1' fxFlex='100%'>
+			
+		</div>
+	</div>
+</div>
+<div mat-dialog-actions>
+	<button mat-raised-button color='warn' (click)="close()">Cancel</button>
+	<button mat-raised-button color='primary' [mat-dialog-close]='data'>OK</button>
+</div>

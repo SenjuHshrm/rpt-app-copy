@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatDialogModule, MatRadioModule, MatNativeDateModule, MatDatepickerModule, MatCheckboxModule, MatTableModule, MatSelectModule, MatInputModule, MatGridListModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule } from '@angular/material';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { LandAssessmentComponent } from './land-assessment/land-assessment.component';
+import { LandAssessmentComponent, LndAsmtSearch } from './land-assessment/land-assessment.component';
 import { AssessmentsComponent } from './assessments/assessments.component';
 import { BuildingAssessmentComponent } from './building-assessment/building-assessment.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -41,6 +41,7 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     MainNavComponent,
     LandingPageComponent,
     LandAssessmentComponent,
+		LndAsmtSearch,
     AssessmentsComponent,
     BuildingAssessmentComponent,
     ReassessmentsComponent,
@@ -100,7 +101,8 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     FaasRecComponent,
     DialogFaasRecF,
     DialogFaasRecTD,
-    DialogErr
+    DialogErr,
+		LndAsmtSearch
   ],
   bootstrap: [AppComponent]
 })

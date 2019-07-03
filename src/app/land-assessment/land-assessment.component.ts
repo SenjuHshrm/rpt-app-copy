@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -11,6 +11,8 @@ import { improvementInfo } from '../interfaces/improvementInfo';
 import { marketValue } from '../interfaces/marketValue';
 import { pincheck } from '../services/pincheck.service';
 import { forEach } from '@angular/router/src/utils/collection';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { searchRec } from '../services/searchFaasRec.service';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -62,7 +64,7 @@ export class LandAssessmentComponent implements OnInit {
     { value: 'DISPUTE IN ASSESSED VALUE', viewVal: 'DISPUTE IN ASSESSED VALUE (DP)' },
     { value: 'TRANSFER', viewVal: 'TRANSFER (TR)' },
     { value: 'SEGREGATION', viewVal: 'SEGREGATION (SG)' },
-    { value: 'RECLASSIFICATIO', viewVal: 'RECLASSIFICATION (RC)' },
+    { value: 'RECLASSIFICATION', viewVal: 'RECLASSIFICATION (RC)' },
     { value: 'SPECIAL PROJECT', viewVal: 'SPECIAL PROJECT (SP)' },
   ]
 
@@ -272,7 +274,11 @@ export class LandAssessmentComponent implements OnInit {
 
   public landAssessment: FormGroup;
 
-  constructor(private router: Router, private chckpin: pincheck) { }
+  constructor(
+		private router: Router,
+		private chckpin: pincheck,
+		private matDialog: MatDialog
+	) { }
 
   ngOnInit() {
     if (!localStorage.getItem('auth')) {
@@ -307,6 +313,28 @@ export class LandAssessmentComponent implements OnInit {
       this.pinspinner = true
     });
   }
+
+	selectTrnsCode(val: any) {
+		if(val.value == 'PHYSICAL CHANGE' ||
+				val.value == 'DISPUTE IN ASSESSED VALUE' ||
+				val.value == 'TRANSFER' ||
+				val.value == 'RECLASSIFICATION' ||
+				val.value == 'SPECIAL PROJECT') {
+			const md = this.matDialog.open(LndAsmtSearch, { width: '90%', height: '90%' });
+			md.afterClosed().subscribe(res => {
+				if(res == undefined) {
+					// val.value = 'DISCOVERY/NEW DECLARATION';
+					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION');
+				} else {
+
+				}
+			})
+		} else if (val.value == 'SUBDIVISION' ||
+								val.value == 'CONSOLIDATION' ||
+								val.value == 'SEGREGATION') {
+
+		}
+	}
 
   lnAppSubCUV(grp: any) {
     let val = grp.controls['subclass'].value;
@@ -394,7 +422,7 @@ export class LandAssessmentComponent implements OnInit {
       totalMarketVal += Number(strip.stripMarkVal);
     }
 
-    
+
   }
 
   addImp(grp: any) {
@@ -563,4 +591,47 @@ export class LandAssessmentComponent implements OnInit {
 
 }
 
-export default LandAssessmentComponent
+@Component({
+	selector: 'app-lndasmt-search',
+	templateUrl: 'lndasmt-search.html',
+	styleUrls: ['./lndasmt-search.scss']
+})
+export class LndAsmtSearch implements OnInit {
+
+	public searchBy: string = 'pin';
+	public paramInfo: string;
+
+	constructor(
+		public dRef: MatDialogRef<LndAsmtSearch>,
+		@Inject(MAT_DIALOG_DATA) public data: any,
+		private sRec: searchRec
+	) { }
+
+	ngOnInit() {
+
+	}
+
+	param1: selectOpt[] = [
+		{ value: 'pin', viewVal: 'PIN' },
+		{ value: 'arpNo', viewVal: 'ARP No.' },
+		{ value: 'name', viewVal: 'Name' }
+	]
+
+	search() {
+		let data: any = {
+			SearchIn: 'land',
+			SearchBy: this.searchBy,
+			info: this.paramInfo,
+			sysCaller: 'RPTAS'
+		};
+		this.sRec.search(data).subscribe(res => {
+			console.log(res)
+		});
+	}
+
+	close() {
+		this.dRef.close();
+	}
+
+
+}

@@ -22,7 +22,7 @@
             <mat-form-field class='item item-1' fxFlex='49%'>
               <mat-label>Transaction Code</mat-label>
               <mat-select formControlName='trnsCode'>
-                <mat-option *ngFor='let trns of trnsLs' [value]='trns.value'>{{ trns.viewVal }}</mat-option>
+                <mat-option *ngFor='let trns of trnsLs' (click)="selectTrnsCode(landAssessment.get('trnsCode'))" [value]='trns.value'>{{ trns.viewVal }}</mat-option>
               </mat-select>
             </mat-form-field>
 
