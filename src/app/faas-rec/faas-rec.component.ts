@@ -135,82 +135,88 @@ export class FaasRecComponent implements OnInit {
 
   isVisible_spinner = false
   search() {
-    if(this.req != null) {
-      this.isVisible_spinner = true
-      info = [];
-      owner = [];
-      admin = [];
-      this.infoLs = new MatTableDataSource(info);
-      this.ownerLs = new MatTableDataSource(owner);
-      this.adminLs = new MatTableDataSource(admin);
-      let data: any = {
-        SearchIn: this.param1,
-        SearchBy: this.param2,
-        info: this.req,
-        sysCaller: 'RPTAS'
-      }
-      this.sRec.search(data).subscribe(res => {
-        if(res.success) {
-          this.resdata = res.data;
-          this.resfaas = this.resdata.faas;
-          this.resowner = this.resdata.owner;
-          this.resadmin = this.resdata.admin;
-          console.log(res)
-          if (this.resfaas.length > 0 || this.resowner.length > 0 ||this.resadmin.length > 0) {
-            switch(this.param1) {
-							case 'land':
-								_.forEach(this.resfaas, arr => {
-		              info.push({
-		                arpNo: arr.ARPNo,
-		                pin: arr.PIN,
-		                surveyNo: arr.SurveyNo,
-		                lotNo: arr.LotNo,
-		                blockNo: arr.BlockNo,
-		                streetNo: arr.StreetNo,
-		                brgy: arr.Barangay,
-		                subd: arr.Subdivision,
-		                city: arr.City,
-		                province: arr.Province,
-		                class: arr.Class,
-		                subclass: arr.SubClass,
-		                area: arr.Area,
-		                assessedVal: arr.AssessedValue,
-		                stat: arr.Status
-		              });
-		            });
-								this.infoLs = new MatTableDataSource(info);
-								break;
-							case 'building':
-								_.forEach(this.resfaas, arr => {
-									infoBldg.push({
-										arpNo: arr.ARPNo,
-			              pin: arr.PIN,
-			              brgy: arr.Barangay,
-			              subd: arr.Subdivision,
-			              city: arr.City,
-			              province: arr.Province,
-			              kind: arr.Kind,
-			              structType: arr.StructuralType,
-			              bldgPermit: arr.BldgPermit,
-			              dateConstr: arr.DateConstructed,
-			              storey: arr.Storey,
-			              actualUse: arr.ActualUse,
-			              assessedVal: arr.AssessedValue
-									});
-								});
-								this.infoBldgLs = new MatTableDataSource(infoBldg);
-								break;
-						}
-          } else {
-            this.matDialog.open(DialogErr, { disableClose: true, data: 'Data not found' });
-          }
-        } else {
-          this.matDialog.open(DialogErr, { disableClose: true, data: res.err });
+    if(this.req == "")
+    {
+      this.matDialog.open(DialogErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Empty input' });
+    }
+    else {
+      if(this.req != null) {
+        this.isVisible_spinner = true
+        info = [];
+        owner = [];
+        admin = [];
+        this.infoLs = new MatTableDataSource(info);
+        this.ownerLs = new MatTableDataSource(owner);
+        this.adminLs = new MatTableDataSource(admin);
+        let data: any = {
+          SearchIn: this.param1,
+          SearchBy: this.param2,
+          info: this.req.trim(),
+          sysCaller: 'RPTAS'
         }
-        this.isVisible_spinner = false
-      });
-    } else {
-      this.matDialog.open(DialogErr, { disableClose: true, data: 'Empty input' });
+        this.sRec.search(data).subscribe(res => {
+          if(res.success) {
+            this.resdata = res.data;
+            this.resfaas = this.resdata.faas;
+            this.resowner = this.resdata.owner;
+            this.resadmin = this.resdata.admin;
+            console.log(res)
+            if (this.resfaas.length > 0 || this.resowner.length > 0 ||this.resadmin.length > 0) {
+              switch(this.param1) {
+  							case 'land':
+  								_.forEach(this.resfaas, arr => {
+  		              info.push({
+  		                arpNo: arr.ARPNo,
+  		                pin: arr.PIN,
+  		                surveyNo: arr.SurveyNo,
+  		                lotNo: arr.LotNo,
+  		                blockNo: arr.BlockNo,
+  		                streetNo: arr.StreetNo,
+  		                brgy: arr.Barangay,
+  		                subd: arr.Subdivision,
+  		                city: arr.City,
+  		                province: arr.Province,
+  		                class: arr.Class,
+  		                subclass: arr.SubClass,
+  		                area: arr.Area,
+  		                assessedVal: arr.AssessedValue,
+  		                stat: arr.Status
+  		              });
+  		            });
+  								this.infoLs = new MatTableDataSource(info);
+  								break;
+  							case 'building':
+  								_.forEach(this.resfaas, arr => {
+  									infoBldg.push({
+  										arpNo: arr.ARPNo,
+  			              pin: arr.PIN,
+  			              brgy: arr.Barangay,
+  			              subd: arr.Subdivision,
+  			              city: arr.City,
+  			              province: arr.Province,
+  			              kind: arr.Kind,
+  			              structType: arr.StructuralType,
+  			              bldgPermit: arr.BldgPermit,
+  			              dateConstr: arr.DateConstructed,
+  			              storey: arr.Storey,
+  			              actualUse: arr.ActualUse,
+  			              assessedVal: arr.AssessedValue
+  									});
+  								});
+  								this.infoBldgLs = new MatTableDataSource(infoBldg);
+  								break;
+  						}
+            } else {
+              this.matDialog.open(DialogErr, { width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Data not found' });
+            }
+          } else {
+            this.matDialog.open(DialogErr, { width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: res.err });
+          }
+          this.isVisible_spinner = false
+        });
+      } else {
+        this.matDialog.open(DialogErr, { width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Empty input' });
+      }
     }
   }
 
@@ -532,7 +538,9 @@ export class DialogFaasRecTD implements OnInit {
 
 @Component({
   selector:'app-dialog-faas-rec-err',
-  templateUrl: './dialog-faas-rec-err.html'
+  templateUrl: './dialog-faas-rec-err.html',
+  styleUrls: ['./dialog-faas-rec-err.scss']
+
 })
 export class DialogErr {
   msg: string = '\t ' + this.data;
