@@ -180,10 +180,9 @@ export class ClearanceComponent implements OnInit {
       {
         this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Invalid input value' });
       }
-      else if(this.param2 === 'name' && !isNaN(this.req) || this.req.match(/^[ _@./#&+-]*$/))
+      else if(this.param2 === 'name' && typeof this.req === "string" && !Number.isNaN(Number(this.req)) || this.req.match(/^[ _@./#&+-]*$/))
       {
         this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Invalid name' });
-        //[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]
       }
       else
       {
