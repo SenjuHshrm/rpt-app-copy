@@ -151,9 +151,14 @@ export class FaasRecComponent implements OnInit {
         let data: any = {
           SearchIn: this.param1,
           SearchBy: this.param2,
-          info: this.req.trim(),
+          info: '',
           sysCaller: 'RPTAS'
         }
+				if (this.param2 == 'pin' || this.param2 == 'arpNo') {
+					data.info = this.req.trim()
+				} else {
+					data.info = this.req
+				}
         this.sRec.search(data).subscribe(res => {
           if(res.success) {
             this.resdata = res.data;

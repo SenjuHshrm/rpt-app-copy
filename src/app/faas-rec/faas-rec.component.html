@@ -38,7 +38,7 @@
   <div class="h"></div>
   <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <mat-form-field class='item item-1' fxFlex='40%'>
-      <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
+      <input id='inputReq' matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
     </mat-form-field>
     <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search()'>Search</button>
   </div>
