@@ -1,0 +1,92 @@
+<div mat-dialog-title>
+	<h4>Search Land FAAS</h4>
+</div>
+<div mat-dialog-content>
+	<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='0'>
+		<mat-radio-group class='item item-1' fxFlex='30%' [(ngModel)]='searchBy'>
+			<mat-radio-button *ngFor='let p1 of param1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
+		</mat-radio-group>
+	</div>
+	<br>
+	<div class='container' fxLayout='row' fxLayout.xs='column' fxLayoutGap='0'>
+		<mat-form-field class='item item-1' fxFlex='40%'>
+			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
+		</mat-form-field>
+		<button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search()'>Search</button>
+	</div>
+	<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+    <div class='info-con item item-1' fxFlex='100%'>
+      <div class="h"></div>
+      <table mat-table class='mat-elevation-z8' [dataSource]='dataTable'>
+        <ng-container matColumnDef='arpNo'>
+          <th mat-header-cell *matHeaderCellDef>ARP No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.arpNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='pin'>
+          <th mat-header-cell *matHeaderCellDef>PIN</th>
+          <td mat-cell *matCellDef='let data'>{{ data.pin }}</td>
+        </ng-container>
+        <ng-container matColumnDef='surveyNo'>
+          <th mat-header-cell *matHeaderCellDef>Survey No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.surveyNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='lotNo'>
+          <th mat-header-cell *matHeaderCellDef>Lot No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.lotNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='blockNo'>
+          <th mat-header-cell *matHeaderCellDef>Block No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.blockNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='streetNo'>
+          <th mat-header-cell *matHeaderCellDef>Street No.</th>
+          <td mat-cell *matCellDef='let data'>{{ data.streetNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='brgy'>
+          <th mat-header-cell *matHeaderCellDef>Barangay</th>
+          <td mat-cell *matCellDef='let data'>{{ data.brgy }}</td>
+        </ng-container>
+        <ng-container matColumnDef='subd'>
+          <th mat-header-cell *matHeaderCellDef>Subdivision</th>
+          <td mat-cell *matCellDef='let data'>{{ data.subd }}</td>
+        </ng-container>
+        <ng-container matColumnDef='city'>
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef='let data'>{{ data.city }}</td>
+        </ng-container>
+        <ng-container matColumnDef='province'>
+          <th mat-header-cell *matHeaderCellDef>Province</th>
+          <td mat-cell *matCellDef='let data'>{{ data.province }}</td>
+        </ng-container>
+        <ng-container matColumnDef='class'>
+          <th mat-header-cell *matHeaderCellDef>Class</th>
+          <td mat-cell *matCellDef='let data'>{{ data.class }}</td>
+        </ng-container>
+        <ng-container matColumnDef='subclass'>
+          <th mat-header-cell *matHeaderCellDef>Subclass</th>
+          <td mat-cell *matCellDef='let data'>{{ data.subclass }}</td>
+        </ng-container>
+        <ng-container matColumnDef='area'>
+          <th mat-header-cell *matHeaderCellDef>Area</th>
+          <td mat-cell *matCellDef='let data'>{{ data.area }}</td>
+        </ng-container>
+        <ng-container matColumnDef='assessedVal'>
+          <th mat-header-cell *matHeaderCellDef>Assessed Value</th>
+          <td mat-cell *matCellDef='let data'>{{ data.assessedVal }}</td>
+        </ng-container>
+        <ng-container matColumnDef='stat'>
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef='let data'>{{ data.stat }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef='infoHeader'></tr>
+        <tr mat-row *matRowDef='let row; columns: infoHeader'
+          (click)='tableRowSelected(row)'
+          [style.background]="selectedRow.indexOf(row) != -1 ? 'lightblue' : ''" class='faasTble'></tr>
+        </table>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+	<button mat-raised-button color='warn' (click)="close()">Cancel</button>
+	<button mat-raised-button color='primary' [mat-dialog-close]='data'>OK</button>
+</div>

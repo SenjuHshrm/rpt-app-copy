@@ -11,8 +11,9 @@ import { improvementInfo } from '../interfaces/improvementInfo';
 import { marketValue } from '../interfaces/marketValue';
 import { pincheck } from '../services/pincheck.service';
 import { forEach } from '@angular/router/src/utils/collection';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { searchRec } from '../services/searchFaasRec.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LndAsmtSearch } from './dialog-search/lndasmt-search';
+import { genFaas } from '../services/genFaas.service';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -277,7 +278,8 @@ export class LandAssessmentComponent implements OnInit {
   constructor(
 		private router: Router,
 		private chckpin: pincheck,
-		private matDialog: MatDialog
+		private matDialog: MatDialog,
+		private gLndFaas: genFaas
 	) { }
 
   ngOnInit() {
@@ -326,7 +328,7 @@ export class LandAssessmentComponent implements OnInit {
 					// val.value = 'DISCOVERY/NEW DECLARATION';
 					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION');
 				} else {
-
+					this.populateForm(res);
 				}
 			})
 		} else if (val.value == 'SUBDIVISION' ||
@@ -334,6 +336,16 @@ export class LandAssessmentComponent implements OnInit {
 								val.value == 'SEGREGATION') {
 
 		}
+	}
+
+	populateForm(id: number): void {
+		let data = {
+			id: id
+		}
+		this.gLndFaas.generateLand(data).subscribe(res => {
+			console.log(res)
+		})
+
 	}
 
   lnAppSubCUV(grp: any) {
@@ -588,50 +600,5 @@ export class LandAssessmentComponent implements OnInit {
       attachment: new FormControl(''),
     })
   }
-
-}
-
-@Component({
-	selector: 'app-lndasmt-search',
-	templateUrl: 'lndasmt-search.html',
-	styleUrls: ['./lndasmt-search.scss']
-})
-export class LndAsmtSearch implements OnInit {
-
-	public searchBy: string = 'pin';
-	public paramInfo: string;
-
-	constructor(
-		public dRef: MatDialogRef<LndAsmtSearch>,
-		@Inject(MAT_DIALOG_DATA) public data: any,
-		private sRec: searchRec
-	) { }
-
-	ngOnInit() {
-
-	}
-
-	param1: selectOpt[] = [
-		{ value: 'pin', viewVal: 'PIN' },
-		{ value: 'arpNo', viewVal: 'ARP No.' },
-		{ value: 'name', viewVal: 'Name' }
-	]
-
-	search() {
-		let data: any = {
-			SearchIn: 'land',
-			SearchBy: this.searchBy,
-			info: this.paramInfo,
-			sysCaller: 'RPTAS'
-		};
-		this.sRec.search(data).subscribe(res => {
-			console.log(res)
-		});
-	}
-
-	close() {
-		this.dRef.close();
-	}
-
 
 }
