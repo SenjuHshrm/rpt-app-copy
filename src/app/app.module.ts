@@ -23,7 +23,7 @@ import { BuildingReassessmentComponent } from './building-reassessment/building-
 import { FaasRecComponent, DialogFaasRecTD, DialogFaasRecF, DialogErr } from './faas-rec/faas-rec.component';
 import { LandTaxComponent } from './land-tax/land-tax.component';
 import { RPTOPComponent } from './rptop/rptop.component';
-import { ClearanceComponent, DialogClearance, DialogClearancePipe } from './clearance/clearance.component';
+import { ClearanceComponent, DialogClearance, DialogClearancePipe, ClearanceComponentErr } from './clearance/clearance.component';
 import { MachAssessmentComponent } from './mach-assessment/mach-assessment.component';
 import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment.component';
 import { PrintingComponent } from './printing/printing.component';
@@ -60,7 +60,8 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     DialogFaasRecTD,
     DialogErr,
     SegregationComponent,
-    SubdivisionComponent
+    SubdivisionComponent,
+    ClearanceComponentErr
   ],
   imports: [
     BrowserModule,
@@ -102,7 +103,8 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     DialogFaasRecF,
     DialogFaasRecTD,
     DialogErr,
-		LndAsmtSearch
+		LndAsmtSearch,
+    ClearanceComponentErr
   ],
   bootstrap: [AppComponent]
 })
