@@ -171,75 +171,110 @@ export class ClearanceComponent implements OnInit {
   clckd = false
   isVisible_spinner = false
   search() {
-    this.clicked = false;
-    this.isVisible_spinner = true;
-    ltTableLs = []
-    ltTableBldgLs = []
-    ltTableInfOwner = []
-    ltTableInfAdmin = []
-    this.LTTable = new MatTableDataSource(ltTableLs);
-    this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
-    this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
-    this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
-    let reqdata: any = {
-      SearchIn: this.param1,
-      SearchBy: this.param2,
-      info: this.req,
-      sysCaller: 'LAND TAX'
+    if(this.req == null || this.req == "" || this.req.trim() === "") {
+      this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Empty input' });
     }
-    this.srchRec.search(reqdata).subscribe(res => {
-      let resdata = res.data;
-      this.faas = resdata.faas;
-      this.owner = resdata.owner;
-      this.admin = resdata.admin;
-      console.table(resdata);
-      switch(this.param1) {
-        case 'land':
-          _.forEach(this.faas, (arr: any)=> {
-            ltTableLs.push({
-              arpNo: arr.ARPNo,
-              pin: arr.PIN,
-              surveyNo: arr.SurveyNo,
-              lotNo: arr.LotNo,
-              blockNo: arr.BlockNo,
-              streetNo: arr.StreetNo,
-              brgy: arr.Barangay,
-              subd: arr.Subdivision,
-              city: arr.City,
-              province: arr.Province,
-              class: arr.Class,
-              subclass: arr.SubClass,
-              area: arr.Area,
-              assessedVal: arr.AssessedValue,
-              stat: arr.Status
-            });
-          });
-          this.LTTable = new MatTableDataSource(ltTableLs);
-          break;
-        case 'building':
-          _.forEach(this.faas, (arr: any) => {
-            ltTableBldgLs.push({
-              arpNo: arr.ARPNo,
-              pin: arr.PIN,
-              brgy: arr.Barangay,
-              subd: arr.Subdivision,
-              city: arr.City,
-              province: arr.Province,
-              kind: arr.Kind,
-              structType: arr.StructuralType,
-              bldgPermit: arr.BldgPermit,
-              dateConstr: arr.DateConstructed,
-              storey: arr.Storey,
-              actualUse: arr.ActualUse,
-              assessedVal: arr.AssessedValue
-            });
-          });
-          this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
-          break;
+    else
+    {
+      if(this.param2 == 'pin' && this.req.match(/^[ A-Za-z_@./#&+]*$/) || this.param2 == 'arpNo' && this.req.match(/^[ A-Za-z_@./#&+]*$/))
+      {
+        this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Invalid input value' });
       }
-      this.isVisible_spinner = false;
-      this.clicked = false;
-    });
+      else if(this.param2 === 'name' && !isNaN(this.req) || this.req.match(/^[ _@./#&+-]*$/))
+      {
+        this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Invalid name' });
+        //[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]
+      }
+      else
+      {
+        if(this.param2 == 'pin' || this.param2 == 'arpNo')
+        {
+          let wytspce: number = this.req.search(/\S/);
+          this.req = this.req.slice(wytspce).split(' ').join('-');
+        }
+        this.clicked = false;
+        this.isVisible_spinner = true;
+        ltTableLs = []
+        ltTableBldgLs = []
+        ltTableInfOwner = []
+        ltTableInfAdmin = []
+        this.LTTable = new MatTableDataSource(ltTableLs);
+        this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+        this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+        this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+        let reqdata: any = {
+          SearchIn: this.param1,
+          SearchBy: this.param2,
+          info: this.req,
+          sysCaller: 'LAND TAX'
+        }
+        this.srchRec.search(reqdata).subscribe(res => {
+          if(res.success)
+          {
+          let resdata = res.data;
+          this.faas = resdata.faas;
+          this.owner = resdata.owner;
+          this.admin = resdata.admin;
+          console.table(resdata);
+          if(this.faas.length > 0 || this.owner.length > 0 || this.admin.length > 0)
+          {
+            switch(this.param1) {
+              case 'land':
+                _.forEach(this.faas, (arr: any)=> {
+                  ltTableLs.push({
+                    arpNo: arr.ARPNo,
+                    pin: arr.PIN,
+                    surveyNo: arr.SurveyNo,
+                    lotNo: arr.LotNo,
+                    blockNo: arr.BlockNo,
+                    streetNo: arr.StreetNo,
+                    brgy: arr.Barangay,
+                    subd: arr.Subdivision,
+                    city: arr.City,
+                    province: arr.Province,
+                    class: arr.Class,
+                    subclass: arr.SubClass,
+                    area: arr.Area,
+                    assessedVal: arr.AssessedValue,
+                    stat: arr.Status
+                  });
+                });
+                this.LTTable = new MatTableDataSource(ltTableLs);
+                break;
+              case 'building':
+                _.forEach(this.faas, (arr: any) => {
+                  ltTableBldgLs.push({
+                    arpNo: arr.ARPNo,
+                    pin: arr.PIN,
+                    brgy: arr.Barangay,
+                    subd: arr.Subdivision,
+                    city: arr.City,
+                    province: arr.Province,
+                    kind: arr.Kind,
+                    structType: arr.StructuralType,
+                    bldgPermit: arr.BldgPermit,
+                    dateConstr: arr.DateConstructed,
+                    storey: arr.Storey,
+                    actualUse: arr.ActualUse,
+                    assessedVal: arr.AssessedValue
+                  });
+                });
+                this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+                break;
+            }
+          }
+          else {
+            this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Data not found' });
+          }
+          this.isVisible_spinner = false;
+          this.clicked = false;
+        }
+        else {
+          this.matDialog.open(ClearanceComponentErr, { width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: res.err });
+        }
+        });
+      }
+    }
   }
 
   genCl() {
@@ -335,5 +370,20 @@ export class DialogClearancePipe implements PipeTransform  {
   constructor(private sanitizer: DomSanitizer) { }
   transform(value: any) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(value);
+  }
+}
+
+@Component({
+  selector: 'app-clearance.component.err',
+  templateUrl: './clearance.component.err.html',
+  styleUrls: ['./clearance.component.err.scss']
+})
+export class ClearanceComponentErr {
+  msg: string = '\t ' + this.data;
+  constructor(private dialogRef: MatDialogRef<ClearanceComponentErr>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  close() {
+    this.dialogRef.close()
   }
 }
