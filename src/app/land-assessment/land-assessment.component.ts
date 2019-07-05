@@ -322,7 +322,7 @@ export class LandAssessmentComponent implements OnInit {
 				val.value == 'TRANSFER' ||
 				val.value == 'RECLASSIFICATION' ||
 				val.value == 'SPECIAL PROJECT') {
-			const md = this.matDialog.open(LndAsmtSearch, { width: '90%', height: '90%' });
+			const md = this.matDialog.open(LndAsmtSearch, { data: {tCode: val.value}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' });
 			md.afterClosed().subscribe(res => {
 				if(res == undefined) {
 					// val.value = 'DISCOVERY/NEW DECLARATION';
