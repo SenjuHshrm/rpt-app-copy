@@ -188,8 +188,7 @@ export class ClearanceComponent implements OnInit {
       {
         if(this.param2 == 'pin' || this.param2 == 'arpNo')
         {
-          let wytspce: number = this.req.search(/\S/);
-          this.req = this.req.slice(wytspce).split(' ').join('-');
+          this.req = this.req.trim().split(' ').join('-');
         }
         this.clicked = false;
         this.isVisible_spinner = true;

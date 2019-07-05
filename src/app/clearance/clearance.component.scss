@@ -85,6 +85,10 @@
   font-size: 14px;
 }
 
+#inputReq {
+	text-transform: uppercase;
+}
+
 @media (max-width: 1000px) {
   .flex-container {
     grid-template-columns: 49% 49%;
