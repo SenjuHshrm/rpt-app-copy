@@ -45,7 +45,9 @@ export class LndAsmtSearch implements OnInit {
 		{ value: 'name', viewVal: 'Name' }
 	]
 
+	isVisible_spinner = false;
 	search() {
+		this.isVisible_spinner = true;
 		dTable = [];
 		this.dataTable = new MatTableDataSource(dTable);
 		let data: any = {
@@ -82,6 +84,7 @@ export class LndAsmtSearch implements OnInit {
 				});
 			});
 			this.dataTable = new MatTableDataSource(dTable);
+			this.isVisible_spinner = false;
 		});
 	}
 

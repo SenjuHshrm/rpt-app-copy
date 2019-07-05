@@ -1,14 +1,37 @@
-<div mat-dialog-title>
-	<h4>Search Land FAAS</h4>
-</div>
-<div mat-dialog-content>
-	<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='0'>
-		<mat-radio-group class='item item-1' fxFlex='30%' [(ngModel)]='searchBy'>
+<div class="wrapper">
+	<div class='spinnerCon' *ngIf='isVisible_spinner'>
+	<div class="sk-fading-circle">
+		<div class="sk-circle1 sk-circle"></div>
+		<div class="sk-circle2 sk-circle"></div>
+		<div class="sk-circle3 sk-circle"></div>
+		<div class="sk-circle4 sk-circle"></div>
+		<div class="sk-circle5 sk-circle"></div>
+		<div class="sk-circle6 sk-circle"></div>
+		<div class="sk-circle7 sk-circle"></div>
+		<div class="sk-circle8 sk-circle"></div>
+		<div class="sk-circle9 sk-circle"></div>
+		<div class="sk-circle10 sk-circle"></div>
+		<div class="sk-circle11 sk-circle"></div>
+		<div class="sk-circle12 sk-circle"></div>
+	</div>
+	</div>
+
+<div class="divHeader"><span>&nbsp;&nbsp;Search Land FAAS</span></div>
+<div class="searchCon">
+	<div class="h"></div>
+<b>{{ data.tCode }}</b>
+<div>
+	<div class="h2"></div>
+	<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='0'>
+		<span class="item item-1 fxFlexW"> Search Record In:</span>
+		<mat-radio-group class='item item-2' fxFlex='auto' [(ngModel)]='searchBy'>
+			<div class='container' fxLayout fxLayoutGap='5px'>
 			<mat-radio-button *ngFor='let p1 of param1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
+			</div>
 		</mat-radio-group>
 	</div>
-	<br>
-	<div class='container' fxLayout='row' fxLayout.xs='column' fxLayoutGap='0'>
+	<div class="h"></div>
+	<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px'>
 		<mat-form-field class='item item-1' fxFlex='40%'>
 			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
 		</mat-form-field>
@@ -86,7 +109,10 @@
     </div>
   </div>
 </div>
-<div mat-dialog-actions>
-	<button mat-raised-button color='warn' (click)="close()">Cancel</button>
-	<button mat-raised-button color='primary' [mat-dialog-close]='data'>OK</button>
+<div class="h2"></div>
+<div mat-dialog-actions fxLayoutAlign='center' class='container' fxLayout fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+	<button mat-raised-button color='warn' (click)="close()" fxFlex='10%'>Cancel</button>
+	<button mat-raised-button color='primary' [mat-dialog-close]='data' fxFlex='10%'>OK</button>
+</div>
+</div>
 </div>
