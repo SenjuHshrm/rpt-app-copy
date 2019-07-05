@@ -15,6 +15,7 @@ import { MatDialogModule, MatRadioModule, MatNativeDateModule, MatDatepickerModu
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LandAssessmentComponent } from './land-assessment/land-assessment.component';
 import { LndAsmtSearch } from './land-assessment/dialog-search/lndasmt-search';
+import { LndAsmtPending } from './land-assessment/dialog-pending/lndasmt-pending';
 import { AssessmentsComponent } from './assessments/assessments.component';
 import { BuildingAssessmentComponent } from './building-assessment/building-assessment.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -43,6 +44,7 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     LandingPageComponent,
     LandAssessmentComponent,
 		LndAsmtSearch,
+		LndAsmtPending,
     AssessmentsComponent,
     BuildingAssessmentComponent,
     ReassessmentsComponent,
@@ -105,6 +107,7 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     DialogFaasRecTD,
     DialogErr,
 		LndAsmtSearch,
+		LndAsmtPending,
     ClearanceComponentErr
   ],
   bootstrap: [AppComponent]
