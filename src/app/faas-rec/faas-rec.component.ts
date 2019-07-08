@@ -33,6 +33,7 @@ export class FaasRecComponent implements OnInit {
   param2: string = 'pin';
   req: string;
   resdata: any;
+	clicked: boolean;
 
   infoLs = new MatTableDataSource(info);
 	infoBldgLs = new MatTableDataSource(infoBldg);
