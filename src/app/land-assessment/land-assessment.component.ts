@@ -14,6 +14,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
 import { genFaas } from '../services/genFaas.service';
+import { LndAsmtPending } from './dialog-pending/lndasmt-pending';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -322,7 +323,7 @@ export class LandAssessmentComponent implements OnInit {
 				val.value == 'TRANSFER' ||
 				val.value == 'RECLASSIFICATION' ||
 				val.value == 'SPECIAL PROJECT') {
-			const md = this.matDialog.open(LndAsmtSearch, { data: {tCode: val.value}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' });
+			const md = this.matDialog.open(LndAsmtSearch, { disableClose: true, data: {tCode: val.value}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' });
 			md.afterClosed().subscribe(res => {
 				if(res == undefined) {
 					// val.value = 'DISCOVERY/NEW DECLARATION';
@@ -334,7 +335,14 @@ export class LandAssessmentComponent implements OnInit {
 		} else if (val.value == 'SUBDIVISION' ||
 								val.value == 'CONSOLIDATION' ||
 								val.value == 'SEGREGATION') {
-
+			const md = this.matDialog.open(LndAsmtPending, { width: '90%', height: '90%', data: { tCode: val.value } });
+			md.afterClosed().subscribe(res => {
+				if(res == undefined) {
+					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION');
+				} else {
+					this.populateForm(res)
+				}
+			})
 		}
 	}
 
