@@ -42,11 +42,13 @@
       <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
     </div>
   </div>
+  <br>
 
   <!-- land info -->
   <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con item item-1' fxFlex='100%'>
-      <mat-label>Land info</mat-label>
+      <mat-label class="label">Land Info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
         <ng-container matColumnDef='arpNo'>
           <th mat-header-cell *matHeaderCellDef>ARP No.</th>
@@ -113,11 +115,12 @@
       </table>
     </div>
   </div>
-
+  <hr><br>
   <!-- owner admin info -->
   <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con-inf item item-1' fxFlex='50%'>
-      <mat-label>Owner info</mat-label>
+      <mat-label class="label">Owner info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
         <ng-container matColumnDef='ownName'>
           <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -140,7 +143,8 @@
       </table>
     </div>
     <div class='ltax-con-inf item item-2' fxFlex='50%'>
-      <mat-label>Admin info</mat-label>
+      <mat-label class="label">Admin info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
         <ng-container matColumnDef='admName'>
           <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -164,13 +168,16 @@
     </div>
   </div>
 
+  <hr>
+  <div class="divCard">
+    <div class="divHeader">&nbsp;&nbsp;Computations</div>
+    <br><div class="h"></div>
+    <div class='cardMargin'>
   <!--Computations-->
   <div class="container" fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-    <mat-label>Computations</mat-label>
-
     <!--Temporary-->
     <div class='container' fxFlex='100%' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-      
+
       <mat-form-field class='item item-1' fxFlex='50%' >
         <input matInput type='text' placeholder='Value' [(ngModel)] = 'value'>
       </mat-form-field>
@@ -178,10 +185,10 @@
       <mat-form-field class='item item-2' fxFlex='50%' >
           <input matInput type='text' placeholder='Year' [(ngModel)] = 'yearPay'>
       </mat-form-field>
-    
+
       <button mat-raised-button class='item item-3' fxFlex='50%' color='primary' (click)='addCompYear();'>Add</button>
     </div>
-    
+    <br><br>
     <!---->
 
     <table mat-table class='mat-elevation-z8' [dataSource]='LTTableRptopComp'>
@@ -204,5 +211,10 @@
       <tr mat-header-row *matHeaderRowDef='computationHeader'></tr>
       <tr mat-row *matRowDef='let row; columns: computationHeader'></tr>
     </table>
+    <div class="h" color=''></div>
+  </div>
+  </div>
+  <br>
   </div>
 </div>
+<br><br>
