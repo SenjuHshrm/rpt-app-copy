@@ -40,7 +40,9 @@
     <mat-form-field class='item item-1' fxFlex='40%'>
       <input id='inputReq' matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
     </mat-form-field>
-    <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search()'>Search</button>
+    <div fxFlex='15%' (mousedown)="clicked=true" (mouseup)="clicked=false">
+    <button mat-raised-button class='item item-2' color='primary' [ngClass]="{ 'srchBtnClckd': clicked, 'srchBtnDefault': !clicked }" (click)='search()'>Search</button>
+    </div>
   </div>
   <br>
 
