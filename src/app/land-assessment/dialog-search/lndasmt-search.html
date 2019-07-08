@@ -8,8 +8,10 @@
 				<br><div class='h'></div>
 				<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px' fxLayoutAlign='center'>
 			    <div fxFlex='50%'></div>
-			   <button fxFlex='45%' mat-raised-button color='primary' type='button' (click)='dialogBox=false'>OK</button>
-			   <div fxFlex='5%'></div>
+					<div fxFlex='45%' (mouseup)='clckOk=false' (mousedown)='clckOk=true'>
+			   	<button mat-raised-button color='primary' type='button' (click)='dialogBox=false' [ngClass]="{'dboxBtnmup': !clckOk, 'dboxBtnmdwn': clckOk}">OK</button>
+				 	</div>
+				 <div fxFlex='5%'></div>
 			  </div>
 			</div>
 		</div>
@@ -126,9 +128,13 @@
   </div>
 </div>
 <div class="h2"></div>
-<div mat-dialog-actions fxLayoutAlign='center' class='container' fxLayout fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-	<button mat-raised-button color='warn' (click)="close()" fxFlex='10%'>Cancel</button>
-	<button mat-raised-button color='primary' [mat-dialog-close]='data' fxFlex='10%'>OK</button>
+<div mat-dialog-actions align='center'>
+	<div class="btnW" (mousedown)='cancelBtn=true' (mouseup)='cancelBtn=false'>
+		<button mat-raised-button color='warn' (click)="close()" [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
+	</div>
+	<div class="btnW" (mousedown)='okBtn=true' (mouseup)='okBtn=false'>
+		<button mat-raised-button color='primary' [mat-dialog-close]='data' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
+	</div>
 </div>
 </div>
 </div>

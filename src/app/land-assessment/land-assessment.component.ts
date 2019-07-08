@@ -335,7 +335,7 @@ export class LandAssessmentComponent implements OnInit {
 		} else if (val.value == 'SUBDIVISION' ||
 								val.value == 'CONSOLIDATION' ||
 								val.value == 'SEGREGATION') {
-			const md = this.matDialog.open(LndAsmtPending, { width: '90%', height: '90%', data: { tCode: val.value } });
+			const md = this.matDialog.open(LndAsmtPending, { disableClose: true, width: '90%', height: '90%', data: { tCode: val.value }, panelClass: 'custom-dialog-container' });
 			md.afterClosed().subscribe(res => {
 				if(res == undefined) {
 					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION');
