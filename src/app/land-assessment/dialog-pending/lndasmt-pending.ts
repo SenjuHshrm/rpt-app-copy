@@ -19,7 +19,8 @@ export class LndAsmtPending implements OnInit{
 	pendingTable = new MatTableDataSource(dataSource);
 	selectedRow = [];
 	idArray = [];
-
+	cancelBtn: boolean;
+	okBtn: boolean;
 
 	constructor(
 		public lPending: landAsmtPending,

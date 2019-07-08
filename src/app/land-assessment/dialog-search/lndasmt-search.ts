@@ -26,6 +26,9 @@ export class LndAsmtSearch implements OnInit {
 	faas: any;
 	owner: any;
 	admin: any;
+	cancelBtn: boolean;
+	okBtn: boolean;
+	clckOk: boolean;
 
 	infoHeader: string[] = [
 		'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',

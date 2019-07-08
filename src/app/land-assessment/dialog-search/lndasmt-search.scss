@@ -268,3 +268,47 @@ tr {
   0%, 39%, 100% { opacity: 0; }
   40% { opacity: 1; }
 }
+
+.btnW {
+  width: 10%;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+@media (max-width: 1111px) {
+  .btnW {
+    width: 20%;
+  }
+}
+
+@media (max-width: 575px) {
+  .btnW {
+    width: 30%;
+  }
+}
+
+.mUp {
+  width: 100%;
+  height: 100%;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+.mDwn {
+  width: 90%;
+  height: 90%;
+  margin: 0 auto;
+  font-size: 12px;
+}
+
+.dboxBtnmup {
+  width: 100%;
+  height: 100%;
+}
+
+.dboxBtnmdwn {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  font-size: 12px;
+}
