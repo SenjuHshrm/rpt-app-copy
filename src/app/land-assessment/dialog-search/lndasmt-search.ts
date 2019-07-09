@@ -30,6 +30,7 @@ export class LndAsmtSearch implements OnInit {
 	cancelBtn: boolean;
 	okBtn: boolean;
 	clckOk: boolean;
+	srchmDwn: boolean;
 
 	infoHeader: string[] = [
 		'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',

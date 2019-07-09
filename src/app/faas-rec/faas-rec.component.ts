@@ -36,7 +36,7 @@ export class FaasRecComponent implements OnInit {
 	clicked: boolean;
   faasmDwn: boolean;
   tdmDwn: boolean;
-  okBtn: boolean;
+
 
   infoLs = new MatTableDataSource(info);
 	infoBldgLs = new MatTableDataSource(infoBldg);
@@ -552,6 +552,7 @@ export class DialogFaasRecTD implements OnInit {
 
 })
 export class DialogErr {
+	okBtn: boolean;
   msg: string = '\t ' + this.data;
   constructor(private dialogRef: MatDialogRef<DialogErr>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }

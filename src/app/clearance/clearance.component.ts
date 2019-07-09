@@ -57,7 +57,6 @@ export class ClearanceComponent implements OnInit {
 	selectedRow = [];
 	selectedOwner = [];
 	selectedAdmin = [];
-  okBtn: boolean;
 	faas: any;
 	owner: any;
 	admin: any;
@@ -378,6 +377,7 @@ export class DialogClearancePipe implements PipeTransform  {
 })
 export class ClearanceComponentErr {
   msg: string = '\t ' + this.data;
+	okBtn: boolean;
   constructor(private dialogRef: MatDialogRef<ClearanceComponentErr>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 

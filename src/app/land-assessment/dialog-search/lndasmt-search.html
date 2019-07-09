@@ -33,7 +33,7 @@
 	<div class="h"></div>
 	<div class='container' fxLayout fxLayoutGap='10px'>
 		<mat-form-field class='item item-1 srchInptW'>
-			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo' (keyup)='test()'>
+			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
 		</mat-form-field>
 		<div class="item item-2 srchBtnW" (mousedown)="srchmDwn=true" (mouseup)="srchmDwn=false">
 			<button mat-raised-button color='primary' [ngClass]="{ 'srchBtnmUp': !srchmDwn, 'srchBtnmDwn': srchmDwn }">Search</button>
