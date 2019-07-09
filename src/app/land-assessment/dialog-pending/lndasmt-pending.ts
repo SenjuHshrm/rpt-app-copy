@@ -21,6 +21,7 @@ export class LndAsmtPending implements OnInit{
 	idArray = [];
 	cancelBtn: boolean;
 	okBtn: boolean;
+	selectedInfo;
 
 	constructor(
 		public lPending: landAsmtPending,
@@ -36,6 +37,14 @@ export class LndAsmtPending implements OnInit{
 
 	ngOnInit() {
 		this.loadPendingTransactions(this.data.tCode)
+		dataSource = [];
+		this.pendingTable = new MatTableDataSource(dataSource);
+		this.selectedRow = [];
+		this.selectedInfo = 0;
+	}
+
+	disableBtn() {
+		 return (this.selectedRow.length < 1) ? true : false;
 	}
 
 	loadPendingTransactions(opt: string) {
@@ -79,7 +88,7 @@ export class LndAsmtPending implements OnInit{
 		this.selectedRow = [];
 		this.selectedRow.push(row);
 		let ind = _.indexOf(dataSource, row);
-		this.data = this.idArray[ind];
+		this.selectedInfo = this.idArray[ind];
 	}
 
 	close() {

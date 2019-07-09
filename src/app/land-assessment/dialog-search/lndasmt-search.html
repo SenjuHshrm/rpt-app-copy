@@ -19,7 +19,7 @@
 <div class="divHeader"><span>&nbsp;&nbsp;Search Land FAAS</span></div>
 <div class="searchCon">
 	<div class="h"></div>
-<b>{{ data.tCode }}</b>
+	<b>{{ data.tCode }}</b>
 <div>
 	<div class="h2"></div>
 	<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='0'>
@@ -133,7 +133,7 @@
 		<button mat-raised-button color='warn' (click)="close()" [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
 	</div>
 	<div class="btnW" (mousedown)='okBtn=true' (mouseup)='okBtn=false'>
-		<button mat-raised-button color='primary' [mat-dialog-close]='data' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
+		<button mat-raised-button color='primary' [disabled]='disableBtn()' [mat-dialog-close]='selectedInfo' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
 	</div>
 </div>
 </div>

@@ -18,6 +18,7 @@ export class LndAsmtSearch implements OnInit {
 
 	public searchBy: string = 'pin';
 	public paramInfo: string;
+	selectedInfo;
 
 	dataTable = new MatTableDataSource(dTable);
 	selectedRow = [];
@@ -43,7 +44,10 @@ export class LndAsmtSearch implements OnInit {
 	) { }
 
 	ngOnInit() {
-
+		dTable = [];
+		this.dataTable = new MatTableDataSource(dTable);
+		this.selectedInfo = 0;
+		this.selectedRow = [];
 	}
 
 	param1: selectOpt[] = [
@@ -51,6 +55,10 @@ export class LndAsmtSearch implements OnInit {
 		{ value: 'arpNo', viewVal: 'ARP No.' },
 		{ value: 'name', viewVal: 'Name' }
 	]
+
+	disableBtn() {
+		return (this.selectedRow.length < 1) ? true : false;
+	}
 
 	dialogBox: boolean = false;
 	isVisible_spinner: boolean = false;
@@ -138,7 +146,7 @@ export class LndAsmtSearch implements OnInit {
 		this.selectedRow = [];
 		this.selectedRow.push(row);
 		let ind = _.indexOf(dTable, row);
-		this.data = this.idArray[ind];
+		this.selectedInfo = this.idArray[ind];
 	}
 
 	close() {

@@ -79,7 +79,7 @@
 		<button mat-raised-button color='warn' (click)="close()" [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
 		</div>
 		<div class='btnW' (mousedown)='okBtn=true' (mouseup)='okBtn=false'>
-		<button mat-raised-button color='primary' [mat-dialog-close]='data' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
+		<button mat-raised-button color='primary' [disabled]='disableBtn()' [mat-dialog-close]='data' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
 		</div>
 	</div>
 </div>
