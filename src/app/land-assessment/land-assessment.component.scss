@@ -1,4 +1,4 @@
-.width-10 { width: 10% }
+.width-10 { width: 10%; text-align: center;}
 .mat-card-subtitle { color: black }
 .land-assessment-form { margin: 20px 30px 20px 30px }
 .lnd-table { overflow: scroll }
@@ -115,6 +115,16 @@ img { width: 50px; height: 50px; }
   width: 40%;
 }
 
+.mat-cell,
+.mat-header-cell { border: 1px solid #e0e0e0; text-align: center;}
+
+th { background: #0063EA; color: #fff; width: 6%; font-size: 12px; color: #FFF; font-weight: bold; }
+td { font-size: 12px; text-align: center; }
+tr {
+    &:nth-child(even) {
+    background-color: rgba(#CCC, 0.3);
+  }
+}
 
 .spinnerCon {
   width: 10px;

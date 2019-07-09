@@ -33,9 +33,11 @@
 	<div class="h"></div>
 	<div class='container' fxLayout fxLayoutGap='10px'>
 		<mat-form-field class='item item-1 srchInptW'>
-			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
+			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo' (keyup)='test()'>
 		</mat-form-field>
-		<button mat-raised-button class='item item-2 srchBtnW' color='primary' (click)='search()'>Search</button>
+		<div class="item item-2 srchBtnW" (mousedown)="srchmDwn=true" (mouseup)="srchmDwn=false">
+			<button mat-raised-button color='primary' [ngClass]="{ 'srchBtnmUp': !srchmDwn, 'srchBtnmDwn': srchmDwn }">Search</button>
+		</div>
 		<div class='spinner item item-3'>
 			<div class='spinnerCon' *ngIf='isVisible_spinner'>
 			<div class="sk-fading-circle">

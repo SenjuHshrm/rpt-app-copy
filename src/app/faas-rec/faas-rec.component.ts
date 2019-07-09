@@ -34,6 +34,9 @@ export class FaasRecComponent implements OnInit {
   req: string;
   resdata: any;
 	clicked: boolean;
+  faasmDwn: boolean;
+  tdmDwn: boolean;
+  okBtn: boolean;
 
   infoLs = new MatTableDataSource(info);
 	infoBldgLs = new MatTableDataSource(infoBldg);

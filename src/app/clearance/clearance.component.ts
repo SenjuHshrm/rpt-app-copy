@@ -57,7 +57,7 @@ export class ClearanceComponent implements OnInit {
 	selectedRow = [];
 	selectedOwner = [];
 	selectedAdmin = [];
-
+  okBtn: boolean;
 	faas: any;
 	owner: any;
 	admin: any;
