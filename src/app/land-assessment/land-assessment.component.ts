@@ -59,15 +59,15 @@ export class LandAssessmentComponent implements OnInit {
   mValHeader: string[] = ['bmval', 'adjfactor', 'adjperc', 'adjval', 'markval', 'actions']
 
   trnsLs: selectOpt[] = [
-    { value: 'DISCOVERY/NEW DECLARATION', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
-    { value: 'SUBDIVISION', viewVal: 'SUBDIVISION (SD)' },
-    { value: 'CONSOLIDATION', viewVal: 'CONSOLIDATION (CS)' },
-    { value: 'PHYSICAL CHANGE', viewVal: 'PHYSICAL CHANGE (PC)' },
-    { value: 'DISPUTE IN ASSESSED VALUE', viewVal: 'DISPUTE IN ASSESSED VALUE (DP)' },
-    { value: 'TRANSFER', viewVal: 'TRANSFER (TR)' },
-    { value: 'SEGREGATION', viewVal: 'SEGREGATION (SG)' },
-    { value: 'RECLASSIFICATION', viewVal: 'RECLASSIFICATION (RC)' },
-    { value: 'SPECIAL PROJECT', viewVal: 'SPECIAL PROJECT (SP)' },
+    { value: 'DISCOVERY/NEW DECLARATION (DC)', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
+    { value: 'SUBDIVISION (SD)', viewVal: 'SUBDIVISION (SD)' },
+    { value: 'CONSOLIDATION (CS)', viewVal: 'CONSOLIDATION (CS)' },
+    { value: 'PHYSICAL CHANGE (PC)', viewVal: 'PHYSICAL CHANGE (PC)' },
+    { value: 'DISPUTE IN ASSESSED VALUE (DP)', viewVal: 'DISPUTE IN ASSESSED VALUE (DP)' },
+    { value: 'TRANSFER (TR)', viewVal: 'TRANSFER (TR)' },
+    { value: 'SEGREGATION (SG)', viewVal: 'SEGREGATION (SG)' },
+    { value: 'RECLASSIFICATION (RC)', viewVal: 'RECLASSIFICATION (RC)' },
+    { value: 'SPECIAL PROJECT (SP)', viewVal: 'SPECIAL PROJECT (SP)' },
   ]
 
   landClassLs: any = [
@@ -287,14 +287,14 @@ export class LandAssessmentComponent implements OnInit {
     if (!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
-    this.initializeForm();
+    this.initializeForm('' ,'');
   }
 
   lndAppChngVal(grp: any) {
     let val = grp.controls['class'].value;
     let obj = _.find(this.landClassLs, { 'value': val });
+		console.log(val + '\n' + obj)
     this.subClassLs = obj.subC;
-    grp.controls['area'].reset();
     grp.controls['unitVal'].reset();
     grp.controls['baseMarketVal'].reset();
   }
@@ -318,40 +318,41 @@ export class LandAssessmentComponent implements OnInit {
   }
 
 	selectTrnsCode(val: any) {
-		if(val.value == 'PHYSICAL CHANGE' ||
-				val.value == 'DISPUTE IN ASSESSED VALUE' ||
-				val.value == 'TRANSFER' ||
-				val.value == 'RECLASSIFICATION' ||
-				val.value == 'SPECIAL PROJECT') {
+		if(val.value == 'PHYSICAL CHANGE (PC)' ||
+				val.value == 'DISPUTE IN ASSESSED VALUE (DP)' ||
+				val.value == 'TRANSFER (TR)' ||
+				val.value == 'RECLASSIFICATION (RC)' ||
+				val.value == 'SPECIAL PROJECT (SP)') {
 			const md = this.matDialog.open(LndAsmtSearch, { disableClose: true, data: {tCode: val.value}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' });
 			md.afterClosed().subscribe(res => {
 				if(res == undefined) {
 					// val.value = 'DISCOVERY/NEW DECLARATION';
 					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION');
 				} else {
-					this.populateForm(res);
+					this.populateForm(res, val.value);
 				}
 			})
-		} else if (val.value == 'SUBDIVISION' ||
-								val.value == 'CONSOLIDATION' ||
-								val.value == 'SEGREGATION') {
+		} else if (val.value == 'SUBDIVISION (SD)' ||
+								val.value == 'CONSOLIDATION (CS)' ||
+								val.value == 'SEGREGATION (SG)') {
 			const md = this.matDialog.open(LndAsmtPending, { disableClose: true, width: '90%', height: '90%', data: { tCode: val.value }, panelClass: 'custom-dialog-container' });
 			md.afterClosed().subscribe(res => {
 				if(res == undefined) {
-					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION');
+					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
 				} else {
-					this.populateForm(res)
+					this.populateForm(res, val.value)
 				}
 			})
 		}
 	}
 
-	populateForm(id: number): void {
+	populateForm(id: number, code: string): void {
 		let data = {
 			id: id
 		}
 		this.gLndFaas.generateLand(data).subscribe(res => {
 			console.log(res)
+			this.initializeForm(res, code);
 		})
 
 	}
@@ -499,114 +500,154 @@ export class LandAssessmentComponent implements OnInit {
     this.marketValue = new MatTableDataSource(mrktVal)
   }
 
-  initializeForm() {
-    this.landAssessment = new FormGroup({
-      trnsCode: new FormControl('', [Validators.required]),
-      arpNo: new FormControl('', [Validators.required]),
-      pin: new FormGroup({
-        city: new FormControl('', [Validators.required]),
-        district: new FormControl('', [Validators.required]),
-        barangay: new FormControl('', [Validators.required]),
-        section: new FormControl('', [Validators.required]),
-        parcel: new FormControl('', [Validators.required])
-      }),
-      OCT_TCT: new FormControl('', [Validators.required]),
-      surveyNo: new FormControl('', [Validators.required]),
-      lotNo: new FormControl('', [Validators.required]),
-      blockNo: new FormControl('', [Validators.required]),
-      propertyLocation: new FormGroup({
-        streetNo: new FormControl('', [Validators.required]),
-        barangay: new FormControl('', [Validators.required]),
-        subdivision: new FormControl('', [Validators.required]),
-        city: new FormControl('', [Validators.required]),
-        province: new FormControl('', [Validators.required]),
-        north: new FormControl('', [Validators.required]),
-        south: new FormControl('', [Validators.required]),
-        east: new FormControl('', [Validators.required]),
-        west: new FormControl('', [Validators.required])
-      }),
-      ownerDetails: new FormGroup({
-        ownfName: new FormControl(''),
-        ownmName: new FormControl(''),
-        ownlName: new FormControl(''),
-        ownaddress: new FormControl(''),
-        owncontact: new FormControl(''),
-        ownTIN: new FormControl(''),
-      }),
-      adminOwnerLs: new FormGroup({
-        admfName: new FormControl(''),
-        admmName: new FormControl(''),
-        admlName: new FormControl(''),
-        admaddress: new FormControl(''),
-        admcontact: new FormControl(''),
-        admTIN: new FormControl(''),
-      }),
-      landAppraisal: new FormGroup({
-        class: new FormControl(''),
-        subclass: new FormControl(''),
-        area: new FormControl(''),
-        unitVal: new FormControl(''),
-        baseMarketVal: new FormControl(''),
-        interiorLot: new FormControl(''),
-        cornerLot: new FormControl(''),
-        stripping: new FormControl('')
-      }),
-      stripSet: new FormGroup({
-        stripCount: new FormControl({ value: '', disabled: true }),
-        remLandArea: new FormControl({ value: '', disabled: true }),
-        stripArea: new FormControl({ value: '', disabled: true }),
-        adjustment: new FormControl({ value: '', disabled: true }),
-        stripNo: new FormControl({ value: '', disabled: true })
-      }),
-      otherImprovements: new FormGroup({
-        kind: new FormControl(''),
-        totalNo: new FormControl(''),
-        unitVal: new FormControl(''),
-        basicMarketVal: new FormControl(''),
-        othImpSubTotal: new FormControl({ value: '', disabled: true })
-      }),
-      marketVal: new FormGroup({
-        baseMarketVal: new FormControl(''),
-        adjustmentFactor: new FormControl(''),
-        adjustmentPercent: new FormControl(''),
-        adjustmentVal: new FormControl(''),
-        marketVal: new FormControl(''),
-        mvSubTotal: new FormControl({ value: '', disabled: true })
-      }),
-      propertyAssessment: new FormGroup({
-        actualUse: new FormControl(''),
-        marketVal: new FormControl(''),
-        assessmentLvl: new FormControl(''),
-        assessedVal: new FormControl(''),
-        specialClass: new FormControl(''),
-        status: new FormControl(''),
-        efftQ: new FormControl(''),
-        effty: new FormControl(''),
-        total: new FormControl(''),
-        appraisedName: new FormControl(''),
-        appraisedDate: new FormControl(''),
-        recommendName: new FormControl(''),
-        recommendDate: new FormControl(''),
-        approvedName: new FormControl(''),
-        approvedDate: new FormControl(''),
-        memoranda: new FormControl('')
-      }),
-      supersededRec: new FormGroup({
-        supPin: new FormControl(''),
-        supArpNo: new FormControl(''),
-        supTDNo: new FormControl(''),
-        supTotalAssessedVal: new FormControl(''),
-        supPrevOwner: new FormControl(''),
-        supEff: new FormControl(''),
-        supARPageNo: new FormControl(''),
-        supRecPersonnel: new FormControl(''),
-        supDate: new FormControl(''),
-      }),
-      status: new FormControl(''),
-      dateCreated: new FormControl(''),
-      encoder: new FormControl(''),
-      attachment: new FormControl(''),
-    })
+  initializeForm(data: any, code: string) {
+		if(data instanceof Object) {
+			this.landAssessment.controls['arpNo'].setValue(data.arp_no);
+			this.landAssessment.controls['pin'].setValue({
+				city: data.pin_city,
+				district: data.pin_district,
+				barangay: data.pin_barangay,
+				section: data.pin_section,
+				parcel: data.pin_parcel
+			});
+			this.landAssessment.controls['OCT_TCT'].setValue(data.OCT_TCT_no);
+			this.landAssessment.controls['surveyNo'].setValue(data.survey_no);
+			this.landAssessment.controls['lotNo'].setValue(data.lot_no);
+			this.landAssessment.controls['blockNo'].setValue(data.block_no);
+			this.landAssessment.controls['propertyLocation'].setValue({
+				streetNo: data.street_no,
+				barangay: data.barangay,
+				subdivision: data.subdivision,
+				city: data.city,
+				province: data.province,
+				north: data.north,
+				south: data.south,
+				east: data.east,
+				west: data.west
+			});
+			this.landAssessment.controls['landAppraisal'].setValue({
+				class: data.class,
+				subclass: data.sub_class,
+				area: data.area,
+				unitVal: data.unit_value,
+				baseMarketVal: data.base_market_value,
+				interiorLot: data.interior_lot,
+				cornerLot: data.corner_lot,
+				stripping: data.stripping
+			})
+			//this.landAssessment.controls['landAppraisal'].get('class').setValue(data.class);
+			//this.landAssessment.controls['landAppraisal'].get('subclass').setValue(data.sub_class);
+			// this.landAssessment.controls['landAppraisal'].get('area').setValue(data.area);
+		} else {
+			this.landAssessment = new FormGroup({
+	      trnsCode: new FormControl('', [Validators.required]),
+	      arpNo: new FormControl('', [Validators.required]),
+	      pin: new FormGroup({
+	        city: new FormControl('', [Validators.required]),
+	        district: new FormControl('', [Validators.required]),
+	        barangay: new FormControl('', [Validators.required]),
+	        section: new FormControl('', [Validators.required]),
+	        parcel: new FormControl('', [Validators.required])
+	      }),
+	      OCT_TCT: new FormControl('', [Validators.required]),
+	      surveyNo: new FormControl('', [Validators.required]),
+	      lotNo: new FormControl('', [Validators.required]),
+	      blockNo: new FormControl('', [Validators.required]),
+	      propertyLocation: new FormGroup({
+	        streetNo: new FormControl('', [Validators.required]),
+	        barangay: new FormControl('', [Validators.required]),
+	        subdivision: new FormControl('', [Validators.required]),
+	        city: new FormControl('', [Validators.required]),
+	        province: new FormControl('', [Validators.required]),
+	        north: new FormControl('', [Validators.required]),
+	        south: new FormControl('', [Validators.required]),
+	        east: new FormControl('', [Validators.required]),
+	        west: new FormControl('', [Validators.required])
+	      }),
+	      ownerDetails: new FormGroup({
+	        ownfName: new FormControl(''),
+	        ownmName: new FormControl(''),
+	        ownlName: new FormControl(''),
+	        ownaddress: new FormControl(''),
+	        owncontact: new FormControl(''),
+	        ownTIN: new FormControl(''),
+	      }),
+	      adminOwnerLs: new FormGroup({
+	        admfName: new FormControl(''),
+	        admmName: new FormControl(''),
+	        admlName: new FormControl(''),
+	        admaddress: new FormControl(''),
+	        admcontact: new FormControl(''),
+	        admTIN: new FormControl(''),
+	      }),
+	      landAppraisal: new FormGroup({
+	        class: new FormControl(''),
+	        subclass: new FormControl(''),
+	        area: new FormControl(''),
+	        unitVal: new FormControl(''),
+	        baseMarketVal: new FormControl(''),
+	        interiorLot: new FormControl(''),
+	        cornerLot: new FormControl(''),
+	        stripping: new FormControl('')
+	      }),
+	      stripSet: new FormGroup({
+	        stripCount: new FormControl({ value: '', disabled: true }),
+	        remLandArea: new FormControl({ value: '', disabled: true }),
+	        stripArea: new FormControl({ value: '', disabled: true }),
+	        adjustment: new FormControl({ value: '', disabled: true }),
+	        stripNo: new FormControl({ value: '', disabled: true })
+	      }),
+	      otherImprovements: new FormGroup({
+	        kind: new FormControl(''),
+	        totalNo: new FormControl(''),
+	        unitVal: new FormControl(''),
+	        basicMarketVal: new FormControl(''),
+	        othImpSubTotal: new FormControl({ value: '', disabled: true })
+	      }),
+	      marketVal: new FormGroup({
+	        baseMarketVal: new FormControl(''),
+	        adjustmentFactor: new FormControl(''),
+	        adjustmentPercent: new FormControl(''),
+	        adjustmentVal: new FormControl(''),
+	        marketVal: new FormControl(''),
+	        mvSubTotal: new FormControl({ value: '', disabled: true })
+	      }),
+	      propertyAssessment: new FormGroup({
+	        actualUse: new FormControl(''),
+	        marketVal: new FormControl(''),
+	        assessmentLvl: new FormControl(''),
+	        assessedVal: new FormControl(''),
+	        specialClass: new FormControl(''),
+	        status: new FormControl(''),
+	        efftQ: new FormControl(''),
+	        effty: new FormControl(''),
+	        total: new FormControl(''),
+	        appraisedName: new FormControl(''),
+	        appraisedDate: new FormControl(''),
+	        recommendName: new FormControl(''),
+	        recommendDate: new FormControl(''),
+	        approvedName: new FormControl(''),
+	        approvedDate: new FormControl(''),
+	        memoranda: new FormControl('')
+	      }),
+	      supersededRec: new FormGroup({
+	        supPin: new FormControl(''),
+	        supArpNo: new FormControl(''),
+	        supTDNo: new FormControl(''),
+	        supTotalAssessedVal: new FormControl(''),
+	        supPrevOwner: new FormControl(''),
+	        supEff: new FormControl(''),
+	        supARPageNo: new FormControl(''),
+	        supRecPersonnel: new FormControl(''),
+	        supDate: new FormControl(''),
+	      }),
+	      status: new FormControl(''),
+	      dateCreated: new FormControl(''),
+	      encoder: new FormControl(''),
+	      attachment: new FormControl(''),
+	    })
+		}
+
   }
 
 }

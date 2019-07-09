@@ -319,7 +319,8 @@
                 fxLayoutGap.xs='10px'>
                 <mat-form-field class='item item-1' fxFlex='32%'>
                   <mat-label>Classification</mat-label>
-                  <mat-select formControlName='class' (selectionChange)="lndAppChngVal(landAssessment.get('landAppraisal'))"
+                  <mat-select formControlName='class'
+										(selectionChange)="lndAppChngVal(landAssessment.get('landAppraisal'))"
                     required>
                     <mat-option *ngFor='let cls of landClassLs' [value]='cls.value'>{{ cls.viewVal }}</mat-option>
                   </mat-select>
@@ -327,7 +328,8 @@
                 <mat-form-field class='item item-2' fxFlex='32%'>
                   <mat-label>Sub-Classification</mat-label>
                   <mat-select formControlName='subclass'
-                    (selectionChange)="lnAppSubCUV(landAssessment.get('landAppraisal'))" required>
+                    (selectionChange)="lnAppSubCUV(landAssessment.get('landAppraisal'))"
+										 required>
                     <mat-option *ngFor='let subcls of subClassLs' [value]='subcls.value'>{{ subcls.viewVal }}</mat-option>
                   </mat-select>
                 </mat-form-field>
