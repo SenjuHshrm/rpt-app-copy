@@ -69,6 +69,19 @@ tr {
   width: 15%;
 }
 
+.srchBtnmUp {
+  width: 100%;
+  height: 100%;
+}
+
+.srchBtnmDwn {
+  margin-top: 5%;
+  margin-left: 5%;
+  width: 90%;
+  height: 90%;
+  font-size: 12px;
+}
+
 @media (max-width: 999px){
   .srchInptW {
     width: 50%;

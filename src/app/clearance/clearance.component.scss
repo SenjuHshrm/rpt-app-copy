@@ -125,8 +125,8 @@
 .mat-header-cell { border: 1px solid #e0e0e0; text-align: center; }
 .h { height: 10px; }
 .LTTableW { width: 100% }
-th { background: #0063EA; color: #fff; width: 6%; }
-td { font-size: 12px; text-align: center; }
+th { background: #0063EA; color: #fff; width: 6%; font-weight: normal; font-size: 12px; border: 1px solid #e0e0e0; }
+td { font-size: 12px; text-align: center; border: 1px solid #e0e0e0; }
 tr {
     &:nth-child(even) {
     background-color: rgba(#CCC, 0.3);
