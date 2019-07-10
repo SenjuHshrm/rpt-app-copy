@@ -36,7 +36,7 @@
 			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
 		</mat-form-field>
 		<div class="item item-2 srchBtnW" (mousedown)="srchmDwn=true" (mouseup)="srchmDwn=false">
-			<button mat-raised-button color='primary' [ngClass]="{ 'srchBtnmUp': !srchmDwn, 'srchBtnmDwn': srchmDwn }">Search</button>
+			<button mat-raised-button color='primary' [ngClass]="{ 'srchBtnmUp': !srchmDwn, 'srchBtnmDwn': srchmDwn }" (click)='search()'>Search</button>
 		</div>
 		<div class='spinner item item-3'>
 			<div class='spinnerCon' *ngIf='isVisible_spinner'>
