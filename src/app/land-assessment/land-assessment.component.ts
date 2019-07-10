@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
 import { genFaas } from '../services/genFaas.service';
 import { LndAsmtPending } from './dialog-pending/lndasmt-pending';
+import * as moment from 'moment';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -296,7 +297,6 @@ export class LandAssessmentComponent implements OnInit {
   lndAppChngVal(grp: any) {
     let val = grp.controls['class'].value;
     let obj = _.find(this.landClassLs, { 'value': val });
-		console.log(val + '\n' + obj)
     this.subClassLs = obj.subC;
     grp.controls['unitVal'].reset();
     grp.controls['baseMarketVal'].reset();
@@ -538,9 +538,35 @@ export class LandAssessmentComponent implements OnInit {
 				cornerLot: data.corner_lot,
 				stripping: data.stripping
 			})
-			//this.landAssessment.controls['landAppraisal'].get('class').setValue(data.class);
-			//this.landAssessment.controls['landAppraisal'].get('subclass').setValue(data.sub_class);
-			// this.landAssessment.controls['landAppraisal'].get('area').setValue(data.area);
+			this.lndAppChngVal(this.landAssessment.get('landAppraisal'));
+			this.lnAppSubCUV(this.landAssessment.get('landAppraisal'));
+			this.landAssessment.controls['marketVal'].setValue({
+				baseMarketVal: data.base_market_value,
+				adjustmentFactor: '',
+				adjustmentPercent: '',
+				adjustmentVal: '',
+				marketVal: '',
+				mvSubTotal: data.base_market_value
+			});
+			this.landAssessment.controls['propertyAssessment'].setValue({
+				actualUse: data.pa_actual_use,
+				marketVal: data.pa_market_value,
+				assessmentLvl: data.pa_assessment_level,
+				assessedVal: data.pa_assessed_value,
+				specialClass: data.pa_special_class,
+				status: data.pa_status,
+				efftQ: data.pa_effectivity_assess_quarter,
+				effty: data.pa_effectivity_assess_year,
+				total: data.pa_total_assessed_value,
+				appraisedName: data.appraised_by,
+				appraisedDate: new Date(data.appraised_by_date),
+				recommendName: data.recommending,
+				recommendDate: new Date(data.recommending_date),
+				approvedName: data.approved_by,
+				approvedDate: new Date(data.approved_by_date),
+				memoranda: data.memoranda
+			})
+
 		} else {
 			this.landAssessment = new FormGroup({
 	      trnsCode: new FormControl('', [Validators.required]),

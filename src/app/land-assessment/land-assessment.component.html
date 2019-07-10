@@ -621,13 +621,13 @@
               <mat-form-field class='item item-1' fxFlex='23%'>
                 <mat-label>Status</mat-label>
                 <mat-select formControlName='status'>
-                  <mat-option *ngFor='let sel of status' value='sel.value'>{{ sel.viewVal }}</mat-option>
+                  <mat-option *ngFor='let sel of status' [value]='sel.value'>{{ sel.viewVal }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field class='item item-2' fxFlex='24%'>
                 <mat-label>Quarter</mat-label>
                 <mat-select formControlName='efftQ'>
-                  <mat-option *ngFor='let sel of quarter' value='sel.value'>{{ sel.viewVal }}</mat-option>
+                  <mat-option *ngFor='let sel of quarter' [value]='sel.value'>{{ sel.viewVal }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-form-field class='item item-3' fxFlex='24%'>
