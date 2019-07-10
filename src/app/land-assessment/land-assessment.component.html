@@ -193,8 +193,10 @@
                 <mat-form-field class='item item-2' fxFlex='32%'>
                   <input matInput type='text' formControlName='ownTIN' placeholder='TIN No.'>
                 </mat-form-field>
-                <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                  (click)="addOwner(landAssessment.get('ownerDetails'))">Add</button>
+                <div fxFlex='32%' (mousedown)="ownAdd=true" (mouseup)="ownAdd=false" (mouseleave)="ownAdd=false">
+                <button [ngClass]="{'addBtnMU': !ownAdd, 'addBtnMD': ownAdd}" mat-raised-button type='button' class='item item-3' color='primary'
+                  (click)="addOwner(landAssessment.get('ownerDetails'));">Add</button>
+                </div>
               </div>
               <br><br>
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -735,8 +737,12 @@
     </div>
       <mat-card-actions align='center'>
         <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-        <button fxFlex='15%' mat-raised-button color='primary' type='submit'>Save</button>
-        <button fxFlex='15%' mat-raised-button color='warn'>Clear</button>
+        <div fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
+          <button [ngClass]="{'saveClrBtnMU': !saveMD , 'saveClrBtnMD': saveMD}" mat-raised-button color='primary' type='submit'>Save</button>
+        </div>
+        <div fxFlex='15%' (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
+          <button [ngClass]="{'saveClrBtnMU': !clrMD , 'saveClrBtnMD': clrMD}" mat-raised-button color='warn'>Clear</button>
+        </div>
         </div>
       </mat-card-actions>
     </mat-card-content>

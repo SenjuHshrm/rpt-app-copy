@@ -36,7 +36,8 @@ export class LandAssessmentComponent implements OnInit {
   stripSetInfo = new MatTableDataSource(stripInf)
   impInf = new MatTableDataSource(imprInf)
   marketValue = new MatTableDataSource(mrktVal)
-
+  clrMD: boolean;
+  saveMD: boolean;
   stripToggleVal = false
 
   stripToggle(grp: any) {
