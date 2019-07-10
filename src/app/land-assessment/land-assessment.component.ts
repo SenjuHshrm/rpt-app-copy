@@ -47,8 +47,11 @@ export class LandAssessmentComponent implements OnInit {
       });
     } else {
       Object.keys(grp.controls).forEach(key => {
+				grp.controls[key].reset();
         grp.controls[key].disable();
       });
+			stripInf = [];
+			this.stripSetInfo = new MatTableDataSource(stripInf);
     }
   }
 

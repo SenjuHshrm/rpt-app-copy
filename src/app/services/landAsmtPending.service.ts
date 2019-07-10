@@ -26,13 +26,13 @@ export class landAsmtPending {
 			'Authorization': 'Bearer ' + localStorage.getItem('auth')
 		});
 		switch(data) {
-			case 'SUBDIVISION':
+			case 'SUBDIVISION (SD)':
 				httpUrl = 'http://192.168.100.24:5000/api/pending/subdivision';
 				break;
-			case 'SEGREGATION':
+			case 'SEGREGATION (SG)':
 				httpUrl = 'http://192.168.100.24:5000/api/pending/segregation';
 				break;
-			case 'CONSOLIDATION':
+			case 'CONSOLIDATION (CS)':
 				httpUrl = 'http://192.168.100.24:5000/api/pending/consolidation';
 				break;
 		}

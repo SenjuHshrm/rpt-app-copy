@@ -49,13 +49,13 @@ export class LndAsmtPending implements OnInit{
 
 	loadPendingTransactions(opt: string) {
 		switch(opt) {
-			case 'SUBDIVISION':
+			case 'SUBDIVISION (SD)':
 				this.headerText = 'Pending subdivided lands';
 				break;
-			case 'SEGREGATION':
+			case 'SEGREGATION (SG)':
 				this.headerText = 'Pending segregated lands';
 				break;
-			case 'CONSOLIDATION':
+			case 'CONSOLIDATION (CS)':
 				this.headerText = 'Pending consolidated lands';
 				break;
 		}
