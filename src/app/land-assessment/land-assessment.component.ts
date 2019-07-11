@@ -15,7 +15,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
 import { genFaas } from '../services/genFaas.service';
 import { LndAsmtPending } from './dialog-pending/lndasmt-pending';
-import * as moment from 'moment';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -293,7 +292,7 @@ export class LandAssessmentComponent implements OnInit {
     if (!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
-    this.initializeForm('' ,'');
+    this.initializeForm('');
   }
 
   lndAppChngVal(grp: any) {
@@ -357,7 +356,7 @@ export class LandAssessmentComponent implements OnInit {
 		}
 		this.gLndFaas.generateLand(data).subscribe(res => {
 			console.log(res)
-			this.initializeForm(res, code);
+			this.initializeForm(res);
 		})
 
 	}
@@ -505,8 +504,11 @@ export class LandAssessmentComponent implements OnInit {
     this.marketValue = new MatTableDataSource(mrktVal)
   }
 
-  initializeForm(data: any, code: string) {
-		if(data instanceof Object) {
+  initializeForm(xobj: any) {
+		if(xobj instanceof Object) {
+			let data = xobj.faas,
+					owners = xobj.owners,
+					admins = xobj.admins;
 			this.landAssessment.controls['arpNo'].setValue(data.arp_no);
 			this.landAssessment.controls['pin'].setValue({
 				city: data.pin_city,
@@ -568,7 +570,24 @@ export class LandAssessmentComponent implements OnInit {
 				approvedDate: new Date(data.approved_by_date),
 				memoranda: data.memoranda
 			})
-
+			_.forEach(owners, arr => {
+				ownerLs.push({
+					ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					ownAddress: arr.address,
+					ownContact: arr.contact_no,
+					ownTIN: arr.TIN
+				});
+			});
+			_.forEach(admins, arr => {
+				adminLs.push({
+					admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					admAddress: arr.address,
+					admContact: arr.contact_no,
+					admTIN: arr.TIN
+				});
+			});
+			this.ownersLs = new MatTableDataSource(ownerLs);
+		  this.adminsLs = new MatTableDataSource(adminLs);
 		} else {
 			this.landAssessment = new FormGroup({
 	      trnsCode: new FormControl('', [Validators.required]),

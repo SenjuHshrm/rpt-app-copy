@@ -235,7 +235,9 @@ export class FaasRecComponent implements OnInit {
 
   generateFaas() {
     if(this.param1 == 'land') {
-      this.faas.generateLand({ id: this.resdata.faas[0].id }).subscribe(res => {
+      this.faas.generateLand({ id: this.resdata.faas[0].id }).subscribe(resp => {
+				console.log(resp)
+				let res = resp.faas;
         let info: landFaasTmp = {
           transaction_code: res.transaction_code,
           arp_no: res.arp_no,
