@@ -56,7 +56,7 @@
                 </mat-form-field>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <button type='button' mat-raised-button color='primary'
-                  (click)="checkPIN(landAssessment.get('pin')); isVisible_spinner=true">Check PIN</button>
+                  (click)="checkPIN(landAssessment.get('pin')); isVisible_spinner=true" style='border: 1px solid #0058CF;'>Check PIN</button>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <span>
                   <!-- spinner -->
@@ -267,8 +267,9 @@
                 <mat-form-field class='item item-2' fxFlex='32%'>
                   <input matInput type='text' formControlName='admTIN' placeholder='TIN No.'>
                 </mat-form-field>
-                <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                  (click)="addAdmin(landAssessment.get('adminOwnerLs'))">Add</button>
+                <div (click)="addAdmin(landAssessment.get('adminOwnerLs'))" fxFlex='32%'(mousedown)='adminAdd=true' (mouseup)='adminAdd=false' (mouseleave)='adminAdd=false'>
+                <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
+                </div>
               </div>
               <br><br>
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -390,9 +391,9 @@
                 <mat-option *ngFor='let count of stripNo' [value]='count.value'>{{ count.viewVal }}</mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-raised-button class='item item-3' fxFlex='32%' [disabled]='!stripToggleVal' type='button'
-              class='item item-3' fxFlex='32%' (click)="addStrip(landAssessment.get('stripSet'))"
-              color='primary'>Add</button>
+            <div fxFlex='32%' (mousedown)='lndApprAdd=true' (mouseup)='lndApprAdd=false' (mouseleave)='lndApprAdd=false'>
+            <button mat-raised-button class='item item-3' [ngClass]="{'laaddBtnMU': !lndApprAdd, 'laaddBtnMD': lndApprAdd}" [disabled]='!stripToggleVal' type='button' (click)="addStrip(landAssessment.get('stripSet'))" color='primary'>Add</button>
+            </div>
           </div>
           <br><br>
           <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -463,8 +464,9 @@
             <mat-form-field class='item item-2' fxFlex='32%'>
               <input matInput type='text' formControlName='basicMarketVal' placeholder='Base Market Value'>
             </mat-form-field>
-            <button mat-raised-button (click)="addImp(landAssessment.get('otherImprovements'))" type='button'
-            color='primary' class='item item-3' fxFlex='32%'>Add</button>
+            <div (click)="addImp(landAssessment.get('otherImprovements'))" fxFlex='32%' (mousedown)='otheImprvmntsAdd=true' (mouseup)='otheImprvmntsAdd=false' (mouseleave)='otheImprvmntsAdd=false'>
+            <button [ngClass]="{'addBtnMU': !otheImprvmntsAdd, 'addBtnMD': otheImprvmntsAdd}" mat-raised-button type='button' color='primary' class='item item-3'>Add</button>
+            </div>
           </div>
             <br><br>
           <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -535,8 +537,9 @@
               <mat-form-field class='item item-2' fxFlex='32%'>
                 <input matInput type='text' placeholder='Market Value' formControlName='marketVal'>
               </mat-form-field>
-              <button type='button' (click)="addMVal(landAssessment.get('marketVal'))" mat-raised-button color='primary'
-                class='item item-3' fxFlex='32%'>Add</button>
+              <div (mousedown)='mvAdd=true' (mouseup)='mvAdd=false' (mouseleave)='mvAdd=false' (click)="addMVal(landAssessment.get('marketVal'))" fxFlex='32%'>
+              <button type='button'  mat-raised-button color='primary' class='item item-3' [ngClass]="{'addBtnMU': !mvAdd, 'addBtnMD': mvAdd}">Add</button>
+              </div>
             </div>
             <br><br>
             <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -738,10 +741,10 @@
       <mat-card-actions align='center'>
         <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
         <div fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
-          <button [ngClass]="{'saveClrBtnMU': !saveMD , 'saveClrBtnMD': saveMD}" mat-raised-button color='primary' type='submit'>Save</button>
+          <button [ngClass]="{'saveClrBtnMU': !saveMD , 'saveClrBtnMD': saveMD}" class='sve' mat-raised-button color='primary' type='submit'>Save</button>
         </div>
         <div fxFlex='15%' (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
-          <button [ngClass]="{'saveClrBtnMU': !clrMD , 'saveClrBtnMD': clrMD}" mat-raised-button color='warn'>Clear</button>
+          <button [ngClass]="{'saveClrBtnMU': !clrMD , 'saveClrBtnMD': clrMD}" class='clr' mat-raised-button color='warn'>Clear</button>
         </div>
         </div>
       </mat-card-actions>
