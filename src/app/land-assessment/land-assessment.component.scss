@@ -153,6 +153,14 @@ tr {
   margin-left: 2%;
 }
 
+.sve {
+  border: 1px solid #0058CF;
+}
+
+.clr {
+  border: 1px solid #F00;
+}
+
 .addBtnMU {
   width: 100%;
   height: 100%;
@@ -164,6 +172,33 @@ tr {
   margin-left: 5%;
   margin-top: 2%;
   font-size: 11px;
+}
+
+.laaddBtnMU {
+  width: 100%;
+  height: 100%;
+}
+
+.laaddBtnMD {
+  width: 95%;
+  height: 95%;
+  margin-left: 2.5%;
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.addBtnMU, .addBtnMD {
+  border: 1px solid #0058CF;
+}
+
+@media (max-width: 600px) {
+  .addBtnMD {
+    margin-top: 0px;
+  }
+
+  .laaddBtnMD {
+    margin-top: 0px;
+  }
 }
 
 .sk-fading-circle {

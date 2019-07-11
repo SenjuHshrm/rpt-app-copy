@@ -41,6 +41,10 @@ export class LandAssessmentComponent implements OnInit {
   saveMD: boolean;
   stripToggleVal = false
 	ownAdd: boolean;
+  adminAdd: boolean;
+  otheImprvmntsAdd: boolean;
+  mvAdd: boolean;
+  lndApprAdd: boolean;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal

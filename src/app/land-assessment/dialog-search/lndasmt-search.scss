@@ -20,8 +20,8 @@
 #inputReq {
 	text-transform: uppercase;
 }
-th { background: #0063EA; color: #fff; width: 6%; }
-td { font-size: 12px; text-align: center; }
+th { background: #0063EA; color: #fff; width: 6%; border: 1px solid #e0e0e0; font-weight: normal; font-size: 12px; }
+td { font-size: 12px; text-align: center; border: 1px solid #e0e0e0; }
 tr {
     &:nth-child(even) {
     background-color: rgba(#CCC, 0.3);
