@@ -15,6 +15,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
 import { genFaas } from '../services/genFaas.service';
 import { LndAsmtPending } from './dialog-pending/lndasmt-pending';
+import { landAsmtDataTemp } from '../classes/landAsmtDataTemp';
+import * as moment from 'moment';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -379,11 +381,150 @@ export class LandAssessmentComponent implements OnInit {
     this.lndAppBMV = (area * unitVl).toString();
   }
 
-  save(form: object) {
-    if (this.landAssessment.valid) {
-      console.log(form)
-    }
+  save(form: any) {
+    let data: landAsmtDataTemp = {
+			trnsCode: form.trnsCode,
+			arpNo: form.arpNo,
+			pin: {
+				city: form.pin.city,
+				district: form.pin.district,
+				barangay: form.pin.barangay,
+				section: form.pin.section,
+				parcel: form.pin.parcel,
+			},
+			OCT_TCT: form.OCT_TCT,
+			surveyNo: form.surveyNo,
+			lotNo: form.lotNo,
+			blockNo: form.blockNo,
+			propLoc: {
+				streetNo: form.propertyLocation.streetNo,
+				brgy: form.propertyLocation.barangay,
+				subd: form.propertyLocation.subdivision,
+				city: form.propertyLocation.city,
+				province: form.propertyLocation.province,
+				north: form.propertyLocation.north,
+				south: form.propertyLocation.south,
+				east: form.propertyLocation.east,
+				west: form.propertyLocation.west,
+			},
+			ownerDetails: this.getOwners(),
+			adminDetails: this.getAdmins(),
+			landAppraisal: {
+				class: form.landAppraisal.class,
+				subCls: form.landAppraisal.subclass,
+				area: form.landAppraisal.area,
+				unitVal: form.landAppraisal.unitVal,
+				baseMarketVal: form.landAppraisal.baseMarketVal,
+				interiorLot: form.landAppraisal.interiorLot,
+				cornerLot: form.landAppraisal.cornerLot,
+				stripping: form.landAppraisal.stripping,
+			},
+			stripSet: this.getStrip(),
+			othImp: this.getImpr(),
+			marketVal: this.getMarketVal(),
+			propAsmt: {
+				actualUse: form.propertyAssessment.actualUse,
+				marketVal: form.propertyAssessment.marketVal,
+				assessmentLvl: form.propertyAssessment.assessmentLvl,
+				assessedVal: form.propertyAssessment.assessedVal,
+				specialClass: form.propertyAssessment.specialClass,
+				status: form.propertyAssessment.status,
+				efftQ: form.propertyAssessment.efftQ,
+				effty: form.propertyAssessment.efftY,
+				total: form.propertyAssessment.total,
+				appraisedName: form.propertyAssessment.appraisedName,
+				appraisedDate: (form.propertyAssessment.appraisedDate == '') ? '' : moment(form.propertyAssessment.appraisedDate).format('MM/DD/YYYY'),
+				recommendName: form.propertyAssessment.recommendName,
+				recommendDate: (form.propertyAssessment.recommendDate == '') ? '' : moment(form.propertyAssessment.recommendDate).format('MM/DD/YYYY'),
+				approvedName: form.propertyAssessment.approvedName,
+				approvedDate: (form.propertyAssessment.approvedDate == '') ? '' : moment(form.propertyAssessment.approvedDate).format('MM/DD/YYYY'),
+				memoranda: form.propertyAssessment.memoranda,
+			},
+			supersededRec: {
+				supPin: form.supersededRec.supPin,
+				supArpNo: form.supersededRec.supArpNo,
+				supTDNo: form.supersededRec.supTDNo,
+				supTotalAssessedVal: form.supersededRec.supTotalAssessedVal,
+				supPrevOwner: form.supersededRec.supPrevOwner,
+				supEff: form.supersededRec.supEff,
+				supARPageNo: form.supersededRec.supARPageNo,
+				supRecPersonnel: form.supersededRec.supRecPersonnel,
+				supDate: form.supersededRec.supDate,
+			},
+			status: '',
+			dateCreated: '',
+			encoder: '',
+			attachment: '',
+		};
+		console.log(data);
   }
+
+	getOwners(): landOwner[] {
+		let data: landOwner[] = [];
+		_.forEach(ownerLs, (arr) => {
+			data.push({
+				ownName: arr.ownName,
+			  ownAddress: arr.ownAddress,
+			  ownContact: arr.ownContact,
+			  ownTIN: arr.ownTIN,
+			});
+		});
+		return data;
+	}
+
+	getAdmins(): adminOwner[] {
+		let data: adminOwner[] = [];
+		_.forEach(adminLs, arr => {
+			data.push({
+				admName: arr.admName,
+			  admAddress: arr.admAddress,
+			  admContact: arr.admContact,
+			  admTIN: arr.admTIN,
+			});
+		});
+		return data;
+	}
+
+	getStrip(): stripInfo[] {
+		let data: stripInfo[] = [];
+		_.forEach(stripInf, arr => {
+			data.push({
+				stripNum: arr.stripNum,
+			  stripArea: arr.stripArea,
+			  adjustment: arr.adjustment,
+			  adjustedBaseRate: arr.adjustedBaseRate,
+			  stripMarkVal: arr.stripMarkVal,
+			});
+		});
+		return data;
+	}
+
+	getImpr(): improvementInfo[] {
+		let data: improvementInfo[] = [];
+		_.forEach(imprInf, arr => {
+			data.push({
+				kind: arr.kind,
+			  totalNo: arr.totalNo,
+			  unitVal: arr.unitVal,
+			  baseMarkVal: arr.baseMarkVal,
+			});
+		});
+		return data;
+	}
+
+	getMarketVal(): marketValue[] {
+		let data: marketValue[] = [];
+		_.forEach(mrktVal, arr => {
+			data.push({
+				mBaseVal: arr.mBaseVal,
+			  mAdjustFactor: arr.mAdjustFactor,
+			  mAdjustPercentage: arr.mAdjustPercentage,
+			  mAdjustValue: arr.mAdjustValue,
+			  mMarketVal: arr.mMarketVal,
+			});
+		});
+		return data;
+	}
 
   setStripNumSel(grp: any) {
     this.stripNo = []
@@ -567,11 +708,11 @@ export class LandAssessmentComponent implements OnInit {
 				effty: data.pa_effectivity_assess_year,
 				total: data.pa_total_assessed_value,
 				appraisedName: data.appraised_by,
-				appraisedDate: new Date(data.appraised_by_date),
+				appraisedDate: (data.appraised_by_date == '') ? '' : new Date(data.appraised_by_date),
 				recommendName: data.recommending,
-				recommendDate: new Date(data.recommending_date),
+				recommendDate: (data.recommending_date == '') ? '' : new Date(data.recommending_date),
 				approvedName: data.approved_by,
-				approvedDate: new Date(data.approved_by_date),
+				approvedDate: (data.approved_by_date == '') ? '' : new Date(data.approved_by_date),
 				memoranda: data.memoranda
 			})
 			_.forEach(owners, arr => {
@@ -594,8 +735,8 @@ export class LandAssessmentComponent implements OnInit {
 		  this.adminsLs = new MatTableDataSource(adminLs);
 		} else {
 			this.landAssessment = new FormGroup({
-	      trnsCode: new FormControl('', [Validators.required]),
-	      arpNo: new FormControl('', [Validators.required]),
+	      trnsCode: new FormControl(''),
+	      arpNo: new FormControl(''),
 	      pin: new FormGroup({
 	        city: new FormControl('', [Validators.required]),
 	        district: new FormControl('', [Validators.required]),
@@ -603,20 +744,20 @@ export class LandAssessmentComponent implements OnInit {
 	        section: new FormControl('', [Validators.required]),
 	        parcel: new FormControl('', [Validators.required])
 	      }),
-	      OCT_TCT: new FormControl('', [Validators.required]),
-	      surveyNo: new FormControl('', [Validators.required]),
-	      lotNo: new FormControl('', [Validators.required]),
-	      blockNo: new FormControl('', [Validators.required]),
+	      OCT_TCT: new FormControl(''),
+	      surveyNo: new FormControl(''),
+	      lotNo: new FormControl(''),
+	      blockNo: new FormControl(''),
 	      propertyLocation: new FormGroup({
-	        streetNo: new FormControl('', [Validators.required]),
-	        barangay: new FormControl('', [Validators.required]),
-	        subdivision: new FormControl('', [Validators.required]),
-	        city: new FormControl('', [Validators.required]),
-	        province: new FormControl('', [Validators.required]),
-	        north: new FormControl('', [Validators.required]),
-	        south: new FormControl('', [Validators.required]),
-	        east: new FormControl('', [Validators.required]),
-	        west: new FormControl('', [Validators.required])
+	        streetNo: new FormControl(''),
+	        barangay: new FormControl(''),
+	        subdivision: new FormControl(''),
+	        city: new FormControl(''),
+	        province: new FormControl(''),
+	        north: new FormControl(''),
+	        south: new FormControl(''),
+	        east: new FormControl(''),
+	        west: new FormControl('')
 	      }),
 	      ownerDetails: new FormGroup({
 	        ownfName: new FormControl(''),
