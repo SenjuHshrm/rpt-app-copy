@@ -13,6 +13,21 @@ img { width: 50px; height: 50px; }
   margin: 0 auto;
 }
 
+.th-25 { width: 24%; }
+.th-17 { width: 17%; }
+.th-8 { width: 9%; }
+
+.mat-cell,
+.mat-header-cell { border: 1px solid #e0e0e0; text-align: center;}
+
+th { background: #0063EA; color: #fff; font-size: 12px; color: #FFF; font-weight: bold; border: 1px solid #e0e0e0; font-weight: normal; }
+td { font-size: 12px; text-align: center; border: 1px solid #e0e0e0; }
+tr {
+    &:nth-child(even) {
+    background-color: rgba(#CCC, 0.3);
+  }
+}
+
 .wrapper {
   width: 90%;
   height: auto;
@@ -91,4 +106,40 @@ img { width: 50px; height: 50px; }
   margin: 0 auto;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.addBtnMU {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #0058CF;
+}
+
+.addBtnMD {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  font-size: 11px;
+  border: 1px solid #0058CF;
+}
+
+.applyBtn {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  font-size: 11px;
+  border: 1px solid #0058CF;
+}
+
+.clrBtnMD {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  font-size: 11px;
+  border: 1px solid #F00;
+}
+
+.clrBtnMU {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #F00;
 }
