@@ -603,7 +603,7 @@
               <mat-form-field class='item item-1' fxFlex='32%'>
                 <mat-label>Actual Use</mat-label>
                 <mat-select formControlName='actualUse'>
-                  <mat-option *ngFor='let sel of actualUse' [value]='sel.value'>{{ sel.viewVal }}</mat-option>
+                  <mat-option *ngFor='let sel of actualUse' (click)="setAsmtLvl(landAssessment.get('propertyAssessment'))" [value]='sel.value'>{{ sel.viewVal }}</mat-option>
                 </mat-select>
               </mat-form-field>
               <mat-checkbox formControlName='specialClass' class='item item-2' fxFlex='32%'>Special Class</mat-checkbox>
@@ -612,7 +612,7 @@
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
               fxLayoutGap.xs='10px'>
               <mat-form-field class='item item-1' fxFlex='32%'>
-                <input matInput type='text' formControlName='marketVal' placeholder='Market Value'>
+                <input matInput type='text' formControlName='marketVal' (keyup)="compAssessedVal(landAssessment.get('propertyAssessment'))" placeholder='Market Value'>
               </mat-form-field>
               <mat-form-field class='item item-2' fxFlex='32%'>
                 <input matInput type='text' formControlName='assessmentLvl' placeholder='Assessment Level'>

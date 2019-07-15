@@ -339,7 +339,7 @@ export class LandAssessmentComponent implements OnInit {
 					// val.value = 'DISCOVERY/NEW DECLARATION';
 					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION');
 				} else {
-					this.populateForm(res, val.value);
+					this.populateForm(res);
 				}
 			})
 		} else if (val.value == 'SUBDIVISION (SD)' ||
@@ -350,13 +350,38 @@ export class LandAssessmentComponent implements OnInit {
 				if(res == undefined) {
 					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
 				} else {
-					this.populateForm(res, val.value)
+					this.populateForm(res)
 				}
 			})
 		}
 	}
 
-	populateForm(id: number, code: string): void {
+	setAsmtLvl(propAsmt: any) {
+		let actlUse = propAsmt.get('actualUse').value,
+				asmtLvl = propAsmt.get('assessmentLvl');
+		switch(actlUse) {
+			case 'RESIDENTIAL':
+				asmtLvl.setValue('15');
+				break;
+			case 'AGRICULTURAL':
+				asmtLvl.setValue(40);
+				break;
+			case 'COMMERCIAL':
+				asmtLvl.setValue(40);
+				break;
+			case 'INDUSTRIAL':
+				asmtLvl.setValue(40);
+				break;
+		}
+
+	}
+
+	compAssessedVal(propAsmt: any) {
+		let asmtVal = (+propAsmt.get('marketVal').value) * ((+propAsmt.get('assessmentLvl').value) / 100);
+		propAsmt.get('assessedVal').setValue(asmtVal);
+	}
+
+	populateForm(id: number): void {
 		let data = {
 			id: id
 		}
@@ -715,6 +740,7 @@ export class LandAssessmentComponent implements OnInit {
 				approvedDate: (data.approved_by_date == '') ? '' : new Date(data.approved_by_date),
 				memoranda: data.memoranda
 			})
+			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'));
 			_.forEach(owners, arr => {
 				ownerLs.push({
 					ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
