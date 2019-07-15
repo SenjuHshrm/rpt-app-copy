@@ -871,4 +871,18 @@ export class LandAssessmentComponent implements OnInit {
 
   }
 
+	resetForm() {
+		this.initializeForm('');
+		ownerLs = [];
+		adminLs = [];
+		stripInf = [];
+		imprInf = [];
+		mrktVal = [];
+		this.ownersLs = new MatTableDataSource(ownerLs)
+	  this.adminsLs = new MatTableDataSource(adminLs)
+	  this.stripSetInfo = new MatTableDataSource(stripInf)
+	  this.impInf = new MatTableDataSource(imprInf)
+	  this.marketValue = new MatTableDataSource(mrktVal)
+	}
+
 }
