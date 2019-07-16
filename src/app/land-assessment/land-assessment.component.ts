@@ -678,7 +678,9 @@ export class LandAssessmentComponent implements OnInit {
 		if(xobj instanceof Object) {
 			let data = xobj.faas,
 					owners = xobj.owners,
-					admins = xobj.admins;
+					admins = xobj.admins,
+					strips = xobj.strips,
+					marketval = xobj.marketval;
 			this.landAssessment.controls['arpNo'].setValue(data.arp_no);
 			this.landAssessment.controls['pin'].setValue({
 				city: data.pin_city,
@@ -757,8 +759,28 @@ export class LandAssessmentComponent implements OnInit {
 					admTIN: arr.TIN
 				});
 			});
+			_.forEach(strips, arr => {
+				stripInf.push({
+					stripNum: arr.land_strip_no,
+					stripArea: arr.area,
+					adjustedBaseRate: arr.adjusted_unit_value,
+					adjustment: arr.adjustment_percentage,
+					stripMarkVal: arr.adjusted_market_value,
+				});
+			});
+			_.forEach(marketval, arr => {
+				mrktVal.push({
+					mBaseVal: arr.base_market_value,
+					mAdjustValue: arr.adjustment_value,
+					mAdjustFactor: arr.type,
+					mAdjustPercentage: arr.adjustment_percentage,
+					mMarketVal: arr.market_value,
+				})
+			});
 			this.ownersLs = new MatTableDataSource(ownerLs);
 		  this.adminsLs = new MatTableDataSource(adminLs);
+			this.stripSetInfo = new MatTableDataSource(stripInf);
+			this.marketValue = new MatTableDataSource(mrktVal);
 		} else {
 			this.landAssessment = new FormGroup({
 	      trnsCode: new FormControl(''),
