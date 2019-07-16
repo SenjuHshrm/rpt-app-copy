@@ -13,6 +13,24 @@ img { width: 50px; height: 50px; }
   margin: 0 auto;
 }
 
+.th-25 { width: 24%; }
+.th-17 { width: 17%; }
+.th-8 { width: 9%; }
+
+.mat-cell,
+.mat-header-cell { border: 1px solid #e0e0e0; text-align: center;}
+
+th { background: #0063EA; color: #fff; font-size: 12px; color: #FFF; font-weight: bold; border: 1px solid #e0e0e0; font-weight: normal; }
+td { font-size: 12px; text-align: center; border: 1px solid #e0e0e0; }
+tr {
+    &:nth-child(even) {
+    background-color: rgba(#CCC, 0.3);
+  }
+}
+
+.brdrBlue { border: 1px solid #0058CF; }
+.brdrRed { border: 1px solid #F00; }
+
 .wrapper {
   width: 90%;
   height: auto;
