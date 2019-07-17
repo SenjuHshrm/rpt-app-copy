@@ -127,11 +127,55 @@ input[type=number]::-webkit-outer-spin-button {
   margin-left: 5%;
   margin-top: 2%;
   font-size: 11px;
+  border: 1px solid #0058CF;
 }
 
 .addBtnMU {
   width: 100%;
   height: 100%;
+  border: 1px solid #0058CF;
+}
+
+.laaddBtnMU {
+  width: 100%;
+  height: 100%;
+}
+
+.laaddBtnMD {
+  width: 95%;
+  height: 95%;
+  margin-left: 2.5%;
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.saveClrBtnMU {
+  width: 100%;
+  height: 100%;
+}
+
+.saveClrBtnMD {
+  width: 90%;
+  font-size: 11px;
+  margin-left: 2%;
+}
+
+.sve {
+  border: 1px solid #0058CF;
+}
+
+.clr {
+  border: 1px solid #F00;
+}
+
+@media (max-width: 600px) {
+  .addBtnMD {
+    margin-top: 0px;
+  }
+
+  .laaddBtnMD {
+    margin-top: 0px;
+  }
 }
 
 .mat-cell,

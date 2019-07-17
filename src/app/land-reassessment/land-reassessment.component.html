@@ -56,7 +56,7 @@
                 </mat-form-field>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <button type='button' mat-raised-button color='primary'
-                  (click)="checkPIN(landReassessment.get('pin')); isVisible_spinner=true">Check PIN</button>
+                  (click)="checkPIN(landReassessment.get('pin')); isVisible_spinner=true" class="sve">Check PIN</button>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <span>
                   <!-- spinner -->
@@ -193,8 +193,9 @@
                 <mat-form-field class='item item-2' fxFlex='32%'>
                   <input matInput type='text' formControlName='ownTIN' placeholder='TIN No.'>
                 </mat-form-field>
-                <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                  (click)="addOwner(landReassessment.get('ownerDetails'))">Add</button>
+                <div fxFlex='32%' (mousedown)='ownAdd=true' (mouseup)='ownAdd=false' (mouseleave)='ownAdd=false' (click)="addOwner(landReassessment.get('ownerDetails'))">
+                <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMD': ownAdd, 'addBtnMU': !ownAdd}">Add</button>
+                </div>
               </div>
               <br><br>
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -265,9 +266,8 @@
                 <mat-form-field class='item item-2' fxFlex='32%'>
                   <input matInput type='text' formControlName='admTIN' placeholder='TIN No.'>
                 </mat-form-field>
-                <div fxFlex='32%' (mousedown)='adminAdd=true' (mouseup)='adminAdd=false'>
-                <button mat-raised-button type='button' class='item item-3 btnMD' color='primary'
-                  (click)="addAdmin(landReassessment.get('adminOwnerLs'))" [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
+                <div fxFlex='32%' (mousedown)='adminAdd=true' (mouseup)='adminAdd=false' (mouseleave)='adminAdd=false' (click)="addAdmin(landReassessment.get('adminOwnerLs'))">
+                <button mat-raised-button type='button' class='item item-3 btnMD' color='primary' [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
                 </div>
               </div>
               <br><br>
@@ -388,10 +388,10 @@
                 <mat-option *ngFor='let count of stripNo' [value]='count.value'>{{ count.viewVal }}</mat-option>
               </mat-select>
             </mat-form-field>
-            <button mat-raised-button class='item item-3' fxFlex='32%' [disabled]='!stripToggleVal' type='button'
-              class='item item-3' fxFlex='32%' (click)="addStrip(landReassessment.get('stripSet'))"
-              color='primary'>Add</button>
-          </div>
+            <div fxFlex='32%' (click)="addStrip(landReassessment.get('stripSet'))" (mousedown)='lndApprAdd=true' (mouseup)='lndApprAdd=false' (mouseleave)='lndApprAdd=false'>
+            <button [ngClass]="{'laaddBtnMU': !lndApprAdd, 'laaddBtnMD': lndApprAdd}" mat-raised-button class='item item-3' [disabled]='!stripToggleVal' type='button' class='item item-3' color='primary'>Add</button>
+            </div>
+          </div><!--  -->
           <br><br>
           <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
             <table mat-table class='mat-elevation-z8 item item-1' fxFlex='100%' [dataSource]='stripSetInfo'>
@@ -461,8 +461,9 @@
             <mat-form-field class='item item-2' fxFlex='32%'>
               <input matInput type='text' formControlName='basicMarketVal' placeholder='Base Market Value'>
             </mat-form-field>
-            <button mat-raised-button (click)="addImp(landReassessment.get('otherImprovements'))" type='button'
-            color='primary' class='item item-3' fxFlex='32%'>Add</button>
+            <div fxFlex='32%' (click)="addImp(landReassessment.get('otherImprovements'))" (mousedown)='othrImpAdd=true' (mouseup)='othrImpAdd=false' (mouseleave)='othrImpAdd=false'>
+            <button mat-raised-button type='button' color='primary' class='item item-3' [ngClass]="{'addBtnMD': othrImpAdd, 'addBtnMU': !othrImpAdd}">Add</button>
+            </div>
           </div>
             <br><br>
           <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -533,8 +534,9 @@
               <mat-form-field class='item item-2' fxFlex='32%'>
                 <input matInput type='text' placeholder='Market Value' formControlName='marketVal'>
               </mat-form-field>
-              <button type='button' (click)="addMVal(landReassessment.get('marketVal'))" mat-raised-button color='primary'
-                class='item item-3' fxFlex='32%'>Add</button>
+              <div fxFlex='32%' (click)="addMVal(landReassessment.get('marketVal'))" (mousedown)='mrktVal=true' (mouseup)='mrktVal=false' (mouseleave)='mrktVal=false'>
+              <button type='button' mat-raised-button color='primary' class='item item-3' [ngClass]="{'addBtnMD': mrktVal, 'addBtnMU': !mrktVal}">Add</button>
+              </div>
             </div>
             <br><br>
             <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -735,8 +737,12 @@
     </div>
       <mat-card-actions align='center'>
         <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-        <button fxFlex='15%' mat-raised-button color='primary' type='submit'>Save</button>
-        <button fxFlex='15%' mat-raised-button color='warn'>Clear</button>
+          <div fxFlex='15%' (mousedown)='sve=true' (mouseup)='sve=false' (mouseleave)='sve=false'>
+            <button mat-raised-button color='primary' type='submit' [ngClass]="{'saveClrBtnMD': sve, 'saveClrBtnMU': !sve}" class='sve'>Save</button>
+          </div>
+          <div fxFlex='15%' (mousedown)='clr=true' (mouseup)='clr=false' (mouseleave)='clr=false'>
+            <button mat-raised-button color='warn' [ngClass]="{'saveClrBtnMD': clr, 'saveClrBtnMU': !clr}" class='clr'>Clear</button>
+          </div>
         </div>
       </mat-card-actions>
     </mat-card-content>

@@ -1,4 +1,4 @@
-.width-10 { width: 10% }
+.width-10 { width: 10%; text-align: center;}
 
 .mat-card-subtitle { color: black }
 .bldg-assessment-form { margin: 20px 30px 20px 30px }
@@ -92,6 +92,10 @@ tr {
   border-top: none;
 }
 
+.cpBrdr {
+  border: 1px solid #0058CF;
+}
+
 .brdrBtm {
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -109,4 +113,40 @@ tr {
   margin: 0 auto;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.addBtnMU {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #0058CF;
+}
+
+.addBtnMD {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  font-size: 11px;
+  border: 1px solid #0058CF;
+}
+
+.applyBtn {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  font-size: 11px;
+  border: 1px solid #0058CF;
+}
+
+.clrBtnMD {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  font-size: 11px;
+  border: 1px solid #F00;
+}
+
+.clrBtnMU {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #F00;
 }
