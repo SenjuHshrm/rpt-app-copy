@@ -36,23 +36,23 @@
               <div formGroupName='pin' class='item item-1' fxFlex='100%'>
                 <span>PIN: </span>
                 <mat-form-field class='width-10'>
-                  <input matInput type='text' formControlName='city' required>
+                  <input matInput type='text' formControlName='city' required maxlength='3'>
                 </mat-form-field>
                 <span>-</span>
                 <mat-form-field class='width-10'>
-                  <input matInput type='text' formControlName='district' required>
+                  <input matInput type='text' formControlName='district' required maxlength='2'>
                 </mat-form-field>
                 <span>-</span>
                 <mat-form-field class='width-10'>
-                  <input matInput type='text' formControlName='barangay' required>
+                  <input matInput type='text' formControlName='barangay' required maxlength='3'>
                 </mat-form-field>
                 <span>-</span>
                 <mat-form-field class='width-10'>
-                  <input matInput type='text' formControlName='section' required>
+                  <input matInput type='text' formControlName='section' required maxlength='2'>
                 </mat-form-field>
                 <span>-</span>
                 <mat-form-field class='width-10'>
-                  <input matInput type='text' formControlName='parcel' required>
+                  <input matInput type='text' formControlName='parcel' required maxlength='4'>
                 </mat-form-field>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <button type='button' mat-raised-button color='primary'
@@ -265,8 +265,10 @@
                 <mat-form-field class='item item-2' fxFlex='32%'>
                   <input matInput type='text' formControlName='admTIN' placeholder='TIN No.'>
                 </mat-form-field>
-                <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                  (click)="addAdmin(landReassessment.get('adminOwnerLs'))">Add</button>
+                <div fxFlex='32%' (mousedown)='adminAdd=true' (mouseup)='adminAdd=false'>
+                <button mat-raised-button type='button' class='item item-3 btnMD' color='primary'
+                  (click)="addAdmin(landReassessment.get('adminOwnerLs'))" [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
+                </div>
               </div>
               <br><br>
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
