@@ -37,6 +37,16 @@ export class BuildingReassessmentComponent implements OnInit {
   adminsLs = new MatTableDataSource(adminLs)
   addItemsTable = new MatTableDataSource(addtnlItems)
   mdpdateOccupied;
+  ownAdd: boolean;
+  adminAdd: boolean;
+  areaApply: boolean;
+  flrngApply: boolean;
+  wpApply: boolean;
+  apply_Btn: boolean;
+  aiApply: boolean;
+  aiRemuv: boolean;
+  sveBtn: boolean;
+  clrBtn: boolean;
 
   bldgOpt: selectOpt[] = [
     { value: 'DISCOVERY/NEW DECLARATION', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },

@@ -61,7 +61,7 @@
                   </mat-form-field>
 
                   <span>&nbsp;&nbsp;&nbsp;</span>
-                  <button type='button' mat-raised-button color='primary' (click)="chckPIN()">Check PIN</button>
+                  <button type='button' mat-raised-button color='primary' (click)="chckPIN()" class="cpBrdr">Check PIN</button>
                 </div>
               </div>
             </div>
@@ -106,7 +106,9 @@
                       <input matInput type='text' formControlName='ownTIN' placeholder='TIN No.'>
                     </mat-form-field>
 
-                    <button mat-raised-button type='button' class='item item-3 brdrBlue' fxFlex='32%' color='primary' (click)="addOwner()">Add</button>
+                    <div fxFlex='32%' (click)="addOwner()" (mousedown)='ownAdd=true' (mouseup)='ownAdd=false' (mouseleave)='ownAdd=false'>
+                    <button mat-raised-button type='button' class='item item-3 brdrBlue' color='primary' [ngClass]="{'addBtnMU': !ownAdd, 'addBtnMD': ownAdd}">Add</button>
+                    </div>
                   </div>
                   <br>
 
@@ -185,7 +187,9 @@
                   <input matInput type='text' formControlName='admTIN' placeholder='TIN No.'>
                 </mat-form-field>
 
-                <button mat-raised-button type='button' class='item item-3 brdrBlue' fxFlex='32%' color='primary' (click)="addAdmin()">Add</button>
+                <div fxFlex='32%' (mousedown)='adminAdd=true' (mouseup)='adminAdd=false' (mouseleave)='adminAdd=false' (click)="addAdmin()">
+                <button mat-raised-button type='button' class='item item-3 brdrBlue' color='primary' [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
+                </div>
               </div>
               <br>
 
@@ -493,7 +497,9 @@
                 </div>
 
                 <div class=''>
-                  <button mat-raised-button type='button' class='item item-3 brdrBlue' color='primary' fxFlex='100%'>Apply</button>
+                  <div fxFlex='100%' (mousedown)='areaApply=true' (mouseup)='areaApply=false' (mouseleave)='areaApply=false'>
+                    <button mat-raised-button type='button' class='item item-3 brdrBlue' color='primary' [ngClass]="{'addBtnMU': !areaApply, 'applyBtn': areaApply}">Apply</button>
+                  </div>
                 </div>
 
                   </mat-card-content>
@@ -595,7 +601,9 @@
 
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                     fxLayoutGap.xs='10px'>
-                    <button mat-raised-button type='button' class="item item-1 brdrBlue" fxFlex="100%" color='primary'>Apply</button>
+                    <div (mousedown)='flrngApply=true' (mouseup)='flrngApply=false' (mouseleave)='flrngApply=false' fxFlex='100%'>
+                      <button mat-raised-button type='button' class="item item-1 brdrBlue" color='primary' [ngClass]="{'addBtnMU': !flrngApply, 'applyBtn': flrngApply}">Apply</button>
+                    </div>
                   </div>
                 </div>
                 <br>
@@ -666,7 +674,9 @@
                   </div>
 
                   <div class='container'>
-                    <button mat-raised-button type='button' class="item item-1 brdrBlue" fxFlex="100%" color='primary'>Apply</button>
+                    <div fxFlex='100%' (mousedown)='wpApply=true' (mouseup)='wpApply=false' (mouseleave)='wpApply=false'>
+                      <button mat-raised-button type='button' class="item item-1 brdrBlue" color='primary' [ngClass]="{'addBtnMU': !wpApply, 'applyBtn': wpApply}">Apply</button>
+                    </div>
                   </div>
                 </div>
                 <br>
@@ -759,7 +769,9 @@
                 </mat-form-field>
               </div>
               <div>
-                <button mat-raised-button type='button' fxFlex="100%" color='primary' class="brdrBlue">Apply</button>
+                <div fxFlex="100%" (mousedown)='apply_Btn=true' (mouseup)='apply_Btn=false' (mouseleave)='apply_Btn=false'>
+                  <button mat-raised-button type='button' color='primary' class="brdrBlue" [ngClass]="{'addBtnMU': !apply_Btn, 'applyBtn': apply_Btn}">Apply</button>
+                </div>
               </div>
             </div>
           </div>
@@ -878,11 +890,14 @@
               <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
               fxLayoutGap.xs='10px'>
                 <div class="item item-1" fxFlex="50%">
-                  <button fxFlex="100%" mat-raised-button type='button' color='primary'
-                  (click)="addAddItems()" class="brdrBlue">Add</button>
+                  <div fxFlex="100%" (mousedown)='aiApply=true' (mouseup)='aiApply=false' (mouseleave)='aiApply=false'>
+                  <button mat-raised-button type='button' color='primary' (click)="addAddItems()" class="brdrBlue" [ngClass]="{'applyBtn': aiApply, 'addBtnMU': !aiApply}">Add</button>
+                  </div>
                 </div>
               <div class="item item-2" fxFlex="50%">
-                <button fxFlex="100%" mat-raised-button type='button' color='primary' class="brdrBlue">Remove</button>
+                <div fxFlex='100%' (mousedown)='aiRemuv=true' (mouseup)='aiRemuv=false' (mouseleave)='aiRemuv=false'>
+                <button mat-raised-button type='button' color='primary' class="brdrBlue" [ngClass]="{'applyBtn': aiRemuv, 'addBtnMU': !aiRemuv}">Remove</button>
+                </div>
               </div>
               </div>
               <br><br>
@@ -1277,8 +1292,12 @@
       <div class="h"></div>
     <mat-card-actions align='center'>
       <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-      <button fxFlex='15%' mat-raised-button color='primary' type='submit' class="brdrBlue">Save</button>
-      <button fxFlex='15%' mat-raised-button color='warn' class="brdrRed">Clear</button>
+        <div fxFlex='15%' (mousedown)='sveBtn=true' (mouseup)='sveBtn=false' (mouseleave)='sveBtn=false'>
+          <button mat-raised-button color='primary' type='submit' class="brdrBlue" [ngClass]="{'applyBtn': sveBtn, 'addBtnMU': !sveBtn}">Save</button>
+        </div>
+        <div fxFlex='15%' (mousedown)='clrBtn=true' (mouseup)='clrBtn=false' (mouseleave)='clrBtn=false'>
+          <button mat-raised-button color='warn' class="brdrRed" [ngClass]="{'clrBtnMD': clrBtn, 'clrBtnMU': !clrBtn}">Clear</button>
+        </div>
       </div>
     </mat-card-actions>
     </mat-card-content>
