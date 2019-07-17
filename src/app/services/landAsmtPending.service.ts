@@ -27,17 +27,17 @@ export class landAsmtPending {
 		});
 		switch(data) {
 			case 'SUBDIVISION (SD)':
-				httpUrl = 'http://192.168.100.24:5000/api/pending/subdivision';
+				httpUrl = 'http://192.168.100.24:5000/api/pending/subdivision/' + encodeURI(encoder.name);
 				break;
 			case 'SEGREGATION (SG)':
-				httpUrl = 'http://192.168.100.24:5000/api/pending/segregation';
+				httpUrl = 'http://192.168.100.24:5000/api/pending/segregation/' + encodeURI(encoder.name);
 				break;
 			case 'CONSOLIDATION (CS)':
-				httpUrl = 'http://192.168.100.24:5000/api/pending/consolidation';
+				httpUrl = 'http://192.168.100.24:5000/api/pending/consolidation/' + encodeURI(encoder.name);
 				break;
 		}
 		let opt = { headers: headers };
-		return this.http.post(httpUrl, encoder, opt);
+		return this.http.get(httpUrl, opt);
 	}
 
 }
