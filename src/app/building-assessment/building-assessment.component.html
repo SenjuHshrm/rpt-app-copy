@@ -61,7 +61,7 @@
                   </mat-form-field>
 
                   <span>&nbsp;&nbsp;&nbsp;</span>
-                  <button type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
+                  <button class="cpBrdr" type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
                 </div>
               </div>
             </div>
@@ -106,36 +106,37 @@
                       <input matInput type='text' formControlName='ownTIN' placeholder='TIN No.'>
                     </mat-form-field>
 
-                    <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                      (click)="addOwner(bldgAssessment.get('ownerDetails'))">Add</button>
+                    <div fxFlex='32%' (click)="addOwner(bldgAssessment.get('ownerDetails'))" (mousedown)='ownAdd=true' (mouseup)='ownAdd=false' (mouseleave)='ownAdd=false'>
+                      <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !ownAdd, 'addBtnMD': ownAdd}">Add</button>
+                    </div>
                   </div>
                   <br>
 
                   <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
                   <table mat-table class='mat-elevation-z8 owner-table item item-1' fxFlex='100%' [dataSource]='ownersLs'>
                     <ng-container matColumnDef='name'>
-                      <th mat-header-cell *matHeaderCellDef>Name</th>
-                      <td mat-cell *matCellDef='let data'>{{ data.ownName }}</td>
+                      <th *matHeaderCellDef class='th-25'>Name</th>
+                      <td *matCellDef='let data' class='th-25'>{{ data.ownName }}</td>
                     </ng-container>
                     <ng-container matColumnDef='address'>
-                      <th mat-header-cell *matHeaderCellDef>Address</th>
-                      <td mat-cell *matCellDef='let data'>{{ data.ownAddress }}</td>
+                      <th mat-header-cell *matHeaderCellDef class='th-25'>Address</th>
+                      <td mat-cell *matCellDef='let data' class='th-25'>{{ data.ownAddress }}</td>
                     </ng-container>
                     <ng-container matColumnDef='contact'>
-                      <th mat-header-cell *matHeaderCellDef>Contact</th>
-                      <td mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
+                      <th mat-header-cell *matHeaderCellDef class='th-25'>Contact</th>
+                      <td mat-cell *matCellDef='let data' class='th-25'>{{ data.ownContact }}</td>
                     </ng-container>
                     <ng-container matColumnDef='tin'>
-                      <th mat-header-cell *matHeaderCellDef>TIN</th>
-                      <td mat-cell *matCellDef='let data'>{{ data.ownTIN }}</td>
+                      <th mat-header-cell *matHeaderCellDef class='th-17'>TIN</th>
+                      <td mat-cell *matCellDef='let data' class='th-17'>{{ data.ownTIN }}</td>
                     </ng-container>
                     <ng-container matColumnDef='actions'>
-                      <th mat-header-cell *matHeaderCellDef></th>
-                      <mat-cell *matCellDef='let row'>
+                      <th *matHeaderCellDef class='th-8'></th>
+                      <td *matCellDef='let row' class='th-8'>
                         <button type='button' (click)='removeOwnerDetail(row)' mat-icon-button color='warn'>
                           <mat-icon>delete_outline</mat-icon>
                         </button>
-                      </mat-cell>
+                      </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef='ownerHeader'></tr>
                     <tr mat-row *matRowDef='let row; columns: ownerHeader'></tr>
@@ -186,36 +187,37 @@
                   <input matInput type='text' formControlName='admTIN' placeholder='TIN No.'>
                 </mat-form-field>
 
-                <button mat-raised-button type='button' class='item item-3' fxFlex='32%' color='primary'
-                  (click)="addAdmin(bldgAssessment.get('adminOwnerLs'))">Add</button>
+                <div fxFlex='32%' (click)="addAdmin(bldgAssessment.get('adminOwnerLs'))" (mousedown)='adminAdd=true' (mouseup)='adminAdd=false' (mouseleave)='adminAdd=false' >
+                 <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
+                </div>
               </div>
               <br>
 
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
                 <table mat-table class='mat-elevation-z8 owner-table' fxFlex='100%' [dataSource]='adminsLs'>
                   <ng-container matColumnDef='name'>
-                    <th mat-header-cell *matHeaderCellDef>Name</th>
-                    <td mat-cell *matCellDef='let data'>{{ data.admName }}</td>
+                    <th *matHeaderCellDef class='th-25'>Name</th>
+                    <td *matCellDef='let data' class='th-25'>{{ data.admName }}</td>
                   </ng-container>
                   <ng-container matColumnDef='address'>
-                    <th mat-header-cell *matHeaderCellDef>Address</th>
-                    <td mat-cell *matCellDef='let data'>{{ data.admAddress }}</td>
+                    <th mat-header-cell *matHeaderCellDef class='th-25'>Address</th>
+                    <td mat-cell *matCellDef='let data' class='th-25'>{{ data.admAddress }}</td>
                   </ng-container>
                   <ng-container matColumnDef='contact'>
-                    <th mat-header-cell *matHeaderCellDef>Contact</th>
-                    <td mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
+                    <th mat-header-cell *matHeaderCellDef class='th-25'>Contact</th>
+                    <td mat-cell *matCellDef='let data' class='th-25'>{{ data.admContact }}</td>
                   </ng-container>
                   <ng-container matColumnDef='tin'>
-                    <th mat-header-cell *matHeaderCellDef>TIN</th>
-                    <td mat-cell *matCellDef='let data'>{{ data.admTIN }}</td>
+                    <th mat-header-cell *matHeaderCellDef class='th-17'>TIN</th>
+                    <td mat-cell *matCellDef='let data' class='th-17'>{{ data.admTIN }}</td>
                   </ng-container>
                   <ng-container matColumnDef='actions'>
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <mat-cell *matCellDef='let row'>
+                    <th *matHeaderCellDef class='th-8'></th>
+                    <td *matCellDef='let row' class='th-8'>
                       <button type='button' (click)='removeAdminDetail(row)' mat-icon-button color='warn'>
                         <mat-icon>delete_outline</mat-icon>
                       </button>
-                    </mat-cell>
+                    </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef='adminHeader'></tr>
                   <tr mat-row *matRowDef='let row; columns: adminHeader'></tr>
@@ -495,7 +497,9 @@
                 </div>
 
                 <div class=''>
-                  <button mat-raised-button type='button' class='item item-3' color='primary' fxFlex='100%'>Apply</button>
+                  <div fxFlex='100%' (mousedown)='areaApply=true' (mouseup)='areaApply=false' (mouseleave)='areaApply=false'>
+                    <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !areaApply, 'applyBtn': areaApply}">Apply</button>
+                  </div>
                 </div>
 
                   </mat-card-content>
@@ -597,7 +601,9 @@
 
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                     fxLayoutGap.xs='10px'>
-                    <button mat-raised-button type='button' class="item item-1" fxFlex="100%" color='primary'>Apply</button>
+                    <div fxFlex="100%" (mousedown)='flrngApply=true' (mouseup)='flrngApply=false' (mouseleave)='flrngApply=false'>
+                      <button mat-raised-button type='button' class="item item-1" color='primary' [ngClass]="{'addBtnMU': !flrngApply, 'applyBtn': flrngApply}">Apply</button>
+                    </div>
                   </div>
                 </div>
                 <br>
@@ -668,7 +674,9 @@
                   </div>
 
                   <div class='container'>
-                    <button mat-raised-button type='button' class="item item-1" fxFlex="100%" color='primary'>Apply</button>
+                    <div fxFlex="100%" (mousedown)='wpApply=true' (mouseup)='wpApply=false' (mouseleave)='wpApply=false'>
+                      <button mat-raised-button type='button' class="item item-1" color='primary' [ngClass]="{'addBtnMU': !wpApply, 'applyBtn': wpApply}">Apply</button>
+                    </div>
                   </div>
                 </div>
                 <br>
@@ -761,7 +769,9 @@
                 </mat-form-field>
               </div>
               <div>
-                <button mat-raised-button type='button' fxFlex="100%" color='primary'>Apply</button>
+                <div fxFlex="100%" (mousedown)='apply_Btn=true' (mouseup)='apply_Btn=false' (mouseleave)='apply_Btn=false'>
+                <button mat-raised-button type='button' color='primary' [ngClass]="{'addBtnMU': !apply_Btn, 'applyBtn': apply_Btn}">Apply</button>
+                </div>
               </div>
             </div>
           </div>
@@ -775,12 +785,12 @@
             <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
               <table mat-table class='mat-elevation-z8 owner-table item item-1' fxFlex='100%'>
                 <ng-container matColumnDef='Floor No.'>
-                  <th mat-header-cell *matHeaderCellDef>Floor No.</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <th *matHeaderCellDef class="th-8">Floor No.</th>
+                  <td *matCellDef='let data' class="th-8"></td>
                 </ng-container>
                 <ng-container matColumnDef='Area'>
-                  <th mat-header-cell *matHeaderCellDef>Area</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <th mat-header-cell *matHeaderCellDef class="th-8">Area</th>
+                  <td mat-cell *matCellDef='let data' class="th-8"></td>
                 </ng-container>
                 <ng-container matColumnDef='Flooring Material'>
                   <th mat-header-cell *matHeaderCellDef>Flooring Material</th>
@@ -803,8 +813,8 @@
                   <td mat-cell *matCellDef='let data'></td>
                 </ng-container>
                 <ng-container matColumnDef='Floor Type'>
-                  <th mat-header-cell *matHeaderCellDef>Floor Type</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <th *matHeaderCellDef>Floor Type</th>
+                  <td *matCellDef='let data'></td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef='strDescHeader'></tr>
@@ -812,21 +822,18 @@
               </table>
             </div>
 
-            <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-              <table class='item item-1' fxFlex='92%'>
-                <tr>
-                  <td>
-                    <mat-form-field>
-                      <input matInput type='text' formControlName='totalArea' placeholder="Total Area">
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field>
-                      <input matInput type='text' formControlName='totalCost' placeholder="Total Cost">
-                    </mat-form-field>
-                  </td>
-                </tr>
-              </table>
+            <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutGap='20px'>
+              <mat-form-field fxFlex='25%'>
+                <input matInput type='text' formControlName='totalArea' placeholder="Total Area">
+              </mat-form-field>
+
+              <div fxFlex='25%'></div>
+
+              <mat-form-field fxFlex='25%'>
+                <input matInput type='text' formControlName='totalCost' placeholder="Total Cost">
+              </mat-form-field>
+
+              <div fxFlex='25%'></div>
             </div>
           </div>
           <br>
@@ -886,11 +893,15 @@
               <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
               fxLayoutGap.xs='10px'>
                 <div class="item item-1" fxFlex="50%">
-                  <button fxFlex="100%" mat-raised-button type='button' color='primary'
-                  (click)="addAddItems(bldgAssessment.get('additionalItems'))">Add</button>
+                  <div fxFlex="100%" (mousedown)='aiApply=true' (mouseup)='aiApply=false' (mouseleave)='aiApply=false'>
+                  <button mat-raised-button type='button' color='primary'
+                  (click)="addAddItems(bldgAssessment.get('additionalItems'))" [ngClass]="{'applyBtn': aiApply, 'addBtnMU': !aiApply}">Add</button>
+                  </div>
                 </div>
               <div class="item item-2" fxFlex="50%">
-                <button fxFlex="100%" mat-raised-button type='button' color='primary'>Remove</button>
+                <div fxFlex='100%' (mousedown)='aiRemuv=true' (mouseup)='aiRemuv=false' (mouseleave)='aiRemuv=false'>
+                <button mat-raised-button type='button' color='primary' [ngClass]="{'applyBtn': aiRemuv, 'addBtnMU': !aiRemuv}">Remove</button>
+                </div>
               </div>
               </div>
               <br><br>
@@ -898,8 +909,8 @@
                     <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
                       <table mat-table class='mat-elevation-z8 owner-table' [dataSource]='addItemsTable'>
                         <ng-container matColumnDef='aItm'>
-                          <th mat-header-cell *matHeaderCellDef>Additional Item</th>
-                          <td mat-cell *matCellDef='let data'>{{ data.adItms }}</td>
+                          <th *matHeaderCellDef>Additional Item</th>
+                          <td *matCellDef='let data'>{{ data.adItms }}</td>
                         </ng-container>
                         <ng-container matColumnDef='sType'>
                           <th mat-header-cell *matHeaderCellDef>Sub Type</th>
@@ -918,12 +929,12 @@
                           <td mat-cell *matCellDef='let data'>{{ data.tc }}</td>
                         </ng-container>
                         <ng-container matColumnDef='actions'>
-                          <th mat-header-cell *matHeaderCellDef></th>
-                          <mat-cell *matCellDef='let row'>
+                          <th *matHeaderCellDef class="th-8"></th>
+                          <td *matCellDef='let row' class="th-8">
                             <button type='button' (click)='removeAI(row)' mat-icon-button color='warn'>
                               <mat-icon>delete_outline</mat-icon>
                             </button>
-                          </mat-cell>
+                          </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef='aItemHeader'></tr>
@@ -1285,8 +1296,12 @@
       <div class="h"></div>
     <mat-card-actions align='center'>
       <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-      <button fxFlex='15%' mat-raised-button color='primary' type='submit'>Save</button>
-      <button fxFlex='15%' mat-raised-button color='warn'>Clear</button>
+      <div fxFlex='15%' (mousedown)='sveBtn=true' (mouseup)='sveBtn=false' (mouseleave)='sveBtn=false'>
+        <button mat-raised-button color='primary' type='submit' [ngClass]="{'applyBtn': sveBtn, 'addBtnMU': !sveBtn}">Save</button>
+      </div>
+      <div fxFlex='15%' (mousedown)='clrBtn=true' (mouseup)='clrBtn=false' (mouseleave)='clrBtn=false'>
+        <button mat-raised-button color='warn' [ngClass]="{'clrBtnMD': clrBtn, 'clrBtnMU': !clrBtn}">Clear</button>
+      </div>
       </div>
     </mat-card-actions>
     </mat-card-content>

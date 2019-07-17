@@ -5,7 +5,7 @@ import { searchRec } from '../services/searchFaasRec.service';
 import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
-import { getPosHolders } from '../services/getPosHolders'
+import { getPosHolders } from '../services/getPosHolders';
 import { MatTableDataSource, MatTab } from '@angular/material';
 import * as _ from 'lodash';
 import * as jwt_decode from 'jwt-decode';
@@ -40,6 +40,8 @@ export class RPTOPComponent implements OnInit {
   LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
   LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
   LTTableRptopComp = new MatTableDataSource(ltRptopComp);
+
+	isVisible_spinner: boolean;
 
   encoder1: string;
   posHolders: any;
@@ -94,6 +96,10 @@ export class RPTOPComponent implements OnInit {
     { value: 'arpNo', viewVal: 'ARP No.' },
     { value: 'name', viewVal: 'Name' },
   ];
+
+	search() {
+		
+	}
 
   addCompYear(){
     let basic = Number(this.value) * 0.1;
@@ -171,9 +177,9 @@ export class RPTOPComponent implements OnInit {
 
       ltRptopComp.push({
         yearPay: this.yearPay,
-        basic: basic.toString(),
-        pendisc: pendisc.toString(),
-        total: total.toString()
+        basic: basic.toFixed(2).toString(),
+        pendisc: pendisc.toFixed(2).toString(),
+        total: total.toFixed(2).toString()
       });
 
     }else if (moment(this.yearPay, 'YYYY').isAfter(moment(), 'year')) {
@@ -196,9 +202,9 @@ export class RPTOPComponent implements OnInit {
 
       ltRptopComp.push({
         yearPay: this.yearPay,
-        basic: basic.toString(),
-        pendisc: pendisc.toString(),
-        total: total.toString()
+        basic: basic.toFixed(2).toString(),
+        pendisc: pendisc.toFixed(2).toString(),
+        total: total.toFixed(2).toString()
       });
 
     }

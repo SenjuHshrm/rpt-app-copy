@@ -18,7 +18,7 @@ export class genFaas {
 
    private URL_land: string = '../assets/temp/land_faas_template.docx';
    private URL_bldg: string = '../assets/temp/building_faas_template.docx';
-   
+
    constructor(private http: HttpClient) { }
 
    generateLand(data: any): Observable<any> {
@@ -27,7 +27,9 @@ export class genFaas {
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-      return this.http.post('http://192.168.100.24:5000/api/get-faas/land', data, opt);
+			let id = data.id,
+					URI = 'http://192.168.100.24:5000/api/get-faas/land/' + id;
+      return this.http.get(URI, opt);
    }
 
    generateBldg(data: any): Observable<any> {
@@ -36,10 +38,12 @@ export class genFaas {
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-      return this.http.post('http://192.168.100.24:5000/api/get-faas/bldg', data, opt);
+			let id = data.id,
+					URI = 'http://192.168.100.24:5000/api/get-faas/bldg/' + id;
+      return this.http.get(URI, opt);
    }
 
-   
+
 
    fileLand(data: landFaasTmp) {
       JSZipUtils.getBinaryContent(this.URL_land, (err, cont) => {

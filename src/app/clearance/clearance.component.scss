@@ -7,6 +7,43 @@
   margin: 0 auto;
 }
 
+.srchBtnClckd {
+  margin-top: 5%;
+  margin-left: 5%;
+  width: 90%;
+  height: 90%;
+  font-size: 12px;
+}
+
+.srchBtnDefault {
+  width: 100%;
+  height: 100%;
+}
+
+.genClBtn {
+  width: 100%;
+  height: 100%;
+}
+
+.genClBtnMd {
+  margin-left: 5%;
+  width: 90%;
+  height: 100%;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .srchBtnClckd {
+    margin-top: 0px;
+    margin-left: 5%;
+  }
+}
+
+.label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .divCard {
   background: #FFF;
   border: 1px solid rgba(128, 128, 128, 0.8);
@@ -48,6 +85,10 @@
   font-size: 14px;
 }
 
+#inputReq {
+	text-transform: uppercase;
+}
+
 @media (max-width: 1000px) {
   .flex-container {
     grid-template-columns: 49% 49%;
@@ -74,16 +115,53 @@
 }
 
 .mat-radio-button { margin: 0px 5px 0px 5px; }
-.ltax-con { width: 50%; height: 300px; overflow: auto }
+.ltax-con { width: 100%; height: 300px; overflow: auto }
 .ltax-con-inf {
    width: 50%;
    height: 300px;
    overflow: auto;
 }
 .mat-cell,
-.mat-header-cell { border: 1px solid #e0e0e0; padding-left: 10px; padding-right: 10px}
+.mat-header-cell { border: 1px solid #e0e0e0; text-align: center; }
 .h { height: 10px; }
 .LTTableW { width: 100% }
+th { background: #0063EA; color: #fff; width: 6%; font-weight: normal; font-size: 12px; border: 1px solid #e0e0e0; }
+td { font-size: 12px; text-align: center; border: 1px solid #e0e0e0; }
+tr {
+    &:nth-child(even) {
+    background-color: rgba(#CCC, 0.3);
+  }
+}
+
+.clrnceTr {
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(#ADD8E6, 0.6);
+  }
+}
+
+.clrnce {
+  width: 95%;
+  height: auto;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.clrnceTxt {
+  text-align: center;
+}
+
+.hrDashed {
+  border-top: 1px dashed #CCC;
+}
+
+@media (max-width: 845px) {
+  .clrnce {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 1001px) { .LTTableW { width: 90% } }
 
 @mixin bg-opacity($color, $opacity) {

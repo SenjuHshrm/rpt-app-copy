@@ -1,7 +1,7 @@
-.width-10 { width: 10% }
+.width-10 { width: 10%; text-align: center;}
 .mat-card-subtitle { color: black }
 .land-assessment-form { margin: 20px 30px 20px 30px }
-.lnd-table { overflow: scroll }
+.lnd-table { width: 100%; overflow: scroll; background: none; }
 .h { height: 10px; }
 .fl { float: left; }
 .mat-stitle { float: left; line-height:50px; }
@@ -115,6 +115,22 @@ img { width: 50px; height: 50px; }
   width: 40%;
 }
 
+.mat-cell,
+.mat-header-cell { border: 1px solid #e0e0e0; text-align: center;}
+
+.th-25 { width: 25%; }
+.th-17 { width: 17%; }
+.th-18 { width: 18%; }
+.th-19 { width: 19%; }
+.th-8 { width: 8%; }
+.th-5 { width: 5%; }
+th { background: #0063EA; color: #fff; font-size: 12px; color: #FFF; font-weight: bold; border: 1px solid #e0e0e0; font-weight: normal; }
+td { font-size: 12px; text-align: center; border: 1px solid #e0e0e0; }
+tr {
+    &:nth-child(even) {
+    background-color: rgba(#CCC, 0.3);
+  }
+}
 
 .spinnerCon {
   width: 10px;
@@ -124,6 +140,65 @@ img { width: 50px; height: 50px; }
 
 .spnrMl {
   margin-left: 11px;
+}
+
+.saveClrBtnMU {
+  width: 100%;
+  height: 100%;
+}
+
+.saveClrBtnMD {
+  width: 90%;
+  font-size: 11px;
+  margin-left: 2%;
+}
+
+.sve {
+  border: 1px solid #0058CF;
+}
+
+.clr {
+  border: 1px solid #F00;
+}
+
+.addBtnMU {
+  width: 100%;
+  height: 100%;
+}
+
+.addBtnMD {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  margin-top: 2%;
+  font-size: 11px;
+}
+
+.laaddBtnMU {
+  width: 100%;
+  height: 100%;
+}
+
+.laaddBtnMD {
+  width: 95%;
+  height: 95%;
+  margin-left: 2.5%;
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.addBtnMU, .addBtnMD {
+  border: 1px solid #0058CF;
+}
+
+@media (max-width: 600px) {
+  .addBtnMD {
+    margin-top: 0px;
+  }
+
+  .laaddBtnMD {
+    margin-top: 0px;
+  }
 }
 
 .sk-fading-circle {

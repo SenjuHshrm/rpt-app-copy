@@ -4,6 +4,7 @@ import { searchRec } from '../services/searchFaasRec.service';
 import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
+import { landTaxTableBldg } from '../interfaces/landTaxTableBldg';
 import { getPosHolders } from '../services/getPosHolders'
 import { MatTableDataSource } from '@angular/material';
 import { lTaxClearance } from '../classes/lTaxClearance';
@@ -21,6 +22,7 @@ import { getClFile } from '../services/getClFile.service';
 import { Router } from '@angular/router';
 
 var ltTableLs: landTaxTable[] = []
+var ltTableBldgLs: landTaxTableBldg[] = []
 var ltTableInfOwner: landTaxInfOwn[] = []
 var ltTableInfAdmin: landTaxInfAdm[] = []
 
@@ -28,15 +30,16 @@ var ltTableInfAdmin: landTaxInfAdm[] = []
   selector: 'app-clearance',
   templateUrl: './clearance.component.html',
   styleUrls: ['./clearance.component.scss'],
-  styles: [''],
-  encapsulation: ViewEncapsulation.None,
+  //styles: [''],
+  //encapsulation: ViewEncapsulation.None,
 })
 export class ClearanceComponent implements OnInit {
-  clearanceTble = '';
 
   LTTable = new MatTableDataSource(ltTableLs);
   LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
   LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+
+  LTTableBldg = new MatTableDataSource(ltTableBldgLs);
 
   input1: string;
   amount: string;
@@ -51,12 +54,24 @@ export class ClearanceComponent implements OnInit {
   orNo: string;
   remarks: string;
   posHolders: any;
+	selectedRow = [];
+	selectedOwner = [];
+	selectedAdmin = [];
+	faas: any;
+	owner: any;
+	admin: any;
 
 
   lTaxHeader: string[] = [
     'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',
     'streetNo', 'brgy', 'subd', 'city', 'province',
     'class', 'subclass', 'area', 'assessedVal', 'stat'
+  ];
+
+  lTaxBldgHeader: string[] = [
+    'arpNo', 'pin', 'brgy', 'subd', 'city',
+    'province', 'kind', 'structType', 'bldgPermit', 'dateConstr',
+    'storey', 'actualUse', 'assessedVal'
   ];
 
   lTaxInfHeaderOwn: string[] = [
@@ -107,136 +122,156 @@ export class ClearanceComponent implements OnInit {
     { value: 's5', viewVal: 'Others: For whatever legal purpose' },
   ]
 
+	tableRowSelected(row: any) {
+		ltTableInfOwner = [];
+		ltTableInfAdmin = [];
+		this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+		this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+		this.selectedRow = [];
+		this.selectedOwner = [];
+		this.selectedAdmin = [];
+		this.selectedRow.push(row);
+		let ind: number;
+		if(this.param1 == 'land') {
+			ind = ltTableLs.indexOf(row);
+		} else {
+			ind = ltTableBldgLs.indexOf(row);
+		}
+		_.forEach(this.owner[ind], (arr: any) => {
+			ltTableInfOwner.push({
+				ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+				ownAddress: arr.address,
+				ownContact: arr.contact_no,
+				ownTIN: arr.TIN
+			});
+		});
+		_.forEach(ltTableInfOwner, (arr: any) => {
+			this.selectedOwner.push(arr);
+		})
+		_.forEach(ltTableInfAdmin, (arr: any) => {
+			this.selectedAdmin.push(arr);
+		})
+		_.forEach(this.admin[ind], (arr: any) => {
+			ltTableInfAdmin.push({
+				admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+				admAddress: arr.address,
+				admContact: arr.contact_no,
+				admTIN: arr.TIN
+			});
+		});
+		this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+		this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+		console.table(this.selectedRow);
+		console.table(this.selectedOwner);
+		console.table(this.selectedAdmin);
+	}
+
+  clicked: boolean = false;
+  clckd = false
   isVisible_spinner = false
   search() {
-    this.isVisible_spinner = true;
-    ltTableLs = []
-    ltTableInfOwner = []
-    ltTableInfAdmin = []
-    this.LTTable = new MatTableDataSource(ltTableLs);
-    this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
-    this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
-    let reqdata: any = {
-      SearchIn: this.param1,
-      SearchBy: this.param2,
-      info: this.req,
-      sysCaller: 'LAND TAX'
+    if(this.req == null || this.req == "" || this.req.trim() === "") {
+      this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Empty input' });
     }
-    this.srchRec.search(reqdata).subscribe(res => {
-      let resdata = res.data;
-      let faas = resdata.faas;
-      let owner = resdata.owner;
-      let admin = resdata.admin;
-      console.table(resdata);
-      _.forEach(faas, arr => {
-        ltTableLs.push({
-          arpNo: arr.ARPNo,
-          pin: arr.PIN,
-          surveyNo: arr.SurveyNo,
-          lotNo: arr.LotNo,
-          blockNo: arr.BlockNo,
-          streetNo: arr.StreetNo,
-          brgy: arr.Barangay,
-          subd: arr.Subdivision,
-          city: arr.City,
-          province: arr.Province,
-          class: arr.Class,
-          subclass: arr.SubClass,
-          area: arr.Area,
-          assessedVal: arr.AssessedValue,
-          stat: arr.Status
-        });
-      });
-      _.forEach(owner, arr => {
-        _.forEach(arr, arr => {
-          ltTableInfOwner.push({
-            ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
-            ownAddress: arr.address,
-            ownContact: arr.contact,
-            ownTIN: arr.TIN
-          })
-        })
-      });
-      _.forEach(admin, arr => {
-        _.forEach(arr, arr => {
-          ltTableInfAdmin.push({
-            admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
-            admAddress: arr.address,
-            admContact: arr.contact,
-            admTIN: arr.TIN
-          })
-        })
-      });
-      //this.LTTable = new MatTableDataSource(ltTableLs);
-      //this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
-      //this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
-      this.isVisible_spinner = false;
-      this.clearanceTble = '';
-
-      for (let i = 0; i <= ltTableLs.length-1; i++)
+    else
+    {
+      if(this.param2 == 'pin' && this.req.match(/^[ A-Za-z_@./#&+]*$/) || this.param2 == 'arpNo' && this.req.match(/^[ A-Za-z_@./#&+]*$/))
       {
-
-        this.clearanceTble += '<div class="divCard">';
-        this.clearanceTble += '<div class="divHeader"></div><br>';
-        this.clearanceTble += '<div class="cardMargin">';
-        this.clearanceTble += '<div class="flex-container">';
-
-        this.clearanceTble += '<div>';
-        this.clearanceTble += '<div><b>ARP No:</b>&nbsp;&nbsp;' + ltTableLs[i].arpNo + '</div>';
-        this.clearanceTble += '<div><b>PIN:</b>&nbsp;&nbsp;' + ltTableLs[i].pin + '</div>';
-        this.clearanceTble += '<div><b>Survey No:</b>&nbsp;&nbsp;' + ltTableLs[i].surveyNo + '</div>';
-        this.clearanceTble += '<div><b>Lot No:</b>&nbsp;&nbsp;' + ltTableLs[i].lotNo + '</div>';
-        this.clearanceTble += '<div><b>Block No:</b>&nbsp;&nbsp;' + ltTableLs[i].blockNo + '</div>';
-        this.clearanceTble += '<div><b>Street No:</b>&nbsp;&nbsp;' + ltTableLs[i].streetNo + '</div>';
-        this.clearanceTble += '<div><b>Brgy:</b>&nbsp;&nbsp;' + ltTableLs[i].brgy + '</div>';
-        this.clearanceTble += '<div><b>Subd:</b>&nbsp;&nbsp;' + ltTableLs[i].subd + '</div>';
-        this.clearanceTble += '<div><b>City:</b>&nbsp;&nbsp;' + ltTableLs[i].city + '</div>';
-        this.clearanceTble += '<div><b>Province:</b>&nbsp;&nbsp;' + ltTableLs[i].province + '</div>';
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '<div class="margin"></div>';
-
-        this.clearanceTble += '<div>'
-        this.clearanceTble += '<div><b>Class:</b>&nbsp;&nbsp;' + ltTableLs[i].class + '</div>';
-        this.clearanceTble += '<div><b>Sub Class:</b>&nbsp;&nbsp;' + ltTableLs[i].subclass + '</div>';
-        this.clearanceTble += '<div><b>Area:</b>&nbsp;&nbsp;' + ltTableLs[i].area + '</div>';
-        this.clearanceTble += '<div><b>Assessed Value:</b>&nbsp;&nbsp;' + ltTableLs[i].assessedVal + '</div>';
-        this.clearanceTble += '<div><b>Status:</b>&nbsp;&nbsp;' + ltTableLs[i].stat + '</div>';
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '<div class="margin"></div>';
-
-        this.clearanceTble += '<div>';
-        this.clearanceTble += '<div><b>Owner Info:</b></div>';
-          for (let ii = i; ii <= ltTableLs.length; ii++)
-          {
-            console.log(ii);
-            this.clearanceTble += '<div><b>Name:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownName + '</div>';
-            this.clearanceTble += '<div><b>Address:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownAddress + '</div>';
-            this.clearanceTble += '<div><b>Contact:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownContact + '</div>';
-            this.clearanceTble += '<div><b>TIN:</b>&nbsp;&nbsp;' + ltTableInfOwner[ii].ownTIN + '</div><br>';
-          }
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '<div class="margin"></div>';
-
-        this.clearanceTble += '<div>';
-        this.clearanceTble += '<div><b>Admin Info:</b></div>';
-        for (let iii = i; iii <= ltTableLs.length; iii++)
-        {
-          this.clearanceTble += '<div><b>Name:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admName + '</div>';
-          this.clearanceTble += '<div><b>Address:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admAddress + '</div>';
-          this.clearanceTble += '<div><b>Contact:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admContact + '</div>';
-          this.clearanceTble += '<div><b>TIN:</b>&nbsp;&nbsp;' + ltTableInfAdmin[iii].admTIN + '</div><br>';
-        }
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '</div>';
-        this.clearanceTble += '</div><br>';
-        this.clearanceTble += '</div><br>';
+        this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Invalid input value' });
       }
-
-    });
-  }
-
-  test() {
-    alert('adf');
+      else if(this.param2 === 'name' && typeof this.req === "string" && !Number.isNaN(Number(this.req)) || this.req.match(/^[ _@./#&+-]*$/))
+      {
+        this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Invalid name' });
+      }
+      else
+      {
+        if(this.param2 == 'pin' || this.param2 == 'arpNo')
+        {
+          this.req = this.req.trim().split(' ').join('-');
+        }
+        this.clicked = false;
+        this.isVisible_spinner = true;
+        ltTableLs = []
+        ltTableBldgLs = []
+        ltTableInfOwner = []
+        ltTableInfAdmin = []
+        this.LTTable = new MatTableDataSource(ltTableLs);
+        this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+        this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+        this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+        let reqdata: any = {
+          SearchIn: this.param1,
+          SearchBy: this.param2,
+          info: this.req,
+          sysCaller: 'LAND TAX'
+        }
+        this.srchRec.search(reqdata).subscribe(res => {
+          if(res.success)
+          {
+          let resdata = res.data;
+          this.faas = resdata.faas;
+          this.owner = resdata.owner;
+          this.admin = resdata.admin;
+          console.table(resdata);
+          if(this.faas.length > 0 || this.owner.length > 0 || this.admin.length > 0)
+          {
+            switch(this.param1) {
+              case 'land':
+                _.forEach(this.faas, (arr: any)=> {
+                  ltTableLs.push({
+                    arpNo: arr.ARPNo,
+                    pin: arr.PIN,
+                    surveyNo: arr.SurveyNo,
+                    lotNo: arr.LotNo,
+                    blockNo: arr.BlockNo,
+                    streetNo: arr.StreetNo,
+                    brgy: arr.Barangay,
+                    subd: arr.Subdivision,
+                    city: arr.City,
+                    province: arr.Province,
+                    class: arr.Class,
+                    subclass: arr.SubClass,
+                    area: arr.Area,
+                    assessedVal: arr.AssessedValue,
+                    stat: arr.Status
+                  });
+                });
+                this.LTTable = new MatTableDataSource(ltTableLs);
+                break;
+              case 'building':
+                _.forEach(this.faas, (arr: any) => {
+                  ltTableBldgLs.push({
+                    arpNo: arr.ARPNo,
+                    pin: arr.PIN,
+                    brgy: arr.Barangay,
+                    subd: arr.Subdivision,
+                    city: arr.City,
+                    province: arr.Province,
+                    kind: arr.Kind,
+                    structType: arr.StructuralType,
+                    bldgPermit: arr.BldgPermit,
+                    dateConstr: arr.DateConstructed,
+                    storey: arr.Storey,
+                    actualUse: arr.ActualUse,
+                    assessedVal: arr.AssessedValue
+                  });
+                });
+                this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+                break;
+            }
+          }
+          else {
+            this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Data not found' });
+          }
+          this.isVisible_spinner = false;
+          this.clicked = false;
+        }
+        else {
+          this.matDialog.open(ClearanceComponentErr, { width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: res.err });
+        }
+        });
+      }
+    }
   }
 
   genCl() {
@@ -244,10 +279,10 @@ export class ClearanceComponent implements OnInit {
     let data: lTaxClearance = {
       current_date: moment(new Date).format('MM-DD-YYYY'),
       owner_names: this.getOwners(),
-      pin: ltTableLs[0].pin,
-      arp_no: ltTableLs[0].arpNo,
-      location: ltTableLs[0].brgy + ', ' + ltTableLs[0].city + ', ' + ltTableLs[0].province,
-      assessed_value: ltTableLs[0].assessedVal,
+      pin: this.selectedRow[0].pin,
+      arp_no: this.selectedRow[0].arpNo,
+      location: this.selectedRow[0].brgy + ', ' + this.selectedRow[0].city + ', ' + this.selectedRow[0].province,
+      assessed_value: this.selectedRow[0].assessedVal,
       payment_reason: this.input1,
       total_amount: this.amount,
       cto_no: this.CTONo,
@@ -287,30 +322,6 @@ export class ClearanceComponent implements OnInit {
         break;
     }
     this.genCL.loadFile(data);
-    // JSZipUtils.getBinaryContent('../assets/temp/clearance_template.docx', (err, cont) => {
-    //   if (err) { throw err; }
-    //   const zip = new JSZip(cont);
-    //   const doc = new docxtemplater().loadZip(zip)
-    //   doc.setData(data)
-    //   try {
-    //     doc.render()
-    //   } catch (e) {
-    //     console.log(JSON.stringify({ error: e }))
-    //     throw e;
-    //   }
-    //   let outFile = doc.getZip().generate({
-    //     type: 'base64',
-    //     mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    //   });
-    //   let fileName = 'LTC_' + data.pin + '_' + new Date().toString();
-      // let updData:any = {
-      //   'file': outFile,
-      //   'filename': fileName
-      // }
-      // this.upd.uploadCl(updData).subscribe(res => {
-      //   (res.res) ? this.matDialog.open(DialogClearance, { width: '80%', height: '90%', data: updData }) : undefined;
-      // });
-    // });
   }
 
   getOwners(): string {
@@ -356,5 +367,21 @@ export class DialogClearancePipe implements PipeTransform  {
   constructor(private sanitizer: DomSanitizer) { }
   transform(value: any) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(value);
+  }
+}
+
+@Component({
+  selector: 'app-clearance.component.err',
+  templateUrl: './clearance.component.err.html',
+  styleUrls: ['./clearance.component.err.scss']
+})
+export class ClearanceComponentErr {
+  msg: string = '\t ' + this.data;
+	okBtn: boolean;
+  constructor(private dialogRef: MatDialogRef<ClearanceComponentErr>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  close() {
+    this.dialogRef.close()
   }
 }

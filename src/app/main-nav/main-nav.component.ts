@@ -54,6 +54,12 @@ export class MainNavComponent {
     this.route.navigate([route])
   }
 
+  gotoArrears() {
+    let token = jwt_decode(localStorage.getItem('auth'))
+    let route = '/user/' + token.username + '/land-tax/arrears'
+    this.route.navigate([route])
+  }
+
   nonAuth() {
     return localStorage.getItem('auth') == null
   }

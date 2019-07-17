@@ -14,6 +14,8 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatDialogModule, MatRadioModule, MatNativeDateModule, MatDatepickerModule, MatCheckboxModule, MatTableModule, MatSelectModule, MatInputModule, MatGridListModule, MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule } from '@angular/material';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LandAssessmentComponent } from './land-assessment/land-assessment.component';
+import { LndAsmtSearch } from './land-assessment/dialog-search/lndasmt-search';
+import { LndAsmtPending } from './land-assessment/dialog-pending/lndasmt-pending';
 import { AssessmentsComponent } from './assessments/assessments.component';
 import { BuildingAssessmentComponent } from './building-assessment/building-assessment.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -23,7 +25,7 @@ import { BuildingReassessmentComponent } from './building-reassessment/building-
 import { FaasRecComponent, DialogFaasRecTD, DialogFaasRecF, DialogErr } from './faas-rec/faas-rec.component';
 import { LandTaxComponent } from './land-tax/land-tax.component';
 import { RPTOPComponent } from './rptop/rptop.component';
-import { ClearanceComponent, DialogClearance, DialogClearancePipe } from './clearance/clearance.component';
+import { ClearanceComponent, DialogClearance, DialogClearancePipe, ClearanceComponentErr } from './clearance/clearance.component';
 import { MachAssessmentComponent } from './mach-assessment/mach-assessment.component';
 import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment.component';
 import { PrintingComponent } from './printing/printing.component';
@@ -31,6 +33,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
+import { ArrearsComponent } from './arrears/arrears.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +44,8 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     MainNavComponent,
     LandingPageComponent,
     LandAssessmentComponent,
+		LndAsmtSearch,
+		LndAsmtPending,
     AssessmentsComponent,
     BuildingAssessmentComponent,
     ReassessmentsComponent,
@@ -59,7 +64,9 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     DialogFaasRecTD,
     DialogErr,
     SegregationComponent,
-    SubdivisionComponent
+    SubdivisionComponent,
+    ClearanceComponentErr,
+    ArrearsComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +107,10 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     FaasRecComponent,
     DialogFaasRecF,
     DialogFaasRecTD,
-    DialogErr
+    DialogErr,
+		LndAsmtSearch,
+		LndAsmtPending,
+    ClearanceComponentErr
   ],
   bootstrap: [AppComponent]
 })

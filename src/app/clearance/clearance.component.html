@@ -37,27 +37,24 @@
 
     <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
       <mat-form-field class='item item-1' fxFlex='40%'>
-        <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
+        <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req' id='inputReq'>
       </mat-form-field>
-      <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
+      <div fxFlex='15%' (mousedown)="clicked=true" (mouseup)="clicked=false">
+      <button mat-raised-button class='item item-2' color='primary' [ngClass]="{ 'srchBtnClckd': clicked, 'srchBtnDefault': !clicked }" (click)='search();'>Search</button>
+      </div>
     </div>
   </div>
   <br>
-  <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px'
-    fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
-      <div [innerHTML]='clearanceTble' fxFlex='100%'>
-
-      </div>
-  </div>
 
   <!-- land info -->
-  <!--<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+  <div *ngIf="(param1=='land')" class='container tbleBrdr' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con item item-1' fxFlex='100%'>
-      <mat-label>Land info</mat-label>
+      <mat-label class="label">Land Info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
         <ng-container matColumnDef='arpNo'>
-          <th mat-header-cell *matHeaderCellDef>ARP No.</th>
-          <td mat-cell *matCellDef='let data'>{{ data.arpNo }}</td>
+          <th *matHeaderCellDef>ARP No.</th>
+          <td *matCellDef='let data'>{{ data.arpNo }}</td>
         </ng-container>
         <ng-container matColumnDef='pin'>
           <th mat-header-cell *matHeaderCellDef>PIN</th>
@@ -112,23 +109,92 @@
           <td mat-cell *matCellDef='let data'>{{ data.assessedVal }}</td>
         </ng-container>
         <ng-container matColumnDef='stat'>
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef='let data'>{{ data.stat }}</td>
+          <th *matHeaderCellDef>Status</th>
+          <td *matCellDef='let data'>{{ data.stat }}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef='lTaxHeader'></tr>
-        <tr mat-row *matRowDef='let row; columns: lTaxHeader'></tr>
+        <tr class="clrnceTr" mat-row *matRowDef='let row; columns: lTaxHeader'
+					(click)='tableRowSelected(row)'
+					[style.background]="selectedRow.indexOf(row) != -1 ? 'lightblue' : ''"></tr>
       </table>
     </div>
   </div>
-
+  <div *ngIf="(param1=='building')" class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+    <div class='ltax-con item item-1' fxFlex='100%'>
+      <label class="label">Building Info</label>
+      <div class="h"></div>
+      <table mat-table class='mat-elevation-z8' [dataSource]='LTTableBldg'>
+        <ng-container matColumnDef='arpNo'>
+          <th *matHeaderCellDef>ARP No.</th>
+          <td *matCellDef='let data'>{{ data.arpNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='pin'>
+          <th mat-header-cell *matHeaderCellDef>PIN</th>
+          <td mat-cell *matCellDef='let data'>{{ data.pin }}</td>
+        </ng-container>
+        <ng-container matColumnDef='brgy'>
+          <th mat-header-cell *matHeaderCellDef>Barangay</th>
+          <td mat-cell *matCellDef='let data'>{{ data.brgy }}</td>
+        </ng-container>
+        <ng-container matColumnDef='subd'>
+          <th mat-header-cell *matHeaderCellDef>Subdivision</th>
+          <td mat-cell *matCellDef='let data'>{{ data.subd }}</td>
+        </ng-container>
+        <ng-container matColumnDef='city'>
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef='let data'>{{ data.city }}</td>
+        </ng-container>
+        <ng-container matColumnDef='province'>
+          <th mat-header-cell *matHeaderCellDef>Province</th>
+          <td mat-cell *matCellDef='let data'>{{ data.province }}</td>
+        </ng-container>
+        <ng-container matColumnDef='kind'>
+          <th mat-header-cell *matHeaderCellDef>Kind</th>
+          <td mat-cell *matCellDef='let data'>{{ data.kind }}</td>
+        </ng-container>
+        <ng-container matColumnDef='structType'>
+          <th mat-header-cell *matHeaderCellDef>Stuctural Type</th>
+          <td mat-cell *matCellDef='let data'>{{ data.structType }}</td>
+        </ng-container>
+        <ng-container matColumnDef='bldgPermit'>
+          <th mat-header-cell *matHeaderCellDef>Building Permit</th>
+          <td mat-cell *matCellDef='let data'>{{ data.bldgPermit }}</td>
+        </ng-container>
+        <ng-container matColumnDef='dateConstr'>
+          <th mat-header-cell *matHeaderCellDef>Date Constructed</th>
+          <td mat-cell *matCellDef='let data'>{{ data.dateConstr }}</td>
+        </ng-container>
+        <ng-container matColumnDef='storey'>
+          <th mat-header-cell *matHeaderCellDef>Storey</th>
+          <td mat-cell *matCellDef='let data'>{{ data.storey }}</td>
+        </ng-container>
+        <ng-container matColumnDef='actualUse'>
+          <th mat-header-cell *matHeaderCellDef>Actual Use</th>
+          <td mat-cell *matCellDef='let data'>{{ data.actualUse }}</td>
+        </ng-container>
+        <ng-container matColumnDef='assessedVal'>
+          <th *matHeaderCellDef>Assessed Value</th>
+          <td *matCellDef='let data'>{{ data.assessedVal }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef='lTaxBldgHeader'></tr>
+        <tr mat-row *matRowDef='let row; columns: lTaxBldgHeader'
+					(click)='tableRowSelected(row)'
+					[style.background]="selectedRow.indexOf(row) != -1 ? 'lightblue' : ''"></tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <br>
   <!-- owner admin info -->
-  <!--<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
     <div class='ltax-con-inf item item-1' fxFlex='50%'>
-      <mat-label>Owner info</mat-label>
+      <mat-label class="label">Owner Info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
         <ng-container matColumnDef='ownName'>
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef='let data'>{{ data.ownName }}</td>
+          <th *matHeaderCellDef>Name</th>
+          <td *matCellDef='let data'>{{ data.ownName }}</td>
         </ng-container>
         <ng-container matColumnDef='ownAddress'>
           <th mat-header-cell *matHeaderCellDef>Address</th>
@@ -139,19 +205,20 @@
           <td mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
         </ng-container>
         <ng-container matColumnDef='ownTIN'>
-          <th mat-header-cell *matHeaderCellDef>TIN</th>
-          <td mat-cell *matCellDef='let data'>{{ data.ownTIN }}</td>
+          <th *matHeaderCellDef>TIN</th>
+          <td *matCellDef='let data'>{{ data.ownTIN }}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderOwn'></tr>
         <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderOwn'></tr>
       </table>
     </div>
     <div class='ltax-con-inf item item-2' fxFlex='50%'>
-      <mat-label>Admin info</mat-label>
+      <mat-label class='label'>Admin Info</mat-label>
+      <div class="h"></div>
       <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
         <ng-container matColumnDef='admName'>
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef='let data'>{{ data.admName }}</td>
+          <th *matHeaderCellDef>Name</th>
+          <td *matCellDef='let data'>{{ data.admName }}</td>
         </ng-container>
         <ng-container matColumnDef='admAddress'>
           <th mat-header-cell *matHeaderCellDef>Address</th>
@@ -162,98 +229,107 @@
           <td mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
         </ng-container>
         <ng-container matColumnDef='admTIN'>
-          <th mat-header-cell *matHeaderCellDef>TIN</th>
-          <td mat-cell *matCellDef='let data'>{{ data.admTIN }}</td>
+          <th *matHeaderCellDef>TIN</th>
+          <td *matCellDef='let data'>{{ data.admTIN }}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderAdm'></tr>
         <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderAdm'></tr>
       </table>
     </div>
-  </div>-->
-  <br><br>
-  <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-    <div class='item item-1' fxFlex='100%'>
-      <span>
-        The latest payment of the tax of the above-described property is for the&nbsp;&nbsp;&nbsp;
-      </span>
+  </div>
+  <br><br><hr>
+  <div class="divCard">
+    <div class="divHeader">&nbsp;&nbsp;Clearance</div>
+
+    <div class="clrnce">
+      <div class="clrnceTxt">
+      <span>&nbsp;The latest payment of the tax of the above-described property is for the for the&nbsp;</span>
       <mat-form-field>
         <input matInput type='text' [(ngModel)]='input1'>
       </mat-form-field>
-      <span>&nbsp;&nbsp;&nbsp;for the total amount of P&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='amount'>
-      </mat-form-field>
-    </div>
-    <div class='item item-2' fxFlex='100%'>
-      <span>
-        acknowledge under Real Estate Tax Receipt No. CTO.&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='CTONo'>
-      </mat-form-field>
-      <span>
-        &nbsp;&nbsp;&nbsp;dated&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
-        <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
-        <mat-datepicker #cdated></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class='item item-3' fxFlex='100%'>
-      <span>
-        This certification has been issued upon the request of&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='requestor'>
-      </mat-form-field>
-      <span>
-        &nbsp;&nbsp;&nbsp;for the purpose of:&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <!-- <input matInput type='text' [(ngModel)]='purpose'> -->
+       <span>&nbsp;total amount of &#x20B1;:&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [(ngModel)]='amount'>
+       </mat-form-field>
+       <span>&nbsp;acknowledge under Real Estate Tax Receipt No. CTO.&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [(ngModel)]='CTONo'>
+       </mat-form-field>
+       <span>&nbsp;dated:&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
+         <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
+         <mat-datepicker #cdated></mat-datepicker>
+       </mat-form-field>
+       <br>
+       <span>&nbsp;This certification has been issued upon the request of&nbsp;</span>
+       <mat-form-field>
+         <input matInput type='text' [(ngModel)]='requestor'>
+       </mat-form-field>
+       <span>&nbsp;for the purpose of:&nbsp;</span>
+       <mat-form-field>
         <mat-select [(ngModel)]='purpose'>
-          <mat-option *ngFor='let prp of prps' [value]='prp.value'>{{ prp.viewVal }}</mat-option>
+         <mat-option *ngFor='let prp of prps' [value]='prp.value'>{{ prp.viewVal }}</mat-option>
         </mat-select>
-      </mat-form-field>
+       </mat-form-field>
+      </div>
+       <br><div class="hrDashed"></div><br>
+
+       <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+         <div fxFlex='50%'>
+           <span>Verified by:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [(ngModel)]='encoder1'>
+           </mat-form-field>
+         </div>
+         <div fxFlex='50%'>
+           <span>Date:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
+             <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
+             <mat-datepicker #currdate></mat-datepicker>
+           </mat-form-field>
+         </div>
+       </div>
+
+       <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+         <div fxFlex='50%'>
+           <span>Certification Fee:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [(ngModel)]='certfee'>
+           </mat-form-field>
+         </div>
+
+         <div fxFlex='50%'>
+           <span>Amount:&nbsp;</span>
+           <mat-form-field>
+             <input matInput type='text' [(ngModel)]='amt'>
+           </mat-form-field>
+         </div>
+      </div>
+
+      <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+        <div fxFlex='50%'>
+          <span>O.R. No.:&nbsp;&nbsp;&nbsp;</span>
+          <mat-form-field>
+            <input matInput type='text' [(ngModel)]='orNo'>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <br><div class="hrDashed"></div><br>
+
+      <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+        <mat-form-field fxFlex='100%'>
+          <textarea matInput placeholder='Remarks' [(ngModel)]='remarks'></textarea>
+        </mat-form-field>
+      </div>
+      <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px' fxLayoutAlign='center'>
+        <div fxFlex='40%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false'>
+        <button [ngClass]="{ 'genClBtnMd': clckd, 'genClBtn': !clckd }" mat-raised-button color='primary' type='button' (click)='genCl()'>Generate Clearance</button>
+        </div>
+      </div>
     </div>
-    <br>
-    <div class='item item-4' fxFlex='100%'>
-      <span>
-        Verified by:&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='encoder1'>
-      </mat-form-field>
-      <span>&nbsp;&nbsp;&nbsp;Date:&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
-        <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
-        <mat-datepicker #currdate></mat-datepicker>
-      </mat-form-field>
-    </div>
-    <div class='item item-5' fxFlex='100%'>
-      <span>
-        Certification Fee:&nbsp;&nbsp;&nbsp;
-      </span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='certfee'>
-      </mat-form-field>
-      <span>&nbsp;&nbsp;&nbsp;Amount:&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='amt'>
-      </mat-form-field>
-    </div>
-    <div class='item item-6' fxFlex='100%'>
-      <span>O.R. No.:&nbsp;&nbsp;&nbsp;</span>
-      <mat-form-field>
-        <input matInput type='text' [(ngModel)]='orNo'>
-      </mat-form-field>
-    </div>
-    <mat-form-field class='item item-7' fxFlex='100%'>
-      <textarea matInput placeholder='Remarks' [(ngModel)]='remarks'></textarea>
-    </mat-form-field>
-    <button mat-raised-button color='primary' type='button' (click)='genCl()'>Generate Clearance</button>
   </div>
 </div>
 <br><br>
