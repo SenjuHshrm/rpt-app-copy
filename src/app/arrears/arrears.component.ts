@@ -24,7 +24,7 @@ var ltTableInfAdmin: landTaxInfAdm[] = []
   styleUrls: ['./arrears.component.scss']
 })
 export class ArrearsComponent implements OnInit {
-  
+
   LTTable = new MatTableDataSource(ltTableLs);
 	LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
 	LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
@@ -36,6 +36,8 @@ export class ArrearsComponent implements OnInit {
 	yearsToPay: number;
 	frequency: string;
 	installment: number;
+  srchMD: boolean;
+  addMD: boolean;
 
   lTaxHeader: string[] = [
 		'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',
@@ -82,8 +84,9 @@ export class ArrearsComponent implements OnInit {
   computeInstallment(){
 
   }
-  
+
+  isVisible_spinner: boolean = false;
   search(){
-    
+    this.isVisible_spinner = true;
   }
 }
