@@ -33,6 +33,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
+import { ArrearsComponent } from './arrears/arrears.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
     DialogErr,
     SegregationComponent,
     SubdivisionComponent,
-    ClearanceComponentErr
+    ClearanceComponentErr,
+    ArrearsComponent
   ],
   imports: [
     BrowserModule,

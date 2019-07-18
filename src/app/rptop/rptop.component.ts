@@ -5,13 +5,14 @@ import { searchRec } from '../services/searchFaasRec.service';
 import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
-import { getPosHolders } from '../services/getPosHolders'
+import { getPosHolders } from '../services/getPosHolders';
 import { MatTableDataSource, MatTab } from '@angular/material';
 import * as _ from 'lodash';
 import * as jwt_decode from 'jwt-decode';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { sortAscendingPriority } from '@angular/flex-layout';
+import { throwError } from 'rxjs';
 
 const moment = _moment;
 
@@ -47,9 +48,6 @@ export class RPTOPComponent implements OnInit {
 
   value: string;
   yearPay: string;
-  basic: number;
-  pendisc: number;
-  total: number;
 
   lTaxHeader: string[] = [
     'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',
@@ -104,31 +102,112 @@ export class RPTOPComponent implements OnInit {
 	}
 
   addCompYear(){
-    this.basic = Number(this.value) * 0.1;
-    this.pendisc = 0;
+    let basic = Number(this.value) * 0.1;
 
-    let monthPay = this.basic/12;
-    let penalty = 0;
+    let monthPay = basic / 12;
 
-    for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
-        dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
-        dateCtr.add(1, 'month')){
+    if (moment(this.yearPay, 'YYYY').isSame(moment(), 'year')){
+      
+      let firstHalfPenalty = 0;
+      let secondHalfPenalty = 0;
 
-      penalty = (Math.ceil(moment().diff(dateCtr, 'month', true)) * 2);
-      penalty = (penalty > 72) ? (72) : (penalty);
+      let firstHalfPendisc = 0;
+      let secondHalfPendisc = 0;
+      
+      let firstHalfPercent = 25 * (moment().quarter() - 1);
+      let secondHalfPercent = 100 - firstHalfPercent;
 
-      this.pendisc = this.pendisc + (penalty / 100 * monthPay);
+      let firstHalfBasic = firstHalfPercent / 100 * basic;
+      let secondHalfBasic = secondHalfPercent / 100 * basic;
 
-    };
+      let firstHalfTotal = 0;
+      let secondHalfTotal = 0;
 
-    this.total = this.basic + this.pendisc;
+      let ctr = 0;
+      for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
+          dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
+          dateCtr.add(1, 'month')){
 
-    ltRptopComp.push({
-      yearPay: this.yearPay,
-      basic: this.basic.toString(),
-      pendisc: this.pendisc.toString(),
-      total: this.total.toString()
-    });
+        if(dateCtr.quarter() < moment().quarter()){
+          firstHalfPenalty = (Math.ceil(moment().diff(dateCtr, 'month', true)) * 2);
+          firstHalfPendisc = firstHalfPendisc + (firstHalfPenalty / 100 * monthPay);
+
+        }else{
+          secondHalfPenalty = -10;
+          secondHalfPendisc = secondHalfPendisc + (secondHalfPenalty / 100 * monthPay);
+
+        }
+      };
+      
+      firstHalfTotal = firstHalfBasic + firstHalfPendisc;
+      secondHalfTotal = secondHalfBasic + secondHalfPendisc;
+
+      ltRptopComp.push({
+        yearPay: firstHalfPercent.toString() + '% ' + this.yearPay,
+        basic: firstHalfBasic.toString(),
+        pendisc: firstHalfPendisc.toString(),
+        total: firstHalfTotal.toString()
+      });
+
+      ltRptopComp.push({
+        yearPay: secondHalfPercent.toString() + '% ' + this.yearPay,
+        basic: secondHalfBasic.toString(),
+        pendisc: secondHalfPendisc.toString(),
+        total: secondHalfTotal.toString()
+      });
+
+    }else if (moment(this.yearPay, 'YYYY').isBefore(moment(), 'year')) {
+      
+      let penalty = 0;
+      let pendisc = 0;
+      let total = 0;
+
+      for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
+          dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
+          dateCtr.add(1, 'month')){
+        
+        penalty = (Math.ceil(moment().diff(dateCtr, 'month', true)) * 2);
+        penalty = (penalty > 72) ? (72) : (penalty);
+
+        pendisc = pendisc + (penalty / 100 * monthPay);
+        
+      };
+
+      total = basic + pendisc;
+
+      ltRptopComp.push({
+        yearPay: this.yearPay,
+        basic: basic.toFixed(2).toString(),
+        pendisc: pendisc.toFixed(2).toString(),
+        total: total.toFixed(2).toString()
+      });
+
+    }else if (moment(this.yearPay, 'YYYY').isAfter(moment(), 'year')) {
+
+      let penalty = 0;
+      let pendisc = 0;
+      let total = 0;
+
+      for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
+          dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
+          dateCtr.add(1, 'month')){
+        
+        penalty = -10
+
+        pendisc = pendisc + (penalty / 100 * monthPay);
+        
+      };
+
+      total = basic + pendisc;
+
+      ltRptopComp.push({
+        yearPay: this.yearPay,
+        basic: basic.toFixed(2).toString(),
+        pendisc: pendisc.toFixed(2).toString(),
+        total: total.toFixed(2).toString()
+      });
+
+    }
 
     this.LTTableRptopComp = new MatTableDataSource(ltRptopComp)
   }

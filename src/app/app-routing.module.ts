@@ -14,6 +14,7 @@ import { FaasRecComponent } from './faas-rec/faas-rec.component';
 import { LandTaxComponent } from './land-tax/land-tax.component';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { RPTOPComponent } from './rptop/rptop.component';
+import { ArrearsComponent } from './arrears/arrears.component';
 import { MachAssessmentComponent } from './mach-assessment/mach-assessment.component';
 import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment.component';
 import { PrintingComponent } from './printing/printing.component';
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'user/:username/land-tax', component: LandTaxComponent },
   { path: 'user/:username/land-tax/clearance', component: ClearanceComponent },
   { path: 'user/:username/land-tax/rptop', component: RPTOPComponent },
+  { path: 'user/:username/land-tax/arrears', component: ArrearsComponent },
   { path: 'user/:username/print/:file', component: PrintingComponent },
   { path: 'user/:username/segregation', component: SegregationComponent },
   { path: 'user/:username/subdivision', component: SubdivisionComponent }
@@ -62,9 +64,10 @@ export const routingComponents = [
   LandTaxComponent,
   ClearanceComponent,
   RPTOPComponent,
+  ArrearsComponent,
   MachAssessmentComponent,
   MachReassessmentComponent,
   PrintingComponent,
   SegregationComponent,
-  SubdivisionComponent
+  SubdivisionComponent,
 ]

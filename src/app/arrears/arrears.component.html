@@ -1,0 +1,66 @@
+<form [formGroup]='arrears'>
+	<div class="h"></div>
+  <div class="mat-title-con">
+    <mat-card-header>
+      <mat-card-title>
+        <div class='mat-stitle'>&nbsp;&nbsp;<b>Arrears</b></div>
+      </mat-card-title>
+    </mat-card-header>
+  </div>
+
+	<!-- Container -->
+	<div class='wrapper'>
+		<div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column'>
+
+			<!-- Search -->
+			<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+				<label>Search record in:</label>
+				<mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
+					<mat-radio-button *ngFor='let p1 of params1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
+					</mat-radio-group>
+					<label>Search record by:</label>
+					<mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
+					<mat-radio-button *ngFor='let p2 of params2' [value]='p2.value'>{{ p2.viewVal }}</mat-radio-button>
+					</mat-radio-group>
+				<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+					<mat-form-field class='item item-1' fxFlex='40%'>
+					<input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
+				</mat-form-field>
+				<button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
+				</div>
+			</div>
+
+			<!-- Search End -->
+
+			<!-- -->
+			<div class="container" fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+				<div class='container' fxFlex='100%' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+
+					<mat-form-field class='item item-1' fxFlex='50%'>
+						<input matInput type='text' placeholder='Sum' [(ngModel)] = 'sum'>
+					</mat-form-field>
+
+					<mat-form-field class='item item-2' fxFlex='50%'>
+						<input matInput type='text' placeholder='Years to pay' [(ngModel)] = 'yearsToPay'>
+					</mat-form-field>
+
+					<mat-form-field class='item item-3' fxFlex='50%'>
+						<mat-select formControlName='frequency' (selectionChange)="computeInstallment()">
+							<mat-option *ngFor='let frequency of frequencies' [value]='frequency.value'>
+								{{ frequency.viewVal }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+
+					<mat-form-field class='item item-4' fxFlex='50%'>
+						<input matInput type='text' placeholder='Installment' [(ngModel)] = 'installment'>
+					</mat-form-field>
+
+					<button mat-raised-button color='primary' type='submit'>Add</button>
+				</div>
+			</div>
+			<!-- End -->
+		</div>
+	</div>
+	<!-- Container End -->
+</form>
