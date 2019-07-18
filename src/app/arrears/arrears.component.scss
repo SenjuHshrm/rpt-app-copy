@@ -6,6 +6,9 @@
   height: 50px;
   margin: 0 auto;
 }
+.width-100 {
+  width: 100%;
+}
 
 th { background: #0063EA; color: #fff; width: 6%; }
 td { font-size: 12px; text-align: center; }
@@ -219,4 +222,84 @@ tr {
 @keyframes sk-circleFadeDelay {
   0%, 39%, 100% { opacity: 0; }
   40% { opacity: 1; }
+}
+
+.arrearsGrid {
+  display: grid;
+  grid-template-columns: 22% 20px 76.4%;
+}
+
+.srchGrid {
+  display: grid;
+  grid-template-columns: 100%;
+  margin-top: 5px;
+}
+
+.width-20 {
+  width: 21%;
+}
+
+.width-15 {
+  width: 16%;
+}
+
+@media (max-width: 1199px) {
+  .arrearsGrid {
+    grid-template-columns: 22% 20px 76.1%;
+  }
+}
+
+@media (max-width: 1090px) {
+  .srchGrid {
+    grid-template-columns: 100%;
+  }
+}
+
+@media (max-width: 999px) {
+  .arrearsGrid {
+    grid-template-columns: 32% 20px 65.5%;
+  }
+  .width-20 {
+    width: 18%;
+  }
+  .width-15 {
+    width: 28%;
+  }
+}
+
+@media (max-width: 850px) {
+  .arrearsGrid {
+    grid-template-columns: 100%;
+  }
+  .srchGrid {
+    grid-template-columns: 60% 2% 38%;
+  }
+  .srchBtn {
+    height: 70px;
+  }
+}
+
+@media (max-width: 600px) {
+  .arrearsGrid {
+    grid-template-columns: 100%;
+  }
+  .width-20 {
+    width: 100%;
+  }
+  .width-15 {
+    width: 100%;
+  }
+}
+
+.srchBtnMD {
+  width: 90%;
+  height: 90%;
+  margin-left: 5%;
+  border: 1px solid #0058CF;
+  font-size: 11px;
+}
+
+.srchBtnMU {
+  width: 100%;
+  height: 100%;
 }

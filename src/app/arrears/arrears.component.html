@@ -1,3 +1,19 @@
+<div class="spinnerCon" *ngIf='isVisible_spinner' (click)='isVisible_spinner=false'>
+  <div class="sk-fading-circle">
+    <div class="sk-circle1 sk-circle"></div>
+    <div class="sk-circle2 sk-circle"></div>
+    <div class="sk-circle3 sk-circle"></div>
+    <div class="sk-circle4 sk-circle"></div>
+    <div class="sk-circle5 sk-circle"></div>
+    <div class="sk-circle6 sk-circle"></div>
+    <div class="sk-circle7 sk-circle"></div>
+    <div class="sk-circle8 sk-circle"></div>
+    <div class="sk-circle9 sk-circle"></div>
+    <div class="sk-circle10 sk-circle"></div>
+    <div class="sk-circle11 sk-circle"></div>
+    <div class="sk-circle12 sk-circle"></div>
+  </div>
+</div>
 
 <div class="h"></div>
 <div class="mat-title-con">
@@ -10,56 +26,75 @@
 
 <!-- Container -->
 <div class='wrapper'>
-	<div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column'>
+  <div class="arrearsGrid">
+    <div>
+      <!-- Search -->
+  		<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+  			<label>Search record in:</label>
+  			<mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
+  				<mat-radio-button *ngFor='let p1 of params1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
+  				</mat-radio-group>
+  				<label>Search record by:</label>
+  				<mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
+  				<mat-radio-button *ngFor='let p2 of params2' [value]='p2.value'>{{ p2.viewVal }}</mat-radio-button>
+  				</mat-radio-group>
+  		</div>
 
-		<!-- Search -->
-		<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-			<label>Search record in:</label>
-			<mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
-				<mat-radio-button *ngFor='let p1 of params1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
-				</mat-radio-group>
-				<label>Search record by:</label>
-				<mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
-				<mat-radio-button *ngFor='let p2 of params2' [value]='p2.value'>{{ p2.viewVal }}</mat-radio-button>
-				</mat-radio-group>
-			<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-				<mat-form-field class='item item-1' fxFlex='40%'>
-				<input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
-			</mat-form-field>
-			<button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
-			</div>
-		</div>
+      <div class="srchGrid">
+        <div>
+          <mat-form-field class='item item-1 width-100'>
+           <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
+          </mat-form-field>
+        </div>
+        <div></div>
+        <div class='srchBtn width-100' (mousedown)='srchMD=true' (mouseup)='srchMD=false' (mouseleave)='srchMD=false'>
+          <button mat-raised-button class='item item-2' color='primary' (click)='search();' [ngClass]="{'srchBtnMD': srchMD, 'srchBtnMU': !srchMD}">Search</button>
+        </div>
+      </div>
+      <br>
+  		<!-- Search End -->
+    </div>
+    <div></div>
+    <div>
+      <!-- -->
+  		<div class="container" fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='2px'>
+  			<div class='container' fxFlex='100%' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='2px'>
 
-		<!-- Search End -->
+  				<mat-form-field class='item item-1 width-20'>
+  					<input matInput type='text' placeholder='Sum' [(ngModel)] = 'sum'>
+  				</mat-form-field>
 
-		<!-- -->
-		<div class="container" fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-			<div class='container' fxFlex='100%' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+  				<mat-form-field class='item item-2 width-20'>
+  					<input matInput type='text' placeholder='Years to pay' [(ngModel)] = 'yearsToPay'>
+  				</mat-form-field>
 
-				<mat-form-field class='item item-1' fxFlex='50%'>
-					<input matInput type='text' placeholder='Sum' [(ngModel)] = 'sum'>
-				</mat-form-field>
+  				<mat-form-field class='item item-3 width-20'>
+  					<mat-select (selectionChange)="computeInstallment()">
+  						<mat-option *ngFor='let frequency of frequencies' [value]='frequency.value'>
+  							{{ frequency.viewVal }}
+  						</mat-option>
+  					</mat-select>
+  				</mat-form-field>
 
-				<mat-form-field class='item item-2' fxFlex='50%'>
-					<input matInput type='text' placeholder='Years to pay' [(ngModel)] = 'yearsToPay'>
-				</mat-form-field>
+  				<mat-form-field class='item item-4 width-20'>
+  					<input matInput type='text' placeholder='Installment' [(ngModel)] = 'installment'>
+  				</mat-form-field>
 
-				<mat-form-field class='item item-3' fxFlex='50%'>
-					<mat-select (selectionChange)="computeInstallment()">
-						<mat-option *ngFor='let frequency of frequencies' [value]='frequency.value'>
-							{{ frequency.viewVal }}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
+          <div class='srchBtn width-100' (mousedown)='addMD=true' (mouseup)='addMD=false' (mouseleave)='addMD=false'>
+  				  <button mat-raised-button color='primary' type='submit' class="width-15" [ngClass]="{'srchBtnMD': addMD, 'srchBtnMU': !addMD}">Add</button>
+          </div>
+        </div>
+  		</div>
+  		<!-- End -->
+      <br>
 
-				<mat-form-field class='item item-4' fxFlex='50%'>
-					<input matInput type='text' placeholder='Installment' [(ngModel)] = 'installment'>
-				</mat-form-field>
+      <!-- Table -->
+      
+      <!-- Table end -->
+    </div>
+  </div>
 
-				<button mat-raised-button color='primary' type='submit'>Add</button>
-			</div>
-		</div>
-		<!-- End -->
+  <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column'>
 	</div>
 </div>
 	<!-- Container End -->
