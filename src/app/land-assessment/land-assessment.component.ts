@@ -11,6 +11,7 @@ import { improvementInfo } from '../interfaces/improvementInfo';
 import { marketValue } from '../interfaces/marketValue';
 import { pincheck } from '../services/pincheck.service';
 import { getMarketValues } from '../services/getMarketValues.service';
+import { assessLand } from '../services/assesssLand.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
@@ -118,7 +119,8 @@ export class LandAssessmentComponent implements OnInit {
 		private chckpin: pincheck,
 		private matDialog: MatDialog,
 		private gLndFaas: genFaas,
-		private getMrktVal: getMarketValues
+		private getMrktVal: getMarketValues,
+		private asmtLand: assessLand
 	) { }
 
   ngOnInit() {
@@ -131,7 +133,6 @@ export class LandAssessmentComponent implements OnInit {
 				this.landClassLs.push(arr)
 			})
 		})
-		console.log(this.landClassLs)
   }
 
   lndAppChngVal(grp: any) {
@@ -327,7 +328,15 @@ export class LandAssessmentComponent implements OnInit {
 			encoder: '',
 			attachment: '',
 		};
-		console.log(data);
+		if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)') {
+			this.asmtLand.saveLand(data).subscribe(res => {
+				console.log(res);
+			})
+		} else {
+			this.asmtLand.updateLand(data).subscribe(res => {
+				console.log(res);
+			})
+		}
   }
 
 	getOwners(): landOwner[] {
