@@ -325,7 +325,7 @@
                   <mat-select formControlName='class'
 										(selectionChange)="lndAppChngVal(landAssessment.get('landAppraisal'))"
                      >
-                    <mat-option *ngFor='let cls of landClassLs' [value]='cls.value'>{{ cls.viewVal }}</mat-option>
+                    <mat-option *ngFor='let cls of actualUse' [value]='cls.value'>{{ cls.viewVal }}</mat-option>
                   </mat-select>
                 </mat-form-field>
                 <mat-form-field class='item item-2' fxFlex='32%'>

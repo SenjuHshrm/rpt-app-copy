@@ -10,6 +10,7 @@ import { stripInfo } from '../interfaces/stripInfo';
 import { improvementInfo } from '../interfaces/improvementInfo';
 import { marketValue } from '../interfaces/marketValue';
 import { pincheck } from '../services/pincheck.service';
+import { getMarketValues } from '../services/getMarketValues.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
@@ -81,186 +82,11 @@ export class LandAssessmentComponent implements OnInit {
     { value: 'SPECIAL PROJECT (SP)', viewVal: 'SPECIAL PROJECT (SP)' },
   ]
 
-  landClassLs: any = [
-    {
-      value: 'COMMERCIAL',
-      viewVal: 'COMMERCIAL',
-      subC: [
-        {
-          value: 'C-1',
-          viewVal: 'C-1',
-          unitVal: '8280.0000'
-        },
-        {
-          value: 'C-2',
-          viewVal: 'C-2',
-          unitVal: '5260.0000'
-        },
-        {
-          value: 'C-3',
-          viewVal: 'C-3',
-          unitVal: '3000.0000'
-        },
-        {
-          value: 'C-4',
-          viewVal: 'C-4',
-          unitVal: '2000.0000'
-        }
-      ]
-    },
-    {
-      value: 'INDUSTRIAL',
-      viewVal: 'INDUSTRIAL',
-      subC: [
-        {
-          value: 'I-1',
-          viewVal: 'I-1',
-          unitVal: '850.0000'
-        },
-        {
-          value: 'I-2',
-          viewVal: 'I-2',
-          unitVal: '600.0000'
-        },
-        {
-          value: 'I-3',
-          viewVal: 'I-3',
-          unitVal: '400.0000'
-        },
-      ]
-    },
-    {
-      value: 'RESIDENTIAL',
-      viewVal: 'RESIDENTIAL',
-      subC: [
-        {
-          value: 'R-1',
-          viewVal: 'R-1',
-          unitVal: '2860.0000'
-        },
-        {
-          value: 'R-2',
-          viewVal: 'R-2',
-          unitVal: '1260.0000'
-        },
-        {
-          value: 'R-3',
-          viewVal: 'R-3',
-          unitVal: '800.0000'
-        },
-        {
-          value: 'R-3 (3-C)',
-          viewVal: 'R-3 (3-C)',
-          unitVal: '800.0000'
-        },
-        {
-          value: 'R-4',
-          viewVal: 'R-4',
-          unitVal: '400.0000'
-        },
-        {
-          value: 'R-5-A',
-          viewVal: 'R-5-A',
-          unitVal: '300.0000'
-        },
-        {
-          value: 'R-5-B',
-          viewVal: 'R-5-B',
-          unitVal: '200.0000'
-        }
-      ]
-    },
-    {
-      value: 'AGRICULTURAL',
-      viewVal: 'AGRICULTURAL',
-      subC: [
-        {
-          value: 'A-1',
-          viewVal: 'A-1',
-          unitVal: '17.3300'
-        },
-        {
-          value: 'A-2',
-          viewVal: 'A-2',
-          unitVal: '15.9460'
-        },
-        {
-          value: 'A-3',
-          viewVal: 'A-3',
-          unitVal: '12.2490'
-        },
-        {
-          value: 'A-4',
-          viewVal: 'A-4',
-          unitVal: '9.8220'
-        },
-        {
-          value: 'B-1',
-          viewVal: 'B-1',
-          unitVal: '16.1620'
-        },
-        {
-          value: 'B-2',
-          viewVal: 'B-2',
-          unitVal: '14.5460'
-        },
-        {
-          value: 'B-3',
-          viewVal: 'B-3',
-          unitVal: '11.3130'
-        },
-        {
-          value: 'C-1',
-          viewVal: 'C-1',
-          unitVal: '24.5330'
-        },
-        {
-          value: 'C-2',
-          viewVal: 'C-2',
-          unitVal: '21.3350'
-        },
-        {
-          value: 'C-3',
-          viewVal: 'C-3',
-          unitVal: '13.0840'
-        },
-        {
-          value: 'D-1',
-          viewVal: 'D-1',
-          unitVal: '17.0000'
-        },
-        {
-          value: 'D-2',
-          viewVal: 'D-2',
-          unitVal: '15.3000'
-        },
-        {
-          value: 'D-3',
-          viewVal: 'D-3',
-          unitVal: '13.6000'
-        },
-        {
-          value: 'E-1',
-          viewVal: 'E-1',
-          unitVal: '9.3330'
-        },
-        {
-          value: 'E-2',
-          viewVal: 'E-2',
-          unitVal: '7.0000'
-        },
-        {
-          value: 'E-3',
-          viewVal: 'E-3',
-          unitVal: '4.6670'
-        },
-      ]
-    }
-  ]
+	landClassLs = [];
 
   lndAppSubc: number;
   lndAppUnitVal: string = '';
-  subClassLs: any;
+  subClassLs: selectOpt[];
   lndAppBMV: string = '';
   lndAppArea: string;
 
@@ -291,7 +117,8 @@ export class LandAssessmentComponent implements OnInit {
 		private router: Router,
 		private chckpin: pincheck,
 		private matDialog: MatDialog,
-		private gLndFaas: genFaas
+		private gLndFaas: genFaas,
+		private getMrktVal: getMarketValues
 	) { }
 
   ngOnInit() {
@@ -299,13 +126,26 @@ export class LandAssessmentComponent implements OnInit {
       window.location.href = '/'
     }
     this.initializeForm('');
+		this.getMrktVal.getValues().subscribe(res => {
+			_.forEach(res, arr => {
+				this.landClassLs.push(arr)
+			})
+		})
+		console.log(this.landClassLs)
   }
 
   lndAppChngVal(grp: any) {
     let val = grp.controls['class'].value;
-    let obj = _.find(this.landClassLs, { 'value': val });
-    this.subClassLs = obj.subC;
-    grp.controls['unitVal'].reset();
+		this.subClassLs = [];
+		Object.keys(this.landClassLs).forEach(key => {
+			if(this.landClassLs[key].class == val) {
+				this.subClassLs.push({
+					value: this.landClassLs[key].sub_class,
+					viewVal: this.landClassLs[key].sub_class
+				})
+			}
+		})
+		grp.controls['unitVal'].reset();
     grp.controls['baseMarketVal'].reset();
   }
 
@@ -393,10 +233,16 @@ export class LandAssessmentComponent implements OnInit {
 	}
 
   lnAppSubCUV(grp: any) {
-    let val = grp.controls['subclass'].value;
-    let obj = _.find(this.subClassLs, { 'value': val });
-    this.lndAppUnitVal = obj.unitVal;
-    this.computeBMV(grp);
+    let clss = grp.controls['class'].value,
+				subclss = grp.controls['subclass'].value;
+		Object.keys(this.landClassLs).forEach(key => {
+			if(this.landClassLs[key].class == clss) {
+				if(this.landClassLs[key].sub_class == subclss) {
+					this.lndAppUnitVal = this.landClassLs[key].unit_market_value
+				}
+			}
+		})
+		this.computeBMV(grp);
   }
 
   computeBMV(grp: any) {
