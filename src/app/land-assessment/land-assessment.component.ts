@@ -127,7 +127,7 @@ export class LandAssessmentComponent implements OnInit {
     if (!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
-    this.initializeForm('');
+    this.resetForm();
 		this.getMrktVal.getValues().subscribe(res => {
 			_.forEach(res, arr => {
 				this.landClassLs.push(arr)
@@ -328,7 +328,12 @@ export class LandAssessmentComponent implements OnInit {
 			encoder: '',
 			attachment: '',
 		};
-		if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)') {
+		if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)' ||
+			this.landAssessment.controls['trnsCode'].value == 'PHYSICAL CHANGE (PC)' ||
+			this.landAssessment.controls['trnsCode'].value == 'DISPUTE IN ASSESSED VALUE (DP)' ||
+			this.landAssessment.controls['trnsCode'].value == 'TRANSFER (TR)' ||
+			this.landAssessment.controls['trnsCode'].value == 'RECLASSIFICATION (RC)' ||
+			this.landAssessment.controls['trnsCode'].value == 'SPECIAL PROJECT (SP)') {
 			this.asmtLand.saveLand(data).subscribe(res => {
 				console.log(res);
 			})
@@ -744,6 +749,7 @@ export class LandAssessmentComponent implements OnInit {
 	      encoder: new FormControl(''),
 	      attachment: new FormControl(''),
 	    })
+			this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
 		}
 
   }
