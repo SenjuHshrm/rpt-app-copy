@@ -80,7 +80,7 @@
   					<input matInput type='text' placeholder='Installment' [(ngModel)] = 'installment'>
   				</mat-form-field>
 
-          <div class='srchBtn width-100' (mousedown)='addMD=true' (mouseup)='addMD=false' (mouseleave)='addMD=false'>
+          <div class='width-100' (mousedown)='addMD=true' (mouseup)='addMD=false' (mouseleave)='addMD=false'>
   				  <button mat-raised-button color='primary' type='submit' class="width-15" [ngClass]="{'srchBtnMD': addMD, 'srchBtnMU': !addMD}">Add</button>
           </div>
         </div>
@@ -89,12 +89,11 @@
       <br>
 
       <!-- Table -->
-      
+
       <!-- Table end -->
     </div>
   </div>
 
-  <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column'>
-	</div>
+  <br>
 </div>
 	<!-- Container End -->

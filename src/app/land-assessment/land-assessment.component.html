@@ -346,10 +346,17 @@
                 <mat-form-field class='item item-1' fxFlex='32%'>
                   <input matInput type='text' placeholder='Unit Value' formControlName='unitVal' [value]='lndAppUnitVal'>
                 </mat-form-field>
-                <mat-form-field class='item item-2' fxFlex='32%'>
+                <mat-form-field class='item item-2 hideInpt' fxFlex='32%'>
                   <input matInput type='text' placeholder='Base Market Value' formControlName='baseMarketVal'
                     [value]='lndAppBMV'>
                 </mat-form-field>
+                <div fxFlex='32%' class='divInpt'>
+                  <div class="divPlceHlder" *ngIf='bmvDiv'>Base Market Value</div>
+                  <div class='divInptSpan'>
+                    <span *ngIf='bmvVal'>{{ this.lndAppBMV }}</span>
+                    <span *ngIf='bmvSpan' class="divPlceHlder1">Base Market Value</span>
+                  </div>
+                </div>
                 <div class='item item-3' fxFlex='32%'>
                   <mat-checkbox formControlName='interiorLot'>Interior Lot</mat-checkbox>
                   <br>
@@ -376,6 +383,14 @@
             <mat-form-field class='item item-2' fxFlex='32%'>
               <input matInput type='text' placeholder='Remaining Land Area' formControlName='remLandArea'>
             </mat-form-field>
+            <!--<div fxFlex='32%' class='divInpt'>
+              <div class="divPlceHlder">Remaining Land Area</div>
+              <div class='divInptSpan'>
+                <span></span>
+                <span class="divPlceHlder1">Remaining Land Area</span>
+              </div>
+            </div>-->
+
             <mat-form-field class='item item-3' fxFlex='32%'>
               <input matInput type='text' placeholder='Strip Area' formControlName='stripArea'>
             </mat-form-field>

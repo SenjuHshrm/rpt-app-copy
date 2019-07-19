@@ -48,6 +48,9 @@ export class LandAssessmentComponent implements OnInit {
   otheImprvmntsAdd: boolean;
   mvAdd: boolean;
   lndApprAdd: boolean;
+  bmvSpan: boolean = true;
+  bmvDiv: boolean = false;
+  bmvVal: boolean = false;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -148,6 +151,9 @@ export class LandAssessmentComponent implements OnInit {
 		})
 		grp.controls['unitVal'].reset();
     grp.controls['baseMarketVal'].reset();
+    this.bmvDiv = false;
+    this.bmvSpan = true;
+    this.bmvVal = false;
   }
 
   isVisible_spinner = false
@@ -251,6 +257,9 @@ export class LandAssessmentComponent implements OnInit {
     let area: number = parseFloat(this.lndAppArea);
     let unitVl: number = parseFloat(this.lndAppUnitVal);
     this.lndAppBMV = (area * unitVl).toString();
+    this.bmvSpan = false;
+    this.bmvDiv = true;
+    this.bmvVal = true;
   }
 
   save(form: any) {
