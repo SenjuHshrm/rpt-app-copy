@@ -50,7 +50,9 @@ export class RegisterComponent implements OnInit {
       return this.reg.registerNewUser(data).subscribe(res => {
         if(res.success == true) {
           this.router.navigate(['/']);
-        }
+        } else {
+					this.isVisible_spinner = false
+				}
       })
     }
   }

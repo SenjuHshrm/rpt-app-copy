@@ -20,6 +20,7 @@ import { MachReassessmentComponent } from './mach-reassessment/mach-reassessment
 import { PrintingComponent } from './printing/printing.component';
 import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -41,7 +42,10 @@ const routes: Routes = [
   { path: 'user/:username/land-tax/arrears', component: ArrearsComponent },
   { path: 'user/:username/print/:file', component: PrintingComponent },
   { path: 'user/:username/segregation', component: SegregationComponent },
-  { path: 'user/:username/subdivision', component: SubdivisionComponent }
+  { path: 'user/:username/subdivision', component: SubdivisionComponent },
+
+	{ path: 'path/404', component: NotFoundComponent },
+	{ path: '**', redirectTo: '/path/404' }
 ];
 
 @NgModule({
@@ -70,4 +74,5 @@ export const routingComponents = [
   PrintingComponent,
   SegregationComponent,
   SubdivisionComponent,
+	NotFoundComponent
 ]
