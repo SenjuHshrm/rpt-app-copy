@@ -66,13 +66,14 @@ export class LandAssessmentComponent implements OnInit {
       });
 			// stripInf = [];
 			// this.stripSetInfo = new MatTableDataSource(stripInf);
-			this.computeBMV(this.landAssessment.get('landAppraisal'));
+
     }
+		this.computeBMV(this.landAssessment.get('landAppraisal'));
   }
 
   ownerHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
   adminHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
-  stripHeader: string[] = ['stripno', 'striparea', 'adjustment', 'adbaserate', 'stripmval', 'actions']
+  stripHeader: string[] = ['stripno', 'striparea', 'adjustment', 'adbaserate', 'stripmval']
   impHeader: string[] = ['kind', 'total', 'unitval', 'baseval', 'actions']
   mValHeader: string[] = ['bmval', 'adjfactor', 'adjperc', 'adjval', 'markval', 'actions']
 
@@ -254,6 +255,8 @@ export class LandAssessmentComponent implements OnInit {
 		this.computeBMV(grp);
   }
 
+	stripUpdated: boolean;
+
   computeBMV(grp: any) {
     (grp.controls['area'].value == null || grp.controls['area'].value == '') ? this.lndAppArea = '0' : this.lndAppArea = grp.controls['area'].value;
     let area: number = parseFloat(this.lndAppArea);
@@ -262,13 +265,18 @@ export class LandAssessmentComponent implements OnInit {
     this.bmvSpan = false;
     this.bmvDiv = true;
     this.bmvVal = true;
+		this.stripNo = [];
+		for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {
+			this.stripNo.push({ value: i.toString(), viewVal: i.toString() })
+		}
 		let strpSet = this.landAssessment.get('stripSet');
-		if(!grp.controls['stripping'].value) {
-			strpSet.get('adjustment').setValue('0');
-			let adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (+strpSet.get('adjustment').value / 100));
-	    let stripMarkVal = adjustedBaseRate * parseFloat(grp.controls['area'].value);
-			strpSet.get('stripCount').setValue('1');
-			strpSet.get('stripNo').setValue('1');
+		strpSet.get('adjustment').setValue('0');
+		let adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (+strpSet.get('adjustment').value / 100));
+		let stripMarkVal = adjustedBaseRate * parseFloat(grp.controls['area'].value);
+		strpSet.get('stripCount').setValue('1');
+		strpSet.get('stripNo').setValue('1');
+		if(!this.stripToggleVal) {
+
 			stripInf = [];
 			stripInf.push({
 				stripNum: strpSet.get('stripNo').value,
@@ -278,7 +286,18 @@ export class LandAssessmentComponent implements OnInit {
 	      stripMarkVal: (stripMarkVal.toString() == 'NaN') ? '0' : stripMarkVal.toString()
 			})
 			this.stripSetInfo = new MatTableDataSource(stripInf)
-
+		} else {
+			this.landAssessment.get('stripSet').get('remLandArea').setValue(grp.controls['area'].value);
+			this.landAssessment.get('stripSet').get('stripArea').setValue('')
+			let stripObj = _.find(stripInf, { stripNum: '1' });
+			stripObj.stripNum = '1'
+			stripObj.stripArea = '0'
+			stripObj.adjustment = '0'
+			stripObj.adjustedBaseRate = '0'
+			stripObj.stripMarkVal = '0'
+			stripInf = [];
+			stripInf.push(stripObj)
+			this.stripSetInfo = new MatTableDataSource(stripInf);
 		}
   }
 
@@ -441,11 +460,21 @@ export class LandAssessmentComponent implements OnInit {
 	}
 
   setStripNumSel(grp: any) {
+		stripInf = [];
     this.stripNo = []
     let cnt = +grp.controls['stripCount'].value
     for (let i = 1; i <= cnt; i++) {
       this.stripNo.push({ value: i.toString(), viewVal: i.toString() })
+			stripInf.push({
+				stripNum: i.toString(),
+	      stripArea: '0',
+	      adjustment: '0',
+	      adjustedBaseRate: '0',
+	      stripMarkVal: '0'
+			});
     }
+		grp.controls['remLandArea'].setValue(this.landAssessment.get('landAppraisal').get('area').value);
+		this.stripSetInfo = new MatTableDataSource(stripInf);
   }
 
   addOwner(grp: any) {
@@ -478,26 +507,42 @@ export class LandAssessmentComponent implements OnInit {
 
   addStrip(grp: any) {
     let stripData = grp.value
-		let remLnd = parseFloat(stripData.remLandArea) - parseFloat(stripData.stripArea);
-    let adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (stripData.adjustment / 100));
-    let stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
 
-    stripInf.push({
-      stripNum: stripData.stripNo,
-      stripArea: stripData.stripArea,
-      adjustment: stripData.adjustment,
-      adjustedBaseRate: adjustedBaseRate.toString(),
-      stripMarkVal: stripMarkVal.toString()
-    })
-		grp.controls['remLandArea'].setValue(remLnd.toString());
-    this.stripSetInfo = new MatTableDataSource(stripInf)
-    // Object.keys(grp.controls).forEach(key => {
-    //   if (key != 'stripCount') {
-    //     grp.controls[key].reset()
-    //   }
-    // })
+		let obj = _.find(stripInf, { stripNum: stripData.stripNo })
 
-    this.stripComp();
+		let remLnd;
+    let adjustedBaseRate;
+    let stripMarkVal;
+
+		if(+obj.stripArea > 0) {
+
+			remLnd = parseFloat(obj.stripArea) - parseFloat(stripData.stripArea);
+			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (stripData.adjustment / 100));
+			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
+		} else {
+			remLnd = parseFloat(stripData.remLandArea) - parseFloat(stripData.stripArea);
+			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (stripData.adjustment / 100));
+			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
+		}
+
+    if(remLnd < 0) {
+
+		} else {
+			if(!this.stripUpdated) {
+				let ind = _.findIndex(stripInf, { stripNum: stripData.stripNo });
+				stripInf.splice(ind, 1, {
+				  stripNum: stripData.stripNo,
+		      stripArea: stripData.stripArea,
+		      adjustment: stripData.adjustment,
+		      adjustedBaseRate: adjustedBaseRate.toString(),
+		      stripMarkVal: stripMarkVal.toString()
+				})
+				grp.controls['remLandArea'].setValue(remLnd.toString());
+		    this.stripSetInfo = new MatTableDataSource(stripInf)
+				this.stripUpdated = true;
+			}
+		}
+		this.stripUpdated = false;
   }
 
   stripComp() {
