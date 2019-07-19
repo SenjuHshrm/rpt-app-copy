@@ -65,6 +65,8 @@ export class ArrearsComponent implements OnInit {
 		} else {
 			window.location.href = '/'
 		}
+
+    //setTimeout(function(){ alert("asdf"); }, 5000);
   }
 
   param1: string = 'land';
@@ -88,5 +90,48 @@ export class ArrearsComponent implements OnInit {
   isVisible_spinner: boolean = false;
   search(){
     this.isVisible_spinner = true;
+  }
+
+  myMove() {
+  var clientHeight = document.getElementById('searchDB').clientHeight;
+  var elem = document.getElementById("searchDB");
+  var bckgrnd = document.getElementById("bg");
+  var wheight = document.body.clientHeight;
+  var wWidth = document.body.clientWidth;
+  var wheight50 = wheight / 2;
+  var wWidth50 = wWidth / 2;
+  var pos = -clientHeight - 1100;
+  var id = setInterval(frame, 0.1);
+  function frame() {
+      if (pos >= Math.round(wheight50)) {
+        clearInterval(id);
+      } else {
+        pos+=23;
+        elem.style.top = pos / 3 + 'px';
+        elem.style.display = "block";
+        bckgrnd.style.display = 'block';
+        //elem.style.left = wWidth / 2 + 'px';
+        //elem.style.left = pos + 'px';
+      }
+    }
+  }
+
+  clseSrch() {
+    var elem = document.getElementById("searchDB");
+    var bckgrnd = document.getElementById("bg");
+    //elem.style.display = 'none';
+    //bckgrnd.style.display = 'none';
+    var clientHeight = document.getElementById('searchDB').clientHeight;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+      //
+      if(Math.round(clientHeight) < -1100) {
+        bckgrnd.style.display = 'none';
+        clearInterval(id);
+      } else {
+        clientHeight-=23;
+        elem.style.top = clientHeight / 3 + 'px';
+      }
+    }
   }
 }
