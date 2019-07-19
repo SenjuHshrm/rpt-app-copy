@@ -338,3 +338,30 @@ tr {
   0%, 39%, 100% { opacity: 0; }
   40% { opacity: 1; }
 }
+
+.divInpt{
+  border-bottom: 1px solid #999;
+  height: 39px;
+  position: relative;
+  color: #999;
+}
+
+.divPlceHlder {
+  position: absolute;
+  font-size: 11px;
+  top: -2px;
+  color: #999;
+}
+
+.divPlceHlder1 {
+  color: #999;
+}
+
+.divInptSpan {
+  line-height: 48px;
+  color: #000;
+}
+
+.hideInpt {
+  display: none;
+}
