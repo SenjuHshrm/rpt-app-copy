@@ -55,13 +55,15 @@ export class LandAssessmentComponent implements OnInit {
       Object.keys(grp.controls).forEach(key => {
         grp.controls[key].enable();
       });
+			grp.controls['remLandArea'].setValue(this.landAssessment.get('landAppraisal').get('area').value)
     } else {
       Object.keys(grp.controls).forEach(key => {
 				grp.controls[key].reset();
         grp.controls[key].disable();
       });
-			stripInf = [];
-			this.stripSetInfo = new MatTableDataSource(stripInf);
+			// stripInf = [];
+			// this.stripSetInfo = new MatTableDataSource(stripInf);
+			this.computeBMV(this.landAssessment.get('landAppraisal'));
     }
   }
 
@@ -251,6 +253,24 @@ export class LandAssessmentComponent implements OnInit {
     let area: number = parseFloat(this.lndAppArea);
     let unitVl: number = parseFloat(this.lndAppUnitVal);
     this.lndAppBMV = (area * unitVl).toString();
+		let strpSet = this.landAssessment.get('stripSet');
+		if(!grp.controls['stripping'].value) {
+			strpSet.get('adjustment').setValue('0');
+			let adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (+strpSet.get('adjustment').value / 100));
+	    let stripMarkVal = adjustedBaseRate * parseFloat(grp.controls['area'].value);
+			strpSet.get('stripCount').setValue('1');
+			strpSet.get('stripNo').setValue('1');
+			stripInf = [];
+			stripInf.push({
+				stripNum: strpSet.get('stripNo').value,
+	      stripArea: grp.controls['area'].value,
+	      adjustment: strpSet.get('adjustment').value,
+	      adjustedBaseRate: adjustedBaseRate.toString(),
+	      stripMarkVal: (stripMarkVal.toString() == 'NaN') ? '0' : stripMarkVal.toString()
+			})
+			this.stripSetInfo = new MatTableDataSource(stripInf)
+
+		}
   }
 
   save(form: any) {
@@ -449,7 +469,7 @@ export class LandAssessmentComponent implements OnInit {
 
   addStrip(grp: any) {
     let stripData = grp.value
-
+		let remLnd = parseFloat(stripData.remLandArea) - parseFloat(stripData.stripArea);
     let adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (stripData.adjustment / 100));
     let stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
 
@@ -460,12 +480,13 @@ export class LandAssessmentComponent implements OnInit {
       adjustedBaseRate: adjustedBaseRate.toString(),
       stripMarkVal: stripMarkVal.toString()
     })
+		grp.controls['remLandArea'].setValue(remLnd.toString());
     this.stripSetInfo = new MatTableDataSource(stripInf)
-    Object.keys(grp.controls).forEach(key => {
-      if (key != 'stripCount') {
-        grp.controls[key].reset()
-      }
-    })
+    // Object.keys(grp.controls).forEach(key => {
+    //   if (key != 'stripCount') {
+    //     grp.controls[key].reset()
+    //   }
+    // })
 
     this.stripComp();
   }

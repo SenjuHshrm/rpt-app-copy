@@ -34,6 +34,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
 import { ArrearsComponent } from './arrears/arrears.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ArrearsComponent } from './arrears/arrears.component';
     SegregationComponent,
     SubdivisionComponent,
     ClearanceComponentErr,
-    ArrearsComponent
+    ArrearsComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
