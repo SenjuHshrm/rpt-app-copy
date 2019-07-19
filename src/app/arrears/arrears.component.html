@@ -15,20 +15,11 @@
   </div>
 </div>
 
-<div class="h"></div>
-<div class="mat-title-con">
-  <mat-card-header>
-    <mat-card-title>
-      <div class='mat-stitle'>&nbsp;&nbsp;<b>Arrears</b></div>
-    </mat-card-title>
-  </mat-card-header>
-</div>
-
-<!-- Container -->
-<div class='wrapper'>
-  <div class="arrearsGrid">
-    <div>
-      <!-- Search -->
+  <div class='search-addBtn' id='bg'>
+    <!-- Search -->
+    <div class='search-addDB' id='searchDB'>
+      <div class="divHeader">&nbsp;&nbsp;Search</div>
+      <div class="dbMargin">
   		<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
   			<label>Search record in:</label>
   			<mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
@@ -50,9 +41,36 @@
         <div class='srchBtn width-100' (mousedown)='srchMD=true' (mouseup)='srchMD=false' (mouseleave)='srchMD=false'>
           <button mat-raised-button class='item item-2' color='primary' (click)='search();' [ngClass]="{'srchBtnMD': srchMD, 'srchBtnMU': !srchMD}">Search</button>
         </div>
+        <button (click)='clseSrch()'>X</button>
       </div>
-      <br>
-  		<!-- Search End -->
+    </div>
+    </div>
+    <!-- Search End -->
+  </div>
+
+<!--<div id ="myContainer">
+<div id ="myAnimation"></div>
+</div>-->
+
+<div class="h"></div>
+<div class="mat-title-con">
+  <mat-card-header>
+    <mat-card-title>
+      <div class='mat-stitle'>&nbsp;&nbsp;<b>Arrears</b>
+        <p>
+        <button (click)="myMove()"><mat-icon>search</mat-icon></button>
+        <button><mat-icon>add</mat-icon></button>
+        </p>
+      </div>
+    </mat-card-title>
+  </mat-card-header>
+</div>
+
+<!-- Container -->
+<div class='wrapper'>
+  <div class="arrearsGrid">
+    <div>
+      <!-- search -->
     </div>
     <div></div>
     <div>

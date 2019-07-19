@@ -304,3 +304,59 @@ tr {
   height: 100%;
   border: 1px solid #0058CF;
 }
+
+#myContainer {
+  width: 400px;
+  height: 400px;
+  position: relative;
+  background: yellow;
+}
+#myAnimation {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: red;
+}
+
+.search-addBtn {
+  width: 100%;
+  height: 100%;
+  @include bg-opacity(#000, 0.6)
+  position: fixed;
+  z-index: 1;
+  top:0;
+  display: none;
+}
+
+.search-addDB {
+  background: #FFF;
+  border: 1px solid #0063EA;
+  border-radius: 4px;
+  position: fixed;
+  width: 50%;
+  height: auto;
+  left: 25%;
+  top: -100%;
+  /*transform: translate(-50%);*/
+  z-index: 999;
+}
+
+.dbMargin {
+  width: 90%;
+  height: 90%;
+  margin: 0 auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.divHeader {
+  background: rgba(#0063EA, 0.9);
+  width: 100%;
+  height: 40px;
+  color: #FFF;
+  font-size: 15px;
+  line-height: 40px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  position: relative;
+}
