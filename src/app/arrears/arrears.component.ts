@@ -5,7 +5,7 @@ import { searchRec } from '../services/searchFaasRec.service';
 import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
-import { getPosHolders } from '../services/getPosHolders';
+import { getPosHolders } from '../services/getPosHolders.service';
 import { MatTableDataSource, MatTab } from '@angular/material';
 import * as _ from 'lodash';
 import * as jwt_decode from 'jwt-decode';
@@ -59,7 +59,7 @@ export class ArrearsComponent implements OnInit {
     if(localStorage.getItem('auth')) {
 			let obj = jwt_decode(localStorage.getItem('auth'));
 			this.encoder1 = obj.name;
-			this.gPos.getPosHoldersCl().subscribe(res => {
+			this.gPos.getPosHoldersCl("RPTOP").subscribe(res => {
 				this.posHolders = res;
 			})
 		} else {

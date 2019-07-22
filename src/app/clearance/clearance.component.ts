@@ -5,7 +5,7 @@ import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
 import { landTaxTableBldg } from '../interfaces/landTaxTableBldg';
-import { getPosHolders } from '../services/getPosHolders'
+import { getPosHolders } from '../services/getPosHolders.service'
 import { MatTableDataSource } from '@angular/material';
 import { lTaxClearance } from '../classes/lTaxClearance';
 import * as _ from 'lodash';
@@ -92,7 +92,7 @@ export class ClearanceComponent implements OnInit {
     if(localStorage.getItem('auth')) {
       let obj = jwt_decode(localStorage.getItem('auth'));
       this.encoder1 = obj.name;
-      this.gPos.getPosHoldersCl().subscribe(res => {
+      this.gPos.getPosHoldersCl("TAX CLEARANCE").subscribe(res => {
         this.posHolders = res;
       })
     } else {

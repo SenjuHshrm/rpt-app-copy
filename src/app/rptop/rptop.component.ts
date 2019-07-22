@@ -5,7 +5,7 @@ import { searchRec } from '../services/searchFaasRec.service';
 import { landTaxTable } from '../interfaces/landTaxTable';
 import { landTaxInfOwn } from '../interfaces/landTaxInfOwn';
 import { landTaxInfAdm } from '../interfaces/landTaxInfAdm';
-import { getPosHolders } from '../services/getPosHolders';
+import { getPosHolders } from '../services/getPosHolders.service';
 import { MatTableDataSource, MatTab } from '@angular/material';
 import * as _ from 'lodash';
 import * as jwt_decode from 'jwt-decode';
@@ -75,7 +75,7 @@ export class RPTOPComponent implements OnInit {
     if(localStorage.getItem('auth')) {
       let obj = jwt_decode(localStorage.getItem('auth'));
       this.encoder1 = obj.name;
-      this.gPos.getPosHoldersCl().subscribe(res => {
+      this.gPos.getPosHoldersCl("RPTOP").subscribe(res => {
         this.posHolders = res;
       })
     } else {
@@ -98,7 +98,7 @@ export class RPTOPComponent implements OnInit {
   ];
 
 	search() {
-		
+
 	}
 
   addCompYear(){
@@ -107,13 +107,13 @@ export class RPTOPComponent implements OnInit {
     let monthPay = basic / 12;
 
     if (moment(this.yearPay, 'YYYY').isSame(moment(), 'year')){
-      
+
       let firstHalfPenalty = 0;
       let secondHalfPenalty = 0;
 
       let firstHalfPendisc = 0;
       let secondHalfPendisc = 0;
-      
+
       let firstHalfPercent = 25 * (moment().quarter() - 1);
       let secondHalfPercent = 100 - firstHalfPercent;
 
@@ -138,7 +138,7 @@ export class RPTOPComponent implements OnInit {
 
         }
       };
-      
+
       firstHalfTotal = firstHalfBasic + firstHalfPendisc;
       secondHalfTotal = secondHalfBasic + secondHalfPendisc;
 
@@ -157,7 +157,7 @@ export class RPTOPComponent implements OnInit {
       });
 
     }else if (moment(this.yearPay, 'YYYY').isBefore(moment(), 'year')) {
-      
+
       let penalty = 0;
       let pendisc = 0;
       let total = 0;
@@ -165,12 +165,12 @@ export class RPTOPComponent implements OnInit {
       for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
           dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
           dateCtr.add(1, 'month')){
-        
+
         penalty = (Math.ceil(moment().diff(dateCtr, 'month', true)) * 2);
         penalty = (penalty > 72) ? (72) : (penalty);
 
         pendisc = pendisc + (penalty / 100 * monthPay);
-        
+
       };
 
       total = basic + pendisc;
@@ -191,11 +191,11 @@ export class RPTOPComponent implements OnInit {
       for(let dateCtr = moment(this.yearPay + '01', 'YYYYMM');
           dateCtr.isBefore(moment((Number(this.yearPay)+1), 'YYYY'), 'year');
           dateCtr.add(1, 'month')){
-        
+
         penalty = -10
 
         pendisc = pendisc + (penalty / 100 * monthPay);
-        
+
       };
 
       total = basic + pendisc;

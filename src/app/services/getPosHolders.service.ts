@@ -8,12 +8,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class getPosHolders {
    constructor(private http: HttpClient) { }
-   
-   getPosHoldersCl(): Observable<any> {
+
+   getPosHoldersCl(caller: any): Observable<any> {
       let headers = new HttpHeaders({
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers }
-      return this.http.get('http://192.168.100.24:5000/api/land-tax/position-holders', opt);
+      return this.http.get('http://192.168.100.24:5000/api/position-holders/' + encodeURI(caller), opt);
    }
 }

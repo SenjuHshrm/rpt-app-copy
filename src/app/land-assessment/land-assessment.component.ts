@@ -12,6 +12,7 @@ import { marketValue } from '../interfaces/marketValue';
 import { pincheck } from '../services/pincheck.service';
 import { getMarketValues } from '../services/getMarketValues.service';
 import { assessLand } from '../services/assesssLand.service';
+import { getPosHolders } from  '../services/getPosHolders.service';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
@@ -51,22 +52,21 @@ export class LandAssessmentComponent implements OnInit {
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
+		this.computeBMV(this.landAssessment.get('landAppraisal'));
     if (this.stripToggleVal) {
       Object.keys(grp.controls).forEach(key => {
         grp.controls[key].enable();
       });
 			grp.controls['remLandArea'].setValue(this.landAssessment.get('landAppraisal').get('area').value)
-      //this.rlaVal = this.landAssessment.get('landAppraisal').get('area').value;
     } else {
       Object.keys(grp.controls).forEach(key => {
 				grp.controls[key].reset();
         grp.controls[key].disable();
       });
-			// stripInf = [];
-			// this.stripSetInfo = new MatTableDataSource(stripInf);
+
 
     }
-		this.computeBMV(this.landAssessment.get('landAppraisal'));
+
   }
 
   ownerHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
@@ -124,7 +124,8 @@ export class LandAssessmentComponent implements OnInit {
 		private matDialog: MatDialog,
 		private gLndFaas: genFaas,
 		private getMrktVal: getMarketValues,
-		private asmtLand: assessLand
+		private asmtLand: assessLand,
+		private gPosHolder: getPosHolders
 	) { }
 
   ngOnInit() {
@@ -136,6 +137,9 @@ export class LandAssessmentComponent implements OnInit {
 			_.forEach(res, arr => {
 				this.landClassLs.push(arr)
 			})
+		})
+		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
+			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
   }
 
@@ -218,11 +222,12 @@ export class LandAssessmentComponent implements OnInit {
 				asmtLvl.setValue(40);
 				break;
 		}
+		this.compAssessedVal(propAsmt)
 
 	}
 
 	compAssessedVal(propAsmt: any) {
-		let asmtVal = (+propAsmt.get('marketVal').value) * ((+propAsmt.get('assessmentLvl').value) / 100);
+		let asmtVal = +this.lndAppBMV * ((+propAsmt.get('assessmentLvl').value) / 100);
 		propAsmt.get('assessedVal').setValue(asmtVal);
 	}
 
@@ -257,6 +262,9 @@ export class LandAssessmentComponent implements OnInit {
     let area: number = parseFloat(this.lndAppArea);
     let unitVl: number = parseFloat(this.lndAppUnitVal);
     this.lndAppBMV = (area * unitVl).toString();
+    this.bmvSpan = false;
+    this.bmvDiv = true;
+    this.bmvVal = true;
 		this.stripNo = [];
 
     for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {
@@ -269,7 +277,6 @@ export class LandAssessmentComponent implements OnInit {
 		strpSet.get('stripCount').setValue('1');
 		strpSet.get('stripNo').setValue('1');
 		if(!this.stripToggleVal) {
-
 			stripInf = [];
 			stripInf.push({
 				stripNum: strpSet.get('stripNo').value,
@@ -279,7 +286,9 @@ export class LandAssessmentComponent implements OnInit {
 	      stripMarkVal: (stripMarkVal.toString() == 'NaN') ? '0' : stripMarkVal.toString()
 			})
 			this.stripSetInfo = new MatTableDataSource(stripInf)
+			this.lndAppBMV = (area * unitVl).toString()
 		} else {
+			this.lndAppBMV = '0'
 			this.landAssessment.get('stripSet').get('remLandArea').setValue(grp.controls['area'].value);
 			this.landAssessment.get('stripSet').get('stripArea').setValue('')
 			let stripObj = _.find(stripInf, { stripNum: '1' });
@@ -292,6 +301,9 @@ export class LandAssessmentComponent implements OnInit {
 			stripInf.push(stripObj)
 			this.stripSetInfo = new MatTableDataSource(stripInf);
 		}
+		let prpAsmtVal = parseFloat(this.lndAppBMV) * (parseFloat(this.landAssessment.get('propertyAssessment').get('assessmentLvl').value) / 100)
+		this.landAssessment.get('propertyAssessment').get('assessedVal').setValue(prpAsmtVal.toString())
+
   }
 
   save(form: any) {
@@ -501,52 +513,40 @@ export class LandAssessmentComponent implements OnInit {
 
   addStrip(grp: any) {
     let stripData = grp.value
-
-		let obj = _.find(stripInf, { stripNum: stripData.stripNo })
-
-		let remLnd;
-    let adjustedBaseRate;
-    let stripMarkVal;
-
-		if(+obj.stripArea > 0) {
-
+		let remLnd: number = 0;
+    let adjustedBaseRate: number = 0;
+    let stripMarkVal: number = 0;
+		let adjPerc = (stripData.adjustment == '0') ? 1 : (parseFloat(stripData.adjustment) / 100)
+    if(remLnd < 0) {
+			let obj = _.find(stripInf, { stripNum: stripData.stripNo })
 			remLnd = parseFloat(obj.stripArea) - parseFloat(stripData.stripArea);
-			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (stripData.adjustment / 100));
+			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * adjPerc;
 			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
 		} else {
 			remLnd = parseFloat(stripData.remLandArea) - parseFloat(stripData.stripArea);
-			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (stripData.adjustment / 100));
+			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * adjPerc;
 			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
 		}
-
-    if(remLnd < 0) {
-
-		} else {
-			if(!this.stripUpdated) {
-				let ind = _.findIndex(stripInf, { stripNum: stripData.stripNo });
-				stripInf.splice(ind, 1, {
-				  stripNum: stripData.stripNo,
-		      stripArea: stripData.stripArea,
-		      adjustment: stripData.adjustment,
-		      adjustedBaseRate: adjustedBaseRate.toString(),
-		      stripMarkVal: stripMarkVal.toString()
-				})
-				grp.controls['remLandArea'].setValue(remLnd.toString());
-		    this.stripSetInfo = new MatTableDataSource(stripInf)
-				this.stripUpdated = true;
-			}
-		}
-		this.stripUpdated = false;
+		let ind = _.findIndex(stripInf, { stripNum: stripData.stripNo });
+		stripInf.splice(ind, 1, {
+			stripNum: stripData.stripNo,
+			stripArea: stripData.stripArea,
+			adjustment: stripData.adjustment,
+			adjustedBaseRate: adjustedBaseRate.toString(),
+			stripMarkVal: stripMarkVal.toString()
+		})
+		grp.controls['remLandArea'].setValue(remLnd.toString());
+		this.stripSetInfo = new MatTableDataSource(stripInf)
+		this.stripComp();
+		this.compAssessedVal(this.landAssessment.get('propertyAssessment'))
   }
 
   stripComp() {
     let totalMarketVal = 0;
-
-    for (let strip of stripInf) {
-      totalMarketVal += Number(strip.stripMarkVal);
-    }
-
-
+		_.forEach(stripInf, arr => {
+			totalMarketVal = totalMarketVal + parseFloat(arr.stripMarkVal)
+		})
+		this.lndAppBMV = (totalMarketVal).toString();
   }
 
   addImp(grp: any) {
@@ -786,7 +786,7 @@ export class LandAssessmentComponent implements OnInit {
 	      }),
 	      propertyAssessment: new FormGroup({
 	        actualUse: new FormControl(''),
-	        marketVal: new FormControl(''),
+	        marketVal: new FormControl('0'),
 	        assessmentLvl: new FormControl(''),
 	        assessedVal: new FormControl(''),
 	        specialClass: new FormControl(''),
@@ -819,6 +819,8 @@ export class LandAssessmentComponent implements OnInit {
 	      attachment: new FormControl(''),
 	    })
 			this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
+			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('COMMERCIAL');
+			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'))
 		}
 
   }
