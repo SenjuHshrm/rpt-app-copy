@@ -262,9 +262,6 @@ export class LandAssessmentComponent implements OnInit {
     let area: number = parseFloat(this.lndAppArea);
     let unitVl: number = parseFloat(this.lndAppUnitVal);
     this.lndAppBMV = (area * unitVl).toString();
-    this.bmvSpan = false;
-    this.bmvDiv = true;
-    this.bmvVal = true;
 		this.stripNo = [];
 
     for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {
