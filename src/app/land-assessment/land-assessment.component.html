@@ -398,7 +398,7 @@
           <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
             fxLayoutGap.xs='10px'>
             <mat-form-field class='item item-1' fxFlex='32%'>
-              <input matInput type='text' placeholder='Adjustment' formControlName='adjustment'>
+              <input matInput type='text' placeholder='Adjustment Percentage' formControlName='adjustment'>
             </mat-form-field>
             <mat-form-field class='item item-2' fxFlex='32%'>
               <mat-label>Strip Number</mat-label>
@@ -517,7 +517,7 @@
           <br>
           <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='left'>
             <mat-form-field class='item item-1' fxFlex='30%'>
-              <input matInput type='text' placeholder='Sub Total' formControlName='othImpSubTotal'>
+              <input matInput type='text' placeholder='Sub Total' formControlName='othImpSubTotal' [value]='lndAppBMV'>
             </mat-form-field>
           </div>
         </mat-card-content>
@@ -595,7 +595,7 @@
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'
               fxLayoutAlign='left'>
               <mat-form-field class='item item-1' fxFlex='30%'>
-                <input matInput type='text' placeholder='Sub Total' formControlName='mvSubTotal'>
+                <input matInput type='text' placeholder='Sub Total' formControlName='mvSubTotal' [value]='lndAppBMV'>
               </mat-form-field>
             </div>
           </mat-card-content>
@@ -627,7 +627,7 @@
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
               fxLayoutGap.xs='10px'>
               <mat-form-field class='item item-1' fxFlex='32%'>
-                <input matInput type='text' formControlName='marketVal' (keyup)="compAssessedVal(landAssessment.get('propertyAssessment'))" placeholder='Market Value'>
+                <input matInput type='text' formControlName='marketVal' (keyup)="compAssessedVal(landAssessment.get('propertyAssessment'))" placeholder='Market Value' [value]='lndAppBMV'>
               </mat-form-field>
               <mat-form-field class='item item-2' fxFlex='32%'>
                 <input matInput type='text' formControlName='assessmentLvl' placeholder='Assessment Level'>
