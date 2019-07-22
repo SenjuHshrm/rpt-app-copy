@@ -13,7 +13,6 @@ import { pincheck } from '../services/pincheck.service';
 import { getMarketValues } from '../services/getMarketValues.service';
 import { assessLand } from '../services/assesssLand.service';
 import { getPosHolders } from  '../services/getPosHolders.service';
-import { forEach } from '@angular/router/src/utils/collection';
 import { MatDialog } from '@angular/material/dialog';
 import { LndAsmtSearch } from './dialog-search/lndasmt-search';
 import { genFaas } from '../services/genFaas.service';
@@ -514,7 +513,7 @@ export class LandAssessmentComponent implements OnInit {
     let adjustedBaseRate: number = 0;
     let stripMarkVal: number = 0;
 		let adjPerc = (stripData.adjustment == '0') ? 1 : (parseFloat(stripData.adjustment) / 100)
-    if(remLnd < 0) {
+    if(parseFloat(stripData.remLandArea) <= 0) {
 			let obj = _.find(stripInf, { stripNum: stripData.stripNo })
 			remLnd = parseFloat(obj.stripArea) - parseFloat(stripData.stripArea);
 			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * adjPerc;
