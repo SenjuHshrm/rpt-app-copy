@@ -49,9 +49,6 @@ export class LandAssessmentComponent implements OnInit {
   otheImprvmntsAdd: boolean;
   mvAdd: boolean;
   lndApprAdd: boolean;
-  bmvSpan: boolean = true;
-  bmvDiv: boolean = false;
-  bmvVal: boolean = false;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -61,7 +58,6 @@ export class LandAssessmentComponent implements OnInit {
         grp.controls[key].enable();
       });
 			grp.controls['remLandArea'].setValue(this.landAssessment.get('landAppraisal').get('area').value)
-
     } else {
       Object.keys(grp.controls).forEach(key => {
 				grp.controls[key].reset();
@@ -160,9 +156,6 @@ export class LandAssessmentComponent implements OnInit {
 		})
 		grp.controls['unitVal'].reset();
     grp.controls['baseMarketVal'].reset();
-    this.bmvDiv = false;
-    this.bmvSpan = true;
-    this.bmvVal = false;
   }
 
   isVisible_spinner = false
@@ -268,11 +261,13 @@ export class LandAssessmentComponent implements OnInit {
     (grp.controls['area'].value == null || grp.controls['area'].value == '') ? this.lndAppArea = '0' : this.lndAppArea = grp.controls['area'].value;
     let area: number = parseFloat(this.lndAppArea);
     let unitVl: number = parseFloat(this.lndAppUnitVal);
+    this.lndAppBMV = (area * unitVl).toString();
     this.bmvSpan = false;
     this.bmvDiv = true;
     this.bmvVal = true;
 		this.stripNo = [];
-		for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {
+
+    for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {
 			this.stripNo.push({ value: i.toString(), viewVal: i.toString() })
 		}
 		let strpSet = this.landAssessment.get('stripSet');
@@ -470,6 +465,7 @@ export class LandAssessmentComponent implements OnInit {
 	}
 
   setStripNumSel(grp: any) {
+
 		stripInf = [];
     this.stripNo = []
     let cnt = +grp.controls['stripCount'].value

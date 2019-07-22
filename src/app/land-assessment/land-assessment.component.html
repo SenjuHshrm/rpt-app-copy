@@ -56,7 +56,7 @@
                 </mat-form-field>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <button type='button' mat-raised-button color='primary'
-                  (click)="checkPIN(landAssessment.get('pin')); isVisible_spinner=true" style='border: 1px solid #0058CF;'>Check PIN</button>
+                  (click)="checkPIN(landAssessment.get('pin')); isVisible_spinner=true" class='sve'>Check PIN</button>
                 <span>&nbsp;&nbsp;&nbsp;</span>
                 <span>
                   <!-- spinner -->
@@ -343,20 +343,22 @@
               </div>
               <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
                 fxLayoutGap.xs='10px'>
-                <mat-form-field class='item item-1' fxFlex='32%'>
-                  <input matInput type='text' placeholder='Unit Value' formControlName='unitVal' [value]='lndAppUnitVal'>
-                </mat-form-field>
-                <mat-form-field class='item item-2 hideInpt' fxFlex='32%'>
-                  <input matInput type='text' placeholder='Base Market Value' formControlName='baseMarketVal'
-                    [value]='lndAppBMV'>
-                </mat-form-field>
-                <div fxFlex='32%' class='divInpt'>
-                  <div class="divPlceHlder" *ngIf='bmvDiv'>Base Market Value</div>
-                  <div class='divInptSpan'>
-                    <span *ngIf='bmvVal'>{{ this.lndAppBMV }}</span>
-                    <span *ngIf='bmvSpan' class="divPlceHlder1">Base Market Value</span>
-                  </div>
+
+                <div fxFlex='32%' class="relPos">
+                <div class="inptOvrlay"></div>
+                  <mat-form-field class='item item-1 width-100'>
+                    <input tabIndex='-1' matInput type='text' placeholder='Unit Value' formControlName='unitVal' [value]='lndAppUnitVal'>
+                  </mat-form-field>
                 </div>
+
+                <div fxFlex='32%' class="relPos">
+                <div class="inptOvrlay"></div>
+                  <mat-form-field class='item item-2 width-100'>
+                    <input tabIndex='-1' matInput type='text' placeholder='Base Market Value' formControlName='baseMarketVal'
+                      [value]='lndAppBMV'>
+                  </mat-form-field>
+                </div>
+
                 <div class='item item-3' fxFlex='32%'>
                   <mat-checkbox formControlName='interiorLot'>Interior Lot</mat-checkbox>
                   <br>
@@ -380,16 +382,12 @@
               <input matInput (keyup)="setStripNumSel(landAssessment.get('stripSet'))" type='text'
                 placeholder='No. of Strips' formControlName='stripCount'>
             </mat-form-field>
-            <mat-form-field class='item item-2' fxFlex='32%'>
-              <input matInput type='text' placeholder='Remaining Land Area' formControlName='remLandArea'>
+            <div fxFlex='32%' class="relPos">
+            <div class="inptOvrlay"></div>
+            <mat-form-field class='item item-2 width-100'>
+              <input tabIndex='-1' matInput type='text' placeholder='Remaining Land Area' formControlName='remLandArea'>
             </mat-form-field>
-            <!--<div fxFlex='32%' class='divInpt'>
-              <div class="divPlceHlder">Remaining Land Area</div>
-              <div class='divInptSpan'>
-                <span></span>
-                <span class="divPlceHlder1">Remaining Land Area</span>
-              </div>
-            </div>-->
+            </div>
 
             <mat-form-field class='item item-3' fxFlex='32%'>
               <input matInput type='text' placeholder='Strip Area' formControlName='stripArea' (change)='stripUpdated=false'>
@@ -624,16 +622,19 @@
               <mat-checkbox formControlName='specialClass' class='item item-2' fxFlex='32%'>Special Class</mat-checkbox>
               <div class='item item-3' fxFlex='32%'></div>
             </div>
-            <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
+            <div class='container relPos' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
               fxLayoutGap.xs='10px'>
-              <mat-form-field class='item item-1' fxFlex='32%'>
-                <input matInput type='text' formControlName='marketVal' (keyup)="compAssessedVal(landAssessment.get('propertyAssessment'))" placeholder='Market Value' [value]='lndAppBMV'>
+              <div fxFlex='32%'>
+                <div class="inptOvrlay"></div>
+              <mat-form-field class='item item-1 width-100'>
+                <input matInput type='text' formControlName='marketVal' (keyup)="compAssessedVal(landAssessment.get('propertyAssessment'))" placeholder='Market Value' tabIndex="-1" [value]='lndAppBMV'>
               </mat-form-field>
+              </div>
               <mat-form-field class='item item-2' fxFlex='32%'>
-                <input matInput type='text' formControlName='assessmentLvl' placeholder='Assessment Level'>
+                <input matInput type='text' formControlName='assessmentLvl' placeholder='Assessment Level' tabIndex="-1">
               </mat-form-field>
               <mat-form-field class='item item-3' fxFlex='32%'>
-                <input matInput type='text' formControlName='assessedVal' placeholder='Assessed Value'>
+                <input matInput type='text' formControlName='assessedVal' placeholder='Assessed Value' tabIndex="-1">
               </mat-form-field>
             </div>
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
@@ -665,9 +666,12 @@
               <mat-form-field class='item item-2' fxFlex='32%'>
                 <input matInput type='text' formControlName='recommendName' placeholder='Recommending'>
               </mat-form-field>
-              <mat-form-field class='item item-3' fxFlex='32%'>
-                <input matInput type='text' formControlName='approvedName' placeholder='Approved By'>
+              <div class="relPos" fxFlex='32%'>
+              <div class="inptOvrlay"></div>
+              <mat-form-field class='item item-3 width-100'>
+                <input matInput type='text' formControlName='approvedName' placeholder='Approved By' tabIndex="-1">
               </mat-form-field>
+              </div>
             </div>
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
               fxLayoutGap.xs='10px'>
