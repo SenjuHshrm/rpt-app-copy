@@ -18,34 +18,94 @@
   <div class='search-addBtn' id='bg'>
     <!-- Search -->
     <div class='search-addDB' id='searchDB'>
-      <div class="divHeader">&nbsp;&nbsp;Search</div>
+      <div class="divHeader">&nbsp;&nbsp;Arrears</div>
+      <div>
+        <div class='h'></div>
+        <b>&nbsp;&nbsp;Search</b>
+      </div>
+      <div class='h'></div>
       <div class="dbMargin">
   		<div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
   			<label>Search record in:</label>
   			<mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
   				<mat-radio-button *ngFor='let p1 of params1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
-  				</mat-radio-group>
-  				<label>Search record by:</label>
-  				<mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
+  			</mat-radio-group>
+  			<label>Search record by:</label>
+  			<mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
   				<mat-radio-button *ngFor='let p2 of params2' [value]='p2.value'>{{ p2.viewVal }}</mat-radio-button>
-  				</mat-radio-group>
+  			</mat-radio-group>
   		</div>
 
-      <div class="srchGrid">
+      <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
         <div>
-          <mat-form-field class='item item-1 width-100'>
+          <mat-form-field class='item item-1' fxFlex='100%'>
            <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
           </mat-form-field>
         </div>
-        <div></div>
-        <div class='srchBtn width-100' (mousedown)='srchMD=true' (mouseup)='srchMD=false' (mouseleave)='srchMD=false'>
-          <button mat-raised-button class='item item-2' color='primary' (click)='search();' [ngClass]="{'srchBtnMD': srchMD, 'srchBtnMU': !srchMD}">Search</button>
-        </div>
-        <button (click)='clseSrch()'>X</button>
       </div>
+
+        <div class='container' fxLayout fxLayoutGap='10px'>
+          <div fxFlex='40%'></div>
+          <div class="btnCon" fxFlex='30%' (mousedown)='srchMD=true' (mouseup)='srchMD=false' (mouseleave)='srchMD=false'>
+            <button mat-raised-button class='item item-2' color='primary' (click)='search();' [ngClass]="{'srchBtnMD': srchMD, 'srchBtnMU': !srchMD}">Search</button>
+          </div>
+          <div class="btnCon" fxFlex='30%' (mousedown)='srchClseMD=true' (mouseup)='srchClseMD=false' (mouseleave)='srchClseMD=false' (click)='clseSrch()'>
+            <button mat-raised-button style='border: none;' [ngClass]="{'srchBtnMD': srchClseMD, 'srchBtnMU': !srchClseMD}">Close</button>
+          </div>
+        </div>
+        <br>
     </div>
     </div>
     <!-- Search End -->
+
+    <!-- Add -->
+    <div class='search-addDB' id='addDB'>
+      <div class="divHeader">&nbsp;&nbsp;Arrears</div>
+      <div>
+        <div class='h'></div>
+        <b>&nbsp;&nbsp;Add</b>
+      </div>
+      <div class="dbMargin">
+      <div class="container" fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='2px'>
+  			<div class='container' fxFlex='100%' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='2px'>
+  				<mat-form-field class='item item-1' fxFlex='55%'>
+  					<input matInput type='text' placeholder='Sum' [(ngModel)] = 'sum'>
+  				</mat-form-field>
+
+  				<mat-form-field class='item item-2' fxFlex='45%'>
+  					<input matInput type='text' placeholder='Years to pay' [(ngModel)] = 'yearsToPay'>
+  				</mat-form-field>
+        </div>
+
+        <div class='container' fxFlex='100%' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='2px'>
+  				<mat-form-field class='item item-3' fxFlex='45%'>
+  					<mat-select (selectionChange)="computeInstallment()">
+  						<mat-option *ngFor='let frequency of frequencies' [value]='frequency.value'>
+  							{{ frequency.viewVal }}
+  						</mat-option>
+  					</mat-select>
+  				</mat-form-field>
+
+  				<mat-form-field class='item item-4' fxFlex='55%'>
+  					<input matInput type='text' placeholder='Installment' [(ngModel)] = 'installment'>
+  				</mat-form-field>
+        </div>
+
+        <div class="h"></div>
+        <div class='container' fxFlex='100%' fxLayout fxLayoutGap='10px'>
+          <div fxFlex='40%'></div>
+          <div class="btnCon" fxFlex='30%' (mousedown)='addMD=true' (mouseup)='addMD=false' (mouseleave)='addMD=false'>
+  				  <button mat-raised-button color='primary' type='submit' class="width-15" [ngClass]="{'srchBtnMD': addMD, 'srchBtnMU': !addMD}">Add</button>
+          </div>
+          <div class="btnCon" class="btnCon" fxFlex='30%' (mousedown)='clseMD=true' (mouseup)='clseMD=false' (mouseleave)='clseMD=false' (click)='clseAdd()'>
+            <button style='border: none;' mat-raised-button type='button' class="width-15" [ngClass]="{'srchBtnMD': clseMD, 'srchBtnMU': !clseMD}">Close</button>
+          </div>
+        </div>
+  		</div>
+      </div>
+      <br>
+    </div>
+    <!-- End -->
   </div>
 
 <!--<div id ="myContainer">
@@ -56,11 +116,15 @@
 <div class="mat-title-con">
   <mat-card-header>
     <mat-card-title>
-      <div class='mat-stitle'>&nbsp;&nbsp;<b>Arrears</b>
-        <p>
-        <button (click)="myMove()"><mat-icon>search</mat-icon></button>
-        <button><mat-icon>add</mat-icon></button>
-        </p>
+      <div class='container' fxFlex='100%' fxLayout fxLayoutGap='10px'>
+        <div fxFlex='25%' class='lh'>&nbsp;&nbsp;<b>Arrears</b></div>
+        <div fxFlex='65%'></div>
+        <div fxFlex='64px'>
+          <button color='' mat-raised-button type='button' tabindex="-1" (click)="srchBtn()"><mat-icon>search</mat-icon></button>
+        </div>
+        <div fxFlex='64px'>
+          <button color='' mat-raised-button type='button' tabindex="-1" (click)="addBtn()"><mat-icon>add</mat-icon></button>
+        </div>
       </div>
     </mat-card-title>
   </mat-card-header>
@@ -68,50 +132,5 @@
 
 <!-- Container -->
 <div class='wrapper'>
-  <div class="arrearsGrid">
-    <div>
-      <!-- search -->
-    </div>
-    <div></div>
-    <div>
-      <!-- -->
-  		<div class="container" fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='2px'>
-  			<div class='container' fxFlex='100%' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='2px'>
-
-  				<mat-form-field class='item item-1 width-20'>
-  					<input matInput type='text' placeholder='Sum' [(ngModel)] = 'sum'>
-  				</mat-form-field>
-
-  				<mat-form-field class='item item-2 width-20'>
-  					<input matInput type='text' placeholder='Years to pay' [(ngModel)] = 'yearsToPay'>
-  				</mat-form-field>
-
-  				<mat-form-field class='item item-3 width-20'>
-  					<mat-select (selectionChange)="computeInstallment()">
-  						<mat-option *ngFor='let frequency of frequencies' [value]='frequency.value'>
-  							{{ frequency.viewVal }}
-  						</mat-option>
-  					</mat-select>
-  				</mat-form-field>
-
-  				<mat-form-field class='item item-4 width-20'>
-  					<input matInput type='text' placeholder='Installment' [(ngModel)] = 'installment'>
-  				</mat-form-field>
-
-          <div class='width-100' (mousedown)='addMD=true' (mouseup)='addMD=false' (mouseleave)='addMD=false'>
-  				  <button mat-raised-button color='primary' type='submit' class="width-15" [ngClass]="{'srchBtnMD': addMD, 'srchBtnMU': !addMD}">Add</button>
-          </div>
-        </div>
-  		</div>
-  		<!-- End -->
-      <br>
-
-      <!-- Table -->
-
-      <!-- Table end -->
-    </div>
-  </div>
-
-  <br>
 </div>
 	<!-- Container End -->

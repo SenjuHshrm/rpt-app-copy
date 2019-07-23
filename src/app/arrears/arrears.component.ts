@@ -37,7 +37,9 @@ export class ArrearsComponent implements OnInit {
 	frequency: string;
 	installment: number;
   srchMD: boolean;
+  srchClseMD: boolean;
   addMD: boolean;
+  clseMD: boolean;
 
   lTaxHeader: string[] = [
 		'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',
@@ -92,9 +94,10 @@ export class ArrearsComponent implements OnInit {
     this.isVisible_spinner = true;
   }
 
-  myMove() {
+  srchBtn() {
   var clientHeight = document.getElementById('searchDB').clientHeight;
   var elem = document.getElementById("searchDB");
+  var addDB = document.getElementById("addDB");
   var bckgrnd = document.getElementById("bg");
   var wheight = document.body.clientHeight;
   var wWidth = document.body.clientWidth;
@@ -110,6 +113,7 @@ export class ArrearsComponent implements OnInit {
         elem.style.top = pos / 3 + 'px';
         elem.style.display = "block";
         bckgrnd.style.display = 'block';
+        addDB.style.display = 'none';
         //elem.style.left = wWidth / 2 + 'px';
         //elem.style.left = pos + 'px';
       }
@@ -127,10 +131,54 @@ export class ArrearsComponent implements OnInit {
       //
       if(Math.round(clientHeight) < -1100) {
         bckgrnd.style.display = 'none';
+        elem.style.display = 'none';
         clearInterval(id);
       } else {
         clientHeight-=23;
         elem.style.top = clientHeight / 3 + 'px';
+      }
+    }
+  }
+
+  addBtn() {
+    var add = document.getElementById("addDB");
+    var srch = document.getElementById("searchDB");
+    var bckgrnd = document.getElementById("bg");
+    var clientHeight = document.getElementById('searchDB').clientHeight;
+    var wheight = document.body.clientHeight;
+    var wWidth = document.body.clientWidth;
+    var wheight50 = wheight / 2;
+    var wWidth50 = wWidth / 2;
+    var pos = -clientHeight - 1100;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+        if (pos >= Math.round(wheight50)) {
+          clearInterval(id);
+        } else {
+          pos+=23;
+          add.style.top = pos / 3 + 'px';
+          srch.style.display = "none";
+          add.style.display = "block";
+          bckgrnd.style.display = 'block';
+        }
+      }
+  }
+
+  clseAdd() {
+    var addDB = document.getElementById("addDB");
+    var bckgrnd = document.getElementById("bg");
+
+    var clientHeight = document.getElementById('addDB').clientHeight;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+      //
+      if(Math.round(clientHeight) < -1100) {
+        bckgrnd.style.display = 'none';
+        addDB.style.display = 'none';
+        clearInterval(id);
+      } else {
+        clientHeight-=23;
+        addDB.style.top = clientHeight / 3 + 'px';
       }
     }
   }
