@@ -235,13 +235,10 @@ tr {
   margin-top: 5px;
 }
 
-.width-20 {
-  width: 21%;
-}
-
-.width-15 {
-  width: 16%;
-}
+.width-50 { width: 50%; }
+.width-20 { width: 21%; }
+.width-15 { width: 16%; }
+.lh { line-height: 35px; }
 
 @media (max-width: 1199px) {
   .arrearsGrid {
@@ -291,9 +288,14 @@ tr {
   }
 }
 
+.btnCon {
+  height: 40px;
+}
+
 .srchBtnMD {
   width: 90%;
   height: 90%;
+  margin-top: 2px;
   margin-left: 5%;
   border: 1px solid #0058CF;
   font-size: 11px;
@@ -339,14 +341,50 @@ tr {
   top: -100%;
   /*transform: translate(-50%);*/
   z-index: 999;
+  display: none;
+}
+
+@media (max-width: 1102px) {
+  .search-addDB {
+    transform: none;
+  }
+}
+
+@media (max-width: 1101px) {
+  .search-addDB {
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 801px) {
+  .search-addDB {
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 601px) {
+  .search-addDB {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
 
 .dbMargin {
   width: 90%;
   height: 90%;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 5px;
   margin-bottom: 5%;
+}
+
+.dbTitle {
+  margin-top: 5px;
+  margin-left: 5px;
 }
 
 .divHeader {
