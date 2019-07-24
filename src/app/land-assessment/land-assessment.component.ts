@@ -517,7 +517,7 @@ export class LandAssessmentComponent implements OnInit {
     let stripMarkVal: number = 0;
 		let adjPerc = (stripData.adjustment == '0') ? 1 : (parseFloat(stripData.adjustment) / 100)
     if(parseFloat(stripData.remLandArea) <= 0) {
-			let obj = _.find(stripInf, { stripNum: stripData.stripNo })
+			let obj: any = _.find(stripInf, { stripNum: stripData.stripNo })
 			remLnd = parseFloat(obj.stripArea) - parseFloat(stripData.stripArea);
 			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * adjPerc;
 			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);

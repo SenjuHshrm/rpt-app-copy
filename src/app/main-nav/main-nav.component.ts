@@ -36,7 +36,7 @@ export class MainNavComponent {
 
   getUser() {
     if (localStorage.getItem('auth')) {
-      let token = jwt_decode(localStorage.getItem('auth'))
+      let token: any = jwt_decode(localStorage.getItem('auth'))
       this.userFullName = token.name
       return token.username
     }
@@ -49,13 +49,13 @@ export class MainNavComponent {
   }
 
   gotoRPTOP() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/land-tax/rptop'
     this.route.navigate([route])
   }
 
   gotoArrears() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/land-tax/arrears'
     this.route.navigate([route])
   }

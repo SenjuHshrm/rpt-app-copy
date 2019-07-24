@@ -25,19 +25,19 @@ export class AssessmentsComponent implements OnInit {
   }
 
   landAssessment() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/assessments/land'
     this.router.navigate([route])
   }
 
   buildingAssessment() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/assessments/building'
     this.router.navigate([route])
   }
 
   machAssessment() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/assessments/machinery'
     this.router.navigate([route])
   }

@@ -14,13 +14,13 @@ export class LandTaxComponent implements OnInit {
   ngOnInit() { }
 
   gotoClearance() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/land-tax/clearance'
     this.router.navigate([route])
   }
 
   gotoRPTOP() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/land-tax/rptop'
     this.router.navigate([route])
   }
