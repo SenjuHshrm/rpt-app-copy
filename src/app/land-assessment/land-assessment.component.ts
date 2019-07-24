@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
@@ -49,6 +49,7 @@ export class LandAssessmentComponent implements OnInit {
   mvAdd: boolean;
   lndApprAdd: boolean;
 	otherTrns: boolean = false;
+	username: string;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -119,7 +120,7 @@ export class LandAssessmentComponent implements OnInit {
   public landAssessment: FormGroup;
 
   constructor(
-		private router: Router,
+		private router: ActivatedRoute,
 		private chckpin: pincheck,
 		private matDialog: MatDialog,
 		private gLndFaas: genFaas,
@@ -141,6 +142,8 @@ export class LandAssessmentComponent implements OnInit {
 		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
+		this.username = this.router.snapshot.paramMap.get('username');
+		console.log(this.username)
   }
 
   lndAppChngVal(grp: any) {
@@ -375,11 +378,12 @@ export class LandAssessmentComponent implements OnInit {
 				supRecPersonnel: form.supersededRec.supRecPersonnel,
 				supDate: form.supersededRec.supDate,
 			},
-			status: '',
-			dateCreated: '',
-			encoder: '',
-			attachment: '',
+			status: form.status,
+			dateCreated: form.dateCreated,
+			encoder: form.encoder,
+			attachment: form.attachment,
 		};
+		console.log(data);
 		if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)' ||
 			this.landAssessment.controls['trnsCode'].value == 'PHYSICAL CHANGE (PC)' ||
 			this.landAssessment.controls['trnsCode'].value == 'DISPUTE IN ASSESSED VALUE (DP)' ||
@@ -682,6 +686,10 @@ export class LandAssessmentComponent implements OnInit {
 				approvedDate: (data.approved_by_date == '') ? '' : new Date(data.approved_by_date),
 				memoranda: data.memoranda
 			})
+			this.landAssessment.controls['status'].setValue(data.status);
+			this.landAssessment.controls['dateCreated'].setValue(data.date_created);
+			this.landAssessment.controls['encoder'].setValue(this.username);
+			this.landAssessment.controls['attachment'].setValue(data.attachment_file);
 			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'));
 			_.forEach(owners, arr => {
 				ownerLs.push({
