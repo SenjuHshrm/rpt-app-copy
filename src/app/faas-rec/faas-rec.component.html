@@ -73,11 +73,17 @@
         <button mat-button [matMenuTriggerFor]="beforeMenu" (click)='genIco()' mat-raised-button type='button' tabindex="-1">
           <mat-icon>description</mat-icon>
         </button>
-        <mat-menu style='margin-top: 10px;' #beforeMenu="matMenu" xPosition="before">
-          <div style='border: 1px solid #000; margin-left: 6px; margin-right: 6px; width: 250px;' class='container' fxFlex='100%' fxLayout='column' fxLayoutGap='10px'>
-            <button mat-menu-item>Generate FAAS</button>
-            <button mat-menu-item>Generate Tax Declaration</button>
-          </div>
+        <mat-menu style='' #beforeMenu="matMenu" xPosition="before">
+          <div class='container menuCon' fxFlex='100%' fxLayout='column' fxLayoutGap='10px'>
+              <div></div>
+              <div class="menuBtnCon" (mousedown)='faasmDwn=true' (mouseup)='faasmDwn=false' (mouseleave)='faasmDwn=false' (click)='generateFaas()'>
+                <button mat-raised-button class='item item-1' color='primary' [ngClass]="{'genbtnmDwn': faasmDwn, 'genbtnmUp': !faasmDwn}" >Generate FAAS</button>
+              </div>
+              <div class="menuBtnCon" (mousedown)='tdmDwn=true' (mouseup)='tdmDwn=false' (mouseleave)='tdmDwn=false' (click)='generateTD()'>
+                <button mat-raised-button class='item item-2 genTd' color='primary' [ngClass]="{'genbtnmDwn': tdmDwn, 'genbtnmUp': !tdmDwn}">Generate Tax Declaration</button>
+              </div>
+              <div></div>
+            </div>
         </mat-menu>
       </div>
       <div fxFlex='2.5%'></div>
@@ -297,23 +303,5 @@
 
   <br>
   <hr>
-  <br>
-
-  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-
-
-  </div>
-  <br><hr>
-  <div class="h"></div>
-  <mat-card-actions>
-    <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-      <div fxFlex='20%' (mousedown)='faasmDwn=true' (mouseup)='faasmDwn=false' (mouseleave)='faasmDwn=false'>
-        <button mat-raised-button class='item item-1' color='primary' (click)='generateFaas()' [ngClass]="{'genbtnmDwn': faasmDwn, 'genbtnmUp': !faasmDwn}" >Generate FAAS</button>
-      </div>
-      <div fxFlex='20%' (mousedown)='tdmDwn=true' (mouseup)='tdmDwn=false' (mouseleave)='tdmDwn=false'>
-        <button mat-raised-button class='item item-2 genTd' color='primary' (click)='generateTD()' [ngClass]="{'genbtnmDwn': tdmDwn, 'genbtnmUp': !tdmDwn}">Generate Tax Declaration</button>
-      </div>
-    </div>
-  </mat-card-actions>
   <br>
 </div>

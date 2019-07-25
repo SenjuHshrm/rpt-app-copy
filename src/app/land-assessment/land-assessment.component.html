@@ -10,12 +10,17 @@
   </div>
   <!-- Container -->
   <div class='wrapper'>
+
     <mat-card-content>
       <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px'
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <!-- Transaction Code -->
         <div class="divCard item item-1 brdr" fxFlex='60%'>
-          <div class='divHeader'></div>
+          <div class='divHeader'>
+            <div style='position: absolute; z-index:-10;'>
+              <input type='text' id="index1" tabindex='-1'>
+            </div>
+          </div>
           <br>
           <div class='cardMargin'>
             <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayoutAlign='center' fxLayoutGap='20px' fxLayoutGap.xs='2%' >
@@ -771,3 +776,20 @@
   </div>
   <!-- Container End -->
 </form>
+
+<div class="arrowUpDown">
+  <a>
+  <div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' (click)='upBtn()'>
+    <mat-icon class="top_bot">arrow_drop_up</mat-icon>
+  </div>
+  </a>
+  <div class="h"></div>
+  <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px' (click)='botBtn()'>
+    <mat-icon class="top_bot">arrow_drop_down</mat-icon>
+  </div>
+</div>
+<div class="" style='position: relative; background: #f9f9f9; height:22px;'>
+  <div style='position: absolute; bottom: 0; z-index: -100;'>
+    <input type='text' id="index2" tabindex='-1'>
+  </div>
+</div>

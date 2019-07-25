@@ -84,14 +84,28 @@ tr {
 	text-transform: uppercase;
 }
 
-.genbtnmUp {
+.menuBtnCon {
+  height: 40px;
   width: 100%;
+}
+
+.menuCon {
+  height: auto;
+  margin-left: 6px;
+  margin-right: 6px;
+  width: 250px;
+}
+
+.genbtnmUp {
+  width: 90%;
   height: 100%;
+  margin-left: 5%;
 }
 
 .genbtnmDwn {
-  width: 90%;
-  margin-left: 5%;
+  width: 80%;
+  margin-top: 1.5px;
+  margin-left: 10%;
   font-size: 11px;
 }
 
