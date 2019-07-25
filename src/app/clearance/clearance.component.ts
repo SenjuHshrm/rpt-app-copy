@@ -61,6 +61,7 @@ export class ClearanceComponent implements OnInit {
 	owner: any;
 	admin: any;
   clseDb: boolean;
+	clrnceMD: boolean;
 
 
   lTaxHeader: string[] = [
