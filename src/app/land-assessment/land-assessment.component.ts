@@ -126,7 +126,7 @@ export class LandAssessmentComponent implements OnInit {
 		private gLndFaas: genFaas,
 		private getMrktVal: getMarketValues,
 		private asmtLand: assessLand,
-		private gPosHolder: getPosHolders
+		private gPosHolder: getPosHolders,
 	) { }
 
   ngOnInit() {
@@ -142,6 +142,15 @@ export class LandAssessmentComponent implements OnInit {
 		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
+
+  }
+
+  upBtn() {
+    document.getElementById("index1").focus();
+  }
+
+  botBtn() {
+    document.getElementById("index2").focus();
 		this.username = this.router.snapshot.paramMap.get('username');
   }
 
