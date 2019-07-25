@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -36,12 +35,12 @@ import { SubdivisionComponent } from './subdivision/subdivision.component';
 import { ArrearsComponent } from './arrears/arrears.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { LndReasmtSearch } from './land-reassessment/dialog-search/lndreasmt-search';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
     RegisterComponent,
     MainNavComponent,
     LandingPageComponent,
@@ -69,7 +68,8 @@ import { MatMenuModule } from '@angular/material/menu';
     SubdivisionComponent,
     ClearanceComponentErr,
     ArrearsComponent,
-    NotFoundComponent
+    NotFoundComponent,
+		LndReasmtSearch
   ],
   imports: [
     BrowserModule,
@@ -114,6 +114,7 @@ import { MatMenuModule } from '@angular/material/menu';
     DialogErr,
 		LndAsmtSearch,
 		LndAsmtPending,
+		LndReasmtSearch,
     ClearanceComponentErr
   ],
   bootstrap: [AppComponent]

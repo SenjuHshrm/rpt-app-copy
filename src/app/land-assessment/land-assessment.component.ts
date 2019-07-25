@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
@@ -49,6 +49,7 @@ export class LandAssessmentComponent implements OnInit {
   mvAdd: boolean;
   lndApprAdd: boolean;
 	otherTrns: boolean = false;
+	username: string;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -92,7 +93,7 @@ export class LandAssessmentComponent implements OnInit {
   lndAppSubc: number;
   lndAppUnitVal: string = '';
   subClassLs: selectOpt[];
-  lndAppBMV: string = '';
+  lndAppBMV: string = '0';
   lndAppArea: string;
 
   actualUse: selectOpt[] = [
@@ -119,7 +120,7 @@ export class LandAssessmentComponent implements OnInit {
   public landAssessment: FormGroup;
 
   constructor(
-		private router: Router,
+		private router: ActivatedRoute,
 		private chckpin: pincheck,
 		private matDialog: MatDialog,
 		private gLndFaas: genFaas,
@@ -141,6 +142,7 @@ export class LandAssessmentComponent implements OnInit {
 		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
+		this.username = this.router.snapshot.paramMap.get('username');
   }
 
   lndAppChngVal(grp: any) {
@@ -186,8 +188,6 @@ export class LandAssessmentComponent implements OnInit {
 			const md = this.matDialog.open(LndAsmtSearch, { disableClose: true, data: {tCode: val.value}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' });
 			md.afterClosed().subscribe(res => {
 				if(res == undefined) {
-					// val.value = 'DISCOVERY/NEW DECLARATION';
-
 					this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
 					this.otherTrns = false
 				} else {
@@ -337,8 +337,8 @@ export class LandAssessmentComponent implements OnInit {
 				class: form.landAppraisal.class,
 				subCls: form.landAppraisal.subclass,
 				area: form.landAppraisal.area,
-				unitVal: form.landAppraisal.unitVal,
-				baseMarketVal: form.landAppraisal.baseMarketVal,
+				unitVal: this.lndAppUnitVal,
+				baseMarketVal: this.lndAppBMV,
 				interiorLot: form.landAppraisal.interiorLot,
 				cornerLot: form.landAppraisal.cornerLot,
 				stripping: form.landAppraisal.stripping,
@@ -375,25 +375,27 @@ export class LandAssessmentComponent implements OnInit {
 				supRecPersonnel: form.supersededRec.supRecPersonnel,
 				supDate: form.supersededRec.supDate,
 			},
-			status: '',
-			dateCreated: '',
-			encoder: '',
-			attachment: '',
+			status: form.status,
+			dateCreated: form.dateCreated,
+			encoder: form.encoder,
+			attachment: form.attachment,
 		};
-		if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)' ||
-			this.landAssessment.controls['trnsCode'].value == 'PHYSICAL CHANGE (PC)' ||
-			this.landAssessment.controls['trnsCode'].value == 'DISPUTE IN ASSESSED VALUE (DP)' ||
-			this.landAssessment.controls['trnsCode'].value == 'TRANSFER (TR)' ||
-			this.landAssessment.controls['trnsCode'].value == 'RECLASSIFICATION (RC)' ||
-			this.landAssessment.controls['trnsCode'].value == 'SPECIAL PROJECT (SP)') {
-			this.asmtLand.saveLand(data).subscribe(res => {
-				console.log(res);
-			})
-		} else {
-			this.asmtLand.updateLand(data).subscribe(res => {
-				console.log(res);
-			})
-		}
+		console.log(data);
+		// if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)' ||
+		// 	this.landAssessment.controls['trnsCode'].value == 'PHYSICAL CHANGE (PC)' ||
+		// 	this.landAssessment.controls['trnsCode'].value == 'DISPUTE IN ASSESSED VALUE (DP)' ||
+		// 	this.landAssessment.controls['trnsCode'].value == 'TRANSFER (TR)' ||
+		// 	this.landAssessment.controls['trnsCode'].value == 'RECLASSIFICATION (RC)' ||
+		// 	this.landAssessment.controls['trnsCode'].value == 'SPECIAL PROJECT (SP)') {
+		// 	this.asmtLand.saveLand(data).subscribe(res => {
+		// 		console.log(res);
+		// 	})
+		// } else {
+		// 	this.asmtLand.updateLand(data).subscribe(res => {
+		// 		console.log(res);
+		// 	})
+		// }
+
   }
 
 	getOwners(): landOwner[] {
@@ -517,7 +519,7 @@ export class LandAssessmentComponent implements OnInit {
     let stripMarkVal: number = 0;
 		let adjPerc = (stripData.adjustment == '0') ? 1 : (parseFloat(stripData.adjustment) / 100)
     if(parseFloat(stripData.remLandArea) <= 0) {
-			let obj = _.find(stripInf, { stripNum: stripData.stripNo })
+			let obj: any = _.find(stripInf, { stripNum: stripData.stripNo })
 			remLnd = parseFloat(obj.stripArea) - parseFloat(stripData.stripArea);
 			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * adjPerc;
 			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
@@ -616,6 +618,7 @@ export class LandAssessmentComponent implements OnInit {
 
   initializeForm(xobj: any) {
 		if(xobj instanceof Object) {
+			console.log(xobj)
 			let data = xobj.faas,
 					owners = xobj.owners,
 					admins = xobj.admins,
@@ -682,6 +685,21 @@ export class LandAssessmentComponent implements OnInit {
 				approvedDate: (data.approved_by_date == '') ? '' : new Date(data.approved_by_date),
 				memoranda: data.memoranda
 			})
+			this.landAssessment.controls['supersededRec'].setValue({
+				supPin: data.superseded_pin,
+				supArpNo: data.superseded_arp_no,
+				supTDNo: data.superseded_td_no,
+				supTotalAssessedVal: data.superseded_total_assessed_value,
+				supPrevOwner: data.superseded_previous_owner,
+				supEff: data.superseded_effectivity_assess,
+				supARPageNo: data.superseded_ar_page_no,
+				supRecPersonnel: data.superseded_recording_personnel,
+				supDate: data.superseded_date
+			})
+			this.landAssessment.controls['status'].setValue(data.status);
+			this.landAssessment.controls['dateCreated'].setValue(data.date_created);
+			this.landAssessment.controls['encoder'].setValue(this.username);
+			this.landAssessment.controls['attachment'].setValue(data.attachment_file);
 			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'));
 			_.forEach(owners, arr => {
 				ownerLs.push({
@@ -829,6 +847,8 @@ export class LandAssessmentComponent implements OnInit {
 	      encoder: new FormControl(''),
 	      attachment: new FormControl(''),
 	    })
+			this.lndAppUnitVal = '0';
+			this.lndAppBMV ='0';
 			this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
 			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('COMMERCIAL');
 			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'))

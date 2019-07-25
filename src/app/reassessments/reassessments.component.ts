@@ -15,7 +15,7 @@ export class ReassessmentsComponent implements OnInit {
   bldgTxtClr: boolean;
   machImg: boolean;
   machTxtClr: boolean;
-  
+
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -25,19 +25,19 @@ export class ReassessmentsComponent implements OnInit {
   }
 
   landReassessment() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/reassessments/land'
     this.router.navigate([route])
   }
 
   buildingReassessment() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/reassessments/building'
     this.router.navigate([route])
   }
 
   machReassessment() {
-    let token = jwt_decode(localStorage.getItem('auth'))
+    let token: any = jwt_decode(localStorage.getItem('auth'))
     let route = '/user/' + token.username + '/reassessments/machinery'
     this.router.navigate([route])
   }

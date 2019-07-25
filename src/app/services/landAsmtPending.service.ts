@@ -12,7 +12,7 @@ export class landAsmtPending {
 	constructor(private http: HttpClient) { }
 
 	getEncoder() {
-		let token = jwt_decode(localStorage.getItem('auth'));
+		let token: any = jwt_decode(localStorage.getItem('auth'));
 		return token.name;
 	}
 
