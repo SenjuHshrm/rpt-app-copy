@@ -73,7 +73,7 @@ export class RPTOPComponent implements OnInit {
 
   ngOnInit() {
     if(localStorage.getItem('auth')) {
-      let obj = jwt_decode(localStorage.getItem('auth'));
+      let obj: any = jwt_decode(localStorage.getItem('auth'));
       this.encoder1 = obj.name;
       this.gPos.getPosHoldersCl("RPTOP").subscribe(res => {
         this.posHolders = res;

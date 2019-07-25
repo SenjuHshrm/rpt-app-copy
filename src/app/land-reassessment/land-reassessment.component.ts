@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatTableDataSource, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
 import { selectOpt } from '../interfaces/selectOpt';
@@ -10,6 +10,15 @@ import { stripInfo } from '../interfaces/stripInfo';
 import { improvementInfo } from '../interfaces/improvementInfo';
 import { marketValue } from '../interfaces/marketValue';
 import { pincheck } from '../services/pincheck.service';
+import { getMarketValues } from '../services/getMarketValues.service';
+import { assessLand } from '../services/assesssLand.service';
+import { getPosHolders } from  '../services/getPosHolders.service';
+import { MatDialog } from '@angular/material/dialog';
+import { LndReasmtSearch } from './dialog-search/lndreasmt-search';
+import { genFaas } from '../services/genFaas.service';
+import { landAsmtDataTemp } from '../classes/landAsmtDataTemp';
+import * as moment from 'moment';
+import { reassessments } from '../services/reassessments.service';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -31,27 +40,34 @@ export class LandReassessmentComponent implements OnInit {
   stripSetInfo = new MatTableDataSource(stripInf)
   impInf = new MatTableDataSource(imprInf)
   marketValue = new MatTableDataSource(mrktVal)
-  ownAdd: boolean;
-  adminAdd: boolean;
-  othrImpAdd: boolean;
-  mrktVal: boolean;
-  lndApprAdd: boolean;
-  sve: boolean;
-  clr: boolean;
-
+  clrMD: boolean;
+  saveMD: boolean;
   stripToggleVal = false
+	ownAdd: boolean;
+  adminAdd: boolean;
+  otheImprvmntsAdd: boolean;
+  mvAdd: boolean;
+  lndApprAdd: boolean;
+	otherTrns: boolean = false;
+	username: string;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
+		this.computeBMV(this.landAssessment.get('landAppraisal'));
     if (this.stripToggleVal) {
       Object.keys(grp.controls).forEach(key => {
         grp.controls[key].enable();
       });
+			grp.controls['remLandArea'].setValue(this.landAssessment.get('landAppraisal').get('area').value)
     } else {
       Object.keys(grp.controls).forEach(key => {
+				grp.controls[key].reset();
         grp.controls[key].disable();
       });
+
+
     }
+
   }
 
   ownerHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
@@ -61,198 +77,15 @@ export class LandReassessmentComponent implements OnInit {
   mValHeader: string[] = ['bmval', 'adjfactor', 'adjperc', 'adjval', 'markval', 'actions']
 
   trnsLs: selectOpt[] = [
-    { value: 'DISCOVERY/NEW DECLARATION', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
-    { value: 'SUBDIVISION', viewVal: 'SUBDIVISION (SD)' },
-    { value: 'CONSOLIDATION', viewVal: 'CONSOLIDATION (CS)' },
-    { value: 'PHYSICAL CHANGE', viewVal: 'PHYSICAL CHANGE (PC)' },
-    { value: 'DISPUTE IN ASSESSED VALUE', viewVal: 'DISPUTE IN ASSESSED VALUE (DP)' },
-    { value: 'TRANSFER', viewVal: 'TRANSFER (TR)' },
-    { value: 'SEGREGATION', viewVal: 'SEGREGATION (SG)' },
-    { value: 'RECLASSIFICATIO', viewVal: 'RECLASSIFICATION (RC)' },
-    { value: 'SPECIAL PROJECT', viewVal: 'SPECIAL PROJECT (SP)' },
+    { value: 'GENERAL REVISION (GR)', viewVal: 'GENERAL REVISION (GR)' }
   ]
 
-  landClassLs: any = [
-    {
-      value: 'COMMERCIAL',
-      viewVal: 'COMMERCIAL',
-      subC: [
-        {
-          value: 'C-1',
-          viewVal: 'C-1',
-          unitVal: '8280.0000'
-        },
-        {
-          value: 'C-2',
-          viewVal: 'C-2',
-          unitVal: '5260.0000'
-        },
-        {
-          value: 'C-3',
-          viewVal: 'C-3',
-          unitVal: '3000.0000'
-        },
-        {
-          value: 'C-4',
-          viewVal: 'C-4',
-          unitVal: '2000.0000'
-        }
-      ]
-    },
-    {
-      value: 'INDUSTRIAL',
-      viewVal: 'INDUSTRIAL',
-      subC: [
-        {
-          value: 'I-1',
-          viewVal: 'I-1',
-          unitVal: '850.0000'
-        },
-        {
-          value: 'I-2',
-          viewVal: 'I-2',
-          unitVal: '600.0000'
-        },
-        {
-          value: 'I-3',
-          viewVal: 'I-3',
-          unitVal: '400.0000'
-        },
-      ]
-    },
-    {
-      value: 'RESIDENTIAL',
-      viewVal: 'RESIDENTIAL',
-      subC: [
-        {
-          value: 'R-1',
-          viewVal: 'R-1',
-          unitVal: '2860.0000'
-        },
-        {
-          value: 'R-2',
-          viewVal: 'R-2',
-          unitVal: '1260.0000'
-        },
-        {
-          value: 'R-3',
-          viewVal: 'R-3',
-          unitVal: '800.0000'
-        },
-        {
-          value: 'R-3 (3-C)',
-          viewVal: 'R-3 (3-C)',
-          unitVal: '800.0000'
-        },
-        {
-          value: 'R-4',
-          viewVal: 'R-4',
-          unitVal: '400.0000'
-        },
-        {
-          value: 'R-5-A',
-          viewVal: 'R-5-A',
-          unitVal: '300.0000'
-        },
-        {
-          value: 'R-5-B',
-          viewVal: 'R-5-B',
-          unitVal: '200.0000'
-        }
-      ]
-    },
-    {
-      value: 'AGRICULTURAL',
-      viewVal: 'AGRICULTURAL',
-      subC: [
-        {
-          value: 'A-1',
-          viewVal: 'A-1',
-          unitVal: '17.3300'
-        },
-        {
-          value: 'A-2',
-          viewVal: 'A-2',
-          unitVal: '15.9460'
-        },
-        {
-          value: 'A-3',
-          viewVal: 'A-3',
-          unitVal: '12.2490'
-        },
-        {
-          value: 'A-4',
-          viewVal: 'A-4',
-          unitVal: '9.8220'
-        },
-        {
-          value: 'B-1',
-          viewVal: 'B-1',
-          unitVal: '16.1620'
-        },
-        {
-          value: 'B-2',
-          viewVal: 'B-2',
-          unitVal: '14.5460'
-        },
-        {
-          value: 'B-3',
-          viewVal: 'B-3',
-          unitVal: '11.3130'
-        },
-        {
-          value: 'C-1',
-          viewVal: 'C-1',
-          unitVal: '24.5330'
-        },
-        {
-          value: 'C-2',
-          viewVal: 'C-2',
-          unitVal: '21.3350'
-        },
-        {
-          value: 'C-3',
-          viewVal: 'C-3',
-          unitVal: '13.0840'
-        },
-        {
-          value: 'D-1',
-          viewVal: 'D-1',
-          unitVal: '17.0000'
-        },
-        {
-          value: 'D-2',
-          viewVal: 'D-2',
-          unitVal: '15.3000'
-        },
-        {
-          value: 'D-3',
-          viewVal: 'D-3',
-          unitVal: '13.6000'
-        },
-        {
-          value: 'E-1',
-          viewVal: 'E-1',
-          unitVal: '9.3330'
-        },
-        {
-          value: 'E-2',
-          viewVal: 'E-2',
-          unitVal: '7.0000'
-        },
-        {
-          value: 'E-3',
-          viewVal: 'E-3',
-          unitVal: '4.6670'
-        },
-      ]
-    }
-  ]
+	landClassLs = [];
 
   lndAppSubc: number;
   lndAppUnitVal: string = '';
-  subClassLs: any;
-  lndAppBMV: string = '';
+  subClassLs: selectOpt[];
+  lndAppBMV: string = '0';
   lndAppArea: string;
 
   actualUse: selectOpt[] = [
@@ -276,23 +109,60 @@ export class LandReassessmentComponent implements OnInit {
 
   stripNo: selectOpt[]
 
-  public landReassessment: FormGroup;
+  public landAssessment: FormGroup;
 
-  constructor(private router: Router, private chckpin: pincheck) { }
+  constructor(
+		private router: ActivatedRoute,
+		private route: Router,
+		private chckpin: pincheck,
+		private matDialog: MatDialog,
+		private gLndFaas: genFaas,
+		private getMrktVal: getMarketValues,
+		private asmtLand: assessLand,
+		private gPosHolder: getPosHolders,
+		private reasmt: reassessments
+	) { }
 
   ngOnInit() {
     if (!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
-    this.initializeForm();
-  }
+    this.resetForm();
+		this.getMrktVal.getValues().subscribe(res => {
+			_.forEach(res, arr => {
+				this.landClassLs.push(arr)
+			})
+		})
+		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
+			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
+		})
+		this.username = this.router.snapshot.paramMap.get('username');
+		setTimeout(()=>{
+			this.otherTrns = true;
+			const md = this.matDialog.open(LndReasmtSearch, { disableClose: true, data: {tCode: 'GENERAL REVISION (GR)'}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' })
+			md.afterClosed().subscribe(res => {
+				if(res == undefined) {
+					this.route.navigate(['/user/' + this.username + '/reassessments']);
+					this.otherTrns = false
+				} else {
+					this.populateForm(res)
+				}
+			})
+		}, 100)
+	}
 
   lndAppChngVal(grp: any) {
     let val = grp.controls['class'].value;
-    let obj = _.find(this.landClassLs, { 'value': val });
-    this.subClassLs = obj.subC;
-    grp.controls['area'].reset();
-    grp.controls['unitVal'].reset();
+		this.subClassLs = [];
+		Object.keys(this.landClassLs).forEach(key => {
+			if(this.landClassLs[key].class == val) {
+				this.subClassLs.push({
+					value: this.landClassLs[key].sub_class,
+					viewVal: this.landClassLs[key].sub_class
+				})
+			}
+		})
+		grp.controls['unitVal'].reset();
     grp.controls['baseMarketVal'].reset();
   }
 
@@ -314,32 +184,268 @@ export class LandReassessmentComponent implements OnInit {
     });
   }
 
+	setAsmtLvl(propAsmt: any) {
+		let actlUse = propAsmt.get('actualUse').value,
+				asmtLvl = propAsmt.get('assessmentLvl');
+		switch(actlUse) {
+			case 'RESIDENTIAL':
+				asmtLvl.setValue('15');
+				break;
+			case 'AGRICULTURAL':
+				asmtLvl.setValue(40);
+				break;
+			case 'COMMERCIAL':
+				asmtLvl.setValue(40);
+				break;
+			case 'INDUSTRIAL':
+				asmtLvl.setValue(40);
+				break;
+		}
+		this.compAssessedVal(propAsmt)
+
+	}
+
+	compAssessedVal(propAsmt: any) {
+		let asmtVal = parseFloat(this.lndAppBMV) * (parseFloat(propAsmt.get('assessmentLvl').value) / 100);
+		propAsmt.get('assessedVal').setValue(asmtVal);
+	}
+
+	populateForm(id: number): void {
+		let data = {
+			id: id
+		}
+		this.gLndFaas.generateLand(data).subscribe(res => {
+			this.initializeForm(res);
+		})
+
+	}
+
   lnAppSubCUV(grp: any) {
-    let val = grp.controls['subclass'].value;
-    let obj = _.find(this.subClassLs, { 'value': val });
-    this.lndAppUnitVal = obj.unitVal;
-    this.computeBMV(grp);
+    let clss = grp.controls['class'].value,
+				subclss = grp.controls['subclass'].value;
+		Object.keys(this.landClassLs).forEach(key => {
+			if(this.landClassLs[key].class == clss) {
+				if(this.landClassLs[key].sub_class == subclss) {
+					this.lndAppUnitVal = this.landClassLs[key].unit_market_value
+				}
+			}
+		})
+		this.computeBMV(grp);
   }
+
+	stripUpdated: boolean;
 
   computeBMV(grp: any) {
-    (grp.controls['area'].value == null || grp.controls['area'].value == '') ? this.lndAppArea = '0' : this.lndAppArea = grp.controls['area'].value;
-    let area: number = parseFloat(this.lndAppArea);
-    let unitVl: number = parseFloat(this.lndAppUnitVal);
-    this.lndAppBMV = (area * unitVl).toString();
+		(grp.controls['area'].value == null || grp.controls['area'].value == '') ? this.lndAppArea = '0' : this.lndAppArea = grp.controls['area'].value;
+		let area: number = parseFloat(this.lndAppArea);
+		let unitVl: number = parseFloat(this.lndAppUnitVal);
+		this.lndAppBMV = (area * unitVl).toString();
+		this.stripNo = [];
+    if(!this.otherTrns) {
+	    for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {
+				this.stripNo.push({ value: i.toString(), viewVal: i.toString() })
+			}
+			let strpSet = this.landAssessment.get('stripSet');
+			strpSet.get('adjustment').setValue('0');
+			let adjustedBaseRate = parseFloat(this.lndAppUnitVal) * (1 + (+strpSet.get('adjustment').value / 100));
+			let stripMarkVal = adjustedBaseRate * parseFloat(grp.controls['area'].value);
+			strpSet.get('stripCount').setValue('1');
+			strpSet.get('stripNo').setValue('1');
+			if(!this.stripToggleVal) {
+				stripInf = [];
+				stripInf.push({
+					stripNum: strpSet.get('stripNo').value,
+		      stripArea: grp.controls['area'].value,
+		      adjustment: strpSet.get('adjustment').value,
+		      adjustedBaseRate: adjustedBaseRate.toString(),
+		      stripMarkVal: (stripMarkVal.toString() == 'NaN') ? '0' : stripMarkVal.toString()
+				})
+				this.stripSetInfo = new MatTableDataSource(stripInf)
+				this.lndAppBMV = ((area * unitVl).toString() == 'NaN') ? '0' : (area * unitVl).toString()
+			} else {
+				this.lndAppBMV = '0'
+				this.landAssessment.get('stripSet').get('remLandArea').setValue(grp.controls['area'].value);
+				this.landAssessment.get('stripSet').get('stripArea').setValue('')
+				let stripObj = _.find(stripInf, { stripNum: '1' });
+				stripObj.stripNum = '1'
+				stripObj.stripArea = '0'
+				stripObj.adjustment = '0'
+				stripObj.adjustedBaseRate = '0'
+				stripObj.stripMarkVal = '0'
+				stripInf = [];
+				stripInf.push(stripObj)
+				this.stripSetInfo = new MatTableDataSource(stripInf);
+			}
+		}
+		let prpAsmtVal = parseFloat(this.lndAppBMV) * (parseFloat(this.landAssessment.get('propertyAssessment').get('assessmentLvl').value) / 100)
+		this.landAssessment.get('propertyAssessment').get('assessedVal').setValue(prpAsmtVal.toString())
   }
 
-  save(form: object) {
-    if (this.landReassessment.valid) {
-      console.log(form)
-    }
+  save(form: any) {
+    let data: landAsmtDataTemp = {
+			trnsCode: form.trnsCode,
+			arpNo: form.arpNo,
+			pin: {
+				city: form.pin.city,
+				district: form.pin.district,
+				barangay: form.pin.barangay,
+				section: form.pin.section,
+				parcel: form.pin.parcel,
+			},
+			OCT_TCT: form.OCT_TCT,
+			surveyNo: form.surveyNo,
+			lotNo: form.lotNo,
+			blockNo: form.blockNo,
+			propLoc: {
+				streetNo: form.propertyLocation.streetNo,
+				brgy: form.propertyLocation.barangay,
+				subd: form.propertyLocation.subdivision,
+				city: form.propertyLocation.city,
+				province: form.propertyLocation.province,
+				north: form.propertyLocation.north,
+				south: form.propertyLocation.south,
+				east: form.propertyLocation.east,
+				west: form.propertyLocation.west,
+			},
+			ownerDetails: this.getOwners(),
+			adminDetails: this.getAdmins(),
+			landAppraisal: {
+				class: form.landAppraisal.class,
+				subCls: form.landAppraisal.subclass,
+				area: form.landAppraisal.area,
+				unitVal: this.lndAppUnitVal,
+				baseMarketVal: this.lndAppBMV,
+				interiorLot: form.landAppraisal.interiorLot,
+				cornerLot: form.landAppraisal.cornerLot,
+				stripping: form.landAppraisal.stripping,
+			},
+			stripSet: this.getStrip(),
+			othImp: this.getImpr(),
+			marketVal: this.getMarketVal(),
+			propAsmt: {
+				actualUse: form.propertyAssessment.actualUse,
+				marketVal: form.propertyAssessment.marketVal,
+				assessmentLvl: form.propertyAssessment.assessmentLvl,
+				assessedVal: form.propertyAssessment.assessedVal,
+				specialClass: form.propertyAssessment.specialClass,
+				status: form.propertyAssessment.status,
+				efftQ: form.propertyAssessment.efftQ,
+				effty: form.propertyAssessment.efftY,
+				total: form.propertyAssessment.total,
+				appraisedName: form.propertyAssessment.appraisedName,
+				appraisedDate: (form.propertyAssessment.appraisedDate == '') ? '' : moment(form.propertyAssessment.appraisedDate).format('MM/DD/YYYY'),
+				recommendName: form.propertyAssessment.recommendName,
+				recommendDate: (form.propertyAssessment.recommendDate == '') ? '' : moment(form.propertyAssessment.recommendDate).format('MM/DD/YYYY'),
+				approvedName: form.propertyAssessment.approvedName,
+				approvedDate: (form.propertyAssessment.approvedDate == '') ? '' : moment(form.propertyAssessment.approvedDate).format('MM/DD/YYYY'),
+				memoranda: form.propertyAssessment.memoranda,
+			},
+			supersededRec: {
+				supPin: form.supersededRec.supPin,
+				supArpNo: form.supersededRec.supArpNo,
+				supTDNo: form.supersededRec.supTDNo,
+				supTotalAssessedVal: form.supersededRec.supTotalAssessedVal,
+				supPrevOwner: form.supersededRec.supPrevOwner,
+				supEff: form.supersededRec.supEff,
+				supARPageNo: form.supersededRec.supARPageNo,
+				supRecPersonnel: form.supersededRec.supRecPersonnel,
+				supDate: form.supersededRec.supDate,
+			},
+			status: form.status,
+			dateCreated: form.dateCreated,
+			encoder: form.encoder,
+			attachment: form.attachment,
+		};
+		console.log(data);
+		this.reasmt.reassessLand(data).subscribe(res => {
+			console.log(res)
+		})
   }
+
+	getOwners(): landOwner[] {
+		let data: landOwner[] = [];
+		_.forEach(ownerLs, (arr) => {
+			data.push({
+				ownName: arr.ownName,
+			  ownAddress: arr.ownAddress,
+			  ownContact: arr.ownContact,
+			  ownTIN: arr.ownTIN,
+			});
+		});
+		return data;
+	}
+
+	getAdmins(): adminOwner[] {
+		let data: adminOwner[] = [];
+		_.forEach(adminLs, arr => {
+			data.push({
+				admName: arr.admName,
+			  admAddress: arr.admAddress,
+			  admContact: arr.admContact,
+			  admTIN: arr.admTIN,
+			});
+		});
+		return data;
+	}
+
+	getStrip(): stripInfo[] {
+		let data: stripInfo[] = [];
+		_.forEach(stripInf, arr => {
+			data.push({
+				stripNum: arr.stripNum,
+			  stripArea: arr.stripArea,
+			  adjustment: arr.adjustment,
+			  adjustedBaseRate: arr.adjustedBaseRate,
+			  stripMarkVal: arr.stripMarkVal,
+			});
+		});
+		return data;
+	}
+
+	getImpr(): improvementInfo[] {
+		let data: improvementInfo[] = [];
+		_.forEach(imprInf, arr => {
+			data.push({
+				kind: arr.kind,
+			  totalNo: arr.totalNo,
+			  unitVal: arr.unitVal,
+			  baseMarkVal: arr.baseMarkVal,
+			});
+		});
+		return data;
+	}
+
+	getMarketVal(): marketValue[] {
+		let data: marketValue[] = [];
+		_.forEach(mrktVal, arr => {
+			data.push({
+				mBaseVal: arr.mBaseVal,
+			  mAdjustFactor: arr.mAdjustFactor,
+			  mAdjustPercentage: arr.mAdjustPercentage,
+			  mAdjustValue: arr.mAdjustValue,
+			  mMarketVal: arr.mMarketVal,
+			});
+		});
+		return data;
+	}
 
   setStripNumSel(grp: any) {
+
+		stripInf = [];
     this.stripNo = []
     let cnt = +grp.controls['stripCount'].value
     for (let i = 1; i <= cnt; i++) {
       this.stripNo.push({ value: i.toString(), viewVal: i.toString() })
+			stripInf.push({
+				stripNum: i.toString(),
+	      stripArea: '0',
+	      adjustment: '0',
+	      adjustedBaseRate: '0',
+	      stripMarkVal: '0'
+			});
     }
+		grp.controls['remLandArea'].setValue(this.landAssessment.get('landAppraisal').get('area').value);
+		this.stripSetInfo = new MatTableDataSource(stripInf);
   }
 
   addOwner(grp: any) {
@@ -372,23 +478,40 @@ export class LandReassessmentComponent implements OnInit {
 
   addStrip(grp: any) {
     let stripData = grp.value
-    stripInf.push({
-      stripNum: stripData.stripNo,
-      stripArea: stripData.stripArea,
-      adjustment: stripData.adjustment,
-      adjustedBaseRate: '',
-      stripMarkVal: ''
-    })
-    this.stripSetInfo = new MatTableDataSource(stripInf)
-    Object.keys(grp.controls).forEach(key => {
-      if (key != 'stripCount') {
-        grp.controls[key].reset()
-      }
-    })
+		let remLnd: number = 0;
+    let adjustedBaseRate: number = 0;
+    let stripMarkVal: number = 0;
+		let adjPerc = (stripData.adjustment == '0') ? 1 : (parseFloat(stripData.adjustment) / 100)
+    if(parseFloat(stripData.remLandArea) <= 0) {
+			let obj: any = _.find(stripInf, { stripNum: stripData.stripNo })
+			remLnd = parseFloat(obj.stripArea) - parseFloat(stripData.stripArea);
+			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * adjPerc;
+			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
+		} else {
+			remLnd = parseFloat(stripData.remLandArea) - parseFloat(stripData.stripArea);
+			adjustedBaseRate = parseFloat(this.lndAppUnitVal) * adjPerc;
+			stripMarkVal = adjustedBaseRate * parseFloat(stripData.stripArea);
+		}
+		let ind = _.findIndex(stripInf, { stripNum: stripData.stripNo });
+		stripInf.splice(ind, 1, {
+			stripNum: stripData.stripNo,
+			stripArea: stripData.stripArea,
+			adjustment: stripData.adjustment,
+			adjustedBaseRate: adjustedBaseRate.toString(),
+			stripMarkVal: stripMarkVal.toString()
+		})
+		grp.controls['remLandArea'].setValue(remLnd.toString());
+		this.stripSetInfo = new MatTableDataSource(stripInf)
+		this.stripComp();
+		this.compAssessedVal(this.landAssessment.get('propertyAssessment'))
   }
 
   stripComp() {
-
+    let totalMarketVal = 0;
+		_.forEach(stripInf, arr => {
+			totalMarketVal = totalMarketVal + parseFloat(arr.stripMarkVal)
+		})
+		this.lndAppBMV = (totalMarketVal).toString();
   }
 
   addImp(grp: any) {
@@ -431,8 +554,20 @@ export class LandReassessmentComponent implements OnInit {
   }
 
   removeStripDetail(evt: any) {
-    _.remove(stripInf, evt)
-    this.stripSetInfo = new MatTableDataSource(stripInf)
+		if(this.landAssessment.get('landAppraisal').get('stripping').value) {
+			this.lndAppBMV = (parseFloat(this.lndAppBMV) - parseFloat(evt.stripMarkVal)).toString()
+			this.landAssessment.get('stripSet').get('remLandArea').setValue((parseFloat(this.landAssessment.get('stripSet').get('remLandArea').value) + parseFloat(evt.stripArea)).toString())
+			let ind = _.findIndex(stripInf, { stripNum: evt.stripNum });
+			stripInf.splice(ind, 1, {
+				stripNum: evt.stripNum,
+	      stripArea: '0',
+	      adjustment: '0',
+	      adjustedBaseRate: '0',
+	      stripMarkVal: '0'
+			})
+			this.stripSetInfo = new MatTableDataSource(stripInf);
+		}
+		this.compAssessedVal(this.landAssessment.get('propertyAssessment'))
   }
 
   removeImp(evt: any) {
@@ -445,116 +580,256 @@ export class LandReassessmentComponent implements OnInit {
     this.marketValue = new MatTableDataSource(mrktVal)
   }
 
-  initializeForm() {
-    this.landReassessment = new FormGroup({
-      trnsCode: new FormControl('', [Validators.required]),
-      arpNo: new FormControl('', [Validators.required]),
-      pin: new FormGroup({
-        city: new FormControl('', [Validators.required]),
-        district: new FormControl('', [Validators.required]),
-        barangay: new FormControl('', [Validators.required]),
-        section: new FormControl('', [Validators.required]),
-        parcel: new FormControl('', [Validators.required])
-      }),
-      OCT_TCT: new FormControl('', [Validators.required]),
-      surveyNo: new FormControl('', [Validators.required]),
-      lotNo: new FormControl('', [Validators.required]),
-      blockNo: new FormControl('', [Validators.required]),
-      propertyLocation: new FormGroup({
-        streetNo: new FormControl('', [Validators.required]),
-        barangay: new FormControl('', [Validators.required]),
-        subdivision: new FormControl('', [Validators.required]),
-        city: new FormControl('', [Validators.required]),
-        province: new FormControl('', [Validators.required]),
-        north: new FormControl('', [Validators.required]),
-        south: new FormControl('', [Validators.required]),
-        east: new FormControl('', [Validators.required]),
-        west: new FormControl('', [Validators.required])
-      }),
-      ownerDetails: new FormGroup({
-        ownfName: new FormControl(''),
-        ownmName: new FormControl(''),
-        ownlName: new FormControl(''),
-        ownaddress: new FormControl(''),
-        owncontact: new FormControl(''),
-        ownTIN: new FormControl(''),
-      }),
-      adminOwnerLs: new FormGroup({
-        admfName: new FormControl(''),
-        admmName: new FormControl(''),
-        admlName: new FormControl(''),
-        admaddress: new FormControl(''),
-        admcontact: new FormControl(''),
-        admTIN: new FormControl(''),
-      }),
-      landAppraisal: new FormGroup({
-        class: new FormControl(''),
-        subclass: new FormControl(''),
-        area: new FormControl(''),
-        unitVal: new FormControl(''),
-        baseMarketVal: new FormControl(''),
-        interiorLot: new FormControl(''),
-        cornerLot: new FormControl(''),
-        stripping: new FormControl('')
-      }),
-      stripSet: new FormGroup({
-        stripCount: new FormControl({ value: '', disabled: true }),
-        remLandArea: new FormControl({ value: '', disabled: true }),
-        stripArea: new FormControl({ value: '', disabled: true }),
-        adjustment: new FormControl({ value: '', disabled: true }),
-        stripNo: new FormControl({ value: '', disabled: true })
-      }),
-      otherImprovements: new FormGroup({
-        kind: new FormControl(''),
-        totalNo: new FormControl(''),
-        unitVal: new FormControl(''),
-        basicMarketVal: new FormControl(''),
-        othImpSubTotal: new FormControl({ value: '', disabled: true })
-      }),
-      marketVal: new FormGroup({
-        baseMarketVal: new FormControl(''),
-        adjustmentFactor: new FormControl(''),
-        adjustmentPercent: new FormControl(''),
-        adjustmentVal: new FormControl(''),
-        marketVal: new FormControl(''),
-        mvSubTotal: new FormControl({ value: '', disabled: true })
-      }),
-      propertyAssessment: new FormGroup({
-        actualUse: new FormControl(''),
-        marketVal: new FormControl(''),
-        assessmentLvl: new FormControl(''),
-        assessedVal: new FormControl(''),
-        specialClass: new FormControl(''),
-        status: new FormControl(''),
-        efftQ: new FormControl(''),
-        effty: new FormControl(''),
-        total: new FormControl(''),
-        appraisedName: new FormControl(''),
-        appraisedDate: new FormControl(''),
-        recommendName: new FormControl(''),
-        recommendDate: new FormControl(''),
-        approvedName: new FormControl(''),
-        approvedDate: new FormControl(''),
-        memoranda: new FormControl('')
-      }),
-      supersededRec: new FormGroup({
-        supPin: new FormControl(''),
-        supArpNo: new FormControl(''),
-        supTDNo: new FormControl(''),
-        supTotalAssessedVal: new FormControl(''),
-        supPrevOwner: new FormControl(''),
-        supEff: new FormControl(''),
-        supARPageNo: new FormControl(''),
-        supRecPersonnel: new FormControl(''),
-        supDate: new FormControl(''),
-      }),
-      status: new FormControl(''),
-      dateCreated: new FormControl(''),
-      encoder: new FormControl(''),
-      attachment: new FormControl(''),
-    })
+  initializeForm(xobj: any) {
+		if(xobj instanceof Object) {
+			let data = xobj.faas,
+					owners = xobj.owners,
+					admins = xobj.admins,
+					strips = xobj.strips,
+					marketval = xobj.marketval;
+			this.landAssessment.controls['arpNo'].setValue(data.arp_no);
+			this.landAssessment.controls['pin'].setValue({
+				city: data.pin_city,
+				district: data.pin_district,
+				barangay: data.pin_barangay,
+				section: data.pin_section,
+				parcel: data.pin_parcel
+			});
+			this.landAssessment.controls['OCT_TCT'].setValue(data.OCT_TCT_no);
+			this.landAssessment.controls['surveyNo'].setValue(data.survey_no);
+			this.landAssessment.controls['lotNo'].setValue(data.lot_no);
+			this.landAssessment.controls['blockNo'].setValue(data.block_no);
+			this.landAssessment.controls['propertyLocation'].setValue({
+				streetNo: data.street_no,
+				barangay: data.barangay,
+				subdivision: data.subdivision,
+				city: data.city,
+				province: data.province,
+				north: data.north,
+				south: data.south,
+				east: data.east,
+				west: data.west
+			});
+			this.landAssessment.controls['landAppraisal'].setValue({
+				class: data.class,
+				subclass: data.sub_class,
+				area: data.area,
+				unitVal: data.unit_value,
+				baseMarketVal: data.base_market_value,
+				interiorLot: data.interior_lot,
+				cornerLot: data.corner_lot,
+				stripping: data.stripping
+			})
+			this.lndAppChngVal(this.landAssessment.get('landAppraisal'));
+			this.lnAppSubCUV(this.landAssessment.get('landAppraisal'));
+			this.landAssessment.controls['marketVal'].setValue({
+				baseMarketVal: data.base_market_value,
+				adjustmentFactor: '',
+				adjustmentPercent: '',
+				adjustmentVal: '',
+				marketVal: '',
+				mvSubTotal: data.base_market_value
+			});
+			this.landAssessment.controls['propertyAssessment'].setValue({
+				actualUse: data.pa_actual_use,
+				marketVal: data.pa_market_value,
+				assessmentLvl: data.pa_assessment_level,
+				assessedVal: data.pa_assessed_value,
+				specialClass: data.pa_special_class,
+				status: data.pa_status,
+				efftQ: data.pa_effectivity_assess_quarter,
+				effty: data.pa_effectivity_assess_year,
+				total: data.pa_total_assessed_value,
+				appraisedName: data.appraised_by,
+				appraisedDate: (data.appraised_by_date == '') ? '' : new Date(data.appraised_by_date),
+				recommendName: data.recommending,
+				recommendDate: (data.recommending_date == '') ? '' : new Date(data.recommending_date),
+				approvedName: data.approved_by,
+				approvedDate: (data.approved_by_date == '') ? '' : new Date(data.approved_by_date),
+				memoranda: data.memoranda
+			})
+			this.landAssessment.controls['supersededRec'].setValue({
+				supPin: data.superseded_pin,
+				supArpNo: data.superseded_arp_no,
+				supTDNo: data.superseded_td_no,
+				supTotalAssessedVal: data.superseded_total_assessed_value,
+				supPrevOwner: data.superseded_previous_owner,
+				supEff: data.superseded_effectivity_assess,
+				supARPageNo: data.superseded_ar_page_no,
+				supRecPersonnel: data.superseded_recording_personnel,
+				supDate: data.superseded_date
+			})
+			this.landAssessment.controls['status'].setValue(data.status);
+			this.landAssessment.controls['dateCreated'].setValue(data.date_created);
+			this.landAssessment.controls['encoder'].setValue(this.username);
+			this.landAssessment.controls['attachment'].setValue(data.attachment_file);
+			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'));
+			_.forEach(owners, arr => {
+				ownerLs.push({
+					ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					ownAddress: arr.address,
+					ownContact: arr.contact_no,
+					ownTIN: arr.TIN
+				});
+			});
+			_.forEach(admins, arr => {
+				adminLs.push({
+					admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					admAddress: arr.address,
+					admContact: arr.contact_no,
+					admTIN: arr.TIN
+				});
+			});
+			_.forEach(strips, arr => {
+				stripInf.push({
+					stripNum: arr.land_strip_no,
+					stripArea: arr.area,
+					adjustedBaseRate: arr.adjusted_unit_value,
+					adjustment: arr.adjustment_percentage,
+					stripMarkVal: arr.adjusted_market_value,
+				});
+			});
+			_.forEach(marketval, arr => {
+				mrktVal.push({
+					mBaseVal: arr.base_market_value,
+					mAdjustValue: arr.adjustment_value,
+					mAdjustFactor: arr.type,
+					mAdjustPercentage: arr.adjustment_percentage,
+					mMarketVal: arr.market_value,
+				})
+			});
+			this.ownersLs = new MatTableDataSource(ownerLs);
+		  this.adminsLs = new MatTableDataSource(adminLs);
+			this.stripSetInfo = new MatTableDataSource(stripInf);
+			this.marketValue = new MatTableDataSource(mrktVal);
+		} else {
+			this.landAssessment = new FormGroup({
+	      trnsCode: new FormControl({ value: 'GENERAL REVISION (GR)', disabled: true }),
+	      arpNo: new FormControl(''),
+	      pin: new FormGroup({
+	        city: new FormControl('', [Validators.required]),
+	        district: new FormControl('', [Validators.required]),
+	        barangay: new FormControl('', [Validators.required]),
+	        section: new FormControl('', [Validators.required]),
+	        parcel: new FormControl('', [Validators.required])
+	      }),
+	      OCT_TCT: new FormControl(''),
+	      surveyNo: new FormControl(''),
+	      lotNo: new FormControl(''),
+	      blockNo: new FormControl(''),
+	      propertyLocation: new FormGroup({
+	        streetNo: new FormControl(''),
+	        barangay: new FormControl(''),
+	        subdivision: new FormControl(''),
+	        city: new FormControl(''),
+	        province: new FormControl(''),
+	        north: new FormControl(''),
+	        south: new FormControl(''),
+	        east: new FormControl(''),
+	        west: new FormControl('')
+	      }),
+	      ownerDetails: new FormGroup({
+	        ownfName: new FormControl(''),
+	        ownmName: new FormControl(''),
+	        ownlName: new FormControl(''),
+	        ownaddress: new FormControl(''),
+	        owncontact: new FormControl(''),
+	        ownTIN: new FormControl(''),
+	      }),
+	      adminOwnerLs: new FormGroup({
+	        admfName: new FormControl(''),
+	        admmName: new FormControl(''),
+	        admlName: new FormControl(''),
+	        admaddress: new FormControl(''),
+	        admcontact: new FormControl(''),
+	        admTIN: new FormControl(''),
+	      }),
+	      landAppraisal: new FormGroup({
+	        class: new FormControl(''),
+	        subclass: new FormControl(''),
+	        area: new FormControl('0'),
+	        unitVal: new FormControl(''),
+	        baseMarketVal: new FormControl(''),
+	        interiorLot: new FormControl(''),
+	        cornerLot: new FormControl(''),
+	        stripping: new FormControl(false)
+	      }),
+	      stripSet: new FormGroup({
+	        stripCount: new FormControl({ value: '', disabled: true }),
+	        remLandArea: new FormControl({ value: '', disabled: true }),
+	        stripArea: new FormControl({ value: '', disabled: true }),
+	        adjustment: new FormControl({ value: '', disabled: true }),
+	        stripNo: new FormControl({ value: '', disabled: true })
+	      }),
+	      otherImprovements: new FormGroup({
+	        kind: new FormControl(''),
+	        totalNo: new FormControl(''),
+	        unitVal: new FormControl(''),
+	        basicMarketVal: new FormControl(''),
+	        othImpSubTotal: new FormControl({ value: '', disabled: true })
+	      }),
+	      marketVal: new FormGroup({
+	        baseMarketVal: new FormControl(''),
+	        adjustmentFactor: new FormControl(''),
+	        adjustmentPercent: new FormControl(''),
+	        adjustmentVal: new FormControl(''),
+	        marketVal: new FormControl(''),
+	        mvSubTotal: new FormControl({ value: '', disabled: true })
+	      }),
+	      propertyAssessment: new FormGroup({
+	        actualUse: new FormControl(''),
+	        marketVal: new FormControl('0'),
+	        assessmentLvl: new FormControl(''),
+	        assessedVal: new FormControl(''),
+	        specialClass: new FormControl(''),
+	        status: new FormControl(''),
+	        efftQ: new FormControl(''),
+	        effty: new FormControl(''),
+	        total: new FormControl(''),
+	        appraisedName: new FormControl(''),
+	        appraisedDate: new FormControl(''),
+	        recommendName: new FormControl(''),
+	        recommendDate: new FormControl(''),
+	        approvedName: new FormControl(''),
+	        approvedDate: new FormControl(''),
+	        memoranda: new FormControl('')
+	      }),
+	      supersededRec: new FormGroup({
+	        supPin: new FormControl(''),
+	        supArpNo: new FormControl(''),
+	        supTDNo: new FormControl(''),
+	        supTotalAssessedVal: new FormControl(''),
+	        supPrevOwner: new FormControl(''),
+	        supEff: new FormControl(''),
+	        supARPageNo: new FormControl(''),
+	        supRecPersonnel: new FormControl(''),
+	        supDate: new FormControl(''),
+	      }),
+	      status: new FormControl(''),
+	      dateCreated: new FormControl(''),
+	      encoder: new FormControl(''),
+	      attachment: new FormControl(''),
+	    })
+			this.lndAppUnitVal = '0';
+			this.lndAppBMV ='0';
+			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('COMMERCIAL');
+			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'))
+		}
+
   }
 
-}
+	resetForm() {
+		this.initializeForm('');
+		ownerLs = [];
+		adminLs = [];
+		stripInf = [];
+		imprInf = [];
+		mrktVal = [];
+		this.ownersLs = new MatTableDataSource(ownerLs)
+	  this.adminsLs = new MatTableDataSource(adminLs)
+	  this.stripSetInfo = new MatTableDataSource(stripInf)
+	  this.impInf = new MatTableDataSource(imprInf)
+	  this.marketValue = new MatTableDataSource(mrktVal)
+	}
 
-export default LandReassessmentComponent
+}

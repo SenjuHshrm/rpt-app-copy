@@ -14,7 +14,7 @@ export class SetAuthRoute {
 
   storeToken(data: string): void {
     localStorage.setItem('auth', data);
-    let token = jwt_decode(data)
+    let token: any = jwt_decode(data)
     let tokenObj: loginAuthRes = {
       iat: token.iat,
       name: token.name,
@@ -24,7 +24,7 @@ export class SetAuthRoute {
   }
 
   alreadyAuth(): void {
-    let dcd = jwt_decode(localStorage.getItem('auth'));
+    let dcd: any = jwt_decode(localStorage.getItem('auth'));
     let route = '/user/' + dcd.username
     this.router.navigate([route])
   }
