@@ -34,6 +34,7 @@ import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
 import { ArrearsComponent } from './arrears/arrears.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { MatMenuModule } from '@angular/material/menu';
 import { LndReasmtSearch } from './land-reassessment/dialog-search/lndreasmt-search';
 
 @NgModule({
@@ -98,7 +99,8 @@ import { LndReasmtSearch } from './land-reassessment/dialog-search/lndreasmt-sea
     FormsModule,
     MatDialogModule,
     NgxExtendedPdfViewerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ],
   providers: [
     MatDatepickerModule,

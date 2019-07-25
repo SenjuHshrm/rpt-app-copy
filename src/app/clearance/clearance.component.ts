@@ -262,13 +262,13 @@ export class ClearanceComponent implements OnInit {
                 this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
                 break;
             }
+            this.srchClse();
           }
           else {
             this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Data not found' });
           }
           this.isVisible_spinner = false;
           this.clicked = false;
-          this.srchClse();
         }
         else {
           this.matDialog.open(ClearanceComponentErr, { width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: res.err });
@@ -281,6 +281,7 @@ export class ClearanceComponent implements OnInit {
   srchIco() {
     var clientHeight = document.getElementById('search_db').clientHeight;
     var srchDb = document.getElementById("search_db");
+    var clrDb = document.getElementById("clrnce_db");
     var bckgrnd = document.getElementById("bgOverlay");
     var wheight = document.body.clientHeight;
     var wWidth = document.body.clientWidth;
@@ -295,6 +296,7 @@ export class ClearanceComponent implements OnInit {
           pos+=23;
           srchDb.style.top = pos / 3 + 'px';
           srchDb.style.display = "block";
+          clrDb.style.display = 'none'
           bckgrnd.style.display = 'block';
         }
       }
@@ -314,6 +316,49 @@ export class ClearanceComponent implements OnInit {
       } else {
         clientHeight-=23;
         elem.style.top = clientHeight / 3 + 'px';
+      }
+    }
+  }
+
+  genIco() {
+    var clientHeight = document.getElementById('clrnce_db').clientHeight;
+    var clrDb = document.getElementById("clrnce_db");
+    var bckgrnd = document.getElementById("bgOverlay");
+    var srchDb = document.getElementById("search_db");
+    var wheight = document.body.clientHeight;
+    var wWidth = document.body.clientWidth;
+    var wheight50 = wheight / 2;
+    var wWidth50 = wWidth / 2;
+    var pos = -clientHeight - 1100;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+        if (pos >= 300) {
+          clearInterval(id);
+        } else {
+          pos+=23;
+          clrDb.style.top = pos / 5 + 'px';
+          clrDb.style.display = "block";
+          srchDb.style.display = 'none';
+          bckgrnd.style.display = 'block';
+        }
+      }
+  }
+
+  clseClrnce() {
+    var clrDb = document.getElementById("clrnce_db");
+    var bckgrnd = document.getElementById("bgOverlay");
+    var clientHeight2 = document.getElementById('clrnce_db').clientHeight;
+    var clientHeight = 300;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+      //
+      if(Math.round(clientHeight) < -2200) {
+        bckgrnd.style.display = 'none';
+        clrDb.style.display = 'none';
+        clearInterval(id);
+      } else {
+        clientHeight-=23;
+        clrDb.style.top = clientHeight / 3 + 'px';
       }
     }
   }
