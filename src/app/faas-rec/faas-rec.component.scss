@@ -1,22 +1,44 @@
 .h { height: 10px; }
-.mat-stitle { float: left; line-height:50px; }
+.mat-stitle { float: left; line-height:35px; }
 .mat-title-con {
-  width: 95%;
-  height: 50px;
+  width: 100%;
+  height: 56px;
   margin: 0 auto;
+
+  position: fixed;
+  top: 63px;
+  background: #f9f9f9;
 }
+.width-100 {
+  width: 100%;
+}
+
 .mat-radio-button { margin: 0px 5px 0px 5px; }
 .info-con {
-   width: 100%; height: 300px; overflow: auto
+   width: 100%; height: 498px; overflow: auto;
 }
 .info-inf {
-   width: 50%;
-   height: 300px;
+   width: 100%;
+   height: 220px;
    overflow: auto;
 }
 
+#info {
+  text-transform: capitalize;
+  padding: 0;
+  margin: 0;
+}
+
+.mt {
+  margin-top: 10px;
+}
+
+.h-40 {
+  height:40px;
+}
+
 .srchBtnClckd {
-  margin-top: 5%;
+  margin-top: 2px;
   margin-left: 5%;
   width: 90%;
   height: 90%;
@@ -50,6 +72,7 @@ tr {
   width: 90%;
   height: auto;
   margin: 0 auto;
+  margin-top: 40px;
 }
 
 .label {
@@ -82,8 +105,38 @@ tr {
   height: 100%;
   @include bg-opacity(#000, 0.6);
   position: fixed;
-  z-index: 1;
+  z-index: 999;
   top:0;
+}
+
+.dbBGoverlay {
+  width: 100%;
+  height: 100%;
+  @include bg-opacity(#000, 0.6)
+  position: fixed;
+  z-index: 900;
+  top:0;
+  display: none;
+}
+
+.divHeader {
+  background: rgba(#0063EA, 0.9);
+  width: 100%;
+  height: 40px;
+  color: #FFF;
+  font-size: 15px;
+  line-height: 40px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  position: relative;
+}
+
+.dbMargin {
+  width: 90%;
+  height: 90%;
+  margin: 0 auto;
+  margin-top: 5px;
+  margin-bottom: 5%;
 }
 
 .sk-fading-circle {
@@ -223,4 +276,48 @@ tr {
 @keyframes sk-circleFadeDelay {
   0%, 39%, 100% { opacity: 0; }
   40% { opacity: 1; }
+}
+
+.searchDB {
+  background: #FFF;
+  border: 1px solid #0063EA;
+  border-radius: 4px;
+  position: fixed;
+  width: 50%;
+  height: auto;
+  left: 25%;
+  top: -100%;
+  /*transform: translate(-50%);*/
+  z-index: 0;
+  display: none;
+}
+
+@media (max-width: 1102px) {
+  .searchDB {
+    transform: none;
+  }
+}
+
+@media (max-width: 1101px) {
+  .searchDB {
+    width: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 801px) {
+  .searchDB {
+    width: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 601px) {
+  .searchDB {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

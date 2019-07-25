@@ -35,6 +35,7 @@ import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
 import { ArrearsComponent } from './arrears/arrears.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     FormsModule,
     MatDialogModule,
     NgxExtendedPdfViewerModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ],
   providers: [
     MatDatepickerModule,
