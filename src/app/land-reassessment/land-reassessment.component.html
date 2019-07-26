@@ -15,20 +15,25 @@
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <!-- Transaction Code -->
         <div class="divCard item item-1 brdr" fxFlex='60%'>
-          <div class='divHeader'></div>
+          <div class='divHeader'>
+            <div class='indx'>
+              <input type='text' id="index1" tabindex='-1'>
+            </div>
+          </div>
           <br>
           <div class='cardMargin'>
             <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayoutAlign='center' fxLayoutGap='20px' fxLayoutGap.xs='2%' >
-            <mat-form-field class='item item-1' fxFlex='49%'>
+            <mat-form-field class='item item-1' fxFlex='74%'>
               <mat-label>Transaction Code</mat-label>
               <mat-select formControlName='trnsCode'>
                 <mat-option *ngFor='let trns of trnsLs' [value]='trns.value'>{{ trns.viewVal }}</mat-option>
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field class='item item-2' fxFlex='49%'>
-              <input matInput type='text' placeholder='ARP No.' formControlName='arpNo'  >
-            </mat-form-field>
+            <div class="" fxFlex='35%'>
+              <button style='width: 100%;' type='button' mat-raised-button color='primary' class='sve' (click)='srch()'>Search</button>
+            </div>
+
             </div>
 
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='20px'
@@ -84,11 +89,15 @@
 
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
               fxLayoutGap.xs='10px'>
-              <mat-form-field class='item item-1' fxFlex='49%'>
+              <mat-form-field class='item item-1' fxFlex='32%'>
+                <input matInput type='text' placeholder='ARP No.' formControlName='arpNo'  >
+              </mat-form-field>
+
+              <mat-form-field class='item item-2' fxFlex='32%'>
                 <input matInput type='text' placeholder='OCT / TCT No.' formControlName='OCT_TCT'  >
               </mat-form-field>
 
-              <mat-form-field class='item item-2' fxFlex='49%'>
+              <mat-form-field class='item item-3' fxFlex='32%'>
                 <input matInput type='text' placeholder='Survey No.' formControlName='surveyNo'  >
               </mat-form-field>
             </div>
@@ -771,3 +780,9 @@
   </div>
   <!-- Container End -->
 </form>
+
+<div class="arrowUpDown">
+  <div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' (click)='upBtn()'>
+    <mat-icon class="top_bot">arrow_drop_up</mat-icon>
+  </div>
+</div>

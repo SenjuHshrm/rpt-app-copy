@@ -391,6 +391,11 @@ tr {
   display: none;
 }
 
+.indx {
+  position: absolute;
+  z-index:-10;
+}
+
 .arrowUpDown {
   position: fixed;
   bottom: 10px;

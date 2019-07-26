@@ -29,7 +29,7 @@ var mrktVal: marketValue[] = []
 @Component({
   selector: 'app-land-assessment',
   templateUrl: './land-assessment.component.html',
-  styleUrls: ['./land-assessment.component.scss']
+  styleUrls: ['./land-assessment.component.scss'],
 })
 export class LandAssessmentComponent implements OnInit {
 
@@ -143,6 +143,7 @@ export class LandAssessmentComponent implements OnInit {
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
 
+    //window.addEventListener('scroll', this.scroll, true);
   }
 
   upBtn() {
@@ -879,4 +880,6 @@ export class LandAssessmentComponent implements OnInit {
 	  this.marketValue = new MatTableDataSource(mrktVal)
 	}
 
+  //scroll = (): void => {
+  //}
 }
