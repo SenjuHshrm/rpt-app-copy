@@ -364,6 +364,8 @@ export class ClearanceComponent implements OnInit {
     }
   }
 
+  test(){alert('asdf')};
+
   genCl() {
     console.log(this.date);
     let data: lTaxClearance = {

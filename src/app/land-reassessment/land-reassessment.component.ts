@@ -832,4 +832,21 @@ export class LandReassessmentComponent implements OnInit {
 	  this.marketValue = new MatTableDataSource(mrktVal)
 	}
 
+  upBtn() {
+    document.getElementById("index1").focus();
+  }
+
+  srch() {
+    this.otherTrns = true;
+    const md = this.matDialog.open(LndReasmtSearch, { disableClose: true, data: {tCode: 'GENERAL REVISION (GR)'}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' })
+    md.afterClosed().subscribe(res => {
+      if(res == undefined) {
+        this.route.navigate(['/user/' + this.username + '/reassessments']);
+        this.otherTrns = false
+      } else {
+        this.populateForm(res)
+      }
+    })
+  }
+
 }

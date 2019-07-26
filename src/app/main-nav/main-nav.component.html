@@ -14,7 +14,7 @@
     </mat-nav-list>
     <mat-nav-list *ngIf='loggedIn()'>
       <div class='hdeShwNme'>
-        <span>{{ userFullName }}</span>
+        <span class='uprCaseName'>{{ userFullName }}</span>
       </div>
         <hr width='90%' class='hdeShwNme'>
 
@@ -55,7 +55,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class='spanRPT fntSze'>RPT Web Application</span>
-      <span *ngIf='loggedIn()' class="fntSze hdeNme">{{ userFullName }}</span>
+      <span *ngIf='loggedIn()' class="fntSze hdeNme uprCaseName">{{ userFullName }}</span>
     </mat-toolbar>
     <ng-content></ng-content>
     <!-- Add Content Here -->

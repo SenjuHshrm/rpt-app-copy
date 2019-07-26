@@ -8,8 +8,8 @@
 				<br><div class='h'></div>
 				<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px' fxLayoutAlign='center'>
 			    <div fxFlex='50%'></div>
-					<div fxFlex='45%' (mouseup)='clckOk=false' (mousedown)='clckOk=true'>
-			   	<button mat-raised-button color='primary' type='button' (click)='dialogBox=false' [ngClass]="{'dboxBtnmup': !clckOk, 'dboxBtnmdwn': clckOk}">OK</button>
+					<div fxFlex='45%' (mouseup)='clckOk=false' (mouseleave)='clckOk=false' (mousedown)='clckOk=true' (click)='dialogBox=false'>
+			   	<button mat-raised-button color='primary' type='button' [ngClass]="{'dboxBtnmup': !clckOk, 'dboxBtnmdwn': clckOk}">OK</button>
 				 	</div>
 				 <div fxFlex='5%'></div>
 			  </div>
@@ -35,8 +35,8 @@
 		<mat-form-field class='item item-1 srchInptW'>
 			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
 		</mat-form-field>
-		<div class="item item-2 srchBtnW" (mousedown)="srchmDwn=true" (mouseup)="srchmDwn=false">
-			<button mat-raised-button color='primary' [ngClass]="{ 'srchBtnmUp': !srchmDwn, 'srchBtnmDwn': srchmDwn }" (click)='search()'>Search</button>
+		<div class="item item-2 srchBtnW" (mousedown)="srchmDwn=true" (mouseup)="srchmDwn=false" (mouseleave)="srchmDwn=false" (click)='search()'>
+			<button mat-raised-button color='primary' [ngClass]="{ 'srchBtnmUp': !srchmDwn, 'srchBtnmDwn': srchmDwn }">Search</button>
 		</div>
 		<div class='spinner item item-3'>
 			<div class='spinnerCon' *ngIf='isVisible_spinner'>
@@ -131,10 +131,10 @@
 </div>
 <div class="h2"></div>
 <div mat-dialog-actions align='center'>
-	<div class="btnW" (mousedown)='cancelBtn=true' (mouseup)='cancelBtn=false'>
-		<button mat-raised-button color='warn' (click)="close()" [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
+	<div class="btnW" (mousedown)='cancelBtn=true' (mouseup)='cancelBtn=false' (mouseleave)='cancelBtn=false' (click)="close()">
+		<button mat-raised-button color='warn' [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
 	</div>
-	<div class="btnW" (mousedown)='okBtn=true' (mouseup)='okBtn=false'>
+	<div class="btnW" (mousedown)='okBtn=true' (mouseup)='okBtn=false' (mouseleave)='okBtn=false'>
 		<button mat-raised-button color='primary' [disabled]='disableBtn()' [mat-dialog-close]='selectedInfo' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
 	</div>
 </div>

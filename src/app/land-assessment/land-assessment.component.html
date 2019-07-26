@@ -17,7 +17,7 @@
         <!-- Transaction Code -->
         <div class="divCard item item-1 brdr" fxFlex='60%'>
           <div class='divHeader'>
-            <div style='position: absolute; z-index:-10;'>
+            <div class='indx'>
               <input type='text' id="index1" tabindex='-1'>
             </div>
           </div>
@@ -38,10 +38,11 @@
 
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='20px'
               fxLayoutGap.xs='10px'>
+
               <div formGroupName='pin' class='item item-1' fxFlex='100%'>
                 <span>PIN: </span>
                 <mat-form-field class='width-10'>
-                  <input matInput type='text' formControlName='city'   maxlength='3'>
+                  <input matInput type='text' formControlName='city' maxlength='3'>
                 </mat-form-field>
                 <span>-</span>
                 <mat-form-field class='width-10'>
@@ -458,7 +459,7 @@
       <!-- Land Appraisal End -->
 
     <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px'
-      fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
+      fxLayoutGap.xs='20px' fxLayoutGap.sm='20px' id='othrImp'>
       <!-- Other Improvements -->
       <div class="divCard item item-1 brdr" fxFlex='50%'>
         <div class="divHeader">&nbsp;&nbsp;Other Improvements</div>
@@ -778,18 +779,7 @@
 </form>
 
 <div class="arrowUpDown">
-  <a>
   <div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' (click)='upBtn()'>
     <mat-icon class="top_bot">arrow_drop_up</mat-icon>
-  </div>
-  </a>
-  <div class="h"></div>
-  <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px' (click)='botBtn()'>
-    <mat-icon class="top_bot">arrow_drop_down</mat-icon>
-  </div>
-</div>
-<div class="" style='position: relative; background: #f9f9f9; height:22px;'>
-  <div style='position: absolute; bottom: 0; z-index: -100;'>
-    <input type='text' id="index2" tabindex='-1'>
   </div>
 </div>
