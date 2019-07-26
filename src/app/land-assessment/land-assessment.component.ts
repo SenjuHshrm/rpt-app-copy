@@ -142,7 +142,7 @@ export class LandAssessmentComponent implements OnInit {
 		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
-
+		this.username = this.router.snapshot.paramMap.get('username');
   }
 
   upBtn() {
@@ -151,7 +151,7 @@ export class LandAssessmentComponent implements OnInit {
 
   botBtn() {
     document.getElementById("index2").focus();
-		this.username = this.router.snapshot.paramMap.get('username');
+
   }
 
   lndAppChngVal(grp: any) {
@@ -315,6 +315,7 @@ export class LandAssessmentComponent implements OnInit {
   }
 
   save(form: any) {
+		console.log(form);
     let data: landAsmtDataTemp = {
 			trnsCode: form.trnsCode,
 			arpNo: form.arpNo,
@@ -363,7 +364,7 @@ export class LandAssessmentComponent implements OnInit {
 				specialClass: form.propertyAssessment.specialClass,
 				status: form.propertyAssessment.status,
 				efftQ: form.propertyAssessment.efftQ,
-				effty: form.propertyAssessment.efftY,
+				effty: form.propertyAssessment.effty,
 				total: form.propertyAssessment.total,
 				appraisedName: form.propertyAssessment.appraisedName,
 				appraisedDate: (form.propertyAssessment.appraisedDate == '') ? '' : moment(form.propertyAssessment.appraisedDate).format('MM/DD/YYYY'),
@@ -382,28 +383,28 @@ export class LandAssessmentComponent implements OnInit {
 				supEff: form.supersededRec.supEff,
 				supARPageNo: form.supersededRec.supARPageNo,
 				supRecPersonnel: form.supersededRec.supRecPersonnel,
-				supDate: form.supersededRec.supDate,
+				supDate: (form.supersededRec.supDate == '') ? '' : moment(form.supersededRec.supDate).format('MM/DD/YYYY'),
 			},
 			status: form.status,
-			dateCreated: form.dateCreated,
-			encoder: form.encoder,
+			dateCreated: moment(new Date()).format('MM/DD/YYYY'),
+			encoder: this.username,
 			attachment: form.attachment,
 		};
 		console.log(data);
-		// if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)' ||
-		// 	this.landAssessment.controls['trnsCode'].value == 'PHYSICAL CHANGE (PC)' ||
-		// 	this.landAssessment.controls['trnsCode'].value == 'DISPUTE IN ASSESSED VALUE (DP)' ||
-		// 	this.landAssessment.controls['trnsCode'].value == 'TRANSFER (TR)' ||
-		// 	this.landAssessment.controls['trnsCode'].value == 'RECLASSIFICATION (RC)' ||
-		// 	this.landAssessment.controls['trnsCode'].value == 'SPECIAL PROJECT (SP)') {
-		// 	this.asmtLand.saveLand(data).subscribe(res => {
-		// 		console.log(res);
-		// 	})
-		// } else {
-		// 	this.asmtLand.updateLand(data).subscribe(res => {
-		// 		console.log(res);
-		// 	})
-		// }
+		if(this.landAssessment.controls['trnsCode'].value == 'DISCOVERY/NEW DECLARATION (DC)' ||
+			this.landAssessment.controls['trnsCode'].value == 'PHYSICAL CHANGE (PC)' ||
+			this.landAssessment.controls['trnsCode'].value == 'DISPUTE IN ASSESSED VALUE (DP)' ||
+			this.landAssessment.controls['trnsCode'].value == 'TRANSFER (TR)' ||
+			this.landAssessment.controls['trnsCode'].value == 'RECLASSIFICATION (RC)' ||
+			this.landAssessment.controls['trnsCode'].value == 'SPECIAL PROJECT (SP)') {
+			this.asmtLand.saveLand(data).subscribe(res => {
+				console.log(res);
+			})
+		} else {
+			this.asmtLand.updateLand(data).subscribe(res => {
+				console.log(res);
+			})
+		}
 
   }
 
@@ -703,7 +704,7 @@ export class LandAssessmentComponent implements OnInit {
 				supEff: data.superseded_effectivity_assess,
 				supARPageNo: data.superseded_ar_page_no,
 				supRecPersonnel: data.superseded_recording_personnel,
-				supDate: data.superseded_date
+				supDate: (data.superseded_date == '') ? '' : new Date(data.superseded_date)
 			})
 			this.landAssessment.controls['status'].setValue(data.status);
 			this.landAssessment.controls['dateCreated'].setValue(data.date_created);
