@@ -149,6 +149,9 @@ export class LandReassessmentComponent implements OnInit {
 				}
 			})
 		}, 100)
+
+    setTimeout(function(){ document.getElementById("index1").focus(); }, 0)
+    window.addEventListener('scroll', this.scroll, true);
 	}
 
   lndAppChngVal(grp: any) {
@@ -849,4 +852,29 @@ export class LandReassessmentComponent implements OnInit {
     })
   }
 
+  scroll = (): void => {
+    var a = window.pageYOffset;
+    var b = document.body.offsetHeight - window.innerHeight;
+    var btnTop = document.getElementById('bt');
+    if(a >= b) {
+      this.shwbtTopBtn()
+    }  else {
+      btnTop.style.display = 'none';
+    }
+  }
+
+  shwbtTopBtn() {
+    var btnTop = document.getElementById('bt');
+    var pos = -20;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+      if (pos == 10) {
+        clearInterval(id);
+      } else {
+        pos++;
+        btnTop.style.display = "block";
+        btnTop.style.right = pos + 'px';
+      }
+    }
+  }
 }

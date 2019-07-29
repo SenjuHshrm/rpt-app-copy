@@ -1,40 +1,43 @@
-<h2>Select Module</h2>
-<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-  <div class='item item-1' fxFlex='30%' fxLayoutAlign='center center'>
-    <div class='aBtn'>
-    <img src='../assets/land.png' (click)='landAssessment()' (mouseover)='lndTxtClr=true' (mouseleave)="lndTxtClr=false"
-    [ngClass]="{ 'imgZoomIn': lndImg, 'imgZoomOut': !lndImg }">
-      <div>
-        <span (click)='landAssessment()' [ngClass]="{ 'blue': lndTxtClr, 'blck': !lndTxtClr }" class='modName'
-        (mouseover)='lndImg=true' (mouseleave)="lndImg=false">
-          Land Assessment
-        </span>
+<div class="moduleCon">
+  <h2>Select Module</h2>
+  <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+    <div class='item item-1' fxFlex='30%' fxLayoutAlign='center center'>
+      <div class='aBtn'>
+      <img src='../assets/land.png' (click)='landAssessment()' (mouseover)='lndTxtClr=true' (mouseleave)="lndTxtClr=false"
+      [ngClass]="{ 'imgZoomIn': lndImg, 'imgZoomOut': !lndImg }">
+        <div>
+          <span (click)='landAssessment()' [ngClass]="{ 'blue': lndTxtClr, 'blck': !lndTxtClr }" class='modName'
+          (mouseover)='lndImg=true' (mouseleave)="lndImg=false">
+            Land Assessment
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class='item item-2' fxFlex='30%' fxLayoutAlign='center center'>
-    <div class='aBtn'>
-      <img src='../assets/BUILDINGLOGOpng.png' (click)='buildingAssessment()' (mouseover)='bldgTxtClr=true' (mouseleave)="bldgTxtClr=false"
-      [ngClass]="{ 'imgZoomIn': bldgImg, 'imgZoomOut': !bldgImg }">
-      <div>
-        <span class='modName' (click)='buildingAssessment()' [ngClass]="{ 'blue': bldgTxtClr, 'blck': !bldgTxtClr }"
-        (mouseover)='bldgImg=true' (mouseleave)="bldgImg=false">
-          Building Assessment
-        </span>
+    <div class='item item-2' fxFlex='30%' fxLayoutAlign='center center'>
+      <div class='aBtn'>
+        <img src='../assets/BUILDINGLOGOpng.png' (click)='buildingAssessment()' (mouseover)='bldgTxtClr=true' (mouseleave)="bldgTxtClr=false"
+        [ngClass]="{ 'imgZoomIn': bldgImg, 'imgZoomOut': !bldgImg }">
+        <div>
+          <span class='modName' (click)='buildingAssessment()' [ngClass]="{ 'blue': bldgTxtClr, 'blck': !bldgTxtClr }"
+          (mouseover)='bldgImg=true' (mouseleave)="bldgImg=false">
+            Building Assessment
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-  <div class='item item-3' fxFlex='30%' fxLayoutAlign='center center'>
-    <div class='aBtn' mat-raised-button>
-      <img src='../assets/Machineries logo 2.png' (click)='machAssessment()' (mouseover)='machTxtClr=true' (mouseleave)="machTxtClr=false"
-      [ngClass]="{ 'imgZoomIn': machImg, 'imgZoomOut': !machImg }">
-      <div>
-        <span class='modName' (click)='machAssessment()' [ngClass]="{ 'blue': machTxtClr, 'blck': !machTxtClr }"
-        (mouseover)='machImg=true' (mouseleave)="machImg=false">
-          Machinery Assessment
-        </span>
+    <div class='item item-3' fxFlex='30%' fxLayoutAlign='center center'>
+      <div class='aBtn' mat-raised-button>
+        <img src='../assets/Machineries logo 2.png' (click)='machAssessment()' (mouseover)='machTxtClr=true' (mouseleave)="machTxtClr=false"
+        [ngClass]="{ 'imgZoomIn': machImg, 'imgZoomOut': !machImg }">
+        <div>
+          <span class='modName' (click)='machAssessment()' [ngClass]="{ 'blue': machTxtClr, 'blck': !machTxtClr }"
+          (mouseover)='machImg=true' (mouseleave)="machImg=false">
+            Machinery Assessment
+          </span>
+        </div>
       </div>
     </div>
+    <br><br><br><br>
   </div>
-  <br><br><br><br>
+
 </div>

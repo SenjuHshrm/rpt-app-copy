@@ -1,28 +1,29 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport="false"
+  <mat-sidenav #drawer class="sidenav sideNavCon" fixedInViewport="false"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [opened]="false">
     <mat-toolbar color="primary" (click)='drawer.toggle()'>
       <!-- <img src='../assets/SPCLOGO.png'>
       <span *ngIf='nonAuth()'>Menu</span>
       <span *ngIf='loggedIn()'>{{ userFullName }}</span>-->
-      <span style='width: 150px;'>Menu</span>
-      <span style='margin-top: 7px;'><img src='../assets/SPCLOGO.png'></span>
+      <span class='w-150'>Menu</span>
+      <span class='navLogoMT'><img src='../assets/SPCLOGO.png'></span>
     </mat-toolbar>
     <mat-nav-list *ngIf='nonAuth()' (click)="drawer.toggle()">
       <a mat-list-item routerLink="/login">Login</a>
       <a mat-list-item routerLink="/register">Register</a>
     </mat-nav-list>
     <mat-nav-list *ngIf='loggedIn()'>
+    <div class='navListCon'>
       <div class='hdeShwNme'>
         <span class='uprCaseName'>{{ userFullName }}</span>
       </div>
         <hr width='90%' class='hdeShwNme'>
 
-      <div *ngFor='let nav of navs' (click)="drawer.toggle();">
+      <div class="sidenav" *ngFor='let nav of navs' (click)="drawer.toggle();">
         <a mat-list-item routerLink="{{nav.route}}">{{nav.text}}</a>
       </div>
       <a mat-list-item (click)="ltLinks = !ltLinks" ng-model="show">
-        Land Tax
+        <div>Land Tax</div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon *ngIf="!ltLinks">expand_more</mat-icon>
         <mat-icon *ngIf="ltLinks">expand_less</mat-icon>
@@ -44,13 +45,14 @@
       <div (click)="drawer.toggle()">
         <a mat-list-item (click)="logOut(); ltLinks=false">Logout</a>
       </div>
-      <div style='color: #FFF; background: #0063EA; cursor: pointer; text-align: center; width: 85%; position: absolute; bottom: 5px; border: 1px solid #0063EA; margin: 0 auto; left: 50%; transform: translate(-50%, -50%);'>
+      <div class='gtSettings'>
         Go to settings
       </div>
+    </div>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" id='navToolbar'>
       <button *ngIf='loggedIn()' type="button" aria-label="Toggle sidenav" mat-icon-button (click)="ltLinks=false; drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>

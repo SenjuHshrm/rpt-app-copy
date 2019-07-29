@@ -345,11 +345,14 @@ tr {
   40% { opacity: 1; }
 }
 
-.arrowUpDown {
+.bckTop {
   position: fixed;
   bottom: 10px;
-  right: 30px;
+  right: 10px;
   z-index: 1;
+  display: none;
+  border-radius: 50%;
+  box-shadow: 1px 1px 4px 2px rgba(128, 128, 128, 1);
 }
 
 .top_bot {
@@ -367,4 +370,8 @@ tr {
 .indx {
   position: absolute;
   z-index:-10;
+}
+
+.mt-60 {
+  margin-top: 60px;
 }

@@ -44,7 +44,7 @@ $sys-theme: mat-light-theme($def-theme-primary, $def-theme-accent, $def-theme-wa
 
 
 
-html, body { height: 100%; }
+html { scroll-behavior: smooth; }
 body { margin: 0;  font-family: 'CenturyGothic' !important;}
 
 .custom-dialog-container .mat-dialog-container {
