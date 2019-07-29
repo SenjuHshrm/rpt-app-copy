@@ -50,6 +50,9 @@ export class LandReassessmentComponent implements OnInit {
   lndApprAdd: boolean;
 	otherTrns: boolean = false;
 	username: string;
+	searchBtnClckd: boolean = false;
+	approvedBy: string;
+	landFaasId: number;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -70,8 +73,8 @@ export class LandReassessmentComponent implements OnInit {
 
   }
 
-  ownerHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
-  adminHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
+  ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
+  adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
   stripHeader: string[] = ['stripno', 'striparea', 'adjustment', 'adbaserate', 'stripmval', 'actions']
   impHeader: string[] = ['kind', 'total', 'unitval', 'baseval', 'actions']
   mValHeader: string[] = ['bmval', 'adjfactor', 'adjperc', 'adjval', 'markval', 'actions']
@@ -134,6 +137,7 @@ export class LandReassessmentComponent implements OnInit {
 			})
 		})
 		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
+			this.approvedBy = res[0].holder_name;
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
 		this.username = this.router.snapshot.paramMap.get('username');
@@ -171,21 +175,6 @@ export class LandReassessmentComponent implements OnInit {
 
   isVisible_spinner = false
   pinspinner = true
-  checkPIN(grp: any) {
-    this.pinspinner = false
-    let pin = {
-      city: grp.controls['city'].value,
-      dist: grp.controls['district'].value,
-      brgy: grp.controls['barangay'].value,
-      sect: grp.controls['section'].value,
-      prcl: grp.controls['parcel'].value
-    }
-    this.chckpin.checkPin(pin).subscribe(res => {
-      (res.success) ? this.checkpinresult = 'check' : this.checkpinresult = 'close';
-      this.isVisible_spinner = false
-      this.pinspinner = true
-    });
-  }
 
 	setAsmtLvl(propAsmt: any) {
 		let actlUse = propAsmt.get('actualUse').value,
@@ -214,6 +203,7 @@ export class LandReassessmentComponent implements OnInit {
 	}
 
 	populateForm(id: number): void {
+		this.landFaasId = id;
 		let data = {
 			id: id
 		}
@@ -285,8 +275,10 @@ export class LandReassessmentComponent implements OnInit {
   }
 
   save(form: any) {
-    let data: landAsmtDataTemp = {
-			trnsCode: form.trnsCode,
+		console.log(form)
+    let data: any = {
+			id: this.landFaasId,
+			trnsCode: 'GENERAL REVISION (GR)',
 			arpNo: form.arpNo,
 			pin: {
 				city: form.pin.city,
@@ -333,7 +325,7 @@ export class LandReassessmentComponent implements OnInit {
 				specialClass: form.propertyAssessment.specialClass,
 				status: form.propertyAssessment.status,
 				efftQ: form.propertyAssessment.efftQ,
-				effty: form.propertyAssessment.efftY,
+				effty: form.propertyAssessment.effty,
 				total: form.propertyAssessment.total,
 				appraisedName: form.propertyAssessment.appraisedName,
 				appraisedDate: (form.propertyAssessment.appraisedDate == '') ? '' : moment(form.propertyAssessment.appraisedDate).format('MM/DD/YYYY'),
@@ -352,7 +344,7 @@ export class LandReassessmentComponent implements OnInit {
 				supEff: form.supersededRec.supEff,
 				supARPageNo: form.supersededRec.supARPageNo,
 				supRecPersonnel: form.supersededRec.supRecPersonnel,
-				supDate: form.supersededRec.supDate,
+				supDate: (form.supersededRec.supDate == '') ? '' : moment(form.supersededRec.supDate).format('MM/DD/YYYY'),
 			},
 			status: form.status,
 			dateCreated: form.dateCreated,
@@ -362,6 +354,19 @@ export class LandReassessmentComponent implements OnInit {
 		console.log(data);
 		this.reasmt.reassessLand(data).subscribe(res => {
 			console.log(res)
+			if(res.res) {
+				this.resetForm();
+				this.searchBtnClckd = false;
+				const md = this.matDialog.open(LndReasmtSearch, { disableClose: true, data: {tCode: 'GENERAL REVISION (GR)'}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' })
+				md.afterClosed().subscribe(res => {
+					if(res == undefined) {
+						this.route.navigate(['/user/' + this.username + '/reassessments']);
+						this.otherTrns = false;
+					} else {
+						this.populateForm(res);
+					}
+				})
+			}
 		})
   }
 
@@ -369,7 +374,9 @@ export class LandReassessmentComponent implements OnInit {
 		let data: landOwner[] = [];
 		_.forEach(ownerLs, (arr) => {
 			data.push({
-				ownName: arr.ownName,
+				ownFName: arr.ownFName,
+				ownMName: arr.ownMName,
+				ownLName: arr.ownLName,
 			  ownAddress: arr.ownAddress,
 			  ownContact: arr.ownContact,
 			  ownTIN: arr.ownTIN,
@@ -382,7 +389,9 @@ export class LandReassessmentComponent implements OnInit {
 		let data: adminOwner[] = [];
 		_.forEach(adminLs, arr => {
 			data.push({
-				admName: arr.admName,
+				admFName: arr.admFName,
+				admMName: arr.admMName,
+				admLName: arr.admLName,
 			  admAddress: arr.admAddress,
 			  admContact: arr.admContact,
 			  admTIN: arr.admTIN,
@@ -454,7 +463,9 @@ export class LandReassessmentComponent implements OnInit {
   addOwner(grp: any) {
     let ownerData = grp.value
     ownerLs.push({
-      ownName: ownerData.ownfName + ' ' + ownerData.ownmName + ' ' + ownerData.ownlName,
+			ownFName: ownerData.ownfName,
+			ownMName: ownerData.ownmName,
+			ownLName: ownerData.ownlName,
       ownAddress: ownerData.ownaddress,
       ownContact: ownerData.owncontact,
       ownTIN: ownerData.ownTIN
@@ -468,7 +479,9 @@ export class LandReassessmentComponent implements OnInit {
   addAdmin(grp: any) {
     let adminData = grp.value
     adminLs.push({
-      admName: adminData.admfName + ' ' + adminData.admmName + ' ' + adminData.admlName,
+      admFName: adminData.admfName,
+			admMName: adminData.middle_name,
+			admLName: adminData.last_name,
       admAddress: adminData.admaddress,
       admContact: adminData.admcontact,
       admTIN: adminData.admTIN
@@ -590,6 +603,7 @@ export class LandReassessmentComponent implements OnInit {
 					admins = xobj.admins,
 					strips = xobj.strips,
 					marketval = xobj.marketval;
+			this.landAssessment.controls['trnsCode'].setValue('GENERAL REVISION (GR)');
 			this.landAssessment.controls['arpNo'].setValue(data.arp_no);
 			this.landAssessment.controls['pin'].setValue({
 				city: data.pin_city,
@@ -660,7 +674,7 @@ export class LandReassessmentComponent implements OnInit {
 				supEff: data.superseded_effectivity_assess,
 				supARPageNo: data.superseded_ar_page_no,
 				supRecPersonnel: data.superseded_recording_personnel,
-				supDate: data.superseded_date
+				supDate: (data.superseded_date == '') ? '' : new Date(data.superseded_date)
 			})
 			this.landAssessment.controls['status'].setValue(data.status);
 			this.landAssessment.controls['dateCreated'].setValue(data.date_created);
@@ -669,7 +683,9 @@ export class LandReassessmentComponent implements OnInit {
 			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'));
 			_.forEach(owners, arr => {
 				ownerLs.push({
-					ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					ownFName: arr.first_name,
+					ownMName: arr.middle_name,
+					ownLName: arr.last_name,
 					ownAddress: arr.address,
 					ownContact: arr.contact_no,
 					ownTIN: arr.TIN
@@ -677,7 +693,9 @@ export class LandReassessmentComponent implements OnInit {
 			});
 			_.forEach(admins, arr => {
 				adminLs.push({
-					admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					admFName: arr.first_name,
+					admMName: arr.middle_name,
+					admLName: arr.last_name,
 					admAddress: arr.address,
 					admContact: arr.contact_no,
 					admTIN: arr.TIN
@@ -816,6 +834,7 @@ export class LandReassessmentComponent implements OnInit {
 			this.lndAppUnitVal = '0';
 			this.lndAppBMV ='0';
 			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('COMMERCIAL');
+			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(this.approvedBy);
 			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'))
 		}
 
@@ -840,12 +859,16 @@ export class LandReassessmentComponent implements OnInit {
   }
 
   srch() {
+		this.resetForm();
     this.otherTrns = true;
+		this.searchBtnClckd = true;
     const md = this.matDialog.open(LndReasmtSearch, { disableClose: true, data: {tCode: 'GENERAL REVISION (GR)'}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' })
     md.afterClosed().subscribe(res => {
       if(res == undefined) {
-        this.route.navigate(['/user/' + this.username + '/reassessments']);
-        this.otherTrns = false
+        if(!this.searchBtnClckd) {
+					this.route.navigate(['/user/' + this.username + '/reassessments']);
+	        this.otherTrns = false
+				}
       } else {
         this.populateForm(res)
       }

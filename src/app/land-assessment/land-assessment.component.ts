@@ -50,6 +50,7 @@ export class LandAssessmentComponent implements OnInit {
   lndApprAdd: boolean;
 	otherTrns: boolean = false;
 	username: string;
+	approvedBy: string;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -70,8 +71,8 @@ export class LandAssessmentComponent implements OnInit {
 
   }
 
-  ownerHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
-  adminHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
+  ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
+  adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
   stripHeader: string[] = ['stripno', 'striparea', 'adjustment', 'adbaserate', 'stripmval', 'actions']
   impHeader: string[] = ['kind', 'total', 'unitval', 'baseval', 'actions']
   mValHeader: string[] = ['bmval', 'adjfactor', 'adjperc', 'adjval', 'markval', 'actions']
@@ -135,21 +136,22 @@ export class LandAssessmentComponent implements OnInit {
     if (!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
-    this.resetForm();
+
 		this.getMrktVal.getValues().subscribe(res => {
 			_.forEach(res, arr => {
 				this.landClassLs.push(arr)
 			})
 		})
 		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
+			this.approvedBy = res[0].holder_name;
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
 		this.username = this.router.snapshot.paramMap.get('username');
-
     setTimeout(function(){ document.getElementById("index1").focus(); }, 0)
     this.ngZone.runOutsideAngular(() => {
       window.addEventListener('scroll', this.scroll, true);
     });
+		this.resetForm();
   }
 
   upBtn() {
@@ -406,6 +408,9 @@ export class LandAssessmentComponent implements OnInit {
 			this.landAssessment.controls['trnsCode'].value == 'SPECIAL PROJECT (SP)') {
 			this.asmtLand.saveLand(data).subscribe(res => {
 				console.log(res);
+				if(res.res) {
+					this.resetForm();
+				}
 			})
 		} else {
 			this.asmtLand.updateLand(data).subscribe(res => {
@@ -419,7 +424,9 @@ export class LandAssessmentComponent implements OnInit {
 		let data: landOwner[] = [];
 		_.forEach(ownerLs, (arr) => {
 			data.push({
-				ownName: arr.ownName,
+				ownFName: arr.ownFName,
+				ownMName: arr.ownMName,
+				ownLName: arr.ownLName,
 			  ownAddress: arr.ownAddress,
 			  ownContact: arr.ownContact,
 			  ownTIN: arr.ownTIN,
@@ -432,7 +439,9 @@ export class LandAssessmentComponent implements OnInit {
 		let data: adminOwner[] = [];
 		_.forEach(adminLs, arr => {
 			data.push({
-				admName: arr.admName,
+				admFName: arr.admFName,
+				admMName: arr.admMName,
+				admLName: arr.admLName,
 			  admAddress: arr.admAddress,
 			  admContact: arr.admContact,
 			  admTIN: arr.admTIN,
@@ -504,7 +513,9 @@ export class LandAssessmentComponent implements OnInit {
   addOwner(grp: any) {
     let ownerData = grp.value
     ownerLs.push({
-      ownName: ownerData.ownfName + ' ' + ownerData.ownmName + ' ' + ownerData.ownlName,
+      ownFName: ownerData.ownfName,
+			ownMName: ownerData.ownmName,
+			ownLName: ownerData.ownlName,
       ownAddress: ownerData.ownaddress,
       ownContact: ownerData.owncontact,
       ownTIN: ownerData.ownTIN
@@ -518,7 +529,9 @@ export class LandAssessmentComponent implements OnInit {
   addAdmin(grp: any) {
     let adminData = grp.value
     adminLs.push({
-      admName: adminData.admfName + ' ' + adminData.admmName + ' ' + adminData.admlName,
+      admFName: adminData.admfName,
+			admMName: adminData.admmName,
+			admLName: adminData.admlName,
       admAddress: adminData.admaddress,
       admContact: adminData.admcontact,
       admTIN: adminData.admTIN
@@ -720,7 +733,9 @@ export class LandAssessmentComponent implements OnInit {
 			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'));
 			_.forEach(owners, arr => {
 				ownerLs.push({
-					ownName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					ownFName: arr.first_name,
+					ownMName: arr.middle_name,
+					ownLName: arr.last_name,
 					ownAddress: arr.address,
 					ownContact: arr.contact_no,
 					ownTIN: arr.TIN
@@ -728,7 +743,9 @@ export class LandAssessmentComponent implements OnInit {
 			});
 			_.forEach(admins, arr => {
 				adminLs.push({
-					admName: arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name,
+					admFName: arr.first_name,
+					admMName: arr.middle_name,
+					admLName: arr.last_name,
 					admAddress: arr.address,
 					admContact: arr.contact_no,
 					admTIN: arr.TIN
@@ -867,6 +884,7 @@ export class LandAssessmentComponent implements OnInit {
 			this.lndAppUnitVal = '0';
 			this.lndAppBMV ='0';
 			this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
+			this.landAssessment.controls['propertyAssessment'].get('approvedName').setValue(this.approvedBy);
 			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('COMMERCIAL');
 			this.setAsmtLvl(this.landAssessment.get('propertyAssessment'))
 		}

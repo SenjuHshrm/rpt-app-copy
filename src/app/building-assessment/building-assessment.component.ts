@@ -5,18 +5,12 @@ import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import * as _ from 'lodash';
 import { adminOwner } from '../interfaces/adminOwner';
+import { landOwner } from '../interfaces/landOwner';
 
 
 export interface selectOpt {
   value: string;
   viewVal: string;
-}
-
-export interface landOwner {
-  ownName: string;
-  ownAddress: string;
-  ownContact: string;
-  ownTIN: string;
 }
 
 export interface additionalItems {
@@ -330,8 +324,8 @@ export class BuildingAssessmentComponent implements OnInit {
 
   constructor(private router: Router) { }
 
-  ownerHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
-  adminHeader: string[] = ['name', 'address', 'contact', 'tin', 'actions']
+  ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
+  adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
 
   //Structural Desc Table
   strDescHeader: string[] = ['Floor No.', 'Area', 'Flooring Material', 'Wall Material', 'Floor Height', 'Standard Height', 'Adjusted Basic Rate', 'Floor Type']
@@ -524,7 +518,9 @@ export class BuildingAssessmentComponent implements OnInit {
   addOwner(grp: any) {
     let ownerformData = grp.value;
     ownerLs.push({
-      ownName: ownerformData.ownfName + ' ' + ownerformData.ownmName + ' ' + ownerformData.ownlName,
+      ownFName: ownerformData.ownfName,
+			ownMName: ownerformData.ownmName,
+			ownLName: ownerformData.ownlName,
       ownAddress: ownerformData.ownaddress,
       ownContact: ownerformData.owncontact,
       ownTIN: ownerformData.ownTIN
@@ -542,7 +538,9 @@ export class BuildingAssessmentComponent implements OnInit {
   addAdmin(grp: any) {
     let adminData = grp.value;
     adminLs.push({
-      admName: adminData.admfName + ' ' + adminData.admmName + ' ' + adminData.admlName,
+      admFName: adminData.admfName,
+			admMName: adminData.admmName,
+			admLName: adminData.admlName,
       admAddress: adminData.admaddress,
       admContact: adminData.admcontact,
       admTIN: adminData.admTIN
