@@ -1,5 +1,7 @@
 export interface landOwner {
-  ownName: string;
+  ownFName: string;
+	ownMName: string;
+	ownLName: string;
   ownAddress: string;
   ownContact: string;
   ownTIN: string;

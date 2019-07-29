@@ -1,5 +1,7 @@
 export interface adminOwner {
-  admName: string;
+  admFName: string;
+	admMName: string;
+	admLName: string;
   admAddress: string;
   admContact: string;
   admTIN: string;

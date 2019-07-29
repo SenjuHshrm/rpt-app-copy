@@ -59,31 +59,6 @@
                 <mat-form-field class='width-10'>
                   <input matInput type='text' formControlName='parcel'   maxlength='4'>
                 </mat-form-field>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                <button type='button' mat-raised-button color='primary'
-                  (click)="checkPIN(landAssessment.get('pin')); isVisible_spinner=true" class='sve'>Check PIN</button>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                <span>
-                  <!-- spinner -->
-                  <span class="spinnerCon">
-                    <mat-icon *ngIf='pinspinner'>{{ checkpinresult }}</mat-icon>
-                  <div class="sk-fading-circle spnrMl" *ngIf='isVisible_spinner'>
-                    <div class="sk-circle1 sk-circle"></div>
-                    <div class="sk-circle2 sk-circle"></div>
-                    <div class="sk-circle3 sk-circle"></div>
-                    <div class="sk-circle4 sk-circle"></div>
-                    <div class="sk-circle5 sk-circle"></div>
-                    <div class="sk-circle6 sk-circle"></div>
-                    <div class="sk-circle7 sk-circle"></div>
-                    <div class="sk-circle8 sk-circle"></div>
-                    <div class="sk-circle9 sk-circle"></div>
-                    <div class="sk-circle10 sk-circle"></div>
-                    <div class="sk-circle11 sk-circle"></div>
-                    <div class="sk-circle12 sk-circle"></div>
-                  </div>
-                  </span>
-                  <!-- spinner end -->
-                </span>
               </div>
             </div>
 
@@ -210,9 +185,17 @@
               <br><br>
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
                 <table mat-table class='lnd-table mat-elevation-z8 item item-1' fxFlex='100%' [dataSource]=' ownersLs'>
-                  <ng-container matColumnDef='name'>
-                    <th *matHeaderCellDef class="th-25">Name</th>
-                    <td *matCellDef='let data' class="th-25">{{ data.ownName }}</td>
+                  <ng-container matColumnDef='fname'>
+                    <th *matHeaderCellDef class="th-25">First Name</th>
+                    <td *matCellDef='let data' class="th-25">{{ data.ownFName }}</td>
+                  </ng-container>
+									<ng-container matColumnDef='mname'>
+                    <th *matHeaderCellDef class="th-25">Middle Name</th>
+                    <td *matCellDef='let data' class="th-25">{{ data.ownMName }}</td>
+                  </ng-container>
+									<ng-container matColumnDef='lname'>
+                    <th *matHeaderCellDef class="th-25">Last Name</th>
+                    <td *matCellDef='let data' class="th-25">{{ data.ownLName }}</td>
                   </ng-container>
                   <ng-container matColumnDef='address'>
                     <th *matHeaderCellDef class="th-25">Address</th>
@@ -283,9 +266,17 @@
               <br><br>
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
                 <table mat-table class='mat-elevation-z8 owner-table' fxFlex='100%' [dataSource]='adminsLs'>
-                  <ng-container matColumnDef='name'>
-                    <th *matHeaderCellDef class="th-25">Name</th>
-                    <td *matCellDef='let data' class="th-25">{{ data.admName }}</td>
+                  <ng-container matColumnDef='fname'>
+                    <th *matHeaderCellDef class="th-25">First Name</th>
+                    <td *matCellDef='let data' class="th-25">{{ data.admFName }}</td>
+                  </ng-container>
+									<ng-container matColumnDef='mname'>
+                    <th *matHeaderCellDef class="th-25">Middle Name</th>
+                    <td *matCellDef='let data' class="th-25">{{ data.admMName }}</td>
+                  </ng-container>
+									<ng-container matColumnDef='lname'>
+                    <th *matHeaderCellDef class="th-25">Last Name</th>
+                    <td *matCellDef='let data' class="th-25">{{ data.admLName }}</td>
                   </ng-container>
                   <ng-container matColumnDef='address'>
                     <th mat-header-cell *matHeaderCellDef class="th-25">Address</th>
