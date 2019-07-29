@@ -1,3 +1,4 @@
+<div class='mt-60'>
 <form [formGroup]='landAssessment' (ngSubmit)='save(landAssessment.value)'>
   <div class="h"></div>
   <div class="mat-title-con">
@@ -776,9 +777,9 @@
             </div>
         </mat-card-content>
         </div>
-        <br>
       </div>
     </div>
+    <div class="h"></div>
       <mat-card-actions align='center'>
         <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
         <div fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
@@ -793,9 +794,9 @@
   </div>
   <!-- Container End -->
 </form>
-
-<div class="arrowUpDown">
+<div class="bckTop" id='bt'>
   <div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' (click)='upBtn()'>
     <mat-icon class="top_bot">arrow_drop_up</mat-icon>
   </div>
+</div>
 </div>

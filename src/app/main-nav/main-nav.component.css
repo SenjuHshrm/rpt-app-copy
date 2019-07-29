@@ -1,9 +1,51 @@
+.w-150 {
+  width: 150px;
+}
+
+.navLogoMT {
+  margin-top: 7px;
+}
+
 .sidenav-container {
   height: 100%;
 }
 
 .sidenav {
   width: 210px;
+}
+
+.sideNavCon {
+  position: fixed;
+  top: 0;
+  width: 210px;
+  overflow: hidden;
+}
+
+.navListCon {
+  position: fixed;
+  top: 65px;
+  height: 565px;
+  width: 210px;
+}
+
+.gtSettings {
+  color: #FFF;
+  background: #0063EA;
+  cursor: pointer;
+  text-align: center;
+  width: 85%;
+  position: absolute;
+  bottom: 5px;
+  border: 1px solid #0063EA;
+  margin: 0 auto;
+  left: 7%;
+  /*transform: translate(-50%, -50%);*/
+}
+
+#navToolbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 .spanRPT {

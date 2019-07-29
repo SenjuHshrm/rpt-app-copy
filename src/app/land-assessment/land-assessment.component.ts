@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -119,6 +119,7 @@ export class LandAssessmentComponent implements OnInit {
   stripNo: selectOpt[]
 
   public landAssessment: FormGroup;
+  //@Inject(NgZone) private ngZone: NgZone
 
   constructor(
 		private router: ActivatedRoute,
@@ -128,6 +129,7 @@ export class LandAssessmentComponent implements OnInit {
 		private getMrktVal: getMarketValues,
 		private asmtLand: assessLand,
 		private gPosHolder: getPosHolders,
+    private ngZone: NgZone
 	) { }
 
   ngOnInit() {
@@ -145,11 +147,15 @@ export class LandAssessmentComponent implements OnInit {
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
 		this.username = this.router.snapshot.paramMap.get('username');
+    setTimeout(function(){ document.getElementById("index1").focus(); }, 0)
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('scroll', this.scroll, true);
+    });
 		this.resetForm();
   }
 
   upBtn() {
-    document.getElementById("index1").focus();
+    window.scroll(0, 0)
   }
 
   botBtn() {
@@ -885,6 +891,10 @@ export class LandAssessmentComponent implements OnInit {
 
   }
 
+  //ngOnDestroy() {
+  //  window.removeEventListener('scroll', this.scroll, true);
+  //}
+
 	resetForm() {
 		this.initializeForm('');
 		ownerLs = [];
@@ -899,6 +909,29 @@ export class LandAssessmentComponent implements OnInit {
 	  this.marketValue = new MatTableDataSource(mrktVal)
 	}
 
-  //scroll = (): void => {
-  //}
+  scroll = (): void => {
+    var a = window.pageYOffset;
+    var b = document.body.offsetHeight - window.innerHeight;
+    var btnTop = document.getElementById('bt');
+    if(a >= b) {
+      this.shwbtTopBtn()
+    }  else {
+      btnTop.style.display = 'none';
+    }
+  }
+
+  shwbtTopBtn() {
+    var btnTop = document.getElementById('bt');
+    var pos = -20;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+      if (pos == 10) {
+        clearInterval(id);
+      } else {
+        pos++;
+        btnTop.style.display = "block";
+        btnTop.style.right = pos + 'px';
+      }
+    }
+  }
 }
