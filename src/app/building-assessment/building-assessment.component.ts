@@ -27,6 +27,8 @@ var addtnlItems: additionalItems[] = []
   styleUrls: ['./building-assessment.component.scss']
 })
 export class BuildingAssessmentComponent implements OnInit {
+  checkpinresult = 'help';
+
   ownersLs = new MatTableDataSource(ownerLs)
   adminsLs = new MatTableDataSource(adminLs)
   addItemsTable = new MatTableDataSource(addtnlItems)
@@ -507,6 +509,9 @@ export class BuildingAssessmentComponent implements OnInit {
         rsaDate: new FormControl(''),
       }),
     })
+
+    setTimeout(function(){ document.getElementById("index1").focus(); }, 0)
+    window.addEventListener('scroll', this.scroll, true);
   }
 
   removeOwnerDetail(evt: any) {
@@ -675,6 +680,37 @@ export class BuildingAssessmentComponent implements OnInit {
       this.bldgAssessment.get['strDescG'].controls['flr7'].reset();
       this.bldgAssessment.get['strDescG'].controls['flr8'].reset();
     }
+  }
+
+  scroll = (): void => {
+    var a = window.pageYOffset;
+    var b = document.body.offsetHeight - window.innerHeight;
+    var btnTop = document.getElementById('bt');
+    if(a == b) {
+      this.shwbtTopBtn()
+    }  else {
+      btnTop.style.display = 'none';
+      btnTop.style.right = '-20px';
+    }
+  }
+
+  shwbtTopBtn() {
+    var btnTop = document.getElementById('bt');
+    var pos = -20;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+      if (pos == 10) {
+        clearInterval(id);
+      } else {
+        pos+=5;
+        btnTop.style.display = "block";
+        btnTop.style.right = pos + 'px';
+      }
+    }
+  }
+
+  upBtn() {
+    window.scroll(0, 0)
   }
 }
 
