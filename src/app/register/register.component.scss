@@ -18,7 +18,7 @@ button { width: 100%; }
 .mat-field-99 { width: 99%; }
 .mat-field { width: 48%; }
 .topMargin {
-  margin-top: 70px;
+  margin-top: 120px;
 }
 
 .dashed { border-top: 1px dashed #999; }
@@ -51,6 +51,10 @@ button { width: 100%; }
   border-top: none;
 }
 
+.h-40 {
+  height: 40px;
+}
+
 @media (max-width: 1201px){
   .divCard { width: 60%; }
 }
@@ -72,7 +76,7 @@ button { width: 100%; }
 }
 
 @media (max-width: 601px){
-  .topMargin { margin-top: 25px; }
+  .topMargin { margin-top: 95px; }
   .divCard { margin-bottom: 25px; }
 }
 
@@ -81,13 +85,13 @@ button { width: 100%; }
   .divCard { width:100%; margin-bottom: 0px; }
 }
 
-@media (min-width: 601px){
   .regBtnMouseDwn {
     width: 95%;
     height: 85%;
-    font-size: 12px;
+    font-size: 11px;
     margin-left: 2%;
     line-height: 50%;
+    margin-top: 1.5px;
   }
 
   .regBtnMouseUp {
@@ -100,9 +104,10 @@ button { width: 100%; }
   .loginBtnMouseDwn {
     width: 95%;
     height: 85%;
-    font-size: 12px;
+    font-size: 11px;
     margin-left: 2%;
     line-height: 50%;
+    margin-top: 1.5px;
   }
 
   .loginBtnMouseUp {
@@ -111,7 +116,6 @@ button { width: 100%; }
     font-size: 100%;
     margin-left: 0px;
   }
-}
 
 @mixin bg-opacity($color, $opacity) {
   background: $color;

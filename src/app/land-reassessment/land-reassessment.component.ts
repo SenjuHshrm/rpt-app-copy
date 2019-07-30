@@ -855,7 +855,7 @@ export class LandReassessmentComponent implements OnInit {
 	}
 
   upBtn() {
-    document.getElementById("index1").focus();
+    window.scroll(0, 0)
   }
 
   srch() {

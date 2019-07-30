@@ -16,7 +16,11 @@
       <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px'
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <div class="divCard brdr brdrBtm" fxFlex='100%'>
-          <div class="divHeader">&nbsp;&nbsp;Transaction Code</div>
+          <div class="divHeader">
+            <div class='indx'>
+              <input type='text' id="index1" tabindex='-1'>
+            </div>
+          </div>
           <br>
           <div class="cardMargin">
             <!-- Transaction Code -->
@@ -63,194 +67,221 @@
 
                   <span>&nbsp;&nbsp;&nbsp;</span>
                   <button class="cpBrdr" type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
+                  <span>&nbsp;&nbsp;&nbsp;</span>
+                  <span>
+                    <!-- spinner -->
+                    <span class="spinnerCon">
+                      <mat-icon>{{ checkpinresult }}</mat-icon>
+                    <div class="sk-fading-circle spnrMl" *ngIf='isVisible_spinner'>
+                      <div class="sk-circle1 sk-circle"></div>
+                      <div class="sk-circle2 sk-circle"></div>
+                      <div class="sk-circle3 sk-circle"></div>
+                      <div class="sk-circle4 sk-circle"></div>
+                      <div class="sk-circle5 sk-circle"></div>
+                      <div class="sk-circle6 sk-circle"></div>
+                      <div class="sk-circle7 sk-circle"></div>
+                      <div class="sk-circle8 sk-circle"></div>
+                      <div class="sk-circle9 sk-circle"></div>
+                      <div class="sk-circle10 sk-circle"></div>
+                      <div class="sk-circle11 sk-circle"></div>
+                      <div class="sk-circle12 sk-circle"></div>
+                    </div>
+                    </span>
+                    <!-- spinner end -->
+                  </span>
                 </div>
               </div>
             </div>
             <br>
             <!-- Transaction Code End -->
-            <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px' fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
-              <!-- Owner Details -->
-              <div class="divCard brdr" fxFlex='50%'>
-                <div class="divHeader">&nbsp;&nbsp;Owner Details</div>
-                <br>
-                <div class="cardMargin">
-                <mat-card-content formGroupName='ownerDetails'>
-                  <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
-                  fxLayoutGap.xs='10px'>
-                    <mat-form-field class='item item-1' fxFlex='32%'>
-                      <input matInput type='text' formControlName='ownfName' placeholder='First name' required>
-                    </mat-form-field>
 
-                    <mat-form-field class='item item-2' fxFlex='32%'>
-                      <input matInput type='text' formControlName='ownmName' placeholder='Middle name'>
-                    </mat-form-field>
-
-                    <mat-form-field class='item item-3' fxFlex='32%'>
-                      <input matInput type='text' formControlName='ownlName' placeholder='Last name' required>
-                    </mat-form-field>
-                  </div>
-
-                  <div div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-                  fxLayoutGap.xs='10px'>
-                    <mat-form-field class='item item-1' fxFlex='100%'>
-                      <input matInput type='text' formControlName='ownaddress' placeholder='Address' required>
-                    </mat-form-field>
-                  </div>
-
-                  <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
-                  fxLayoutGap.xs='10px'>
-                    <mat-form-field class='item item-1' fxFlex='32%'>
-                      <input matInput type='text' formControlName='owncontact' placeholder='Contact No.'>
-                    </mat-form-field>
-
-                    <mat-form-field class='item item-2' fxFlex='32%'>
-                      <input matInput type='text' formControlName='ownTIN' placeholder='TIN No.'>
-                    </mat-form-field>
-
-                    <div fxFlex='32%' (click)="addOwner(bldgAssessment.get('ownerDetails'))" (mousedown)='ownAdd=true' (mouseup)='ownAdd=false' (mouseleave)='ownAdd=false'>
-                      <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !ownAdd, 'addBtnMD': ownAdd}">Add</button>
-                    </div>
-                  </div>
-                  <br>
-
-                  <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-                  <table mat-table class='mat-elevation-z8 owner-table item item-1' fxFlex='100%' [dataSource]='ownersLs'>
-                    <ng-container matColumnDef='fname'>
-                      <th *matHeaderCellDef class='th-25'>First Name</th>
-                      <td *matCellDef='let data' class='th-25'>{{ data.ownFName }}</td>
-                    </ng-container>
-										<ng-container matColumnDef='mname'>
-                      <th *matHeaderCellDef class='th-25'>Middle Name</th>
-                      <td *matCellDef='let data' class='th-25'>{{ data.ownMName }}</td>
-                    </ng-container>
-										<ng-container matColumnDef='lname'>
-                      <th *matHeaderCellDef class='th-25'>Last Name</th>
-                      <td *matCellDef='let data' class='th-25'>{{ data.ownLName }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef='address'>
-                      <th mat-header-cell *matHeaderCellDef class='th-25'>Address</th>
-                      <td mat-cell *matCellDef='let data' class='th-25'>{{ data.ownAddress }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef='contact'>
-                      <th mat-header-cell *matHeaderCellDef class='th-25'>Contact</th>
-                      <td mat-cell *matCellDef='let data' class='th-25'>{{ data.ownContact }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef='tin'>
-                      <th mat-header-cell *matHeaderCellDef class='th-17'>TIN</th>
-                      <td mat-cell *matCellDef='let data' class='th-17'>{{ data.ownTIN }}</td>
-                    </ng-container>
-                    <ng-container matColumnDef='actions'>
-                      <th *matHeaderCellDef class='th-8'></th>
-                      <td *matCellDef='let row' class='th-8'>
-                        <button type='button' (click)='removeOwnerDetail(row)' mat-icon-button color='warn'>
-                          <mat-icon>delete_outline</mat-icon>
-                        </button>
-                      </td>
-                    </ng-container>
-                    <tr mat-header-row *matHeaderRowDef='ownerHeader'></tr>
-                    <tr mat-row *matRowDef='let row; columns: ownerHeader'></tr>
-                  </table>
-                  </div>
-                </mat-card-content>
-                </div>
-                <br>
-              </div>
-              <!-- Owner Details End -->
-
-              <!-- Admin -->
-              <div class="divCard brdr" fxFlex='50%'>
-                <div class="divHeader">&nbsp;&nbsp;Administrator / Benificial User</div>
-                <br>
-                <div class="cardMargin">
-                <mat-card-content formGroupName='adminOwnerLs'>
-                <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
-                fxLayoutGap.xs='10px'>
-                <mat-form-field class='item item-1' fxFlex='32%'>
-                  <input matInput type='text' formControlName='admfName' placeholder='First name' required>
-                </mat-form-field>
-
-                <mat-form-field class='item item-2' fxFlex='32%'>
-                  <input matInput type='text' formControlName='admmName' placeholder='Middle name'>
-                </mat-form-field>
-
-                <mat-form-field class='item item-3' fxFlex='32%'>
-                  <input matInput type='text' formControlName='admlName' placeholder='Last name' required>
-                </mat-form-field>
-              </div>
-
-              <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-                fxLayoutGap.xs='10px'>
-                <mat-form-field class='item item-1' fxFlex='100%'>
-                  <input matInput type='text' formControlName='admaddress' placeholder='Address' required>
-                </mat-form-field>
-              </div>
-
-
-              <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
-                fxLayoutGap.xs='10px'>
-                <mat-form-field class='item item-1' fxFlex='32%'>
-                  <input matInput type='text' formControlName='admcontact' placeholder='Contact No.'>
-                </mat-form-field>
-
-                <mat-form-field class='item item-2' fxFlex='32%'>
-                  <input matInput type='text' formControlName='admTIN' placeholder='TIN No.'>
-                </mat-form-field>
-
-                <div fxFlex='32%' (click)="addAdmin(bldgAssessment.get('adminOwnerLs'))" (mousedown)='adminAdd=true' (mouseup)='adminAdd=false' (mouseleave)='adminAdd=false' >
-                 <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
-                </div>
-              </div>
-              <br>
-
-              <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-                <table mat-table class='mat-elevation-z8 owner-table' fxFlex='100%' [dataSource]='adminsLs'>
-                  <ng-container matColumnDef='fname'>
-                    <th *matHeaderCellDef class='th-25'>First Name</th>
-                    <td *matCellDef='let data' class='th-25'>{{ data.admFName }}</td>
-                  </ng-container>
-									<ng-container matColumnDef='mname'>
-                    <th *matHeaderCellDef class='th-25'>Middle Name</th>
-                    <td *matCellDef='let data' class='th-25'>{{ data.admMName }}</td>
-                  </ng-container>
-									<ng-container matColumnDef='lname'>
-                    <th *matHeaderCellDef class='th-25'>Last Name</th>
-                    <td *matCellDef='let data' class='th-25'>{{ data.admLName }}</td>
-                  </ng-container>
-                  <ng-container matColumnDef='address'>
-                    <th mat-header-cell *matHeaderCellDef class='th-25'>Address</th>
-                    <td mat-cell *matCellDef='let data' class='th-25'>{{ data.admAddress }}</td>
-                  </ng-container>
-                  <ng-container matColumnDef='contact'>
-                    <th mat-header-cell *matHeaderCellDef class='th-25'>Contact</th>
-                    <td mat-cell *matCellDef='let data' class='th-25'>{{ data.admContact }}</td>
-                  </ng-container>
-                  <ng-container matColumnDef='tin'>
-                    <th mat-header-cell *matHeaderCellDef class='th-17'>TIN</th>
-                    <td mat-cell *matCellDef='let data' class='th-17'>{{ data.admTIN }}</td>
-                  </ng-container>
-                  <ng-container matColumnDef='actions'>
-                    <th *matHeaderCellDef class='th-8'></th>
-                    <td *matCellDef='let row' class='th-8'>
-                      <button type='button' (click)='removeAdminDetail(row)' mat-icon-button color='warn'>
-                        <mat-icon>delete_outline</mat-icon>
-                      </button>
-                    </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef='adminHeader'></tr>
-                  <tr mat-row *matRowDef='let row; columns: adminHeader'></tr>
-                </table>
-              </div>
-              </mat-card-content>
-              </div>
-              <br>
-              </div>
-              <!-- Admin End -->
-
-            </div>
           </div>
           <br>
         </div>
       </div>
+      <div class="h"></div>
+
+      <!-- Owner - Admin -->
+      <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px' fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
+        <!-- Owner Details -->
+        <div class="divCard brdr" fxFlex='50%'>
+          <div class="divHeader">&nbsp;&nbsp;Owner Details</div>
+          <br>
+          <div class="cardMargin">
+          <mat-card-content formGroupName='ownerDetails'>
+            <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
+            fxLayoutGap.xs='10px'>
+              <mat-form-field class='item item-1' fxFlex='32%'>
+                <input matInput type='text' formControlName='ownfName' placeholder='First name' required>
+              </mat-form-field>
+
+              <mat-form-field class='item item-2' fxFlex='32%'>
+                <input matInput type='text' formControlName='ownmName' placeholder='Middle name'>
+              </mat-form-field>
+
+              <mat-form-field class='item item-3' fxFlex='32%'>
+                <input matInput type='text' formControlName='ownlName' placeholder='Last name' required>
+              </mat-form-field>
+            </div>
+
+            <div div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+            fxLayoutGap.xs='10px'>
+              <mat-form-field class='item item-1' fxFlex='100%'>
+                <input matInput type='text' formControlName='ownaddress' placeholder='Address' required>
+              </mat-form-field>
+            </div>
+
+            <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
+            fxLayoutGap.xs='10px'>
+              <mat-form-field class='item item-1' fxFlex='32%'>
+                <input matInput type='text' formControlName='owncontact' placeholder='Contact No.'>
+              </mat-form-field>
+
+              <mat-form-field class='item item-2' fxFlex='32%'>
+                <input matInput type='text' formControlName='ownTIN' placeholder='TIN No.'>
+              </mat-form-field>
+
+              <div fxFlex='32%' (click)="addOwner(bldgAssessment.get('ownerDetails'))" (mousedown)='ownAdd=true' (mouseup)='ownAdd=false' (mouseleave)='ownAdd=false'>
+                <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !ownAdd, 'addBtnMD': ownAdd}">Add</button>
+              </div>
+            </div>
+            <br>
+
+            <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
+            <table mat-table class='mat-elevation-z8 owner-table item item-1' fxFlex='100%' [dataSource]='ownersLs'>
+              <ng-container matColumnDef='fname'>
+                <th *matHeaderCellDef class=''>First Name</th>
+                <td *matCellDef='let data' class=''>{{ data.ownFName }}</td>
+              </ng-container>
+              <ng-container matColumnDef='mname'>
+                <th *matHeaderCellDef class=''>Middle Name</th>
+                <td *matCellDef='let data' class=''>{{ data.ownMName }}</td>
+              </ng-container>
+              <ng-container matColumnDef='lname'>
+                <th *matHeaderCellDef class=''>Last Name</th>
+                <td *matCellDef='let data' class=''>{{ data.ownLName }}</td>
+              </ng-container>
+              <ng-container matColumnDef='address'>
+                <th mat-header-cell *matHeaderCellDef class=''>Address</th>
+                <td mat-cell *matCellDef='let data' class=''>{{ data.ownAddress }}</td>
+              </ng-container>
+              <ng-container matColumnDef='contact'>
+                <th mat-header-cell *matHeaderCellDef class=''>Contact</th>
+                <td mat-cell *matCellDef='let data' class=''>{{ data.ownContact }}</td>
+              </ng-container>
+              <ng-container matColumnDef='tin'>
+                <th mat-header-cell *matHeaderCellDef class='th-8'>TIN</th>
+                <td mat-cell *matCellDef='let data' class='th-8'>{{ data.ownTIN }}</td>
+              </ng-container>
+              <ng-container matColumnDef='actions'>
+                <th *matHeaderCellDef class='th-8'></th>
+                <td *matCellDef='let row' class='th-8'>
+                  <button type='button' (click)='removeOwnerDetail(row)' mat-icon-button color='warn'>
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef='ownerHeader'></tr>
+              <tr mat-row *matRowDef='let row; columns: ownerHeader'></tr>
+            </table>
+            </div>
+          </mat-card-content>
+          </div>
+          <br>
+        </div>
+        <!-- Owner Details End -->
+
+        <!-- Admin -->
+        <div class="divCard brdr" fxFlex='50%'>
+          <div class="divHeader">&nbsp;&nbsp;Administrator / Benificial User</div>
+          <br>
+          <div class="cardMargin">
+          <mat-card-content formGroupName='adminOwnerLs'>
+          <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
+          fxLayoutGap.xs='10px'>
+          <mat-form-field class='item item-1' fxFlex='32%'>
+            <input matInput type='text' formControlName='admfName' placeholder='First name' required>
+          </mat-form-field>
+
+          <mat-form-field class='item item-2' fxFlex='32%'>
+            <input matInput type='text' formControlName='admmName' placeholder='Middle name'>
+          </mat-form-field>
+
+          <mat-form-field class='item item-3' fxFlex='32%'>
+            <input matInput type='text' formControlName='admlName' placeholder='Last name' required>
+          </mat-form-field>
+        </div>
+
+        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
+          fxLayoutGap.xs='10px'>
+          <mat-form-field class='item item-1' fxFlex='100%'>
+            <input matInput type='text' formControlName='admaddress' placeholder='Address' required>
+          </mat-form-field>
+        </div>
+
+
+        <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
+          fxLayoutGap.xs='10px'>
+          <mat-form-field class='item item-1' fxFlex='32%'>
+            <input matInput type='text' formControlName='admcontact' placeholder='Contact No.'>
+          </mat-form-field>
+
+          <mat-form-field class='item item-2' fxFlex='32%'>
+            <input matInput type='text' formControlName='admTIN' placeholder='TIN No.'>
+          </mat-form-field>
+
+          <div fxFlex='32%' (click)="addAdmin(bldgAssessment.get('adminOwnerLs'))" (mousedown)='adminAdd=true' (mouseup)='adminAdd=false' (mouseleave)='adminAdd=false' >
+           <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMD': adminAdd, 'addBtnMU': !adminAdd}">Add</button>
+          </div>
+        </div>
+        <br>
+
+        <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
+          <table mat-table class='mat-elevation-z8 owner-table' fxFlex='100%' [dataSource]='adminsLs'>
+            <ng-container matColumnDef='fname'>
+              <th *matHeaderCellDef class=''>First Name</th>
+              <td *matCellDef='let data' class=''>{{ data.admFName }}</td>
+            </ng-container>
+            <ng-container matColumnDef='mname'>
+              <th *matHeaderCellDef class=''>Middle Name</th>
+              <td *matCellDef='let data' class=''>{{ data.admMName }}</td>
+            </ng-container>
+            <ng-container matColumnDef='lname'>
+              <th *matHeaderCellDef class=''>Last Name</th>
+              <td *matCellDef='let data' class=''>{{ data.admLName }}</td>
+            </ng-container>
+            <ng-container matColumnDef='address'>
+              <th mat-header-cell *matHeaderCellDef class=''>Address</th>
+              <td mat-cell *matCellDef='let data' class=''>{{ data.admAddress }}</td>
+            </ng-container>
+            <ng-container matColumnDef='contact'>
+              <th mat-header-cell *matHeaderCellDef class=''>Contact</th>
+              <td mat-cell *matCellDef='let data' class=''>{{ data.admContact }}</td>
+            </ng-container>
+            <ng-container matColumnDef='tin'>
+              <th mat-header-cell *matHeaderCellDef class='th-8'>TIN</th>
+              <td mat-cell *matCellDef='let data' class='th-8'>{{ data.admTIN }}</td>
+            </ng-container>
+            <ng-container matColumnDef='actions'>
+              <th *matHeaderCellDef class='th-8'></th>
+              <td *matCellDef='let row' class='th-8'>
+                <button type='button' (click)='removeAdminDetail(row)' mat-icon-button color='warn'>
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef='adminHeader'></tr>
+            <tr mat-row *matRowDef='let row; columns: adminHeader'></tr>
+          </table>
+        </div>
+        </mat-card-content>
+        </div>
+        <br>
+        </div>
+        <!-- Admin End -->
+
+      </div>
+
       <div class="h"></div>
 
       <div class='container' fxLayout fxLayout.xs='column' fxLayout.sm='column' fxLayoutAlign='center' fxLayoutGap='20px'
@@ -1310,7 +1341,7 @@
           </div>
           <!-- rsa end -->
       </div>
-      <div class="h"></div>
+      <br>
     <mat-card-actions align='center'>
       <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
       <div fxFlex='15%' (mousedown)='sveBtn=true' (mouseup)='sveBtn=false' (mouseleave)='sveBtn=false'>
@@ -1325,4 +1356,9 @@
   </div>
   <!-- Container End -->
 </form>
+  <div class="bckTop" id='bt'>
+    <div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' (click)='upBtn()'>
+      <mat-icon class="top_bot">arrow_drop_up</mat-icon>
+    </div>
+  </div>
 </div>

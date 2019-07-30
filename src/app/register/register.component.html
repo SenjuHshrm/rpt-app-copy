@@ -79,12 +79,11 @@
 				</mat-form-field>
 			</div>
 			<br>
-			<div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px'
-				fxLayoutGap.xs='10px'>
-				<div class="item item-1" fxFlex='100%' (mousedown)='clicked=true' (mouseup)='clicked=false' (mouseleave)='clicked=false'>
+			<div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='10px'>
+				<div class="item item-1 h-40" fxFlex='100%' (mousedown)='clicked=true' (mouseup)='clicked=false' (mouseleave)='clicked=false'>
 					<button type='submit' mat-raised-button color='primary' [ngClass]="{ 'regBtnMouseDwn': clicked, 'regBtnMouseUp': !clicked }">Register</button>
 				</div>
-				<div class="item item-1" fxFlex='100%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false'>
+				<div class="item item-1 h-40" fxFlex='100%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false'>
 					<a routerLink='/'>
 						<button type='button' mat-raised-button [ngClass]="{ 'loginBtnMouseDwn': clckd, 'loginBtnMouseUp': !clckd }">Or click here to Login</button>
 					</a>

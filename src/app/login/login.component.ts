@@ -38,9 +38,11 @@ export class LoginComponent implements OnInit {
         username: form.username,
         password: form.password
       }
+      this.isVisible_spinner = true
       this.auth.authenticateUser(data).subscribe(res => {
         if(!res.success){
           this.loginErr = true
+          this.isVisible_spinner = false
 					this.loginStat = res.status
         } else {
           this.isVisible_spinner = true
