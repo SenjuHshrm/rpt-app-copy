@@ -36,6 +36,7 @@ import { ArrearsComponent } from './arrears/arrears.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { LndReasmtSearch } from './land-reassessment/dialog-search/lndreasmt-search';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { LndReasmtSearch } from './land-reassessment/dialog-search/lndreasmt-sea
     MatDialogModule,
     NgxExtendedPdfViewerModule,
     MatExpansionModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTooltipModule
   ],
   providers: [
     MatDatepickerModule,

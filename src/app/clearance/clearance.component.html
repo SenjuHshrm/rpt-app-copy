@@ -62,29 +62,32 @@
   <b>&nbsp;&nbsp;Clearance</b>
 </div>
 <div class='ovrflw'>
-<div class="clrnce">
+<div class="clrnce" style=''>
+  <div class='container' fxLayout fxLayoutGap='10px'>
+  </div>
+  <div class='text-center'>
   <span>&nbsp;The latest payment of the tax of the above-described property is for the&nbsp;</span>
   <mat-form-field>
-    <input matInput type='text' [(ngModel)]='input1'>
+    <input class="text-center" matInput type='text' [(ngModel)]='input1'>
   </mat-form-field>
   <span>&nbsp;total amount of &#x20B1;:&nbsp;</span>
   <mat-form-field>
-    <input matInput type='text' [(ngModel)]='amount'>
+    <input class="text-center" matInput type='text' [(ngModel)]='amount'>
   </mat-form-field>
    <span>&nbsp;acknowledge under Real Estate Tax Receipt No. CTO.&nbsp;</span>
    <mat-form-field>
-     <input matInput type='text' [(ngModel)]='CTONo'>
+     <input class="text-center" matInput type='text' [(ngModel)]='CTONo'>
    </mat-form-field>
    <span>&nbsp;dated:&nbsp;</span>
    <mat-form-field>
-     <input matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
+     <input class="text-center" matInput type='text' [matDatepicker]='cdated' [(ngModel)]='dated'>
      <mat-datepicker-toggle matSuffix [for]='cdated'></mat-datepicker-toggle>
      <mat-datepicker #cdated></mat-datepicker>
    </mat-form-field>
    <br>
    <span>&nbsp;This certification has been issued upon the request of&nbsp;</span>
    <mat-form-field>
-     <input matInput type='text' [(ngModel)]='requestor'>
+     <input class="text-center" matInput type='text' [(ngModel)]='requestor'>
    </mat-form-field>
    <span>&nbsp;for the purpose of:&nbsp;</span>
    <mat-form-field>
@@ -92,19 +95,20 @@
      <mat-option *ngFor='let prp of prps' [value]='prp.value'>{{ prp.viewVal }}</mat-option>
     </mat-select>
    </mat-form-field>
+   </div>
    <br><div class="hrDashed"></div><br>
 
    <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
      <div fxFlex='50%'>
-       <span>Verified by:&nbsp;</span>
+       <b><span>Verified by:&nbsp;</span></b>
        <mat-form-field>
-         <input matInput type='text' [(ngModel)]='encoder1'>
+         <input matInput type='text' class='text-transform' [(ngModel)]='encoder1'>
        </mat-form-field>
      </div>
      <div fxFlex='50%'>
-       <span>Date:&nbsp;</span>
+       <b><span>Date:&nbsp;</span></b>
        <mat-form-field>
-         <input matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
+         <input class="text-center" matInput type='text' [matDatepicker]='currdate' [(ngModel)]='date'>
          <mat-datepicker-toggle matSuffix [for]='currdate'></mat-datepicker-toggle>
          <mat-datepicker #currdate></mat-datepicker>
        </mat-form-field>
@@ -113,25 +117,25 @@
 
    <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
      <div fxFlex='50%'>
-       <span>Certification Fee:&nbsp;</span>
+       <b><span>Certification Fee:&nbsp;</span></b>
        <mat-form-field>
-         <input matInput type='text' [(ngModel)]='certfee'>
+         <input class="text-center" matInput type='text' [(ngModel)]='certfee'>
        </mat-form-field>
      </div>
 
      <div fxFlex='50%'>
-       <span>Amount:&nbsp;</span>
+       <b><span>Amount:&nbsp;</span></b>
        <mat-form-field>
-         <input matInput type='text' [(ngModel)]='amt'>
+         <input class="text-center" matInput type='text' [(ngModel)]='amt'>
        </mat-form-field>
      </div>
   </div>
 
   <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div fxFlex='50%'>
-      <span>O.R. No.:&nbsp;&nbsp;&nbsp;</span>
+      <b><span>O.R. No.:&nbsp;&nbsp;&nbsp;</span></b>
       <mat-form-field>
-        <input matInput type='text' [(ngModel)]='orNo'>
+        <input class="text-center" matInput type='text' [(ngModel)]='orNo'>
       </mat-form-field>
     </div>
   </div>
@@ -166,12 +170,12 @@
       <div fxFlex='1%'></div>
       <div fxFlex='85%'><div class='mat-stitle'>&nbsp;&nbsp;<b>Land Tax Clearance</b></div></div>
       <div fxFlex='64px'>
-        <button class="" (click)='srchIco()' mat-raised-button type='button' tabindex="-1">
+        <button class="" (click)='srchIco()' mat-raised-button type='button' tabindex="-1" matTooltip="Search">
           <mat-icon>search</mat-icon>
         </button>
       </div>
       <div fxFlex='64px'>
-        <button class="" (click)='genIco()' mat-raised-button type='button' tabindex="-1">
+        <button class="" (click)='genIco()' mat-raised-button type='button' tabindex="-1" matTooltip="Clearance">
           <mat-icon>description</mat-icon>
         </button>
       </div>

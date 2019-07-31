@@ -132,6 +132,13 @@
 	text-transform: uppercase;
 }
 
+@media (max-width: 1120px) {
+  .clrnceDb {
+    width: 80%;
+    left: 10%;
+  }
+}
+
 @media (max-width: 1000px) {
   .flex-container {
     grid-template-columns: 49% 49%;
@@ -145,6 +152,21 @@
 
   .flex-container > div {
     margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 825px) {
+  .clrnceDb {
+    width: 90%;
+    left: 5%;
+  }
+}
+
+@media (max-width: 725px) {
+  .clrnceDb {
+    width: 90%;
+    left: 5%;
+    font-size: 12px;
   }
 }
 
@@ -441,4 +463,13 @@ tr {
 
 .mt-70 {
   margin-top: 70px;
+}
+
+.text-transform {
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.text-center {
+  text-align: center;
 }
