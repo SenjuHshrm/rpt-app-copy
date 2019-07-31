@@ -495,6 +495,7 @@ export class BuildingAssessmentComponent implements OnInit {
         rsaDate: new FormControl(''),
       }),
     })
+
 		this.getBldgVl.getKind().subscribe((res: any) => {
 			this.bldgKindsLs = res.res;
 			let bldgKind = Array.from(new Set(res.res.map(x => x.type)));
@@ -690,37 +691,6 @@ export class BuildingAssessmentComponent implements OnInit {
       this.bldgAssessment.get['strDescG'].controls['flr7'].reset();
       this.bldgAssessment.get['strDescG'].controls['flr8'].reset();
     }
-  }
-
-  scroll = (): void => {
-    var a = window.pageYOffset;
-    var b = document.body.offsetHeight - window.innerHeight;
-    var btnTop = document.getElementById('bt');
-    if(a == b) {
-      this.shwbtTopBtn()
-    }  else {
-      btnTop.style.display = 'none';
-      btnTop.style.right = '-20px';
-    }
-  }
-
-  shwbtTopBtn() {
-    var btnTop = document.getElementById('bt');
-    var pos = -20;
-    var id = setInterval(frame, 0.1);
-    function frame() {
-      if (pos == 10) {
-        clearInterval(id);
-      } else {
-        pos+=5;
-        btnTop.style.display = "block";
-        btnTop.style.right = pos + 'px';
-      }
-    }
-  }
-
-  upBtn() {
-    window.scroll(0, 0)
   }
 }
 

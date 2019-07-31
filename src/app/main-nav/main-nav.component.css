@@ -42,12 +42,6 @@
   /*transform: translate(-50%, -50%);*/
 }
 
-#navToolbar {
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
 .spanRPT {
   width: 1110px;
 }

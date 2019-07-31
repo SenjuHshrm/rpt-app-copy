@@ -1,4 +1,4 @@
-<div class='mt-60'>
+<div>
 <form [formGroup]='landAssessment' (ngSubmit)='save(landAssessment.value)'>
   <div class="h"></div>
   <div class="mat-title-con">
@@ -17,11 +17,7 @@
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <!-- Transaction Code -->
         <div class="divCard item item-1 brdr" fxFlex='60%'>
-          <div class='divHeader'>
-            <div class='indx'>
-              <input type='text' id="index1" tabindex='-1'>
-            </div>
-          </div>
+          <div class='divHeader'></div>
           <br>
           <div class='cardMargin'>
             <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayoutAlign='center' fxLayoutGap='20px' fxLayoutGap.xs='2%' >
@@ -794,9 +790,4 @@
   </div>
   <!-- Container End -->
 </form>
-<div class="bckTop" id='bt'>
-  <div class='container' fxLayout='column' fxLayoutAlign='center' fxLayoutGap='20px' (click)='upBtn()'>
-    <mat-icon class="top_bot">arrow_drop_up</mat-icon>
-  </div>
-</div>
 </div>
