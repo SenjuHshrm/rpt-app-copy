@@ -45,15 +45,13 @@ export class BuildingReassessmentComponent implements OnInit {
 	isVisible_spinner: boolean;
 
   bldgOpt: selectOpt[] = [
-    { value: 'DISCOVERY/NEW DECLARATION', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
-    { value: 'SUBDIVISION', viewVal: 'SUBDIVISION (SD)' },
-    { value: 'CONSOLIDATION', viewVal: 'CONSOLIDATION (CS)' },
-    { value: 'PHYSICAL CHANGE', viewVal: 'PHYSICAL CHANGE (PC)' },
-    { value: 'DISPUTE IN ASSESSD VALUE', viewVal: 'DISPUTE IN ASSESSD VALUE (DP)' },
-    { value: 'TRANSFER', viewVal: 'TRANSFER (TR)' },
-    { value: 'SEGREGATION', viewVal: 'SEGREGATION (SG)' },
-    { value: 'RECLASSIFICATIO', viewVal: 'RECLASSIFICATION (RC)' },
-    { value: 'SPECIAL PROJECT', viewVal: 'SPECIAL PROJECT (SP)' },
+		{ value: 'DISCOVERY/NEW DECLARATION (DC)', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
+    { value: 'PHYSICAL CHANGE (PC)', viewVal: 'PHYSICAL CHANGE (PC)' },
+    { value: 'DISPUTE IN ASSESSED VALUE (DP)', viewVal: 'DISPUTE IN ASSESSD VALUE (DP)' },
+		{ value: 'DESTRUCTION OF THE PROPERTY (DT)', viewVal: 'DESTRUCTION OF THE PROPERTY (DT)' },
+    { value: 'TRANSFER (TR)', viewVal: 'TRANSFER (TR)' },
+    { value: 'RECLASSIFICATION (RC)', viewVal: 'RECLASSIFICATION (RC)' },
+    { value: 'SPECIAL PROJECT (SP)', viewVal: 'SPECIAL PROJECT (SP)' },
   ]
 
   //Kind Of Building Options
