@@ -6,12 +6,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import * as _ from 'lodash';
 import { adminOwner } from '../interfaces/adminOwner';
 import { landOwner } from '../interfaces/landOwner';
-
-
-export interface selectOpt {
-  value: string;
-  viewVal: string;
-}
+import { GetBldgValues } from '../services/GetBldgValues.service';
+import { selectOpt } from '../interfaces/selectOpt'
 
 export interface additionalItems {
 
@@ -45,25 +41,17 @@ export class BuildingAssessmentComponent implements OnInit {
   clrBtn: boolean;
 
   bldgOpt: selectOpt[] = [
-    { value: 'DISCOVERY/NEW DECLARATION', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
-    { value: 'SUBDIVISION', viewVal: 'SUBDIVISION (SD)' },
-    { value: 'CONSOLIDATION', viewVal: 'CONSOLIDATION (CS)' },
-    { value: 'PHYSICAL CHANGE', viewVal: 'PHYSICAL CHANGE (PC)' },
-    { value: 'DISPUTE IN ASSESSD VALUE', viewVal: 'DISPUTE IN ASSESSD VALUE (DP)' },
-    { value: 'TRANSFER', viewVal: 'TRANSFER (TR)' },
-    { value: 'SEGREGATION', viewVal: 'SEGREGATION (SG)' },
-    { value: 'RECLASSIFICATIO', viewVal: 'RECLASSIFICATION (RC)' },
-    { value: 'SPECIAL PROJECT', viewVal: 'SPECIAL PROJECT (SP)' },
+    { value: 'DISCOVERY/NEW DECLARATION (DC)', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
+    { value: 'PHYSICAL CHANGE (PC)', viewVal: 'PHYSICAL CHANGE (PC)' },
+    { value: 'DISPUTE IN ASSESSED VALUE (DP)', viewVal: 'DISPUTE IN ASSESSD VALUE (DP)' },
+		{ value: 'DESTRUCTION OF THE PROPERTY (DT)', viewVal: 'DESTRUCTION OF THE PROPERTY (DT)' },
+    { value: 'TRANSFER (TR)', viewVal: 'TRANSFER (TR)' },
+    { value: 'RECLASSIFICATION (RC)', viewVal: 'RECLASSIFICATION (RC)' },
+    { value: 'SPECIAL PROJECT (SP)', viewVal: 'SPECIAL PROJECT (SP)' },
   ]
 
   //Kind Of Building Options
-  kof: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  kof: selectOpt[] = [];
 
   //Cert of Completion Options
   coc: selectOpt[] = [
@@ -75,13 +63,7 @@ export class BuildingAssessmentComponent implements OnInit {
   ]
 
   //Structural Type Options
-  st: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  st: selectOpt[] = [];
 
   //Cert. of Occupancy Options
   occu: selectOpt[] = [
@@ -324,7 +306,9 @@ export class BuildingAssessmentComponent implements OnInit {
 
   public bldgAssessment: FormGroup;
 
-  constructor(private router: Router) { }
+  constructor(
+		private router: Router,
+		private getBldgVl: GetBldgValues) { }
 
   ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
   adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
@@ -333,6 +317,8 @@ export class BuildingAssessmentComponent implements OnInit {
   strDescHeader: string[] = ['Floor No.', 'Area', 'Flooring Material', 'Wall Material', 'Floor Height', 'Standard Height', 'Adjusted Basic Rate', 'Floor Type']
   //Additional Item Table
   aItemHeader: string[] = ['aItm', 'sType', 'sizem2', 'untCost', 'totalC', 'actions']
+
+	bldgKindsLs: any;
 
   ngOnInit() {
     if (!localStorage.getItem('auth')) {
@@ -509,7 +495,35 @@ export class BuildingAssessmentComponent implements OnInit {
         rsaDate: new FormControl(''),
       }),
     })
+
+		this.getBldgVl.getKind().subscribe((res: any) => {
+			this.bldgKindsLs = res.res;
+			let bldgKind = Array.from(new Set(res.res.map(x => x.type)));
+			let structType = Array.from(new Set(res.res.map(x => x.class)));
+			_.forEach(bldgKind, (arr: string) => {
+				this.kof.push({
+					value: arr,
+					viewVal: arr
+				});
+			});
+
+			_.forEach(structType, (arr: string) => {
+				this.st.push({
+					value: arr,
+					viewVal: arr
+				})
+			})
+		})
+    setTimeout(function(){ document.getElementById("index1").focus(); }, 0)
+    window.addEventListener('scroll', this.scroll, true);
   }
+
+	setRateVal() {
+		let kind = this.bldgAssessment.get('genDescG').get('genDesc').value;
+		let type = this.bldgAssessment.get('genDescG').get('strType').value;
+		let BRVal = _.find(this.bldgKindsLs, { type: kind, class: type });
+		this.bldgAssessment.get('strDescG').get('basicRateVal').setValue(BRVal.unit_market_value);
+	}
 
   removeOwnerDetail(evt: any) {
     _.remove(ownerLs, evt)
