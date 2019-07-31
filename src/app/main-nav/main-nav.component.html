@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav sideNavCon" fixedInViewport="false"
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="false"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [opened]="false">
     <mat-toolbar color="primary" (click)='drawer.toggle()'>
       <!-- <img src='../assets/SPCLOGO.png'>
@@ -13,7 +13,7 @@
       <a mat-list-item routerLink="/register">Register</a>
     </mat-nav-list>
     <mat-nav-list *ngIf='loggedIn()'>
-    <div class='navListCon'>
+    <div>
       <div class='hdeShwNme'>
         <span class='uprCaseName'>{{ userFullName }}</span>
       </div>
@@ -52,7 +52,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary" id='navToolbar'>
+    <mat-toolbar color="primary">
       <button *ngIf='loggedIn()' type="button" aria-label="Toggle sidenav" mat-icon-button (click)="ltLinks=false; drawer.toggle()">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
