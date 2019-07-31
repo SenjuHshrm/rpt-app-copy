@@ -415,7 +415,7 @@
                 <mat-form-field class='item item-1' fxFlex='49%'>
                   <mat-label>Structural Type</mat-label>
                   <mat-select formControlName='strType' required>
-                    <mat-option *ngFor='let sType of st' [value]='sType.value'>{{ sType.viewVal }}</mat-option>
+                    <mat-option *ngFor='let sType of st' [value]='sType.value' (click)='setRateVal()'>{{ sType.viewVal }}</mat-option>
                   </mat-select>
                 </mat-form-field>
 
