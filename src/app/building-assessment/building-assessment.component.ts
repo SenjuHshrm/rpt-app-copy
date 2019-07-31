@@ -39,6 +39,7 @@ export class BuildingAssessmentComponent implements OnInit {
   aiRemuv: boolean;
   sveBtn: boolean;
   clrBtn: boolean;
+	isVisible_spinner: boolean;
 
   bldgOpt: selectOpt[] = [
     { value: 'DISCOVERY/NEW DECLARATION (DC)', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
@@ -514,8 +515,6 @@ export class BuildingAssessmentComponent implements OnInit {
 				})
 			})
 		})
-    setTimeout(function(){ document.getElementById("index1").focus(); }, 0)
-    window.addEventListener('scroll', this.scroll, true);
   }
 
 	setRateVal() {
