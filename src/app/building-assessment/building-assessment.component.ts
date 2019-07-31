@@ -514,8 +514,6 @@ export class BuildingAssessmentComponent implements OnInit {
 				})
 			})
 		})
-    setTimeout(function(){ document.getElementById("index1").focus(); }, 0)
-    window.addEventListener('scroll', this.scroll, true);
   }
 
 	setRateVal() {

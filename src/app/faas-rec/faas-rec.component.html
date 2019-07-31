@@ -64,28 +64,28 @@
 <mat-card-header>
   <mat-card-title>
     <div class='container mt con' fxFlex='100%' fxLayout fxLayoutGap='10px'>
-      <div fxFlex='1%'></div>
-      <div fxFlex='85%'><div class='mat-stitle'>&nbsp;&nbsp;<b>FAAS Records</b></div></div>
-      <div fxFlex='64px'>
-        <button class="" (click)='srchIco()' mat-raised-button type='button' tabindex="-1">
+      <div class="item item-1" fxFlex='1%'></div>
+      <div class="item item-2" fxFlex='auto'><div class='mat-stitle'>&nbsp;&nbsp;<b>FAAS Records</b></div></div>
+      <div class="item item-3" fxFlex='67px'>
+        <button class="" (click)='srchIco()' mat-raised-button type='button' tabindex="-1" matTooltip="Search">
           <mat-icon>search</mat-icon>
         </button>
       </div>
-      <div fxFlex='64px'>
-        <button mat-button [matMenuTriggerFor]="beforeMenu" mat-raised-button type='button' tabindex="-1">
+      <div class="item item-4" fxFlex='67px'>
+        <button mat-button [matMenuTriggerFor]="beforeMenu" mat-raised-button type='button' tabindex="-1" matTooltip="Generate File">
           <mat-icon>description</mat-icon>
         </button>
-        <mat-menu style='' #beforeMenu="matMenu" xPosition="before">
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
           <div class='container menuCon' fxFlex='100%' fxLayout='column' fxLayoutGap='10px'>
-              <div></div>
-              <div class="menuBtnCon" (mousedown)='faasmDwn=true' (mouseup)='faasmDwn=false' (mouseleave)='faasmDwn=false' (click)='generateFaas()'>
-                <button mat-raised-button class='item item-1' color='primary' [ngClass]="{'genbtnmDwn': faasmDwn, 'genbtnmUp': !faasmDwn}" >Generate FAAS</button>
-              </div>
-              <div class="menuBtnCon" (mousedown)='tdmDwn=true' (mouseup)='tdmDwn=false' (mouseleave)='tdmDwn=false' (click)='generateTD()'>
-                <button mat-raised-button class='item item-2 genTd' color='primary' [ngClass]="{'genbtnmDwn': tdmDwn, 'genbtnmUp': !tdmDwn}">Generate Tax Declaration</button>
-              </div>
-              <div></div>
+            <div class='item item-1'></div>
+            <div class="menuBtnCon" (mousedown)='faasmDwn=true' (mouseup)='faasmDwn=false' (mouseleave)='faasmDwn=false' (click)='generateFaas()'>
+              <button mat-raised-button class='item item-2' color='primary' [ngClass]="{'genbtnmDwn': faasmDwn, 'genbtnmUp': !faasmDwn}" >Generate FAAS</button>
             </div>
+            <div class="menuBtnCon" (mousedown)='tdmDwn=true' (mouseup)='tdmDwn=false' (mouseleave)='tdmDwn=false' (click)='generateTD()'>
+              <button mat-raised-button class='item item-3 genTd' color='primary' [ngClass]="{'genbtnmDwn': tdmDwn, 'genbtnmUp': !tdmDwn}">Generate Tax Declaration</button>
+            </div>
+            <div class='item item-4'></div>
+          </div>
         </mat-menu>
       </div>
       <div fxFlex='2.5%'></div>
