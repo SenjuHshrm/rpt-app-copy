@@ -1,0 +1,20 @@
+h1, p {
+  text-align:center;
+}
+
+.404Con {
+  width: 100%;
+}
+
+.fs {
+  font-size: 20px;
+}
+
+.home {
+  color: #00F;
+  text-decoration: none;
+  font-weight: bold;
+  &:hover {
+    color: #F00;
+  }
+}
