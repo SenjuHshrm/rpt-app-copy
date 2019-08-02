@@ -15,17 +15,15 @@
 </div>
 </div>
 
-<div class="h"></div>
-<div class="mat-title-con">
-<mat-card-header>
-  <mat-card-title>
-    <div class='mat-stitle'>&nbsp;&nbsp;<b>RPTOP</b></div>
-  </mat-card-title>
-</mat-card-header>
-</div>
-
-<div class="wrapper">
+<div class='dbBGoverlay' id='bgOverlay'>
+<div class="searchDB" id='search_db'>
   <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+    <div class="divHeader">&nbsp;&nbsp;Land Tax Clearance</div>
+    <div>
+      <b>&nbsp;&nbsp;Search</b>
+    </div>
+    <div class="dbMargin">
+    <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <label>Search record in:</label>
     <mat-radio-group class='item item-1' fxFlex='40%' [(ngModel)]='param1'>
       <mat-radio-button *ngFor='let p1 of params1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
@@ -34,141 +32,190 @@
     <mat-radio-group class='item item-2' fxFlex='40%' [(ngModel)]='param2'>
       <mat-radio-button *ngFor='let p2 of params2' [value]='p2.value'>{{ p2.viewVal }}</mat-radio-button>
     </mat-radio-group>
+    </div>
 
     <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-      <mat-form-field class='item item-1' fxFlex='40%'>
+      <mat-form-field class='item item-1' fxFlex='100%'>
         <input matInput type='text' placeholder='Enter input here' [(ngModel)]='req'>
       </mat-form-field>
-      <button mat-raised-button class='item item-2' fxFlex='15%' color='primary' (click)='search();'>Search</button>
     </div>
-  </div>
-  <br>
 
-  <!-- land info -->
-  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
-    <div class='ltax-con item item-1' fxFlex='100%'>
-      <mat-label class="label">Land Info</mat-label>
-      <div class="h"></div>
-      <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
-        <ng-container matColumnDef='arpNo'>
-          <th mat-header-cell *matHeaderCellDef>ARP No.</th>
-          <td mat-cell *matCellDef='let data'>{{ data.arpNo }}</td>
-        </ng-container>
-        <ng-container matColumnDef='pin'>
-          <th mat-header-cell *matHeaderCellDef>PIN</th>
-          <td mat-cell *matCellDef='let data'>{{ data.pin }}</td>
-        </ng-container>
-        <ng-container matColumnDef='surveyNo'>
-          <th mat-header-cell *matHeaderCellDef>Survey No.</th>
-          <td mat-cell *matCellDef='let data'>{{ data.surveyNo }}</td>
-        </ng-container>
-        <ng-container matColumnDef='lotNo'>
-          <th mat-header-cell *matHeaderCellDef>Lot No.</th>
-          <td mat-cell *matCellDef='let data'>{{ data.lotNo }}</td>
-        </ng-container>
-        <ng-container matColumnDef='blockNo'>
-          <th mat-header-cell *matHeaderCellDef>Block No.</th>
-          <td mat-cell *matCellDef='let data'>{{ data.blockNo }}</td>
-        </ng-container>
-        <ng-container matColumnDef='streetNo'>
-          <th mat-header-cell *matHeaderCellDef>Street No.</th>
-          <td mat-cell *matCellDef='let data'>{{ data.streetNo }}</td>
-        </ng-container>
-        <ng-container matColumnDef='brgy'>
-          <th mat-header-cell *matHeaderCellDef>Barangay</th>
-          <td mat-cell *matCellDef='let data'>{{ data.brgy }}</td>
-        </ng-container>
-        <ng-container matColumnDef='subd'>
-          <th mat-header-cell *matHeaderCellDef>Subdivision</th>
-          <td mat-cell *matCellDef='let data'>{{ data.subd }}</td>
-        </ng-container>
-        <ng-container matColumnDef='city'>
-          <th mat-header-cell *matHeaderCellDef>City</th>
-          <td mat-cell *matCellDef='let data'>{{ data.city }}</td>
-        </ng-container>
-        <ng-container matColumnDef='province'>
-          <th mat-header-cell *matHeaderCellDef>Province</th>
-          <td mat-cell *matCellDef='let data'>{{ data.province }}</td>
-        </ng-container>
-        <ng-container matColumnDef='class'>
-          <th mat-header-cell *matHeaderCellDef>Class</th>
-          <td mat-cell *matCellDef='let data'>{{ data.class }}</td>
-        </ng-container>
-        <ng-container matColumnDef='subclass'>
-          <th mat-header-cell *matHeaderCellDef>Subclass</th>
-          <td mat-cell *matCellDef='let data'>{{ data.subclass }}</td>
-        </ng-container>
-        <ng-container matColumnDef='area'>
-          <th mat-header-cell *matHeaderCellDef>Area</th>
-          <td mat-cell *matCellDef='let data'>{{ data.area }}</td>
-        </ng-container>
-        <ng-container matColumnDef='assessedVal'>
-          <th mat-header-cell *matHeaderCellDef>Assessed Value</th>
-          <td mat-cell *matCellDef='let data'>{{ data.assessedVal }}</td>
-        </ng-container>
-        <ng-container matColumnDef='stat'>
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef='let data'>{{ data.stat }}</td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef='lTaxHeader'></tr>
-        <tr mat-row *matRowDef='let row; columns: lTaxHeader'></tr>
-      </table>
+    <div class='container' fxLayout fxLayoutGap='10px'>
+      <div fxFlex='40%'></div>
+      <div class="h-40" fxFlex='30%' (mousedown)="clicked=true" (mouseup)="clicked=false" (mouseleave)="clicked=false" (click)='search();'>
+        <button mat-raised-button class='item item-1' color='primary' [ngClass]="{ 'srchBtnClckd': clicked, 'srchBtnDefault': !clicked }">Search</button>
+      </div>
+      <div class="h-40" fxFlex='30%' (mousedown)="clseDb=true" (mouseup)="clseDb=false" (mouseleave)="clseDb=false" (click)='srchClse()'>
+        <button mat-raised-button type="button" name="button" [ngClass]="{ 'srchBtnClckd': clseDb, 'srchBtnDefault': !clseDb }">Close</button>
+      </div>
     </div>
   </div>
-  <hr><br>
-  <!-- owner admin info -->
-  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
-    <div class='ltax-con-inf item item-1' fxFlex='50%'>
-      <mat-label class="label">Owner info</mat-label>
-      <div class="h"></div>
-      <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
-        <ng-container matColumnDef='ownName'>
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef='let data'>{{ data.ownName }}</td>
-        </ng-container>
-        <ng-container matColumnDef='ownAddress'>
-          <th mat-header-cell *matHeaderCellDef>Address</th>
-          <td mat-cell *matCellDef='let data'>{{ data.ownAddress }}</td>
-        </ng-container>
-        <ng-container matColumnDef='ownContact'>
-          <th mat-header-cell *matHeaderCellDef>Contact</th>
-          <td mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
-        </ng-container>
-        <ng-container matColumnDef='ownTIN'>
-          <th mat-header-cell *matHeaderCellDef>TIN</th>
-          <td mat-cell *matCellDef='let data'>{{ data.ownTIN }}</td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderOwn'></tr>
-        <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderOwn'></tr>
-      </table>
+  </div>
+</div>
+
+</div>
+
+<div class="h"></div>
+<div class="mat-title-con">
+<mat-card-header>
+  <mat-card-title>
+    <div class='container mt con' fxFlex='100%' fxLayout fxLayoutGap='10px'>
+      <div fxFlex='1%'></div>
+      <div fxFlex='85%'><div class='mat-stitle'>&nbsp;&nbsp;<b>RPTOP</b></div></div>
+      <div fxFlex='64px'>
+      </div>
+      <div fxFlex='64px'>
+        <button class="" (click)='srchIco()' mat-raised-button type='button' tabindex="-1" matTooltip="Search">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+      <div fxFlex='2.5%'></div>
     </div>
-    <div class='ltax-con-inf item item-2' fxFlex='50%'>
-      <mat-label class="label">Admin info</mat-label>
-      <div class="h"></div>
-      <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
-        <ng-container matColumnDef='admName'>
-          <th mat-header-cell *matHeaderCellDef>Name</th>
-          <td mat-cell *matCellDef='let data'>{{ data.admName }}</td>
-        </ng-container>
-        <ng-container matColumnDef='admAddress'>
-          <th mat-header-cell *matHeaderCellDef>Address</th>
-          <td mat-cell *matCellDef='let data'>{{ data.admAddress }}</td>
-        </ng-container>
-        <ng-container matColumnDef='admContact'>
-          <th mat-header-cell *matHeaderCellDef>Contact</th>
-          <td mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
-        </ng-container>
-        <ng-container matColumnDef='admTIN'>
-          <th mat-header-cell *matHeaderCellDef>TIN</th>
-          <td mat-cell *matCellDef='let data'>{{ data.admTIN }}</td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderAdm'></tr>
-        <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderAdm'></tr>
-      </table>
+  </mat-card-title>
+</mat-card-header>
+</div>
+
+<div class="wrapper">
+  <br><br><br>
+  <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+    <div fxFlex='65%'>
+      <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
+        <div class='ltax-con item item-1' fxFlex='100%'>
+          <mat-label class="label">Land Info</mat-label>
+          <div class="h"></div>
+          <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
+            <ng-container matColumnDef='arpNo'>
+              <th *matHeaderCellDef>ARP No.</th>
+              <td *matCellDef='let data'>{{ data.arpNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef='pin'>
+              <th mat-header-cell *matHeaderCellDef>PIN</th>
+              <td mat-cell *matCellDef='let data'>{{ data.pin }}</td>
+            </ng-container>
+            <ng-container matColumnDef='surveyNo'>
+              <th mat-header-cell *matHeaderCellDef>Survey No.</th>
+              <td mat-cell *matCellDef='let data'>{{ data.surveyNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef='lotNo'>
+              <th mat-header-cell *matHeaderCellDef>Lot No.</th>
+              <td mat-cell *matCellDef='let data'>{{ data.lotNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef='blockNo'>
+              <th mat-header-cell *matHeaderCellDef>Block No.</th>
+              <td mat-cell *matCellDef='let data'>{{ data.blockNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef='streetNo'>
+              <th mat-header-cell *matHeaderCellDef>Street No.</th>
+              <td mat-cell *matCellDef='let data'>{{ data.streetNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef='brgy'>
+              <th mat-header-cell *matHeaderCellDef>Barangay</th>
+              <td mat-cell *matCellDef='let data'>{{ data.brgy }}</td>
+            </ng-container>
+            <ng-container matColumnDef='subd'>
+              <th mat-header-cell *matHeaderCellDef>Subdivision</th>
+              <td mat-cell *matCellDef='let data'>{{ data.subd }}</td>
+            </ng-container>
+            <ng-container matColumnDef='city'>
+              <th mat-header-cell *matHeaderCellDef>City</th>
+              <td mat-cell *matCellDef='let data'>{{ data.city }}</td>
+            </ng-container>
+            <ng-container matColumnDef='province'>
+              <th mat-header-cell *matHeaderCellDef>Province</th>
+              <td mat-cell *matCellDef='let data'>{{ data.province }}</td>
+            </ng-container>
+            <ng-container matColumnDef='class'>
+              <th mat-header-cell *matHeaderCellDef>Class</th>
+              <td mat-cell *matCellDef='let data'>{{ data.class }}</td>
+            </ng-container>
+            <ng-container matColumnDef='subclass'>
+              <th mat-header-cell *matHeaderCellDef>Subclass</th>
+              <td mat-cell *matCellDef='let data'>{{ data.subclass }}</td>
+            </ng-container>
+            <ng-container matColumnDef='area'>
+              <th mat-header-cell *matHeaderCellDef>Area</th>
+              <td mat-cell *matCellDef='let data'>{{ data.area }}</td>
+            </ng-container>
+            <ng-container matColumnDef='assessedVal'>
+              <th mat-header-cell *matHeaderCellDef>Assessed Value</th>
+              <td mat-cell *matCellDef='let data'>{{ data.assessedVal }}</td>
+            </ng-container>
+            <ng-container matColumnDef='stat'>
+              <th *matHeaderCellDef>Status</th>
+              <td *matCellDef='let data'>{{ data.stat }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef='lTaxHeader'></tr>
+            <tr mat-row *matRowDef='let row; columns: lTaxHeader'></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div fxFlex='35%'>
+      <div class='container' fxLayout='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+        <div fxFlex='100%'>
+          <!-- Owner Info -->
+        <div class='ltax-con-inf item item-1' fxFlex='100%'>
+          <mat-label class="label">Owner info</mat-label>
+          <div class="h"></div>
+          <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
+            <ng-container matColumnDef='ownName'>
+              <th *matHeaderCellDef>Name</th>
+              <td *matCellDef='let data'>{{ data.ownName }}</td>
+            </ng-container>
+            <ng-container matColumnDef='ownAddress'>
+              <th mat-header-cell *matHeaderCellDef>Address</th>
+              <td mat-cell *matCellDef='let data'>{{ data.ownAddress }}</td>
+            </ng-container>
+            <ng-container matColumnDef='ownContact'>
+              <th mat-header-cell *matHeaderCellDef>Contact</th>
+              <td mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
+            </ng-container>
+            <ng-container matColumnDef='ownTIN'>
+              <th *matHeaderCellDef>TIN</th>
+              <td *matCellDef='let data'>{{ data.ownTIN }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderOwn'></tr>
+            <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderOwn'></tr>
+          </table>
+        </div>
+        </div>
+
+        <div fxFlex='100%'>
+          <!-- Admin Info -->
+        <div class='ltax-con-inf item item-2' fxFlex='100%'>
+          <mat-label class="label">Admin info</mat-label>
+          <div class="h"></div>
+          <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
+            <ng-container matColumnDef='admName'>
+              <th *matHeaderCellDef>Name</th>
+              <td *matCellDef='let data'>{{ data.admName }}</td>
+            </ng-container>
+            <ng-container matColumnDef='admAddress'>
+              <th mat-header-cell *matHeaderCellDef>Address</th>
+              <td mat-cell *matCellDef='let data'>{{ data.admAddress }}</td>
+            </ng-container>
+            <ng-container matColumnDef='admContact'>
+              <th mat-header-cell *matHeaderCellDef>Contact</th>
+              <td mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
+            </ng-container>
+            <ng-container matColumnDef='admTIN'>
+              <th *matHeaderCellDef>TIN</th>
+              <td *matCellDef='let data'>{{ data.admTIN }}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef='lTaxInfHeaderAdm'></tr>
+            <tr mat-row *matRowDef='let row; columns: lTaxInfHeaderAdm'></tr>
+          </table>
+        </div>
+        </div>
+      </div>
     </div>
   </div>
+
+<br>
 
   <hr>
+  <br>
   <div class="divCard">
     <div class="divHeader">&nbsp;&nbsp;Computations</div>
     <br><div class="h"></div>

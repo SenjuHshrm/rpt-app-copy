@@ -211,4 +211,46 @@ export class RPTOPComponent implements OnInit {
 
     this.LTTableRptopComp = new MatTableDataSource(ltRptopComp)
   }
+
+  srchIco() {
+    var clientHeight = document.getElementById('search_db').clientHeight;
+    var srchDb = document.getElementById("search_db");
+    //var clrDb = document.getElementById("clrnce_db");
+    var bckgrnd = document.getElementById("bgOverlay");
+    var wheight = document.body.clientHeight;
+    var wWidth = document.body.clientWidth;
+    var wheight50 = wheight / 2;
+    var wWidth50 = wWidth / 2;
+    var pos = -clientHeight - 1100;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+        if (pos >= Math.round(wheight50)) {
+          clearInterval(id);
+        } else {
+          pos+=23;
+          srchDb.style.top = pos / 3 + 'px';
+          srchDb.style.display = "block";
+          //clrDb.style.display = 'none'
+          bckgrnd.style.display = 'block';
+        }
+      }
+  }
+
+  srchClse() {
+    var elem = document.getElementById("search_db");
+    var bckgrnd = document.getElementById("bgOverlay");
+    var clientHeight = document.getElementById('search_db').clientHeight;
+    var id = setInterval(frame, 0.1);
+    function frame() {
+      //
+      if(Math.round(clientHeight) < -1100) {
+        bckgrnd.style.display = 'none';
+        elem.style.display = 'none';
+        clearInterval(id);
+      } else {
+        clientHeight-=23;
+        elem.style.top = clientHeight / 3 + 'px';
+      }
+    }
+  }
 }
