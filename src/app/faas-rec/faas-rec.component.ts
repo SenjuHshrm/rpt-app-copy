@@ -369,22 +369,23 @@ export class FaasRecComponent implements OnInit {
           structural_type: res.building_type,
           building_permit_no: res.building_permit_no,
           permit_issue_date: res.building_permit_issue_date,
-          condominium_certificate: res.condominium_certificate_title,
+          condominium_certificate: res.condominium_cert_title,
           completion_issue_date: res.completion_cert_issue_date,
           occupancy_issue_date: res.occupancy_cert_issue_date,
           date_constructed: res.constructed_date,
-          date_occcupied: res.occupied_date,
+          date_occupied: res.occupied_date,
           building_age: res.building_age,
-          no_of_storeys: res.no_of_storeys,
+          no_of_storeys: res.no_of_storey,
           floor1_area: ' ',
           floor2_area: ' ',
           floor3_area: ' ',
           floor4_area: ' ',
           total_floor_area: res.total_floor_area,
           bc_unit_construction_cost: res.bc_unit_construction_cost,
+					bc_sub_total: res.bc_sub_total_construction_cost,
           depreciation_rate: res.depreciation_rate,
           depreciation_cost: res.depreciation_cost,
-          ad_sub_total: res.ad_sub_total_construction_cost,
+          ad_sub_total: res.ad_sub_total_additional_cost,
           total_percent_depreciation: res.total_percent_depreciated,
           depreciated_market_value: res.depreciated_market_value,
           pa_actual_use: res.pa_actual_use,
@@ -413,10 +414,10 @@ export class FaasRecComponent implements OnInit {
           superseded_recording_personnel: res.superseded_recording_personnel,
           superseded_date: res.superseded_date,
         }
-        for(var i = 1; i <= res.no_of_storey; i++) {
+        for(var i = 1; i <= +res.no_of_storey; i++) {
           Object.keys(data).forEach(key => {
             if(key == ('floor' + i.toString() + '_area')) {
-              key = res.total_floor_area;
+              data[key] = res.total_floor_area.toString();
             }
           })
         }
@@ -497,66 +498,98 @@ export class FaasRecComponent implements OnInit {
 
   getOwners(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getOwnerContact(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.contact_no + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.contact_no + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getOwnerAddr(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.address + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.address + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getOwnerTIN(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.TIN + '\n';
-    });
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.TIN + '\n';
+	    });
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmins(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+	    })
+			return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmContact(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.contact_no + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.contact_no + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmAddr(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.address + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+      	res = res + arr.address + '\n';
+    	})
+    	return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmTIN(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.TIN + '\n';
-    });
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.TIN + '\n';
+	    });
+	    return res;
+		} else {
+			return '';
+		}
   }
 
 }
