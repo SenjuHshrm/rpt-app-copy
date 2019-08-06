@@ -119,6 +119,7 @@ export class LandAssessmentComponent implements OnInit {
   stripNo: selectOpt[]
 
   public landAssessment: FormGroup;
+  //public expanded: boolean = 1;
   //@Inject(NgZone) private ngZone: NgZone
 
   constructor(
@@ -900,4 +901,57 @@ export class LandAssessmentComponent implements OnInit {
 	  this.impInf = new MatTableDataSource(imprInf)
 	  this.marketValue = new MatTableDataSource(mrktVal)
 	}
+
+updownArrow1: any;
+updownArrow2: any;
+updownArrow3: any;
+updownArrow4: any;
+updownArrow5: any;
+updownArrow6: any;
+updownArrow7: any;
+updownArrow8: any;
+updownArrow9: any;
+  Opened(num: any) {
+    if(num == 1)
+    { this.updownArrow1 = 'keyboard_arrow_up'; }
+    else if(num == 2)
+    { this.updownArrow2 = 'keyboard_arrow_up'; }
+    else if(num == 3)
+    { this.updownArrow3 = 'keyboard_arrow_up'; }
+    else if(num == 4)
+    { this.updownArrow4 = 'keyboard_arrow_up'; }
+    else if(num == 5)
+    { this.updownArrow5 = 'keyboard_arrow_up'; }
+    else if(num == 6)
+    { this.updownArrow6 = 'keyboard_arrow_up'; }
+    else if(num == 7)
+    { this.updownArrow7 = 'keyboard_arrow_up'; }
+    else if(num == 8)
+    { this.updownArrow8 = 'keyboard_arrow_up'; }
+    else if(num == 9)
+    { this.updownArrow9 = 'keyboard_arrow_up'; }
+
+  }
+
+  Closed(num: any) {
+    if(num == 1)
+    { this.updownArrow1 = 'keyboard_arrow_down'; }
+    else if(num == 2)
+    { this.updownArrow2 = 'keyboard_arrow_down'; }
+    else if(num == 3)
+    { this.updownArrow3 = 'keyboard_arrow_down'; }
+    else if(num == 4)
+    { this.updownArrow4 = 'keyboard_arrow_down'; }
+    else if(num == 5)
+    { this.updownArrow5 = 'keyboard_arrow_down'; }
+    else if(num == 6)
+    { this.updownArrow6 = 'keyboard_arrow_down'; }
+    else if(num == 7)
+    { this.updownArrow7 = 'keyboard_arrow_down'; }
+    else if(num == 8)
+    { this.updownArrow8 = 'keyboard_arrow_down'; }
+    else if(num == 9)
+    { this.updownArrow9 = 'keyboard_arrow_down'; }
+  }
+
 }

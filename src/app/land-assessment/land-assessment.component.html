@@ -17,7 +17,13 @@
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <!-- Transaction Code -->
         <div class="divCard item item-1 brdr" fxFlex='60%'>
-          <div class='divHeader'></div>
+
+          <div class='divHeader epHeader' (click)="trnsC.expanded = !trnsC.expanded; propLoc.expanded = !propLoc.expanded">
+            <mat-icon class="epArrow">{{ updownArrow1 }}</mat-icon>
+          </div>
+
+          <mat-accordion>
+            <mat-expansion-panel class="mat-elevation-z0" #trnsC [expanded]='true' (opened)='Opened(1)' (closed)='Closed(1)'>
           <br>
           <div class='cardMargin'>
             <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayoutAlign='center' fxLayoutGap='20px' fxLayoutGap.xs='2%' >
@@ -107,12 +113,18 @@
             </div>
           </div>
           <br>
+            </mat-expansion-panel>
+          </mat-accordion>
         </div>
         <!-- Transaction Code End -->
 
         <!-- Property Location -->
         <div class="divCard item item-2 brdr" fxFlex='40%'>
-          <div class='divHeader'>&nbsp;&nbsp;Property Location</div>
+          <div class='divHeader epHeader' (click)="trnsC.expanded = !trnsC.expanded; propLoc.expanded = !propLoc.expanded">&nbsp;&nbsp;Property Location
+            <mat-icon class="epArrow">{{ updownArrow2 }}</mat-icon>
+          </div>
+          <mat-accordion>
+            <mat-expansion-panel #propLoc [expanded]='true' class="mat-elevation-z0" (opened)='Opened(2)' (closed)='Closed(2)'>
           <br>
           <div class="cardMargin">
           <mat-card-content formGroupName='propertyLocation'>
@@ -158,6 +170,8 @@
           </mat-card-content>
           </div>
           <br>
+          </mat-expansion-panel>
+          </mat-accordion>
         </div>
         <!-- Property Location End -->
       </div>
@@ -166,7 +180,12 @@
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <!-- Owner Details -->
         <div class="divCard item item-1 brdr" fxFlex='50%'>
-          <div class="divHeader">&nbsp;&nbsp;Owner Details</div>
+          <div class="divHeader epHeader" (click)="epOwner.expanded = !epOwner.expanded; epAdmin.expanded = !epAdmin.expanded">
+            &nbsp;&nbsp;Owner Details
+            <mat-icon class="epArrow">{{ updownArrow3 }}</mat-icon>
+          </div>
+            <mat-accordion>
+            <mat-expansion-panel #epOwner [expanded]="true" class="mat-elevation-z0" (opened)='Opened(3)' (closed)='Closed(3)'>
             <br>
             <div class="cardMargin">
             <mat-card-content formGroupName='ownerDetails'>
@@ -243,12 +262,19 @@
             </mat-card-content>
             </div>
             <br>
+            </mat-expansion-panel>
+            </mat-accordion>
         </div>
         <!-- Owner Details End -->
 
         <div class="divCard item item-2 brdr" fxFlex='50%'>
           <!-- Admin -->
-          <div class="divHeader">&nbsp;&nbsp;Administrator / Beneficial User</div>
+          <div class="divHeader epHeader" (click)="epOwner.expanded = !epOwner.expanded; epAdmin.expanded = !epAdmin.expanded">
+            &nbsp;&nbsp;Administrator / Beneficial User
+            <mat-icon class="epArrow">{{ updownArrow4 }}</mat-icon>
+          </div>
+            <mat-accordion>
+            <mat-expansion-panel #epAdmin [expanded]='true' class="mat-elevation-z0" (opened)='Opened(4)' (closed)='Closed(4)'>
             <br>
             <div class="cardMargin">
             <mat-card-content formGroupName='adminOwnerLs'>
@@ -324,6 +350,8 @@
             </mat-card-content>
             </div>
             <br>
+            </mat-expansion-panel>
+            </mat-accordion>
             <!-- Admin End -->
         </div>
       </div>
@@ -333,7 +361,12 @@
         fxLayoutGap.xs='10px'>
         <div class="" fxFlex='100%'>
           <div class="divCard brdr brdrBtm">
-            <div class="divHeader">&nbsp;&nbsp;Land Appraisal</div>
+            <div class="divHeader epHeader" (click)="epLndApp.expanded = !epLndApp.expanded">
+              &nbsp;&nbsp;Land Appraisal
+              <mat-icon class="epArrow">{{ updownArrow5 }}</mat-icon>
+            </div>
+            <mat-accordion>
+            <mat-expansion-panel #epLndApp class="mat-elevation-z0" [expanded]='true' (opened)='Opened(5)' (closed)='Closed(5)'>
             <br>
             <div class='cardMargin'>
             <mat-card-content formGroupName='landAppraisal'>
@@ -388,7 +421,6 @@
                 </div>
               </div>
               <br>
-
             </mat-card-content>
             <div class="dashedHr"></div>
               <p>Stripping</p>
@@ -466,6 +498,8 @@
         <!-- Stripping End -->
             </div>
             <br>
+            </mat-expansion-panel>
+            </mat-accordion>
           </div>
         </div>
       </div>
@@ -475,7 +509,12 @@
       fxLayoutGap.xs='20px' fxLayoutGap.sm='20px' id='othrImp'>
       <!-- Other Improvements -->
       <div class="divCard item item-1 brdr" fxFlex='50%'>
-        <div class="divHeader">&nbsp;&nbsp;Other Improvements</div>
+        <div class="divHeader epHeader" (click)="epOthrImp.expanded = !epOthrImp.expanded; epMVal.expanded = !epMVal.expanded">
+          &nbsp;&nbsp;Other Improvements
+          <mat-icon class="epArrow">{{ updownArrow6 }}</mat-icon>
+        </div>
+        <mat-accordion>
+        <mat-expansion-panel #epOthrImp class="mat-elevation-z0" [expanded]="true" (opened)='Opened(6)' (closed)='Closed(6)'>
         <br>
         <div class="cardMargin">
         <mat-card-content formGroupName='otherImprovements'>
@@ -540,11 +579,18 @@
         </mat-card-content>
         </div>
         <br>
+        </mat-expansion-panel>
+        </mat-accordion>
       </div>
       <!-- Other Improvements End -->
 
       <div class="divCard item item-2 brdr" fxFlex='50%'>
-        <div class="divHeader">&nbsp;&nbsp;Market Value</div>
+        <div class="divHeader epHeader" (click)="epOthrImp.expanded = !epOthrImp.expanded; epMVal.expanded = !epMVal.expanded">
+          &nbsp;&nbsp;Market Value
+          <mat-icon class="epArrow">{{ updownArrow7 }}</mat-icon>
+        </div>
+        <mat-accordion>
+        <mat-expansion-panel #epMVal class="mat-elevation-z0" [expanded]="true" (opened)='Opened(7)' (closed)='Closed(7)'>
         <br>
         <div class="cardMargin">
           <!-- Matket Value -->
@@ -619,6 +665,8 @@
           <!-- Market Value End -->
         </div>
         <br>
+        </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
 
@@ -626,7 +674,12 @@
       fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
       <!-- Property Assessment -->
       <div class="divCard brdr item item-1" fxFlex='60%'>
-        <div class="divHeader">&nbsp;&nbsp;Property Assessment</div>
+        <div class="divHeader epHeader" (click)="epPropAsmt.expanded = !epPropAsmt.expanded; epRSA.expanded = !epRSA.expanded">
+          &nbsp;&nbsp;Property Assessment
+          <mat-icon class="epArrow">{{ updownArrow8 }}</mat-icon>
+        </div>
+        <mat-accordion>
+        <mat-expansion-panel #epPropAsmt class='mat-elevation-z0' [expanded]="true" (opened)='Opened(8)' (closed)='Closed(8)'>
         <br>
         <div class="cardMargin">
         <mat-card-content formGroupName='propertyAssessment'>
@@ -719,11 +772,18 @@
           </mat-card-content>
           </div>
           <br>
+          </mat-expansion-panel>
+          </mat-accordion>
       </div>
       <!-- Property Assessment End -->
 
       <div class="divCard brdr item item-2" fxFlex='40%'>
-        <div class="divHeader">&nbsp;&nbsp;Record of Superseded Assessment</div>
+        <div class="divHeader epHeader" (click)="epPropAsmt.expanded = !epPropAsmt.expanded; epRSA.expanded = !epRSA.expanded">
+          &nbsp;&nbsp;Record of Superseded Assessment
+          <mat-icon class="epArrow">{{ updownArrow9 }}</mat-icon>
+        </div>
+        <mat-accordion>
+        <mat-expansion-panel #epRSA [expanded]='true' class='mat-elevation-z0' (opened)='Opened(9)' (closed)='Closed(9)'>
         <br>
         <div class="cardMargin">
         <mat-card-content formGroupName='supersededRec'>
@@ -773,15 +833,18 @@
             </div>
         </mat-card-content>
         </div>
+        <br>
+        </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
     <div class="h"></div>
       <mat-card-actions align='center'>
         <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-        <div fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
+        <div class="btnCon" fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
           <button [ngClass]="{'saveClrBtnMU': !saveMD , 'saveClrBtnMD': saveMD}" class='sve' mat-raised-button color='primary' type='submit'>Save</button>
         </div>
-        <div fxFlex='15%' (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
+        <div class="btnCon" fxFlex='15%' (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
           <button type='button' [ngClass]="{'saveClrBtnMU': !clrMD , 'saveClrBtnMD': clrMD}" class='clr' mat-raised-button color='warn' (click)="resetForm()">Clear</button>
         </div>
         </div>

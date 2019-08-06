@@ -56,3 +56,7 @@ body { margin: 0;  font-family: 'CenturyGothic' !important;}
 	font-size: 12px;
 	background: rgba(#0063EA, 0.7)
 }
+
+.mat-expansion-panel-content > .mat-expansion-panel-body {
+  padding: 0 !important;
+}
