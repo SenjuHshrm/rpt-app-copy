@@ -13,8 +13,11 @@ import { genFaas } from '../services/genFaas.service';
 import { landFaasTmp } from '../classes/landFaasTmp';
 import { taxDecTmp } from '../classes/taxDecTmp';
 import * as moment from 'moment';
+import * as jwt_decode from 'jwt-decode';
 import { genTaxDec } from '../services/genTaxDec.service';
 import { bldgFaasTmp } from '../classes/bldgFaasTmp';
+import { getPosHolders } from '../services/getPosHolders.service';
+import * as writtenNumber from 'written-number';
 
 var info: landTaxTable[] = [];
 var infoBldg: landTaxTableBldg[] = [];
@@ -37,7 +40,8 @@ export class FaasRecComponent implements OnInit {
   clseSrch: boolean;
   faasmDwn: boolean;
   tdmDwn: boolean;
-
+	holders: any;
+	encoder: any;
 
   infoLs = new MatTableDataSource(info);
 	infoBldgLs = new MatTableDataSource(infoBldg);
@@ -78,12 +82,18 @@ export class FaasRecComponent implements OnInit {
     private matDialog: MatDialog,
     private route: Router,
     private faas: genFaas,
-    private taxDec: genTaxDec) { }
+    private taxDec: genTaxDec,
+		private posHolders: getPosHolders) { }
 
   ngOnInit() {
     if(!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
+		this.posHolders.getPosHoldersCl('TAX DECLARATION').subscribe(res => {
+			this.holders = res;
+		});
+		let obj: any = jwt_decode(localStorage.getItem('auth'));
+		this.encoder = obj.name;
   }
 
 	selectedRow = [];
@@ -433,61 +443,67 @@ export class FaasRecComponent implements OnInit {
     }
     if(this.param1 == 'land') {
       this.taxDec.generateLand(data).subscribe(res => {
+				console.log(res)
+				let faas = res.faas;
+				let admins = res.admins;
+				let marketVal = res.marketval;
+				let owners = res.owners;
+				let strips = res.strips;
         let tmp: taxDecTmp = {
-          td_no: '',
-          pin: '',
-          owner_names: '',
-          owner_tins: '',
-          owner_addresses: '',
-          owner_contact_nos: '',
-          admin_names: '',
-          admin_tins: '',
-          admin_addresses: '',
-          admin_contact_nos: '',
-          street_no: '',
-          brgy_district: '',
-          oct_tct_no: '',
-          survey_no: '',
+          td_no: faas.arp_no,
+          pin: faas.pin_city + '-' + faas.pin_district + '-' + faas.pin_barangay + '-' + faas.pin_section + '-' + faas.pin_parcel,
+          owner_names: this.getOwners(owners),
+          owner_tins: this.getOwnerTIN(owners),
+          owner_addresses: this.getOwnerAddr(owners),
+          owner_contact_nos: this.getOwnerContact(owners),
+          admin_names: this.getAdmins(admins),
+          admin_tins: this.getAdmTIN(admins),
+          admin_addresses: this.getAdmAddr(admins),
+          admin_contact_nos: this.getAdmContact(admins),
+          street_no: faas.street_no,
+          brgy_district: faas.barangay,
+          oct_tct_no: faas.OCT_TCT_no,
+          survey_no: faas.survey_no,
           condo_cert: '',
-          lot_no: '',
-          dated: '',
-          block_no: '',
-          north: '',
-          south: '',
-          east: '',
-          west: '',
-          s1: '',
-          s2: '',
-          s3: '',
-          s4: '',
-          no_of_storey: '',
-          desc_mchn: '',
-          desc_bldg: '',
-          others_specify: '',
-          class: '',
-          area: '',
-          market_val: '',
-          actual_use: '',
-          assess_level: '',
-          assessed_val: '',
-          total_market_val: '',
-          total_assessed_val: '',
-          total_assessed_value_in_words: '',
-          tax: '',
-          exp: '',
-          pa_effectivity_assess_quarter: '',
-          pa_effectivity_assess_year: '',
-          approved_by1: '',
-          approver_title1: '',
-          approved_by2: '',
-          approver_title2: '',
-          approved_by_date: '',
-          previous_td_no: '',
-          previous_owner: '',
-          previous_assessed_value: '',
-          memoranda: '',
-          diag_date_printed: '',
-          diag_printed_by: '',
+          lot_no: faas.lot_no,
+          dated: (faas.date_created == '') ? '' : moment(faas.date_created).format('MM/DD/YYYY'),
+          block_no: faas.block_no,
+          north: faas.north,
+          south: faas.south,
+          east: faas.east,
+          west: faas.west,
+          s1: (this.param1 == 'land') ? 'x' : ' ',
+          s2: (this.param1 == 'building') ? 'x' : ' ',
+          s3: (this.param1 == 'machinery') ? 'x' : ' ',
+          s4: (this.param1 == 'others') ? 'x' : ' ',
+          no_of_storey: ' ',
+          desc_mchn: ' ',
+          desc_bldg: ' ',
+          others_specify: ' ',
+          class: faas.class,
+          area: faas.area,
+          market_val: faas.pa_market_value,
+          actual_use: faas.pa_actual_use,
+          assess_level: faas.pa_assessment_level,
+          assessed_val: faas.pa_assessed_value,
+          total_market_val: faas.pa_market_value,
+          total_assessed_val: faas.pa_total_assessed_value,
+          total_assessed_value_in_words: this.figureToWords(+faas.pa_total_assessed_value),
+          tax: (faas.pa_status == 'TAXABLE') ? 'x' : ' ',
+          exp: (faas.pa_status == 'EXEMPTED') ? 'x' : ' ',
+          pa_effectivity_assess_quarter: faas.pa_effectivity_assess_quarter,
+          pa_effectivity_assess_year: faas.pa_effectivity_assess_year,
+          approved_by1: this.holders[0].holder_name,
+          approver_title1: this.holders[0].position_name,
+          approved_by2: this.holders[1].holder_name,
+          approver_title2: this.holders[1].position_name,
+          approved_by_date: faas.approved_by_date,
+          previous_td_no: faas.superseded_td_no,
+          previous_owner: faas.superseded_previous_owner,
+          previous_assessed_value: faas.superseded_total_assessed_value,
+          memoranda: faas.memoranda,
+          diag_date_printed: moment(new Date()).format('MM/DD/YYYY'),
+          diag_printed_by: this.encoder,
         }
         this.taxDec.file(tmp);
       })
@@ -591,6 +607,22 @@ export class FaasRecComponent implements OnInit {
 			return '';
 		}
   }
+
+	figureToWords(num: number) {
+		// let wordNum = writtenNumber(num) + ' Pesos';
+		// return wordNum;
+		let wordNum = (writtenNumber(num)).split(' '),
+				resVal = '';
+		_.forEach(wordNum, (arr: any) => {
+			if(arr != 'and') {
+				resVal = resVal + arr.charAt(0).toUpperCase() + arr.slice(1) + ' ';
+			} else {
+				resVal = resVal + arr + ' '
+			}
+		})
+		resVal = resVal + 'Pesos';
+		return resVal;
+	}
 
 }
 
