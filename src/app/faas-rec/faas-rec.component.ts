@@ -446,9 +446,7 @@ export class FaasRecComponent implements OnInit {
 				console.log(res)
 				let faas = res.faas;
 				let admins = res.admins;
-				let marketVal = res.marketval;
 				let owners = res.owners;
-				let strips = res.strips;
         let tmp: taxDecTmp = {
           td_no: faas.arp_no,
           pin: faas.pin_city + '-' + faas.pin_district + '-' + faas.pin_barangay + '-' + faas.pin_section + '-' + faas.pin_parcel,
@@ -616,8 +614,6 @@ export class FaasRecComponent implements OnInit {
 		_.forEach(wordNum, (arr: any) => {
 			if(arr != 'and') {
 				resVal = resVal + arr.charAt(0).toUpperCase() + arr.slice(1) + ' ';
-			} else {
-				resVal = resVal + arr + ' '
 			}
 		})
 		resVal = resVal + 'Pesos';
