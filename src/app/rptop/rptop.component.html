@@ -63,27 +63,35 @@
       <div fxFlex='1%'></div>
       <div fxFlex='85%'><div class='mat-stitle'>&nbsp;&nbsp;<b>RPTOP</b></div></div>
       <div fxFlex='64px'>
-      </div>
-      <div fxFlex='64px'>
         <button class="" (click)='srchIco()' mat-raised-button type='button' tabindex="-1" matTooltip="Search">
           <mat-icon>search</mat-icon>
         </button>
       </div>
-      <div fxFlex='2.5%'></div>
+      <div fxFlex='64px'>
+        <button mat-raised-button matTooltip=''>
+          <mat-icon>description</mat-icon>
+        </button>
+      </div>
+      <div fxFlex='64px'>
+        <button mat-raised-button matTooltip='Refresh'>
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+      <div fxFlex='1.5%'></div>
     </div>
   </mat-card-title>
 </mat-card-header>
 </div>
 
 <div class="wrapper">
-  <br><br><br>
+  <br>
   <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div fxFlex='65%'>
       <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
         <div class='ltax-con item item-1' fxFlex='100%'>
           <mat-label class="label">Land Info</mat-label>
           <div class="h"></div>
-          <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
+          <table mat-table class='mat-elevation-z8' [dataSource]='LTTable' width='2200px'>
             <ng-container matColumnDef='arpNo'>
               <th *matHeaderCellDef>ARP No.</th>
               <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -214,7 +222,6 @@
 
 <br>
 
-  <hr>
   <br>
   <div class="divCard">
     <div class="divHeader">&nbsp;&nbsp;Computations</div>

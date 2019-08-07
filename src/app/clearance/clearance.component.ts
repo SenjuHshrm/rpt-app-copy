@@ -166,11 +166,13 @@ export class ClearanceComponent implements OnInit {
 		console.table(this.selectedRow);
 		console.table(this.selectedOwner);
 		console.table(this.selectedAdmin);
+    this.clrnceBtn = true;
 	}
 
   clicked: boolean = false;
-  clckd = false
-  isVisible_spinner = false
+  clckd = false;
+  isVisible_spinner = false;
+  clrnceBtn = false;
   search() {
     if(this.req == null || this.req == "" || this.req.trim() === "") {
       this.matDialog.open(ClearanceComponentErr, {width: '300px', height: '180px', panelClass: 'custom-dialog-container', disableClose: true, data: 'Empty input' });
@@ -263,6 +265,7 @@ export class ClearanceComponent implements OnInit {
                 this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
                 break;
             }
+            this.clrnceBtn = false;
             this.srchClse();
           }
           else {

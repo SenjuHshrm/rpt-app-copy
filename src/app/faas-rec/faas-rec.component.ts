@@ -103,6 +103,7 @@ export class FaasRecComponent implements OnInit {
 	resfaas: any;
 	resowner: any;
 	resadmin: any;
+  genFaasBtn: boolean = false;
 
 	tableRowSelected(row: any) {
 		owner = [];
@@ -146,6 +147,7 @@ export class FaasRecComponent implements OnInit {
 		console.table(this.selectedRow);
 		console.table(this.selectedOwner);
 		console.table(this.selectedAdmin);
+    this.genFaasBtn = true;
 	}
 
   isVisible_spinner = false
@@ -180,6 +182,8 @@ export class FaasRecComponent implements OnInit {
             this.resfaas = this.resdata.faas;
             this.resowner = this.resdata.owner;
             this.resadmin = this.resdata.admin;
+            this.genFaasBtn = false;
+
             console.log(res)
             if (this.resfaas.length > 0 || this.resowner.length > 0 ||this.resadmin.length > 0) {
               switch(this.param1) {

@@ -175,11 +175,16 @@
         </button>
       </div>
       <div fxFlex='64px'>
-        <button class="" (click)='genIco()' mat-raised-button type='button' tabindex="-1" matTooltip="Clearance">
+        <button [disabled]='!clrnceBtn' (click)='genIco()' mat-raised-button type='button' tabindex="-1" matTooltip="Clearance">
           <mat-icon>description</mat-icon>
         </button>
       </div>
-      <div fxFlex='2.5%'></div>
+      <div fxFlex='64px'>
+        <button mat-raised-button type='button' matTooltip='Refresh'>
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+      <div fxFlex='1.5%'></div>
     </div>
   </mat-card-title>
 </mat-card-header>
@@ -195,7 +200,7 @@
       <div *ngIf="(param1=='land')" class='container tbleBrdr' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
         <div class='ltax-con item item-1' fxFlex='100%'>
           <div class="h"></div>
-          <table mat-table class='mat-elevation-z8' [dataSource]='LTTable'>
+          <table mat-table class='mat-elevation-z8' [dataSource]='LTTable' width='2000px'>
             <ng-container matColumnDef='arpNo'>
               <th *matHeaderCellDef>ARP No.</th>
               <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -270,7 +275,7 @@
         <div class='ltax-con item item-1' fxFlex='100%'>
           <!--<label class="label">Building Info</label>-->
           <div class="h"></div>
-          <table mat-table class='mat-elevation-z8' [dataSource]='LTTableBldg'>
+          <table mat-table class='mat-elevation-z8' [dataSource]='LTTableBldg' width='2000px'>
             <ng-container matColumnDef='arpNo'>
               <th *matHeaderCellDef>ARP No.</th>
               <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -394,5 +399,4 @@
       </div>
     </div>
   </div>
-  <br><hr><br>
 </div>

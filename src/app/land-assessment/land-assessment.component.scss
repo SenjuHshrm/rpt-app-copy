@@ -45,7 +45,7 @@ img { width: 50px; height: 50px; }
   background: #FFF;
   /*width: 50%;*/
   /*margin: 0 auto;*/
-
+  position: relative;
   border-bottom: 1px solid rgba(128, 128, 128, 0.8);
   border-right: 1px solid rgba(128, 128, 128, 0.8);
   border-radius: 4px;
@@ -120,6 +120,19 @@ img { width: 50px; height: 50px; }
   position: relative;
 }
 
+.epArrow {
+  line-height: 40px;
+  float: right;
+
+}
+
+.epHeader {
+  cursor: pointer;
+  &:hover {
+    background: #0261E2;
+  }
+}
+
 .flexWdth-50 {
   width: 50%;
 }
@@ -164,6 +177,7 @@ tr {
   width: 90%;
   font-size: 11px;
   margin-left: 2%;
+  margin-top: 1px;
 }
 
 .sve {
@@ -408,4 +422,40 @@ tr {
 
 .mt-60 {
   margin-top: 65px;
+}
+
+.mat-expansion-panel-body {
+	padding: 0;
+}
+
+.btnCon {
+  height: 40%;
+}
+
+.epBtn1 {
+  display: block;
+}
+
+.epBtn2 {
+  display: none;
+}
+
+@media (max-width: 961px){
+  .epBtn1 {
+    display: block;
+  }
+
+  .epBtn2 {
+    display: none;
+  }
+}
+
+@media (max-width: 960px){
+  .epBtn2 {
+    display: block;
+  }
+
+  .epBtn1 {
+    display: none;
+  }
 }

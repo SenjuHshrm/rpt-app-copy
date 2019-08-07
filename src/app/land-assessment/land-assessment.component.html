@@ -17,7 +17,9 @@
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <!-- Transaction Code -->
         <div class="divCard item item-1 brdr" fxFlex='60%'>
-          <div class='divHeader'></div>
+
+          <div class='divHeader'>
+          </div>
           <br>
           <div class='cardMargin'>
             <div class='container' fxLayout fxLayout.xs='column' fxLayout fxLayoutAlign='center' fxLayoutGap='20px' fxLayoutGap.xs='2%' >
@@ -112,7 +114,8 @@
 
         <!-- Property Location -->
         <div class="divCard item item-2 brdr" fxFlex='40%'>
-          <div class='divHeader'>&nbsp;&nbsp;Property Location</div>
+          <div class='divHeader' (click)="trnsC.expanded = !trnsC.expanded; propLoc.expanded = !propLoc.expanded">&nbsp;&nbsp;Property Location
+          </div>
           <br>
           <div class="cardMargin">
           <mat-card-content formGroupName='propertyLocation'>
@@ -166,7 +169,9 @@
         fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
         <!-- Owner Details -->
         <div class="divCard item item-1 brdr" fxFlex='50%'>
-          <div class="divHeader">&nbsp;&nbsp;Owner Details</div>
+          <div class="divHeader" (click)="epOwner.expanded = !epOwner.expanded; epAdmin.expanded = !epAdmin.expanded">
+            &nbsp;&nbsp;Owner Details
+          </div>
             <br>
             <div class="cardMargin">
             <mat-card-content formGroupName='ownerDetails'>
@@ -248,7 +253,9 @@
 
         <div class="divCard item item-2 brdr" fxFlex='50%'>
           <!-- Admin -->
-          <div class="divHeader">&nbsp;&nbsp;Administrator / Beneficial User</div>
+          <div class="divHeader" (click)="epOwner.expanded = !epOwner.expanded; epAdmin.expanded = !epAdmin.expanded">
+            &nbsp;&nbsp;Administrator / Beneficial User
+          </div>
             <br>
             <div class="cardMargin">
             <mat-card-content formGroupName='adminOwnerLs'>
@@ -333,7 +340,9 @@
         fxLayoutGap.xs='10px'>
         <div class="" fxFlex='100%'>
           <div class="divCard brdr brdrBtm">
-            <div class="divHeader">&nbsp;&nbsp;Land Appraisal</div>
+            <div class="divHeader" (click)="epLndApp.expanded = !epLndApp.expanded">
+              &nbsp;&nbsp;Land Appraisal
+            </div>
             <br>
             <div class='cardMargin'>
             <mat-card-content formGroupName='landAppraisal'>
@@ -388,7 +397,6 @@
                 </div>
               </div>
               <br>
-
             </mat-card-content>
             <div class="dashedHr"></div>
               <p>Stripping</p>
@@ -475,7 +483,9 @@
       fxLayoutGap.xs='20px' fxLayoutGap.sm='20px' id='othrImp'>
       <!-- Other Improvements -->
       <div class="divCard item item-1 brdr" fxFlex='50%'>
-        <div class="divHeader">&nbsp;&nbsp;Other Improvements</div>
+        <div class="divHeader" (click)="epOthrImp.expanded = !epOthrImp.expanded; epMVal.expanded = !epMVal.expanded">
+          &nbsp;&nbsp;Other Improvements
+        </div>
         <br>
         <div class="cardMargin">
         <mat-card-content formGroupName='otherImprovements'>
@@ -544,7 +554,9 @@
       <!-- Other Improvements End -->
 
       <div class="divCard item item-2 brdr" fxFlex='50%'>
-        <div class="divHeader">&nbsp;&nbsp;Market Value</div>
+        <div class="divHeader" (click)="epOthrImp.expanded = !epOthrImp.expanded; epMVal.expanded = !epMVal.expanded">
+          &nbsp;&nbsp;Market Value
+        </div>
         <br>
         <div class="cardMargin">
           <!-- Matket Value -->
@@ -626,7 +638,9 @@
       fxLayoutGap.xs='20px' fxLayoutGap.sm='20px'>
       <!-- Property Assessment -->
       <div class="divCard brdr item item-1" fxFlex='60%'>
-        <div class="divHeader">&nbsp;&nbsp;Property Assessment</div>
+        <div class="divHeader" (click)="epPropAsmt.expanded = !epPropAsmt.expanded; epRSA.expanded = !epRSA.expanded">
+          &nbsp;&nbsp;Property Assessment
+        </div>
         <br>
         <div class="cardMargin">
         <mat-card-content formGroupName='propertyAssessment'>
@@ -723,7 +737,9 @@
       <!-- Property Assessment End -->
 
       <div class="divCard brdr item item-2" fxFlex='40%'>
-        <div class="divHeader">&nbsp;&nbsp;Record of Superseded Assessment</div>
+        <div class="divHeader" (click)="epPropAsmt.expanded = !epPropAsmt.expanded; epRSA.expanded = !epRSA.expanded">
+          &nbsp;&nbsp;Record of Superseded Assessment
+        </div>
         <br>
         <div class="cardMargin">
         <mat-card-content formGroupName='supersededRec'>
@@ -773,15 +789,16 @@
             </div>
         </mat-card-content>
         </div>
+        <br>
       </div>
     </div>
     <div class="h"></div>
       <mat-card-actions align='center'>
         <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-        <div fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
+        <div class="btnCon" fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
           <button [ngClass]="{'saveClrBtnMU': !saveMD , 'saveClrBtnMD': saveMD}" class='sve' mat-raised-button color='primary' type='submit'>Save</button>
         </div>
-        <div fxFlex='15%' (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
+        <div class="btnCon" fxFlex='15%' (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
           <button type='button' [ngClass]="{'saveClrBtnMU': !clrMD , 'saveClrBtnMD': clrMD}" class='clr' mat-raised-button color='warn' (click)="resetForm()">Clear</button>
         </div>
         </div>

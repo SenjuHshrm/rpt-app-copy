@@ -65,10 +65,7 @@ export class LandAssessmentComponent implements OnInit {
 				grp.controls[key].reset();
         grp.controls[key].disable();
       });
-
-
     }
-
   }
 
   ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
