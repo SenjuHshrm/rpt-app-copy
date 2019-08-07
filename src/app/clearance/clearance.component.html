@@ -68,7 +68,7 @@
   <div class='text-center'>
   <span>&nbsp;The latest payment of the tax of the above-described property is for the&nbsp;</span>
   <mat-form-field>
-    <input class="text-center" matInput type='text' [(ngModel)]='input1'>
+    <input id='input1' class="text-center" matInput type='text' [(ngModel)]='input1'>
   </mat-form-field>
   <span>&nbsp;total amount of &#x20B1;:&nbsp;</span>
   <mat-form-field>
@@ -149,7 +149,7 @@
   </div>
   <div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div fxFlex='25%'></div>
-    <div class='width: h-40' fxFlex='50%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false' (click)='genCl()'>
+    <div class='width: h-40' fxFlex='25%' (mousedown)='clckd=true' (mouseup)='clckd=false' (mouseleave)='clckd=false' (click)='genCl()'>
       <button [ngClass]="{ 'genClBtnMd': clckd, 'genClBtn': !clckd }" mat-raised-button color='primary' type='button'>Generate Clearance</button>
     </div>
     <div class='width: h-40' (mousedown)='clrnceMD=true' (mouseup)='clrnceMD=false' (mouseleave)='clrnceMD=false' fxFlex='25%' (click)='clseClrnce()'>
@@ -180,7 +180,7 @@
         </button>
       </div>
       <div fxFlex='64px'>
-        <button mat-raised-button type='button' matTooltip='Refresh' (click)="resetPage()">
+        <button mat-raised-button type='button' matTooltip='Refresh' (click)="resetPage()" tabindex="-1">
           <mat-icon>refresh</mat-icon>
         </button>
       </div>
