@@ -49,6 +49,10 @@ export class RPTOPComponent implements OnInit {
   value: string;
   yearPay: string;
 
+	clicked: boolean;
+	clseDb: boolean;
+	
+
   lTaxHeader: string[] = [
     'arpNo', 'pin', 'surveyNo', 'lotNo', 'blockNo',
     'streetNo', 'brgy', 'subd', 'city', 'province',
