@@ -29,7 +29,7 @@ export class bldgFaasTmp {
    completion_issue_date: string;
    occupancy_issue_date: string;
    date_constructed: string;
-   date_occcupied: string;
+   date_occupied: string;
    building_age: string;
    no_of_storeys: string;
    floor1_area: string;
@@ -38,6 +38,7 @@ export class bldgFaasTmp {
    floor4_area: string;
    total_floor_area: string;
    bc_unit_construction_cost: string;
+	 bc_sub_total: string;
    depreciation_rate: string;
    depreciation_cost: string;
    ad_sub_total: string;

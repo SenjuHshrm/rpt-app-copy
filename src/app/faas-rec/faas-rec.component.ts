@@ -13,8 +13,11 @@ import { genFaas } from '../services/genFaas.service';
 import { landFaasTmp } from '../classes/landFaasTmp';
 import { taxDecTmp } from '../classes/taxDecTmp';
 import * as moment from 'moment';
+import * as jwt_decode from 'jwt-decode';
 import { genTaxDec } from '../services/genTaxDec.service';
 import { bldgFaasTmp } from '../classes/bldgFaasTmp';
+import { getPosHolders } from '../services/getPosHolders.service';
+import * as writtenNumber from 'written-number';
 
 var info: landTaxTable[] = [];
 var infoBldg: landTaxTableBldg[] = [];
@@ -37,7 +40,8 @@ export class FaasRecComponent implements OnInit {
   clseSrch: boolean;
   faasmDwn: boolean;
   tdmDwn: boolean;
-
+	holders: any;
+	encoder: any;
 
   infoLs = new MatTableDataSource(info);
 	infoBldgLs = new MatTableDataSource(infoBldg);
@@ -78,13 +82,18 @@ export class FaasRecComponent implements OnInit {
     private matDialog: MatDialog,
     private route: Router,
     private faas: genFaas,
-    private taxDec: genTaxDec) { }
+    private taxDec: genTaxDec,
+		private posHolders: getPosHolders) { }
 
   ngOnInit() {
     if(!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
-    
+		this.posHolders.getPosHoldersCl('TAX DECLARATION').subscribe(res => {
+			this.holders = res;
+		});
+		let obj: any = jwt_decode(localStorage.getItem('auth'));
+		this.encoder = obj.name;
   }
 
 	selectedRow = [];
@@ -374,22 +383,23 @@ export class FaasRecComponent implements OnInit {
           structural_type: res.building_type,
           building_permit_no: res.building_permit_no,
           permit_issue_date: res.building_permit_issue_date,
-          condominium_certificate: res.condominium_certificate_title,
+          condominium_certificate: res.condominium_cert_title,
           completion_issue_date: res.completion_cert_issue_date,
           occupancy_issue_date: res.occupancy_cert_issue_date,
           date_constructed: res.constructed_date,
-          date_occcupied: res.occupied_date,
+          date_occupied: res.occupied_date,
           building_age: res.building_age,
-          no_of_storeys: res.no_of_storeys,
+          no_of_storeys: res.no_of_storey,
           floor1_area: ' ',
           floor2_area: ' ',
           floor3_area: ' ',
           floor4_area: ' ',
           total_floor_area: res.total_floor_area,
           bc_unit_construction_cost: res.bc_unit_construction_cost,
+					bc_sub_total: res.bc_sub_total_construction_cost,
           depreciation_rate: res.depreciation_rate,
           depreciation_cost: res.depreciation_cost,
-          ad_sub_total: res.ad_sub_total_construction_cost,
+          ad_sub_total: res.ad_sub_total_additional_cost,
           total_percent_depreciation: res.total_percent_depreciated,
           depreciated_market_value: res.depreciated_market_value,
           pa_actual_use: res.pa_actual_use,
@@ -418,10 +428,10 @@ export class FaasRecComponent implements OnInit {
           superseded_recording_personnel: res.superseded_recording_personnel,
           superseded_date: res.superseded_date,
         }
-        for(var i = 1; i <= res.no_of_storey; i++) {
+        for(var i = 1; i <= +res.no_of_storey; i++) {
           Object.keys(data).forEach(key => {
             if(key == ('floor' + i.toString() + '_area')) {
-              key = res.total_floor_area;
+              data[key] = res.total_floor_area.toString();
             }
           })
         }
@@ -437,61 +447,65 @@ export class FaasRecComponent implements OnInit {
     }
     if(this.param1 == 'land') {
       this.taxDec.generateLand(data).subscribe(res => {
+				console.log(res)
+				let faas = res.faas;
+				let admins = res.admins;
+				let owners = res.owners;
         let tmp: taxDecTmp = {
-          td_no: '',
-          pin: '',
-          owner_names: '',
-          owner_tins: '',
-          owner_addresses: '',
-          owner_contact_nos: '',
-          admin_names: '',
-          admin_tins: '',
-          admin_addresses: '',
-          admin_contact_nos: '',
-          street_no: '',
-          brgy_district: '',
-          oct_tct_no: '',
-          survey_no: '',
+          td_no: faas.arp_no,
+          pin: faas.pin_city + '-' + faas.pin_district + '-' + faas.pin_barangay + '-' + faas.pin_section + '-' + faas.pin_parcel,
+          owner_names: this.getOwners(owners),
+          owner_tins: this.getOwnerTIN(owners),
+          owner_addresses: this.getOwnerAddr(owners),
+          owner_contact_nos: this.getOwnerContact(owners),
+          admin_names: this.getAdmins(admins),
+          admin_tins: this.getAdmTIN(admins),
+          admin_addresses: this.getAdmAddr(admins),
+          admin_contact_nos: this.getAdmContact(admins),
+          street_no: faas.street_no,
+          brgy_district: faas.barangay,
+          oct_tct_no: faas.OCT_TCT_no,
+          survey_no: faas.survey_no,
           condo_cert: '',
-          lot_no: '',
-          dated: '',
-          block_no: '',
-          north: '',
-          south: '',
-          east: '',
-          west: '',
-          s1: '',
-          s2: '',
-          s3: '',
-          s4: '',
-          no_of_storey: '',
-          desc_mchn: '',
-          desc_bldg: '',
-          others_specify: '',
-          class: '',
-          area: '',
-          market_val: '',
-          actual_use: '',
-          assess_level: '',
-          assessed_val: '',
-          total_market_val: '',
-          total_assessed_val: '',
-          total_assessed_value_in_words: '',
-          tax: '',
-          exp: '',
-          pa_effectivity_assess_quarter: '',
-          pa_effectivity_assess_year: '',
-          approved_by1: '',
-          approver_title1: '',
-          approved_by2: '',
-          approver_title2: '',
-          approved_by_date: '',
-          previous_td_no: '',
-          previous_owner: '',
-          previous_assessed_value: '',
-          memoranda: '',
-          diag_date_printed: '',
-          diag_printed_by: '',
+          lot_no: faas.lot_no,
+          dated: (faas.date_created == '') ? '' : moment(faas.date_created).format('MM/DD/YYYY'),
+          block_no: faas.block_no,
+          north: faas.north,
+          south: faas.south,
+          east: faas.east,
+          west: faas.west,
+          s1: (this.param1 == 'land') ? 'x' : ' ',
+          s2: (this.param1 == 'building') ? 'x' : ' ',
+          s3: (this.param1 == 'machinery') ? 'x' : ' ',
+          s4: (this.param1 == 'others') ? 'x' : ' ',
+          no_of_storey: ' ',
+          desc_mchn: ' ',
+          desc_bldg: ' ',
+          others_specify: ' ',
+          class: faas.class,
+          area: faas.area,
+          market_val: faas.pa_market_value,
+          actual_use: faas.pa_actual_use,
+          assess_level: faas.pa_assessment_level,
+          assessed_val: faas.pa_assessed_value,
+          total_market_val: faas.pa_market_value,
+          total_assessed_val: faas.pa_total_assessed_value,
+          total_assessed_value_in_words: this.figureToWords(+faas.pa_total_assessed_value),
+          tax: (faas.pa_status == 'TAXABLE') ? 'x' : ' ',
+          exp: (faas.pa_status == 'EXEMPTED') ? 'x' : ' ',
+          pa_effectivity_assess_quarter: faas.pa_effectivity_assess_quarter,
+          pa_effectivity_assess_year: faas.pa_effectivity_assess_year,
+          approved_by1: this.holders[0].holder_name,
+          approver_title1: this.holders[0].position_name,
+          approved_by2: this.holders[1].holder_name,
+          approver_title2: this.holders[1].position_name,
+          approved_by_date: faas.approved_by_date,
+          previous_td_no: faas.superseded_td_no,
+          previous_owner: faas.superseded_previous_owner,
+          previous_assessed_value: faas.superseded_total_assessed_value,
+          memoranda: faas.memoranda,
+          diag_date_printed: moment(new Date()).format('MM/DD/YYYY'),
+          diag_printed_by: this.encoder,
         }
         this.taxDec.file(tmp);
       })
@@ -502,67 +516,113 @@ export class FaasRecComponent implements OnInit {
 
   getOwners(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getOwnerContact(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.contact_no + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.contact_no + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getOwnerAddr(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.address + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.address + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getOwnerTIN(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.TIN + '\n';
-    });
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.TIN + '\n';
+	    });
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmins(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+	    })
+			return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmContact(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.contact_no + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.contact_no + '\n';
+	    })
+	    return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmAddr(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.address + '\n';
-    })
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+      	res = res + arr.address + '\n';
+    	})
+    	return res;
+		} else {
+			return '';
+		}
   }
 
   getAdmTIN(obj: any) {
     let res = '';
-    _.forEach(obj, arr => {
-      res = res + arr.TIN + '\n';
-    });
-    return res;
+    if(obj.length > 0) {
+			_.forEach(obj, arr => {
+	      res = res + arr.TIN + '\n';
+	    });
+	    return res;
+		} else {
+			return '';
+		}
   }
+
+	figureToWords(num: number) {
+		// let wordNum = writtenNumber(num) + ' Pesos';
+		// return wordNum;
+		let wordNum = (writtenNumber(num)).split(' '),
+				resVal = '';
+		_.forEach(wordNum, (arr: any) => {
+			if(arr != 'and') {
+				resVal = resVal + arr.charAt(0).toUpperCase() + arr.slice(1) + ' ';
+			}
+		})
+		resVal = resVal + 'Pesos';
+		return resVal;
+	}
 
 }
 

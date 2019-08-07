@@ -39,6 +39,7 @@ export class BuildingAssessmentComponent implements OnInit {
   aiRemuv: boolean;
   sveBtn: boolean;
   clrBtn: boolean;
+	isVisible_spinner: boolean;
 
   bldgOpt: selectOpt[] = [
     { value: 'DISCOVERY/NEW DECLARATION (DC)', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
