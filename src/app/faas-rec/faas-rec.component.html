@@ -72,7 +72,7 @@
         </button>
       </div>
       <div class="item item-4" fxFlex='64px'>
-        <button mat-button [matMenuTriggerFor]="beforeMenu" mat-raised-button type='button' tabindex="-1" matTooltip="Generate File">
+        <button [disabled]='!genFaasBtn' mat-button [matMenuTriggerFor]="beforeMenu" mat-raised-button type='button' tabindex="-1" matTooltip="Generate File">
           <mat-icon>description</mat-icon>
         </button>
         <mat-menu #beforeMenu="matMenu" xPosition="before">
@@ -88,7 +88,12 @@
           </div>
         </mat-menu>
       </div>
-      <div fxFlex='2.5%'></div>
+      <div class="item item-4" fxFlex='64px'>
+      <button mat-raised-button matTooltip="Refresh">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      </div>
+      <div fxFlex='1.5%'></div>
     </div>
   </mat-card-title>
 </mat-card-header>
@@ -102,7 +107,7 @@
   <div *ngIf="(param1=='land')" class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div class='info-con item item-1' fxFlex='100%'>
       <div class="h"></div>
-      <table mat-table class='mat-elevation-z8' [dataSource]='infoLs'>
+      <table mat-table class='mat-elevation-z8' [dataSource]='infoLs' width='2000px'>
         <ng-container matColumnDef='arpNo'>
           <th *matHeaderCellDef>ARP No.</th>
           <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -176,7 +181,7 @@
   <div *ngIf="(param1=='building')" class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div class='info-con item item-1' fxFlex='100%'>
       <div class="h"></div>
-      <table mat-table class='mat-elevation-z8' [dataSource]='infoBldgLs'>
+      <table mat-table class='mat-elevation-z8' [dataSource]='infoBldgLs' width='2000px'>
         <ng-container matColumnDef='arpNo'>
           <th *matHeaderCellDef>ARP No.</th>
           <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -301,6 +306,5 @@
     </div>
   </div>
   </div>
-  <br><hr><br>
 </div>
 </div>
