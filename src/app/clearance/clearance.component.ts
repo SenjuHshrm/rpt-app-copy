@@ -344,6 +344,7 @@ export class ClearanceComponent implements OnInit {
           clrDb.style.display = "block";
           srchDb.style.display = 'none';
           bckgrnd.style.display = 'block';
+          document.getElementById('input1').focus();
         }
       }
   }
@@ -366,8 +367,6 @@ export class ClearanceComponent implements OnInit {
       }
     }
   }
-
-  test(){alert('asdf')};
 
   genCl() {
     console.log(this.date);
