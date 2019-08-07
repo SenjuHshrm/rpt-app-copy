@@ -97,6 +97,7 @@ export class ClearanceComponent implements OnInit {
       this.gPos.getPosHoldersCl("TAX CLEARANCE").subscribe(res => {
         this.posHolders = res;
       })
+			this.resetPage();
     } else {
       window.location.href = '/'
     }
@@ -421,6 +422,38 @@ export class ClearanceComponent implements OnInit {
   getOwners(): string {
     return (ltTableInfOwner.length > 1) ? ltTableInfOwner[0].ownName + ' ET AL' : ltTableInfOwner[0].ownName ;
   }
+
+	resetPage() {
+		ltTableLs = [];
+		ltTableInfOwner = [];
+		ltTableInfAdmin = [];
+		ltTableBldgLs = [];
+		this.LTTable = new MatTableDataSource(ltTableLs);
+	  this.LTTableInfOwn = new MatTableDataSource(ltTableInfOwner);
+	  this.LTTableInfAdm = new MatTableDataSource(ltTableInfAdmin);
+	  this.LTTableBldg = new MatTableDataSource(ltTableBldgLs);
+		this.input1 = '';
+	  this.amount = '';
+	  this.CTONo = '';
+	  this.dated = '';
+	  this.requestor = '';
+	  this.purpose = '';
+	  this.date = '';
+	  this.certfee = '';
+	  this.amt = '';
+	  this.orNo = '';
+	  this.remarks = '';
+		this.selectedRow = [];
+		this.selectedOwner = [];
+		this.selectedAdmin = [];
+		this.faas = null;
+		this.owner = null;
+		this.admin = null;
+		this.param1 = 'land';
+		this.param2 = 'pin';
+		this.req = '';
+		this.clrnceBtn = false;
+	}
 
 }
 

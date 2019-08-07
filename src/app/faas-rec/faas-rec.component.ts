@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import { genFaas } from '../services/genFaas.service';
+import { setRefNum } from '../services/setRefNum.service';
 import { landFaasTmp } from '../classes/landFaasTmp';
 import { taxDecTmp } from '../classes/taxDecTmp';
 import * as moment from 'moment';
@@ -83,7 +84,8 @@ export class FaasRecComponent implements OnInit {
     private route: Router,
     private faas: genFaas,
     private taxDec: genTaxDec,
-		private posHolders: getPosHolders) { }
+		private posHolders: getPosHolders,
+		private setRfNum: setRefNum ) { }
 
   ngOnInit() {
     if(!localStorage.getItem('auth')) {
@@ -94,6 +96,7 @@ export class FaasRecComponent implements OnInit {
 		});
 		let obj: any = jwt_decode(localStorage.getItem('auth'));
 		this.encoder = obj.name;
+		this.resetPage();
   }
 
 	selectedRow = [];
@@ -451,6 +454,7 @@ export class FaasRecComponent implements OnInit {
 				let faas = res.faas;
 				let admins = res.admins;
 				let owners = res.owners;
+
         let tmp: taxDecTmp = {
           td_no: faas.arp_no,
           pin: faas.pin_city + '-' + faas.pin_district + '-' + faas.pin_barangay + '-' + faas.pin_section + '-' + faas.pin_parcel,
@@ -504,10 +508,18 @@ export class FaasRecComponent implements OnInit {
           previous_owner: faas.superseded_previous_owner,
           previous_assessed_value: faas.superseded_total_assessed_value,
           memoranda: faas.memoranda,
-          diag_date_printed: moment(new Date()).format('MM/DD/YYYY'),
+          diag_date_printed: moment(new Date()).format('MM-DD-YYYY'),
           diag_printed_by: this.encoder,
+					reference_number: ''
         }
-        this.taxDec.file(tmp);
+				let dataRefNum = {
+					type: 'TD',
+					fileName: 'TD_' + tmp.pin + '_' + tmp.diag_date_printed + '.docx',
+				}
+				this.setRfNum.getNum(dataRefNum).subscribe(res => {
+					tmp.reference_number = res.ref;
+					this.taxDec.file(tmp);
+				})
       })
     } else {
 
@@ -622,6 +634,28 @@ export class FaasRecComponent implements OnInit {
 		})
 		resVal = resVal + 'Pesos';
 		return resVal;
+	}
+
+	resetPage() {
+		this.param1 = 'land';
+		this.param2 = 'pin';
+		this.req = '';
+		this.resdata = null;
+		info = [];
+		infoBldg = [];
+		owner = [];
+		admin = [];
+		this.infoLs = new MatTableDataSource(info);
+		this.infoBldgLs = new MatTableDataSource(infoBldg);
+	  this.ownerLs = new MatTableDataSource(owner);
+	  this.adminLs = new MatTableDataSource(admin);
+		this.selectedRow = [];
+		this.selectedOwner = [];
+		this.selectedAdmin = [];
+		this.resfaas = null;
+		this.resowner = null;
+		this.resadmin = null;
+		this.genFaasBtn = false;
 	}
 
 }

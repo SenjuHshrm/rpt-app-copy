@@ -62,7 +62,7 @@
   <b>&nbsp;&nbsp;Clearance</b>
 </div>
 <div class='ovrflw'>
-<div class="clrnce" style=''>
+<div class="clrnce">
   <div class='container' fxLayout fxLayoutGap='10px'>
   </div>
   <div class='text-center'>
@@ -180,7 +180,7 @@
         </button>
       </div>
       <div fxFlex='64px'>
-        <button tabindex="-1" mat-raised-button type='button' matTooltip='Refresh'>
+        <button mat-raised-button type='button' matTooltip='Refresh' (click)="resetPage()" tabindex="-1">
           <mat-icon>refresh</mat-icon>
         </button>
       </div>

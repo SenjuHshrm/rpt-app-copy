@@ -53,4 +53,5 @@ export class taxDecTmp {
    memoranda: string;
    diag_date_printed: string;
    diag_printed_by: string;
+	 reference_number: string;
 }
