@@ -17,6 +17,7 @@ export interface Nav {
 })
 export class MainNavComponent {
   private userFullName: String;
+	ltLinks: boolean;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
