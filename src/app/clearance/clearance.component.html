@@ -200,7 +200,7 @@
       <div *ngIf="(param1=='land')" class='container tbleBrdr' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px'>
         <div class='ltax-con item item-1' fxFlex='100%'>
           <div class="h"></div>
-          <table mat-table class='mat-elevation-z8' [dataSource]='LTTable' width='2000px'>
+          <table mat-table class='mat-elevation-z0' [dataSource]='LTTable' width='2000px'>
             <ng-container matColumnDef='arpNo'>
               <th *matHeaderCellDef>ARP No.</th>
               <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -275,7 +275,7 @@
         <div class='ltax-con item item-1' fxFlex='100%'>
           <!--<label class="label">Building Info</label>-->
           <div class="h"></div>
-          <table mat-table class='mat-elevation-z8' [dataSource]='LTTableBldg' width='2000px'>
+          <table mat-table class='mat-elevation-z0' [dataSource]='LTTableBldg' width='2000px'>
             <ng-container matColumnDef='arpNo'>
               <th *matHeaderCellDef>ARP No.</th>
               <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -344,7 +344,7 @@
         <mat-label class="label">Owner Info</mat-label>
         <div class="label" fxFlex='100%'>
           <div class='ltax-con-inf item item-1' fxFlex='100%'>
-            <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfOwn'>
+            <table mat-table class='mat-elevation-z0' [dataSource]='LTTableInfOwn'>
               <ng-container matColumnDef='ownName'>
                 <th *matHeaderCellDef>Name</th>
                 <td *matCellDef='let data'>{{ data.ownName }}</td>
@@ -372,7 +372,7 @@
         <mat-label class='label'>Admin Info</mat-label>
         <div class="label" fxFlex='100%'>
           <div class='ltax-con-inf item item-2' fxFlex='100%'>
-            <table mat-table class='mat-elevation-z8' [dataSource]='LTTableInfAdm'>
+            <table mat-table class='mat-elevation-z0' [dataSource]='LTTableInfAdm'>
               <ng-container matColumnDef='admName'>
                 <th *matHeaderCellDef>Name</th>
                 <td *matCellDef='let data'>{{ data.admName }}</td>

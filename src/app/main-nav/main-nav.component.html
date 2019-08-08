@@ -1,6 +1,6 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="false"
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [opened]="false">
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [opened]="false" (closed)='expandLt=false; ltLinks=false'>
     <mat-toolbar color="primary" (click)='drawer.toggle()'>
       <!-- <img src='../assets/SPCLOGO.png'>
       <span *ngIf='nonAuth()'>Menu</span>
@@ -22,14 +22,14 @@
       <div class="sidenav" *ngFor='let nav of navs' (click)="drawer.toggle();">
         <a mat-list-item routerLink="{{nav.route}}">{{nav.text}}</a>
       </div>
-      <a mat-list-item (click)="ltLinks = !ltLinks" ng-model="show">
+      <a mat-list-item (click)="ltLinks = !ltLinks; xpandLtLinks()" ng-model="show">
         <div>Land Tax</div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon *ngIf="!ltLinks">expand_more</mat-icon>
         <mat-icon *ngIf="ltLinks">expand_less</mat-icon>
       </a>
 
-      <div [ngClass]="{ 'show': ltLinks, 'hide': !ltLinks }">
+      <!--<div [ngClass]="{ 'show': ltLinks, 'hide': !ltLinks }">
         <a mat-list-item (click)='drawer.toggle(); gotoClearance();' class='fsze'>
           <mat-icon>arrow_right</mat-icon>&nbsp;Clearance
         </a>
@@ -39,7 +39,20 @@
         <a mat-list-item class='fsze' (click)="drawer.toggle(); gotoArrears()">
           <mat-icon>arrow_right</mat-icon>&nbsp;Arrears
         </a>
-      </div>
+      </div>-->
+      <mat-accordion>
+        <mat-expansion-panel class="mat-elevation-z0" [expanded]='expandLt'>
+          <a mat-list-item (click)='drawer.toggle(); gotoClearance();' class='fsze'>
+            <mat-icon>arrow_right</mat-icon>&nbsp;Clearance
+          </a>
+          <a mat-list-item class='fsze' (click)="drawer.toggle(); gotoRPTOP()">
+            <mat-icon>arrow_right</mat-icon>&nbsp;RPTOP
+          </a>
+          <a mat-list-item class='fsze' (click)="drawer.toggle(); gotoArrears()">
+            <mat-icon>arrow_right</mat-icon>&nbsp;Arrears
+          </a>
+        </mat-expansion-panel>
+      </mat-accordion>
 
       <hr width='90%'>
       <div (click)="drawer.toggle()">
@@ -53,7 +66,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button *ngIf='loggedIn()' type="button" aria-label="Toggle sidenav" mat-icon-button (click)="ltLinks=false; drawer.toggle()">
+      <button *ngIf='loggedIn()' type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle();">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span class='spanRPT fntSze'>RPT Web Application</span>

@@ -107,7 +107,7 @@
   <div *ngIf="(param1=='land')" class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div class='info-con item item-1' fxFlex='100%'>
       <div class="h"></div>
-      <table mat-table class='mat-elevation-z8' [dataSource]='infoLs' width='2000px'>
+      <table mat-table class='mat-elevation-z0' [dataSource]='infoLs' width='2000px'>
         <ng-container matColumnDef='arpNo'>
           <th *matHeaderCellDef>ARP No.</th>
           <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -181,7 +181,7 @@
   <div *ngIf="(param1=='building')" class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
     <div class='info-con item item-1' fxFlex='100%'>
       <div class="h"></div>
-      <table mat-table class='mat-elevation-z8' [dataSource]='infoBldgLs' width='2000px'>
+      <table mat-table class='mat-elevation-z0' [dataSource]='infoBldgLs' width='2000px'>
         <ng-container matColumnDef='arpNo'>
           <th *matHeaderCellDef>ARP No.</th>
           <td *matCellDef='let data'>{{ data.arpNo }}</td>
@@ -250,7 +250,7 @@
         <mat-label class="label">Owner Info</mat-label>
       <div class="label" fxFlex='100%'>
       <div class='info-inf item item-1' fxFlex='100%'>
-        <table mat-table class='mat-elevation-z8' [dataSource]='ownerLs'>
+        <table mat-table class='mat-elevation-z0' [dataSource]='ownerLs'>
           <ng-container matColumnDef='ownName'>
             <th *matHeaderCellDef>Name</th>
             <td *matCellDef='let data'>{{ data.ownName }}</td>
@@ -280,7 +280,7 @@
       <mat-label class='label'>Admin Info</mat-label>
       <div class="label" fxFlex='100%'>
       <div class='info-inf item item-2' fxFlex='100%'>
-        <table mat-table class='mat-elevation-z8' [dataSource]='adminLs'>
+        <table mat-table class='mat-elevation-z0' [dataSource]='adminLs'>
           <ng-container matColumnDef='admName'>
             <th *matHeaderCellDef>Name</th>
             <td *matCellDef='let data'>{{ data.admName }}</td>
