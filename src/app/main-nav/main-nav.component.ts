@@ -73,4 +73,12 @@ export class MainNavComponent {
     window.location.href = '/'
   }
 
+  expandLt: boolean = false;
+  xpandLtLinks() {
+    this.expandLt = !this.expandLt;
+  }
+
+  test() {
+    alert('test')
+  }
 }

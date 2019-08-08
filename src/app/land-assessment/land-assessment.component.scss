@@ -2,7 +2,7 @@
 .width-100 { width: 100%; }
 .mat-card-subtitle { color: black }
 .land-assessment-form { margin: 20px 30px 20px 30px }
-.lnd-table { width: 100%; overflow: scroll; background: none; }
+.lnd-table { width: 200px; overflow: auto; background: none; }
 .h { height: 10px; }
 .fl { float: left; }
 .mat-stitle { float: left; line-height:50px; }
@@ -45,7 +45,6 @@ img { width: 50px; height: 50px; }
   background: #FFF;
   /*width: 50%;*/
   /*margin: 0 auto;*/
-  position: relative;
   border-bottom: 1px solid rgba(128, 128, 128, 0.8);
   border-right: 1px solid rgba(128, 128, 128, 0.8);
   border-radius: 4px;
@@ -57,6 +56,10 @@ img { width: 50px; height: 50px; }
 .brdr {
   border: 1px solid #0063EA;
   border-top: none;
+}
+
+.tbleBrdr {
+  border: 1px solid #CCC;
 }
 
 .brdrBtm {
@@ -144,13 +147,17 @@ img { width: 50px; height: 50px; }
 .mat-cell,
 .mat-header-cell { border: 1px solid #e0e0e0; text-align: center;}
 
-.th-25 { width: 25%; }
+/*.th-25 { width: 25%; }
 .th-17 { width: 17%; }
 .th-18 { width: 18%; }
 .th-19 { width: 19%; }
 .th-8 { width: 8%; }
-.th-5 { width: 5%; }
-th { background: #0063EA; color: #fff; font-size: 12px; color: #FFF; font-weight: bold; border: 1px solid #e0e0e0; font-weight: normal; }
+.th-5 { width: 5%; }*/
+.fNmNlNtin { width: 150px; }
+.delCol { width: 50px; }
+.conCol { width: 100px; }
+.addrssCol { width: 300px; }
+th { background: #0063EA; color: #fff; font-size: 12px; color: #FFF; border: 1px solid #e0e0e0; font-weight: normal; }
 td { font-size: 12px; text-align: center; border: 1px solid #e0e0e0; }
 tr {
     &:nth-child(even) {

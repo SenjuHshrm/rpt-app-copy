@@ -2,7 +2,7 @@
 
 .mat-card-subtitle { color: black }
 .bldg-assessment-form { margin: 20px 30px 20px 30px }
-.owner-table { width: 100%; height: auto; }
+.owner-table {  width: 200px; overflow: auto; background: none; }
 .h { height: 10px; }
 .fl { float: left; }
 .mat-stitle { float: left; line-height:50px; }
@@ -329,3 +329,8 @@ tr {
   position: absolute;
   z-index:-10;
 }
+
+.fNmNlNtin { width: 150px; }
+.delCol { width: 50px; }
+.conCol { width: 100px; }
+.addrssCol { width: 300px; }

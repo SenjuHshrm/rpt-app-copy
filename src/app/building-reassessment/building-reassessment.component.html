@@ -143,34 +143,35 @@
             <br>
 
             <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-            <table mat-table class='mat-elevation-z8 owner-table item item-1' fxFlex='100%' [dataSource]='ownersLs'>
+            <div class="owner-table" fxFlex='100%'>
+            <table mat-table class='mat-elevation-z0 item item-1' [dataSource]='ownersLs' width='1200px'>
               <ng-container matColumnDef='fname'>
-                <th class=''*matHeaderCellDef>First Name</th>
-                <td class='' *matCellDef='let data'>{{ data.ownFName }}</td>
+                <th class='fNmNlNtin'*matHeaderCellDef>First Name</th>
+                <td class='fNmNlNtin' *matCellDef='let data'>{{ data.ownFName }}</td>
               </ng-container>
               <ng-container matColumnDef='mname'>
-                <th class=''*matHeaderCellDef>Middle Name</th>
-                <td class='' *matCellDef='let data'>{{ data.ownMName }}</td>
+                <th class='fNmNlNtin'*matHeaderCellDef>Middle Name</th>
+                <td class='fNmNlNtin' *matCellDef='let data'>{{ data.ownMName }}</td>
               </ng-container>
               <ng-container matColumnDef='lname'>
-                <th class=''*matHeaderCellDef>Last Name</th>
-                <td class='' *matCellDef='let data'>{{ data.ownLName }}</td>
+                <th class='fNmNlNtin'*matHeaderCellDef>Last Name</th>
+                <td class='fNmNlNtin' *matCellDef='let data'>{{ data.ownLName }}</td>
               </ng-container>
               <ng-container matColumnDef='address'>
-                <th class='' mat-header-cell *matHeaderCellDef>Address</th>
-                <td class='' mat-cell *matCellDef='let data'>{{ data.ownAddress }}</td>
+                <th class='addrssCol' mat-header-cell *matHeaderCellDef>Address</th>
+                <td class='addrssCol' mat-cell *matCellDef='let data'>{{ data.ownAddress }}</td>
               </ng-container>
               <ng-container matColumnDef='contact'>
-                <th class='' mat-header-cell *matHeaderCellDef>Contact</th>
-                <td class='' mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
+                <th class='conCol' mat-header-cell *matHeaderCellDef>Contact</th>
+                <td class='conCol' mat-cell *matCellDef='let data'>{{ data.ownContact }}</td>
               </ng-container>
               <ng-container matColumnDef='tin'>
-                <th class='th-8' mat-header-cell *matHeaderCellDef>TIN</th>
-                <td class='th-8' mat-cell *matCellDef='let data'>{{ data.ownTIN }}</td>
+                <th class='fNmNlNtin' mat-header-cell *matHeaderCellDef>TIN</th>
+                <td class='fNmNlNtin' mat-cell *matCellDef='let data'>{{ data.ownTIN }}</td>
               </ng-container>
               <ng-container matColumnDef='actions'>
-                <th class='th-8' *matHeaderCellDef></th>
-                <td class='th-8' *matCellDef='let row'>
+                <th class='delCol' *matHeaderCellDef></th>
+                <td class='delCol' *matCellDef='let row'>
                   <button type='button' (click)='removeOwnerDetail(row)' mat-icon-button color='warn'>
                     <mat-icon>delete_outline</mat-icon>
                   </button>
@@ -179,6 +180,7 @@
               <tr mat-header-row *matHeaderRowDef='ownerHeader'></tr>
               <tr mat-row *matRowDef='let row; columns: ownerHeader'></tr>
             </table>
+            </div>
             </div>
           </mat-card-content>
           </div>
@@ -232,34 +234,35 @@
         <br>
 
         <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-          <table mat-table class='mat-elevation-z8 owner-table' fxFlex='100%' [dataSource]='adminsLs'>
+          <div class="owner-table" fxFlex='100%'>
+          <table mat-table class='mat-elevation-z0' [dataSource]='adminsLs' width='1200px'>
             <ng-container matColumnDef='fname'>
-              <th class='' *matHeaderCellDef>First Name</th>
-              <td class='' *matCellDef='let data'>{{ data.admFName }}</td>
+              <th class='fNmNlNtin' *matHeaderCellDef>First Name</th>
+              <td class='fNmNlNtin' *matCellDef='let data'>{{ data.admFName }}</td>
             </ng-container>
             <ng-container matColumnDef='mname'>
-              <th class='' *matHeaderCellDef>Middle Name</th>
-              <td class='' *matCellDef='let data'>{{ data.admMName }}</td>
+              <th class='fNmNlNtin' *matHeaderCellDef>Middle Name</th>
+              <td class='fNmNlNtin' *matCellDef='let data'>{{ data.admMName }}</td>
             </ng-container>
             <ng-container matColumnDef='lname'>
-              <th class='' *matHeaderCellDef>Last Name</th>
-              <td class='' *matCellDef='let data'>{{ data.admLName }}</td>
+              <th class='fNmNlNtin' *matHeaderCellDef>Last Name</th>
+              <td class='fNmNlNtin' *matCellDef='let data'>{{ data.admLName }}</td>
             </ng-container>
             <ng-container matColumnDef='address'>
-              <th class='' mat-header-cell *matHeaderCellDef>Address</th>
-              <td class='' mat-cell *matCellDef='let data'>{{ data.admAddress }}</td>
+              <th class='addrssCol' mat-header-cell *matHeaderCellDef>Address</th>
+              <td class='addrssCol' mat-cell *matCellDef='let data'>{{ data.admAddress }}</td>
             </ng-container>
             <ng-container matColumnDef='contact'>
-              <th class='' mat-header-cell *matHeaderCellDef>Contact</th>
-              <td class='' mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
+              <th class='conCol' mat-header-cell *matHeaderCellDef>Contact</th>
+              <td class='conCol' mat-cell *matCellDef='let data'>{{ data.admContact }}</td>
             </ng-container>
             <ng-container matColumnDef='tin'>
-              <th class='th-8' mat-header-cell *matHeaderCellDef>TIN</th>
-              <td class='th-8' mat-cell *matCellDef='let data'>{{ data.admTIN }}</td>
+              <th class='fNmNlNtin' mat-header-cell *matHeaderCellDef>TIN</th>
+              <td class='fNmNlNtin' mat-cell *matCellDef='let data'>{{ data.admTIN }}</td>
             </ng-container>
             <ng-container matColumnDef='actions'>
-              <th class='th-8' *matHeaderCellDef></th>
-              <td class='th-8' *matCellDef='let row'>
+              <th class='delCol' *matHeaderCellDef></th>
+              <td class='delCol' *matCellDef='let row'>
                 <button type='button' (click)='removeAdminDetail(row)' mat-icon-button color='warn'>
                   <mat-icon>delete_outline</mat-icon>
                 </button>
@@ -268,6 +271,7 @@
             <tr mat-header-row *matHeaderRowDef='adminHeader'></tr>
             <tr mat-row *matRowDef='let row; columns: adminHeader'></tr>
           </table>
+          </div>
         </div>
         </mat-card-content>
         </div>
@@ -829,7 +833,7 @@
           <br>
           <div>
             <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-              <table mat-table class='mat-elevation-z8 owner-table item item-1' fxFlex='100%'>
+              <table mat-table class='mat-elevation-z0 owner-table item item-1' fxFlex='100%'>
                 <ng-container matColumnDef='Floor No.'>
                   <th class="th-8" *matHeaderCellDef>Floor No.</th>
                   <td class="th-8" *matCellDef='let data'></td>
@@ -949,30 +953,31 @@
               <br><br>
               <!--aiTable-->
                     <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-                      <table mat-table class='mat-elevation-z8 owner-table' [dataSource]='addItemsTable'>
+                      <div class="owner-table" fxFlex='100%'>
+                      <table mat-table class='mat-elevation-z0' [dataSource]='addItemsTable' width='1000px'>
                         <ng-container matColumnDef='aItm'>
-                          <th *matHeaderCellDef>Additional Item</th>
-                          <td *matCellDef='let data'>{{ data.adItms }}</td>
+                          <th class="fNmNlNtin" *matHeaderCellDef>Additional Item</th>
+                          <td class="fNmNlNtin" *matCellDef='let data'>{{ data.adItms }}</td>
                         </ng-container>
                         <ng-container matColumnDef='sType'>
-                          <th mat-header-cell *matHeaderCellDef>Sub Type</th>
-                          <td mat-cell *matCellDef='let data'>{{ data.sTyp }}</td>
+                          <th class="fNmNlNtin" mat-header-cell *matHeaderCellDef>Sub Type</th>
+                          <td class="fNmNlNtin" mat-cell *matCellDef='let data'>{{ data.sTyp }}</td>
                         </ng-container>
                         <ng-container matColumnDef='sizem2'>
-                          <th mat-header-cell *matHeaderCellDef>Size (m²)</th>
-                          <td mat-cell *matCellDef='let data'>{{ data.sizeSqrd }}</td>
+                          <th class="fNmNlNtin" mat-header-cell *matHeaderCellDef>Size (m²)</th>
+                          <td class="fNmNlNtin" mat-cell *matCellDef='let data'>{{ data.sizeSqrd }}</td>
                         </ng-container>
                         <ng-container matColumnDef='untCost'>
-                          <th mat-header-cell *matHeaderCellDef>Unit Cost</th>
-                          <td mat-cell *matCellDef='let data'>{{ data.uc }}</td>
+                          <th class="fNmNlNtin" mat-header-cell *matHeaderCellDef>Unit Cost</th>
+                          <td class="fNmNlNtin" mat-cell *matCellDef='let data'>{{ data.uc }}</td>
                         </ng-container>
                         <ng-container matColumnDef='totalC'>
-                          <th mat-header-cell *matHeaderCellDef>Total Cost</th>
-                          <td mat-cell *matCellDef='let data'>{{ data.tc }}</td>
+                          <th class="fNmNlNtin" mat-header-cell *matHeaderCellDef>Total Cost</th>
+                          <td class="fNmNlNtin" mat-cell *matCellDef='let data'>{{ data.tc }}</td>
                         </ng-container>
                         <ng-container matColumnDef='actions'>
-                          <th class="th-8" *matHeaderCellDef></th>
-                          <td class="th-8" *matCellDef='let row'>
+                          <th class="delCol" *matHeaderCellDef></th>
+                          <td class="delCol" *matCellDef='let row'>
                             <button type='button' (click)='removeAI(row)' mat-icon-button color='warn'>
                               <mat-icon>delete_outline</mat-icon>
                             </button>
@@ -982,6 +987,7 @@
                         <tr mat-header-row *matHeaderRowDef='aItemHeader'></tr>
                         <tr mat-row *matRowDef='let row; columns: aItemHeader'></tr>
                       </table>
+                      </div>
                     </div>
                     <div class='item item-3'>
                       <mat-form-field fxFlex='30%'>
