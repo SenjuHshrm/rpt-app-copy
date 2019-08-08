@@ -514,7 +514,8 @@ export class FaasRecComponent implements OnInit {
         }
 				let dataRefNum = {
 					type: 'TD',
-					fileName: 'TD_' + tmp.pin + '_' + tmp.diag_date_printed + '.docx',
+					reqIn: data.param1,
+					reqId: data.id
 				}
 				this.setRfNum.getNum(dataRefNum).subscribe(res => {
 					tmp.reference_number = res.ref;
