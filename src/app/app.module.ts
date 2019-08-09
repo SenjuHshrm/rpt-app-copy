@@ -21,7 +21,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReassessmentsComponent } from './reassessments/reassessments.component';
 import { LandReassessmentComponent } from './land-reassessment/land-reassessment.component';
 import { BuildingReassessmentComponent } from './building-reassessment/building-reassessment.component';
-import { FaasRecComponent, DialogFaasRecTD, DialogFaasRecF, DialogErr } from './faas-rec/faas-rec.component';
+import { FaasRecComponent, DialogFaasRecTD, DialogFaasRecF, DialogErr, FaasRecTDPipe } from './faas-rec/faas-rec.component';
 import { LandTaxComponent } from './land-tax/land-tax.component';
 import { RPTOPComponent } from './rptop/rptop.component';
 import { ClearanceComponent, DialogClearance, DialogClearancePipe, ClearanceComponentErr } from './clearance/clearance.component';
@@ -70,7 +70,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ClearanceComponentErr,
     ArrearsComponent,
     NotFoundComponent,
-		LndReasmtSearch
+		LndReasmtSearch,
+		FaasRecTDPipe
   ],
   imports: [
     BrowserModule,

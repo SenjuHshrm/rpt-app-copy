@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, PipeTransform, Pipe } from '@angular/core';
 import { selectOpt } from '../interfaces/selectOpt';
 import { searchRec } from '../services/searchFaasRec.service';
 import { landTaxTable } from '../interfaces/landTaxTable';
@@ -19,6 +19,7 @@ import { genTaxDec } from '../services/genTaxDec.service';
 import { bldgFaasTmp } from '../classes/bldgFaasTmp';
 import { getPosHolders } from '../services/getPosHolders.service';
 import * as writtenNumber from 'written-number';
+import { DomSanitizer } from '@angular/platform-browser';
 
 var info: landTaxTable[] = [];
 var infoBldg: landTaxTableBldg[] = [];
@@ -450,7 +451,7 @@ export class FaasRecComponent implements OnInit {
     }
     if(this.param1 == 'land') {
       this.taxDec.generateLand(data).subscribe(res => {
-				console.log(res)
+
 				let faas = res.faas;
 				let admins = res.admins;
 				let owners = res.owners;
@@ -519,7 +520,9 @@ export class FaasRecComponent implements OnInit {
 				}
 				this.setRfNum.getNum(dataRefNum).subscribe(res => {
 					tmp.reference_number = res.ref;
-					this.taxDec.file(tmp);
+					this.taxDec.file(tmp).subscribe(resp => {
+						this.matDialog.open(DialogFaasRecTD, { data: { pdf: resp.res }, width: '90%', height: '90%' });
+					})
 				})
       })
     } else {
@@ -679,13 +682,13 @@ export class DialogFaasRecF implements OnInit {
   templateUrl: './dialog-faas-rec-td.html'
 })
 export class DialogFaasRecTD implements OnInit {
-
+	public pdfdata: string;
   constructor(
     private dialogRef: MatDialogRef<DialogFaasRecTD>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-
+		this.pdfdata = this.data.pdf;
   }
 }
 
@@ -703,5 +706,13 @@ export class DialogErr {
 
   close() {
     this.dialogRef.close()
+  }
+}
+
+@Pipe({ name: 'taxDecPipe' })
+export class FaasRecTDPipe implements PipeTransform {
+	constructor(private sanitizer: DomSanitizer) { }
+  transform(value: any) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(value);
   }
 }
