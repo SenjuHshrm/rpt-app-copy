@@ -44,6 +44,7 @@ export class FaasRecComponent implements OnInit {
   tdmDwn: boolean;
 	holders: any;
 	encoder: any;
+	username: any;
 
   infoLs = new MatTableDataSource(info);
 	infoBldgLs = new MatTableDataSource(infoBldg);
@@ -97,6 +98,7 @@ export class FaasRecComponent implements OnInit {
 		});
 		let obj: any = jwt_decode(localStorage.getItem('auth'));
 		this.encoder = obj.name;
+		this.username = obj.username;
 		this.resetPage();
   }
 
@@ -521,7 +523,8 @@ export class FaasRecComponent implements OnInit {
 				this.setRfNum.getNum(dataRefNum).subscribe(res => {
 					tmp.reference_number = res.ref;
 					this.taxDec.file(tmp).subscribe(resp => {
-						this.matDialog.open(DialogFaasRecTD, { data: { pdf: resp.res }, width: '90%', height: '90%' });
+						//console.log(resp)
+						this.matDialog.open(DialogFaasRecTD, { data: { pdf: resp.res }, width: '95%', height: '100%' });
 					})
 				})
       })
@@ -533,8 +536,14 @@ export class FaasRecComponent implements OnInit {
   getOwners(obj: any) {
     let res = '';
     if(obj.length > 0) {
+			let count = 1;
 			_.forEach(obj, arr => {
-	      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+	      if(count < obj.length) {
+					res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + ', ';
+				} else {
+					res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name;
+				}
+				count++;
 	    })
 	    return res;
 		} else {
@@ -581,8 +590,14 @@ export class FaasRecComponent implements OnInit {
   getAdmins(obj: any) {
     let res = '';
     if(obj.length > 0) {
+			let count = 0
 			_.forEach(obj, arr => {
-	      res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + '\n';
+				count++;
+	      if(count < obj.length) {
+					res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name + ', ';
+				} else {
+					res = res + arr.first_name + ' ' + arr.middle_name + ' ' + arr.last_name
+				}
 	    })
 			return res;
 		} else {
@@ -679,7 +694,8 @@ export class DialogFaasRecF implements OnInit {
 
 @Component({
   selector: 'app-dialog-faas-rec-td',
-  templateUrl: './dialog-faas-rec-td.html'
+  templateUrl: './dialog-faas-rec-td.html',
+	styleUrls: ['./dialog-faas-rec-td.scss']
 })
 export class DialogFaasRecTD implements OnInit {
 	public pdfdata: string;
@@ -688,7 +704,7 @@ export class DialogFaasRecTD implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-		this.pdfdata = this.data.pdf;
+		this.pdfdata = 'data:pdf;base64,' + this.data.pdf;
   }
 }
 
