@@ -304,13 +304,13 @@ export class FaasRecComponent implements OnInit {
           transaction_code: res.transaction_code,
           arp_no: res.arp_no,
           pin: res.pin_city + '-' + res.pin_district + '-' + res.pin_barangay + '-' + res.pin_section + '-' + res.pin_parcel,
-          otc_tct_no: res.OCT_TCT_no,
+          oct_tct_no: res.OCT_TCT_no,
           oct_tct_date: ' ',
           survey_no: res.survey_no,
           lot_no: res.lot_no,
           block: res.block_no,
           owner_names: this.getOwners(this.resdata.owner[0]),
-          owner_addresses: this.getOwnerAddr(this.resdata.owner[0]),
+          owner_addresses: this.resdata.owner[0][0].address,
           owner_contact_nos: this.getOwnerContact(this.resdata.owner[0]),
           owner_tins: this.getOwnerTIN(this.resdata.owner[0]),
           admin_names: this.getAdmins(this.resdata.admin[0]),
@@ -338,6 +338,8 @@ export class FaasRecComponent implements OnInit {
           pa_total_assessed_value: res.pa_total_assessed_value,
           pa_effectivity_assess_quarter: res.pa_effectivity_assess_quarter,
           pa_effectivity_assess_year: res.pa_effectivity_assess_year,
+					pa_tax: (res.pa_status == 'TAXABLE') ? 'x' : '',
+					pa_exp: (res.pa_status == 'EXEMPTED') ? 'x' : '',
           appraised_by: res.appraised_by,
           appraised_by_date: res.appraised_by_date,
           recommending: res.recommending,
@@ -358,7 +360,9 @@ export class FaasRecComponent implements OnInit {
           superseded_date: res.superseded_date,
         }
         console.log(info)
-        this.faas.fileLand(info);
+        this.faas.fileLand(info).subscribe(resp => {
+					this.matDialog.open(DialogFaasRecF, { data: { pdf: resp.res }, width: '95%' })
+				});
       })
     } else {
       this.faas.generateBldg({ id: this.resdata.faas[0].id }).subscribe(res => {
@@ -467,7 +471,7 @@ export class FaasRecComponent implements OnInit {
           owner_contact_nos: this.getOwnerContact(owners),
           admin_names: this.getAdmins(admins),
           admin_tins: this.getAdmTIN(admins),
-          admin_addresses: this.getAdmAddr(admins),
+          admin_addresses: owners[0].address,
           admin_contact_nos: this.getAdmContact(admins),
           street_no: faas.street_no,
           brgy_district: faas.barangay,
@@ -524,7 +528,7 @@ export class FaasRecComponent implements OnInit {
 					tmp.reference_number = res.ref;
 					this.taxDec.file(tmp).subscribe(resp => {
 						//console.log(resp)
-						this.matDialog.open(DialogFaasRecTD, { data: { pdf: resp.res }, width: '95%', height: '100%' });
+						this.matDialog.open(DialogFaasRecTD, { data: { pdf: resp.res }, width: '95%' });
 					})
 				})
       })
@@ -681,14 +685,16 @@ export class FaasRecComponent implements OnInit {
 
 @Component({
   selector: 'app-dialog-faas-rec-faas',
-  templateUrl: './dialog-faas-rec-faas.html'
+  templateUrl: './dialog-faas-rec-faas.html',
+	styleUrls: ['./dialog-faas-rec-faas.scss']
 })
 export class DialogFaasRecF implements OnInit {
+	public pdfdata: string;
   constructor(
     private dialogRef: MatDialogRef<DialogFaasRecF>,
     @Inject(MAT_DIALOG_DATA)public data: any) { }
   ngOnInit() {
-
+		this.pdfdata = 'data:application/pdf;base64,' + this.data.pdf;
   }
 }
 
@@ -704,7 +710,7 @@ export class DialogFaasRecTD implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-		this.pdfdata = 'data:pdf;base64,' + this.data.pdf;
+		this.pdfdata = 'data:application/pdf;base64,' + this.data.pdf;
   }
 }
 

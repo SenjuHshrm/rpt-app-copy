@@ -8,11 +8,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PrintingComponent implements OnInit {
 
+	public file: string;
+
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     const param = this.route.snapshot.paramMap.get('file');
-    console.log(param)
+    this.file = param;
   }
 
 

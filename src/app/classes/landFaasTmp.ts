@@ -2,7 +2,7 @@ export class landFaasTmp {
    transaction_code: string;
    arp_no: string;
    pin: string;
-   otc_tct_no: string;
+   oct_tct_no: string;
    oct_tct_date: string;
    survey_no: string;
    lot_no: string;
@@ -36,6 +36,8 @@ export class landFaasTmp {
    pa_total_assessed_value: string;
    pa_effectivity_assess_quarter: string;
    pa_effectivity_assess_year: string;
+	 pa_tax: string;
+	 pa_exp: string;
    appraised_by: string;
    appraised_by_date: string;
    recommending: string;
