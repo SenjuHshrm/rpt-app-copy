@@ -383,11 +383,11 @@ export class ClearanceComponent implements OnInit {
       cto_no: this.CTONo,
       dated: moment(this.dated).format('MM/DD/YYYY'),
       name_of_requestor: this.requestor,
-      s1: ' ',
-      s2: ' ',
-      s3: ' ',
-      s4: ' ',
-      s5: ' ',
+      s1: (this.purpose == 's1') ? 'x' : ' ',
+      s2: (this.purpose == 's2') ? 'x' : ' ',
+      s3: (this.purpose == 's3') ? 'x' : ' ',
+      s4: (this.purpose == 's4') ? 'x' : ' ',
+      s5: (this.purpose == 's5') ? 'x' : ' ',
       verified_by: this.encoder1,
       by_name1: this.posHolders[0].holder_name,
       by_title1: this.posHolders[0].position_name,
@@ -399,24 +399,9 @@ export class ClearanceComponent implements OnInit {
       by_title2: this.posHolders[1].position_name,
       remarks: this.remarks
     };
-    switch(this.purpose) {
-      case 's1':
-        data.s1 = 'x';
-        break;
-      case 's2':
-        data.s2 = 'x';
-        break;
-      case 's3':
-        data.s3 = 'x';
-        break;
-      case 's4':
-        data.s4 = 'x';
-        break;
-      case 's5':
-        data.s5 = 'x';
-        break;
-    }
-    this.genCL.loadFile(data);
+    this.genCL.loadFile(data).subscribe(res => {
+			this.matDialog.open(DialogClearance, { data: { file: res.res }, width: '95%' });
+		});
   }
 
   getOwners(): string {
@@ -475,18 +460,10 @@ export class DialogClearance implements OnInit{
 
   ngOnInit() {
     // console.log(this.genData)
-    let req = {
-      file: this.genData.filename + '.pdf'
-    }
-    this.gC.getFile(req).subscribe(res => {
-      console.log(res);
-      this.docxSrc = 'data:pdf;base64,' + res.file;
-    })
-
+    this.docxSrc = 'data:application/pdf;base64,' + this.genData.file;
     // this.docxSrc = 'http://192.168.100.24:5000/api/get-file/land-tax/' + this.genData.filename + '.pdf';
     // this.docxSrc = 'data:document;base64,' + this.genData
   }
-
 }
 
 @Pipe({ name: 'docxPipe' })

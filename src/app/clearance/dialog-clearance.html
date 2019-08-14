@@ -1,26 +1,14 @@
-<h2 mat-dialog-title>Print</h2>
+<h2 mat-dialog-title>Clearance</h2>
 <div mat-dialog-content class='container' fxLayout fxLayout.xs='column' fxLayoutGap='0'>
-   <!-- <iframe
-      class='item item-1'
-      fxFlex='100%'
-      fxLayoutAlign='center center'
-      [src]="docxSrc | docxPipe"
-      type='application/pdf'>
-   </iframe> -->
-   <!-- <object [data]='docxSrc | docxPipe' class='item item-1' fxFlex='100%' height='100%' type='application/pdf'>
-      
-   </object> -->
-   <!-- <embed [src]='docxSrc | docxPipe' type='application/pdf' /> -->
-   <ngx-extended-pdf-viewer
-      [src]='docxSrc'
-      class='item item-1'
-      fxFlex='100%'
-      height='500px'
-      useBrowserLocale='true'
-      >
-   </ngx-extended-pdf-viewer>
+	 <div class='item item-1' fxFlex='100%'>
+		<iframe
+			[src]='docxSrc | docxPipe'
+			width='100%'
+			height='100%'
+			>
+		</iframe>
+	 </div>
 </div>
 <div mat-dialog-actions>
-   
+
 </div>
-<!-- vnd.openxmlformats-officedocument.wordprocessingml.document -->

@@ -49,6 +49,6 @@ export class genTaxDec {
 				'Authorization': 'Bearer ' + localStorage.getItem('auth')
 		 });
 		 let opt = { headers: headers };
-		 return this.http.post('http://192.168.100.24:5000/api/get-taxdec', data, opt);
+		 return this.http.post('http://192.168.100.24:5000/api/gen-taxdec', data, opt);
    }
 }

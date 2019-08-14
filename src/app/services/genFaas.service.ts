@@ -69,7 +69,7 @@ export class genFaas {
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-			return this.http.post('http://192.168.100.24:5000/api/get-land-faas', data, opt);
+			return this.http.post('http://192.168.100.24:5000/api/gen-land-faas', data, opt);
    }
 
    fileBldg(data: bldgFaasTmp) {
