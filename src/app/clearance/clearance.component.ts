@@ -370,6 +370,7 @@ export class ClearanceComponent implements OnInit {
   }
 
   genCl() {
+		this.clseClrnce();
     console.log(this.date);
     let data: lTaxClearance = {
       current_date: moment(new Date).format('MM-DD-YYYY'),
@@ -381,7 +382,7 @@ export class ClearanceComponent implements OnInit {
       payment_reason: this.input1,
       total_amount: this.amount,
       cto_no: this.CTONo,
-      dated: moment(this.dated).format('MM/DD/YYYY'),
+      dated: moment(new Date(this.dated)).format('MM/DD/YYYY') ,
       name_of_requestor: this.requestor,
       s1: (this.purpose == 's1') ? 'x' : ' ',
       s2: (this.purpose == 's2') ? 'x' : ' ',
@@ -393,12 +394,13 @@ export class ClearanceComponent implements OnInit {
       by_title1: this.posHolders[0].position_name,
       certification_fee: this.certfee,
       or_no: this.orNo,
-      date: moment(this.date).format('MM/DD/YYYY'),
+      date: moment(new Date(this.date)).format('MM/DD/YYYY'),
       amount: this.amt,
       by_name2: this.posHolders[1].holder_name,
       by_title2: this.posHolders[1].position_name,
       remarks: this.remarks
     };
+		console.log(data);
     this.genCL.loadFile(data).subscribe(res => {
 			this.matDialog.open(DialogClearance, { data: { file: res.res }, width: '95%' });
 		});
@@ -444,7 +446,8 @@ export class ClearanceComponent implements OnInit {
 
 @Component({
   selector: 'app-dialog-clearance',
-  templateUrl: 'dialog-clearance.html'
+  templateUrl: 'dialog-clearance.html',
+	styleUrls: ['./dialog-clearance.scss']
 })
 
 
