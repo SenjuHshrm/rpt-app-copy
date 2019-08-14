@@ -79,7 +79,4 @@ export class MainNavComponent {
     this.expandLt = !this.expandLt;
   }
 
-  test() {
-    alert('test')
-  }
 }

@@ -31,8 +31,8 @@
               </mat-select>
             </mat-form-field>
 
-            <div class="" fxFlex='35%'>
-              <button style='width: 100%;' type='button' mat-raised-button color='primary' class='sve' (click)='srch()'>Search</button>
+            <div class="" fxFlex='36%'>
+              <button style='width: 50%; height: 50px;' type='button' mat-raised-button color='primary' class='sve' (click)='srch()'>Search</button>
             </div>
 
             </div>
@@ -769,10 +769,10 @@
     <div class="h"></div>
       <mat-card-actions align='center'>
         <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-        <div fxFlex='15%' (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
+        <div class="btnCon btnW" (mousedown)='saveMD=true' (mouseup)='saveMD=false' (mouseleave)='saveMD=false'>
           <button [ngClass]="{'saveClrBtnMU': !saveMD , 'saveClrBtnMD': saveMD}" class='sve' mat-raised-button color='primary' type='submit'>Save</button>
         </div>
-        <div fxFlex='15%' (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
+        <div class="btnCon btnW" (mousedown)='clrMD=true' (mouseup)='clrMD=false' (mouseleave)='clrMD=false'>
           <button type='button' [ngClass]="{'saveClrBtnMU': !clrMD , 'saveClrBtnMD': clrMD}" class='clr' mat-raised-button color='warn' (click)="resetForm()">Clear</button>
         </div>
         </div>

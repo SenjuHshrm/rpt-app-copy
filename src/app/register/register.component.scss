@@ -92,6 +92,8 @@ button { width: 100%; }
     margin-left: 2%;
     line-height: 50%;
     margin-top: 1.5px;
+    border: 1px solid #0063EA;
+    transition: .1s;
   }
 
   .regBtnMouseUp {
@@ -99,6 +101,7 @@ button { width: 100%; }
     height: 100%;
     font-size: 100%;
     margin-left: 0px;
+    border: 1px solid #0063EA;
   }
 
   .loginBtnMouseDwn {
@@ -108,6 +111,8 @@ button { width: 100%; }
     margin-left: 2%;
     line-height: 50%;
     margin-top: 1.5px;
+    border: 1px solid #CCC;
+    transition: .1s;
   }
 
   .loginBtnMouseUp {
@@ -115,6 +120,7 @@ button { width: 100%; }
     height: 100%;
     font-size: 100%;
     margin-left: 0px;
+    border: 1px solid #CCC;
   }
 
 @mixin bg-opacity($color, $opacity) {
