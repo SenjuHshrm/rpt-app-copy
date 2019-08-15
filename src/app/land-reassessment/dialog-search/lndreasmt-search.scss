@@ -79,7 +79,8 @@ tr {
   margin-left: 5%;
   width: 90%;
   height: 90%;
-  font-size: 12px;
+  font-size: 11px;
+  transition: .1s;
 }
 
 @media (max-width: 999px){
@@ -284,6 +285,7 @@ tr {
 
 .btnW {
   width: 10%;
+  height: 40px;
   margin-left: 5px;
   margin-right: 5px;
 }
@@ -312,6 +314,8 @@ tr {
   height: 90%;
   margin: 0 auto;
   font-size: 12px;
+  transition: .1s;
+  margin-top: 1px;
 }
 
 .dboxBtnmup {
@@ -322,6 +326,16 @@ tr {
 .dboxBtnmdwn {
   width: 90%;
   height: 90%;
+  margin-top: 1px;
   margin-left: 5%;
-  font-size: 12px;
+  font-size: 11px;
+  transition: .1s;
+}
+
+.rbrdr {
+  border: 1px solid #f00;
+}
+
+.bbrdr {
+  border: 1px solid #0063EA;
 }

@@ -132,7 +132,7 @@
 <div class="h2"></div>
 <div mat-dialog-actions align='center'>
 	<div class="btnW" (mousedown)='cancelBtn=true' (mouseup)='cancelBtn=false' (mouseleave)='cancelBtn=false' (click)="close()">
-		<button mat-raised-button color='warn' [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
+		<button class="rbrdr" mat-raised-button color='warn' [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
 	</div>
 	<div class="btnW" (mousedown)='okBtn=true' (mouseup)='okBtn=false' (mouseleave)='okBtn=false'>
 		<button mat-raised-button color='primary' [disabled]='disableBtn()' [mat-dialog-close]='selectedInfo' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
