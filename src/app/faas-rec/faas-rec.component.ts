@@ -314,7 +314,7 @@ export class FaasRecComponent implements OnInit {
           owner_contact_nos: this.getOwnerContact(this.resdata.owner[0]),
           owner_tins: this.getOwnerTIN(this.resdata.owner[0]),
           admin_names: this.getAdmins(this.resdata.admin[0]),
-          admin_addresses: this.getAdmAddr(this.resdata.admin[0]),
+          admin_addresses: this.resdata.admin[0][0].address,
           admin_contact_nos: this.getAdmContact(this.resdata.admin[0]),
           admin_tins: this.getAdmTIN(this.resdata.admin[0]),
           street_no: res.street_no,
