@@ -37,6 +37,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { LndReasmtSearch } from './land-reassessment/dialog-search/lndreasmt-search';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ArrearsComponent,
     NotFoundComponent,
 		LndReasmtSearch,
-		FaasRecTDPipe
+		FaasRecTDPipe,
+		SettingsComponent
   ],
   imports: [
     BrowserModule,

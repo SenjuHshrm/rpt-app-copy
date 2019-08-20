@@ -35,6 +35,20 @@ export class MainNavComponent {
     //{ route: '/user/' + this.getUser() + '/land-tax', text: 'Land Tax'},
   ]
 
+	checkAcctLvl() {
+		let token: any = jwt_decode(localStorage.getItem('auth'));
+		// if(token.type == 'dev' || token.type == 'admin') {
+		// 	return true;
+		// } else
+		return (token.type == 'dev' || token.type == 'admin')
+	}
+
+	gotoSettings() {
+		let token = jwt_decode(localStorage.getItem('auth'))
+    let route = '/user/' + this.getUser() + '/settings'
+    this.route.navigate([route])
+	}
+
   getUser() {
     if (localStorage.getItem('auth')) {
       let token: any = jwt_decode(localStorage.getItem('auth'))

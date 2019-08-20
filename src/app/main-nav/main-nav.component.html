@@ -55,12 +55,15 @@
       </mat-accordion>
 
       <hr width='90%'>
+			<div *ngIf="checkAcctLvl()" (click)='drawer.toggle()'>
+				<a mat-list-item (click)="gotoSettings()">Settings</a>
+			</div>
       <div (click)="drawer.toggle()">
         <a mat-list-item (click)="logOut(); ltLinks=false">Logout</a>
       </div>
-      <div class='gtSettings'>
+      <!-- <div class='gtSettings'>
         Go to settings
-      </div>
+      </div> -->
     </div>
     </mat-nav-list>
   </mat-sidenav>

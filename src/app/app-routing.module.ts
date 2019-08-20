@@ -20,6 +20,7 @@ import { PrintingComponent } from './printing/printing.component';
 import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { SettingsComponent } from './settings/settings.component';
 
 
 const routes: Routes = [
@@ -42,7 +43,7 @@ const routes: Routes = [
   { path: 'user/:username/print/:file', component: PrintingComponent },
   { path: 'user/:username/segregation', component: SegregationComponent },
   { path: 'user/:username/subdivision', component: SubdivisionComponent },
-
+	{ path: 'user/:username/settings', component: SettingsComponent },
 	{ path: 'path/404', component: NotFoundComponent },
 	{ path: '**', redirectTo: '/path/404' }
 ];
@@ -72,5 +73,6 @@ export const routingComponents = [
   PrintingComponent,
   SegregationComponent,
   SubdivisionComponent,
-	NotFoundComponent
+	NotFoundComponent,
+	SettingsComponent
 ]
