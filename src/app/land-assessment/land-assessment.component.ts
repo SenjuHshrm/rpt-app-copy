@@ -19,6 +19,7 @@ import { genFaas } from '../services/genFaas.service';
 import { LndAsmtPending } from './dialog-pending/lndasmt-pending';
 import { landAsmtDataTemp } from '../classes/landAsmtDataTemp';
 import * as moment from 'moment';
+import { getBrgySubd } from '../services/getBrgySubd.service';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -51,6 +52,11 @@ export class LandAssessmentComponent implements OnInit {
 	otherTrns: boolean = false;
 	username: string;
 	approvedBy: string;
+	brgySubdLs: any;
+	lsBrgy: selectOpt[] = [];
+	lsSubd: selectOpt[] = [
+		{ value: 'NONE', viewVal: 'NONE' }
+	];
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -126,7 +132,8 @@ export class LandAssessmentComponent implements OnInit {
 		private getMrktVal: getMarketValues,
 		private asmtLand: assessLand,
 		private gPosHolder: getPosHolders,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+		private lsBrgySubd: getBrgySubd
 	) { }
 
   ngOnInit() {
@@ -145,7 +152,54 @@ export class LandAssessmentComponent implements OnInit {
 		})
 		this.username = this.router.snapshot.paramMap.get('username');
 		this.resetForm();
+		this.lsBrgySubd.get().subscribe(res => {
+			this.brgySubdLs = res.res;
+			let brgys = Array.from(new Set(res.res.map(x => x.barangay_name)));
+			_.forEach(brgys, (arr: string) => {
+				this.lsBrgy.push({
+					value: arr,
+					viewVal: arr
+				})
+			});
+		})
   }
+
+	setDistCodeSubd() {
+		this.lsSubd = [
+			{ value: 'NONE', viewVal: 'NONE'}
+		];
+		let val = this.landAssessment.get('propertyLocation').get('barangay').value,
+				obj = _.find(this.brgySubdLs, { barangay_name: val })
+		this.landAssessment.get('pin').get('district').setValue((obj.district_code.length == 2) ? obj.district_code : '0' + obj.district_code);
+		this.landAssessment.get('pin').get('barangay').setValue((obj.barangay_code.length == 2) ? '0' + obj.barangay_code : '00' + obj.barangay_code);
+		_.forEach(this.brgySubdLs, arr => {
+			if(arr.barangay_name == val) {
+				if(arr.subdivision_name != null) {
+					this.lsSubd.push({
+						value: arr.subdivision_name,
+						viewVal: arr.subdivision_name
+					});
+				}
+			}
+		});
+	}
+
+	setClsSubCls() {
+		let brgyVal = this.landAssessment.get('propertyLocation').get('barangay').value,
+				subdVal = this.landAssessment.get('propertyLocation').get('subdivision').value,
+				obj = _.find(this.brgySubdLs, { barangay_name: brgyVal, subdivision_name: subdVal });
+		if(subdVal != 'NONE') {
+			this.landAssessment.get('landAppraisal').get('class').setValue('RESIDENTIAL');
+			this.lndAppChngVal(this.landAssessment.get('landAppraisal'))
+			this.landAssessment.get('landAppraisal').get('subclass').setValue(obj.sub_class);
+			this.lnAppSubCUV(this.landAssessment.get('landAppraisal'))
+			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('RESIDENTIAL')
+		} else {
+			this.landAssessment.get('landAppraisal').get('class').setValue('');
+			this.landAssessment.get('landAppraisal').get('subclass').setValue('');
+			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('')
+		}
+	}
 
   upBtn() {
     window.scroll(0, 0)
@@ -771,7 +825,7 @@ export class LandAssessmentComponent implements OnInit {
 	      trnsCode: new FormControl(''),
 	      arpNo: new FormControl(''),
 	      pin: new FormGroup({
-	        city: new FormControl('', [Validators.required]),
+	        city: new FormControl('130', [Validators.required]),
 	        district: new FormControl('', [Validators.required]),
 	        barangay: new FormControl('', [Validators.required]),
 	        section: new FormControl('', [Validators.required]),
@@ -785,8 +839,8 @@ export class LandAssessmentComponent implements OnInit {
 	        streetNo: new FormControl(''),
 	        barangay: new FormControl(''),
 	        subdivision: new FormControl(''),
-	        city: new FormControl(''),
-	        province: new FormControl(''),
+	        city: new FormControl('SAN PABLO CITY'),
+	        province: new FormControl('LAGUNA'),
 	        north: new FormControl(''),
 	        south: new FormControl(''),
 	        east: new FormControl(''),

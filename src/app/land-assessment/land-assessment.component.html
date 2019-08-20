@@ -125,16 +125,20 @@
                 <input matInput type='text' placeholder='No. / Street' formControlName='streetNo'  >
               </mat-form-field>
               <mat-form-field class='item item-2' fxFlex='58%'>
-                <input matInput type='text' placeholder='Brgy. / District' formControlName='barangay'  >
+								<mat-select formControlName='barangay' placeholder='Barangay'>
+									<mat-option *ngFor='let brgy of lsBrgy' [value]='brgy.value' (click)='setDistCodeSubd()'>{{ brgy.viewVal }}</mat-option>
+								</mat-select>
               </mat-form-field>
             </div>
             <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%'
               fxLayoutGap.xs='0px'>
               <mat-form-field class='item item-1' fxFlex='32%'>
-                <input matInput type='text' placeholder='City / Municipality' formControlName='city'  >
+								<mat-select formControlName='subdivision' placeholder='Subdivision'>
+									<mat-option *ngFor='let subd of lsSubd' [value]='subd.value' (click)='setClsSubCls()'>{{ subd.viewVal }}</mat-option>
+								</mat-select>
               </mat-form-field>
               <mat-form-field class='item item-2' fxFlex='32%'>
-                <input matInput type='text' placeholder='Subdivision' formControlName='subdivision'  >
+								<input matInput type='text' placeholder='City / Municipality' formControlName='city'  >
               </mat-form-field>
               <mat-form-field class='item item-3' fxFlex='32%'>
                 <input matInput type='text' placeholder='Province' formControlName='province'  >
