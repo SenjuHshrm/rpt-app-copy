@@ -19,6 +19,7 @@ import { genFaas } from '../services/genFaas.service';
 import { landAsmtDataTemp } from '../classes/landAsmtDataTemp';
 import * as moment from 'moment';
 import { reassessments } from '../services/reassessments.service';
+import { getBrgySubd } from '../services/getBrgySubd.service';
 
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
@@ -53,6 +54,11 @@ export class LandReassessmentComponent implements OnInit {
 	searchBtnClckd: boolean = false;
 	approvedBy: string;
 	landFaasId: number;
+	brgySubdLs: any;
+	lsBrgy: selectOpt[] = [];
+	lsSubd: selectOpt[] = [
+		{ value: 'NONE', viewVal: 'NONE' }
+	];
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -123,7 +129,8 @@ export class LandReassessmentComponent implements OnInit {
 		private getMrktVal: getMarketValues,
 		private asmtLand: assessLand,
 		private gPosHolder: getPosHolders,
-		private reasmt: reassessments
+		private reasmt: reassessments,
+		private lsBrgySubd: getBrgySubd
 	) { }
 
   ngOnInit() {
@@ -141,6 +148,16 @@ export class LandReassessmentComponent implements OnInit {
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
 		this.username = this.router.snapshot.paramMap.get('username');
+		this.lsBrgySubd.get().subscribe(res => {
+			this.brgySubdLs = res.res;
+			let brgys = Array.from(new Set(res.res.map(x => x.barangay_name)));
+			_.forEach(brgys, (arr: string) => {
+				this.lsBrgy.push({
+					value: arr,
+					viewVal: arr
+				});
+			})
+		})
 		setTimeout(()=>{
 			this.otherTrns = true;
 			const md = this.matDialog.open(LndReasmtSearch, { disableClose: true, data: {tCode: 'GENERAL REVISION (GR)'}, width: '90%', height: '90%', panelClass: 'custom-dialog-container' })
@@ -153,6 +170,43 @@ export class LandReassessmentComponent implements OnInit {
 				}
 			})
 		}, 100)
+	}
+
+	setDistCodeSubd() {
+		this.lsSubd = [
+			{ value: 'NONE', viewVal: 'NONE'}
+		];
+		let val = this.landAssessment.get('propertyLocation').get('barangay').value,
+				obj = _.find(this.brgySubdLs, { barangay_name: val })
+		this.landAssessment.get('pin').get('district').setValue((obj.district_code.length == 2) ? obj.district_code : '0' + obj.district_code);
+		this.landAssessment.get('pin').get('barangay').setValue((obj.barangay_code.length == 2) ? '0' + obj.barangay_code : '00' + obj.barangay_code);
+		_.forEach(this.brgySubdLs, arr => {
+			if(arr.barangay_name == val) {
+				if(arr.subdivision_name != null) {
+					this.lsSubd.push({
+						value: arr.subdivision_name,
+						viewVal: arr.subdivision_name
+					});
+				}
+			}
+		});
+	}
+
+	setClsSubCls() {
+		let brgyVal = this.landAssessment.get('propertyLocation').get('barangay').value,
+				subdVal = this.landAssessment.get('propertyLocation').get('subdivision').value,
+				obj = _.find(this.brgySubdLs, { barangay_name: brgyVal, subdivision_name: subdVal });
+		if(subdVal != 'NONE') {
+			this.landAssessment.get('landAppraisal').get('class').setValue('RESIDENTIAL');
+			this.lndAppChngVal(this.landAssessment.get('landAppraisal'))
+			this.landAssessment.get('landAppraisal').get('subclass').setValue(obj.sub_class);
+			this.lnAppSubCUV(this.landAssessment.get('landAppraisal'))
+			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('RESIDENTIAL')
+		} else {
+			this.landAssessment.get('landAppraisal').get('class').setValue('');
+			this.landAssessment.get('landAppraisal').get('subclass').setValue('');
+			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('')
+		}
 	}
 
   lndAppChngVal(grp: any) {
