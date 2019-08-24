@@ -1,0 +1,133 @@
+<div class="wrapper">
+	<div class="dBoxCon" *ngIf='dialogBox'>
+		<div style='position: relative; width: 100%; height: 100%;'>
+			<div class="dbox">
+				<div class="divHeader">&nbsp;&nbsp;System Message</div>
+				<br><div class='h'></div>
+				<div class="dBoxErr">{{ errMsg }}</div>
+				<br><div class='h'></div>
+				<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayout.xs='10px' fxLayoutAlign='center'>
+			    <div fxFlex='50%'></div>
+					<div fxFlex='45%' (mouseup)='clckOk=false' (mouseleave)='clckOk=false' (mousedown)='clckOk=true' (click)='dialogBox=false'>
+			   	<button mat-raised-button color='primary' type='button' [ngClass]="{'dboxBtnmup': !clckOk, 'dboxBtnmdwn': clckOk}">OK</button>
+				 	</div>
+				 <div fxFlex='5%'></div>
+			  </div>
+			</div>
+		</div>
+	</div>
+<div class="divHeader"><span>&nbsp;&nbsp;Search {{ data.tc }}</span></div>
+<div class="searchCon">
+	<div class="h"></div>
+<div>
+	<div class="h2"></div>
+	<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='0'>
+		<span class="item item-1 fxFlexW"> Search Record In:</span>
+		<mat-radio-group class='item item-2' fxFlex='auto' [(ngModel)]='searchBy'>
+			<div class='container' fxLayout fxLayoutGap='5px'>
+			<mat-radio-button *ngFor='let p1 of param1' [value]='p1.value'>{{ p1.viewVal }}</mat-radio-button>
+			</div>
+		</mat-radio-group>
+	</div>
+	<div class="h"></div>
+	<div class='container' fxLayout fxLayoutGap='10px'>
+		<mat-form-field class='item item-1 srchInptW'>
+			<input id='inputReq' placeholder='Enter input here' matInput type='text' [(ngModel)]='paramInfo'>
+		</mat-form-field>
+		<div class="item item-2 srchBtnW" (mousedown)="srchmDwn=true" (mouseup)="srchmDwn=false" (mouseleave)="srchmDwn=false" (click)='search()'>
+			<button mat-raised-button color='primary' [ngClass]="{ 'srchBtnmUp': !srchmDwn, 'srchBtnmDwn': srchmDwn }">Search</button>
+		</div>
+		<div class='spinner item item-3'>
+			<div class='spinnerCon' *ngIf='isVisible_spinner'>
+			<div class="sk-fading-circle">
+				<div class="sk-circle1 sk-circle"></div>
+				<div class="sk-circle2 sk-circle"></div>
+				<div class="sk-circle3 sk-circle"></div>
+				<div class="sk-circle4 sk-circle"></div>
+				<div class="sk-circle5 sk-circle"></div>
+				<div class="sk-circle6 sk-circle"></div>
+				<div class="sk-circle7 sk-circle"></div>
+				<div class="sk-circle8 sk-circle"></div>
+				<div class="sk-circle9 sk-circle"></div>
+				<div class="sk-circle10 sk-circle"></div>
+				<div class="sk-circle11 sk-circle"></div>
+				<div class="sk-circle12 sk-circle"></div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<div class='container' fxLayout fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
+    <div class='info-con item item-1' fxFlex='100%'>
+      <div class="h"></div>
+      <table mat-table class='mat-elevation-z8' [dataSource]='dataTable'>
+				<ng-container matColumnDef='arpNo'>
+          <th *matHeaderCellDef>ARP No.</th>
+          <td *matCellDef='let data'>{{ data.arpNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef='pin'>
+          <th mat-header-cell *matHeaderCellDef>PIN</th>
+          <td mat-cell *matCellDef='let data'>{{ data.pin }}</td>
+        </ng-container>
+        <ng-container matColumnDef='brgy'>
+          <th mat-header-cell *matHeaderCellDef>Barangay</th>
+          <td mat-cell *matCellDef='let data'>{{ data.brgy }}</td>
+        </ng-container>
+        <ng-container matColumnDef='subd'>
+          <th mat-header-cell *matHeaderCellDef>Subdivision</th>
+          <td mat-cell *matCellDef='let data'>{{ data.subd }}</td>
+        </ng-container>
+        <ng-container matColumnDef='city'>
+          <th mat-header-cell *matHeaderCellDef>City</th>
+          <td mat-cell *matCellDef='let data'>{{ data.city }}</td>
+        </ng-container>
+        <ng-container matColumnDef='province'>
+          <th mat-header-cell *matHeaderCellDef>Province</th>
+          <td mat-cell *matCellDef='let data'>{{ data.province }}</td>
+        </ng-container>
+        <ng-container matColumnDef='kind'>
+          <th mat-header-cell *matHeaderCellDef>Kind</th>
+          <td mat-cell *matCellDef='let data'>{{ data.kind }}</td>
+        </ng-container>
+        <ng-container matColumnDef='structType'>
+          <th mat-header-cell *matHeaderCellDef>Stuctural Type</th>
+          <td mat-cell *matCellDef='let data'>{{ data.structType }}</td>
+        </ng-container>
+        <ng-container matColumnDef='bldgPermit'>
+          <th mat-header-cell *matHeaderCellDef>Building Permit</th>
+          <td mat-cell *matCellDef='let data'>{{ data.bldgPermit }}</td>
+        </ng-container>
+        <ng-container matColumnDef='dateConstr'>
+          <th mat-header-cell *matHeaderCellDef>Date Constructed</th>
+          <td mat-cell *matCellDef='let data'>{{ data.dateConstr }}</td>
+        </ng-container>
+        <ng-container matColumnDef='storey'>
+          <th mat-header-cell *matHeaderCellDef>Storey</th>
+          <td mat-cell *matCellDef='let data'>{{ data.storey }}</td>
+        </ng-container>
+        <ng-container matColumnDef='actualUse'>
+          <th mat-header-cell *matHeaderCellDef>Actual Use</th>
+          <td mat-cell *matCellDef='let data'>{{ data.actualUse }}</td>
+        </ng-container>
+        <ng-container matColumnDef='assessedVal'>
+          <th *matHeaderCellDef>Assessed Value</th>
+          <td *matCellDef='let data'>{{ data.assessedVal }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef='infoHeader'></tr>
+        <tr mat-row *matRowDef='let row; columns: infoHeader'
+          (click)='tableRowSelected(row)'
+          [style.background]="selectedRow.indexOf(row) != -1 ? 'lightblue' : ''"></tr>
+        </table>
+    </div>
+  </div>
+</div>
+<div class="h2"></div>
+<div mat-dialog-actions align='center'>
+	<div class="btnW" (mousedown)='cancelBtn=true' (mouseup)='cancelBtn=false' (mouseleave)='cancelBtn=false' (click)="close()">
+		<button class="rbrdr" mat-raised-button color='warn' [ngClass]="{ 'mUp': !cancelBtn, 'mDwn': cancelBtn }">Cancel</button>
+	</div>
+	<div class="btnW" (mousedown)='okBtn=true' (mouseup)='okBtn=false' (mouseleave)='okBtn=false'>
+		<button mat-raised-button color='primary' [disabled]='disableBtn()' [mat-dialog-close]='selectedInfo' [ngClass]="{ 'mUp': !okBtn, 'mDwn': okBtn }">OK</button>
+	</div>
+</div>
+</div>
+</div>

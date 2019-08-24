@@ -38,6 +38,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LndReasmtSearch } from './land-reassessment/dialog-search/lndreasmt-search';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SettingsComponent } from './settings/settings.component';
+import { BldgAsmtLnd } from './building-assessment/dialog-search-land/bldgasmt-search';
+import { BldgAsmtBg } from './building-assessment/dialog-search-bldg/bldgasmt-search';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { SettingsComponent } from './settings/settings.component';
     NotFoundComponent,
 		LndReasmtSearch,
 		FaasRecTDPipe,
-		SettingsComponent
+		SettingsComponent,
+		BldgAsmtLnd,
+		BldgAsmtBg
   ],
   imports: [
     BrowserModule,
@@ -120,7 +124,9 @@ import { SettingsComponent } from './settings/settings.component';
 		LndAsmtSearch,
 		LndAsmtPending,
 		LndReasmtSearch,
-    ClearanceComponentErr
+    ClearanceComponentErr,
+		BldgAsmtLnd,
+		BldgAsmtBg
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
@@ -8,6 +8,10 @@ import { adminOwner } from '../interfaces/adminOwner';
 import { landOwner } from '../interfaces/landOwner';
 import { GetBldgValues } from '../services/GetBldgValues.service';
 import { selectOpt } from '../interfaces/selectOpt'
+import { MatDialog } from '@angular/material/dialog';
+import { BldgAsmtLnd } from './dialog-search-land/bldgasmt-search';
+import { BldgAsmtBg } from './dialog-search-bldg/bldgasmt-search';
+
 
 export interface additionalItems {
 
@@ -309,7 +313,8 @@ export class BuildingAssessmentComponent implements OnInit {
 
   constructor(
 		private router: Router,
-		private getBldgVl: GetBldgValues) { }
+		private getBldgVl: GetBldgValues,
+		private mDialog: MatDialog) { }
 
   ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
   adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
@@ -335,7 +340,8 @@ export class BuildingAssessmentComponent implements OnInit {
         district: new FormControl('', [Validators.required]),
         barangay: new FormControl('', [Validators.required]),
         section: new FormControl('', [Validators.required]),
-        parcel: new FormControl('', [Validators.required])
+        parcel: new FormControl('', [Validators.required]),
+				bldgno: new FormControl('')
       }),
 
       //ownerDetails
@@ -516,6 +522,24 @@ export class BuildingAssessmentComponent implements OnInit {
 			})
 		})
   }
+
+	selectTrnsCode() {
+		let trnsCode = this.bldgAssessment.get('bldgCode').value;
+		let title = '';
+		let md: any;
+		if(trnsCode == 'DISCOVERY/NEW DECLARATION (DC)') {
+			md = this.mDialog.open(BldgAsmtLnd, { disableClose: true, width: '90%', height: '90%', data: { tc: 'Land FASS' }, panelClass: 'custom-dialog-container' });
+		} else {
+			md = this.mDialog.open(BldgAsmtBg, { disableClose: true, width: '90%', height: '90%', data: { tc: 'Building FAAS' }, panelClass: 'custom-dialog-container' });
+		}
+		md.afterClosed().subscribe(res => {
+			if(res == undefined) {
+				this.bldgAssessment.get('bldgCode').setValue('');
+			} else {
+				console.log(res);
+			}
+		})
+	}
 
 	setRateVal() {
 		let kind = this.bldgAssessment.get('genDescG').get('genDesc').value;

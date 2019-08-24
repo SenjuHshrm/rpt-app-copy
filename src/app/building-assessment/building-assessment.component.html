@@ -25,7 +25,7 @@
                 <mat-form-field fxFlex='100%'>
                   <mat-label>Transaction Code</mat-label>
                   <mat-select formControlName='bldgCode' required>
-                    <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value'>{{ bldg.viewVal }}</mat-option>
+                    <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value' (click)='selectTrnsCode()'>{{ bldg.viewVal }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -59,6 +59,11 @@
                   <span>-</span>
                   <mat-form-field class='width-10'>
                     <input matInput type='text' formControlName='parcel' required>
+                  </mat-form-field>
+
+									<span>-</span>
+                  <mat-form-field class='width-10'>
+                    <input matInput type='text' formControlName='bldgno' required>
                   </mat-form-field>
 
                   <span>&nbsp;&nbsp;&nbsp;</span>
