@@ -54,4 +54,6 @@ export class taxDecTmp {
    diag_date_printed: string;
    diag_printed_by: string;
 	 reference_number: string;
+	 username: string;
+	 id: number;
 }

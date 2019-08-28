@@ -463,6 +463,7 @@ export class FaasRecComponent implements OnInit {
 				let owners = res.owners;
 
         let tmp: taxDecTmp = {
+					id: this.resdata.faas[0].id,
           td_no: faas.arp_no,
           pin: faas.pin_city + '-' + faas.pin_district + '-' + faas.pin_barangay + '-' + faas.pin_section + '-' + faas.pin_parcel,
           owner_names: this.getOwners(owners),
@@ -517,7 +518,8 @@ export class FaasRecComponent implements OnInit {
           memoranda: faas.memoranda,
           diag_date_printed: moment(new Date()).format('MM-DD-YYYY'),
           diag_printed_by: this.encoder,
-					reference_number: ''
+					reference_number: '',
+					username: this.username
         }
 				let dataRefNum = {
 					type: 'TD',
