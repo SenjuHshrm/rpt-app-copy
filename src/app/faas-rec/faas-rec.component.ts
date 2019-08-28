@@ -570,10 +570,10 @@ export class FaasRecComponent implements OnInit {
   getOwnerAddr(obj: any) {
     let res = '';
     if(obj.length > 0) {
-			_.forEach(obj, arr => {
-	      res = res + arr.address + '\n';
-	    })
-	    return res;
+			// _.forEach(obj, arr => {
+	    //   res = res + arr.address + '\n';
+	    // })
+	    return obj[0].address;
 		} else {
 			return '';
 		}
@@ -624,10 +624,10 @@ export class FaasRecComponent implements OnInit {
   getAdmAddr(obj: any) {
     let res = '';
     if(obj.length > 0) {
-			_.forEach(obj, arr => {
-      	res = res + arr.address + '\n';
-    	})
-    	return res;
+			// _.forEach(obj, arr => {
+      // 	res = res + arr.address + '\n';
+    	// })
+    	return obj[0].address;
 		} else {
 			return '';
 		}
