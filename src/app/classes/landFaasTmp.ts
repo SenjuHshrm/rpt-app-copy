@@ -56,4 +56,6 @@ export class landFaasTmp {
    superseded_ar_page_no: string;
    superseded_recording_personnel: string;
    superseded_date: string;
+	 diag_date_printed: string;
+	 diag_printed_by: string;
 }

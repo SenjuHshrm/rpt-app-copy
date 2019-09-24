@@ -358,6 +358,8 @@ export class FaasRecComponent implements OnInit {
           superseded_ar_page_no: res.superseded_ar_page_no,
           superseded_recording_personnel: res.superseded_recording_personnel,
           superseded_date: res.superseded_date,
+					diag_date_printed: moment(new Date()).format('MM-DD-YYYY'),
+          diag_printed_by: this.encoder,
         }
         console.log(info)
         this.faas.fileLand(info).subscribe(resp => {
@@ -417,6 +419,8 @@ export class FaasRecComponent implements OnInit {
           pa_assessment_level: res.pa_assessment_level,
           pa_assessed_value: res.pa_assessed_value,
           pa_total_assessed_value: res.pa_total_assessed_value,
+					pa_taxable: (res.pa_status == 'TAXABLE') ? 'X': '',
+					pa_exp: (res.pa_status == 'EXEMPTED') ? 'X': '',
           pa_effectivity_assess_quarter: res.pa_effectivity_assess_quarter,
           pa_effectivity_assess_year: res.pa_effectivity_assess_year,
           appraised_by: res.appraised_by,
@@ -426,7 +430,7 @@ export class FaasRecComponent implements OnInit {
           approved_by: res.approved_by,
           approved_by_date: res.approved_by_date,
           memoranda: res.memoranda,
-          date_created: res.date_created,
+          date_created: moment(res.date_created).format('MM-DD-YYYY'),
           entry_by: res.encoder_id,
           superseded_pin: res.superseded_pin,
           superseded_arp_no: res.superseded_arp_no,
@@ -437,6 +441,8 @@ export class FaasRecComponent implements OnInit {
           superseded_ar_page_no: res.superseded_ar_page_no,
           superseded_recording_personnel: res.superseded_recording_personnel,
           superseded_date: res.superseded_date,
+					diag_date_printed: moment(new Date()).format('MM-DD-YYYY'),
+			 		diag_printed_by: this.encoder
         }
         for(var i = 1; i <= +res.no_of_storey; i++) {
           Object.keys(data).forEach(key => {
@@ -445,7 +451,9 @@ export class FaasRecComponent implements OnInit {
             }
           })
         }
-        this.faas.fileBldg(data);
+        this.faas.fileBldg(data).subscribe((resp: any) => {
+					this.matDialog.open(DialogFaasRecF, { data: { pdf: resp.res }, width: '95%' });
+				})
       })
     }
   }

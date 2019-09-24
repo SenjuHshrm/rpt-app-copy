@@ -49,6 +49,8 @@ export class bldgFaasTmp {
    pa_assessment_level: string;
    pa_assessed_value: string;
    pa_total_assessed_value: string;
+	 pa_taxable: string;
+	 pa_exp: string;
    pa_effectivity_assess_quarter: string;
    pa_effectivity_assess_year: string;
    appraised_by: string;
@@ -69,4 +71,6 @@ export class bldgFaasTmp {
    superseded_ar_page_no: string;
    superseded_recording_personnel: string;
    superseded_date: string;
+	 diag_date_printed: string;
+	 diag_printed_by: string;
 }
