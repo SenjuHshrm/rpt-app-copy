@@ -25,30 +25,30 @@ export class genTaxDec {
       return this.http.get('http://192.168.100.24:5000/api/get-faas/land/' + data.id, opt);
    }
 
-   file(data: any): Observable<any> {
-		 // JSZipUtils.getBinaryContent(this.URL, (err, cont) => {
-     //   if (err) { throw err; }
-     //   const zip = new JSZip(cont);
-     //   const doc = new docxtemplater().loadZip(zip)
-     //   doc.setData(data)
-     //   try {
-     //     doc.render()
-     //   } catch (e) {
-     //     console.log(JSON.stringify({ error: e }))
-     //     throw e;
-     //   }
-     //   let outFile = doc.getZip().generate({
-     //     type: 'blob',
-     //     mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-     //   });
-     //   let fileName = 'TD_' + data.pin + '_' + data.diag_date_printed + '.docx';
-     //   saveAs(outFile, fileName);
-     // });
+   fileLand(data: any): Observable<any> {
 		 let headers = new HttpHeaders({
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('auth')
 		 });
 		 let opt = { headers: headers };
-		 return this.http.post('http://192.168.100.24:5000/api/gen-taxdec', data, opt);
+		 return this.http.post('http://192.168.100.24:5000/api/gen-taxdec-land', data, opt);
+   }
+
+   generateBldg(data: any): Observable<any> {
+     let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('auth')
+     });
+     let opt = { headers: headers };
+     return this.http.get('http://192.168.100.24:5000/api/get-faas/bldg/' + data.id, opt);
+   }
+
+   fileBldg(data: any): Observable<any> {
+     let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('auth')
+     });
+     let opt = { headers: headers };
+     return this.http.post('http://192.168.100.24:5000/api/gen-taxdec-bldg', data, opt);
    }
 }

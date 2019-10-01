@@ -58,4 +58,6 @@ export class landFaasTmp {
    superseded_date: string;
 	 diag_date_printed: string;
 	 diag_printed_by: string;
+   username: string;
+   id: string;
 }

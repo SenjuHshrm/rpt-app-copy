@@ -360,6 +360,8 @@ export class FaasRecComponent implements OnInit {
           superseded_date: res.superseded_date,
 					diag_date_printed: moment(new Date()).format('MM-DD-YYYY'),
           diag_printed_by: this.encoder,
+          username: this.username,
+          id: res.land_faas_id
         }
         console.log(info)
         this.faas.fileLand(info).subscribe(resp => {
@@ -442,7 +444,9 @@ export class FaasRecComponent implements OnInit {
           superseded_recording_personnel: res.superseded_recording_personnel,
           superseded_date: res.superseded_date,
 					diag_date_printed: moment(new Date()).format('MM-DD-YYYY'),
-			 		diag_printed_by: this.encoder
+			 		diag_printed_by: this.encoder,
+          username: this.username,
+          id: res.building_faas_id
         }
         for(var i = 1; i <= +res.no_of_storey; i++) {
           Object.keys(data).forEach(key => {
@@ -536,14 +540,90 @@ export class FaasRecComponent implements OnInit {
 				}
 				this.setRfNum.getNum(dataRefNum).subscribe(res => {
 					tmp.reference_number = res.ref;
-					this.taxDec.file(tmp).subscribe(resp => {
+					this.taxDec.fileLand(tmp).subscribe(resp => {
 						//console.log(resp)
 						this.matDialog.open(DialogFaasRecTD, { data: { pdf: resp.res }, width: '95%' });
 					})
 				})
       })
-    } else {
-
+    } else if(this.param1 == 'building') {
+      this.taxDec.generateBldg(data).subscribe(res => {
+        console.log(res);
+        let faas = res.faas;
+				let admins = res.admins;
+				let owners = res.owners;
+        let tmp: taxDecTmp = {
+					id: this.resdata.faas[0].id,
+          td_no: faas.arp_no,
+          pin: faas.pin_city + '-' + faas.pin_district + '-' + faas.pin_barangay + '-' + faas.pin_section + '-' + faas.pin_parcel +  '-' + faas.pin_building_no,
+          owner_names: this.getOwners(owners),
+          owner_tins: this.getOwnerTIN(owners),
+          owner_addresses: this.getAdmAddr(owners),
+          owner_contact_nos: this.getOwnerContact(owners),
+          admin_names: this.getAdmins(admins),
+          admin_tins: this.getAdmTIN(admins),
+          admin_addresses: this.getAdmAddr(admins),
+          admin_contact_nos: this.getAdmContact(admins),
+          street_no: faas.street_no,
+          brgy_district: faas.barangay,
+          oct_tct_no: faas.OCT_TCT_no,
+          survey_no: faas.survey_no,
+          condo_cert: '',
+          lot_no: faas.lot_no,
+          dated: (faas.date_created == '') ? '' : moment(faas.date_created).format('MM/DD/YYYY'),
+          block_no: faas.block_no,
+          north: faas.north,
+          south: faas.south,
+          east: faas.east,
+          west: faas.west,
+          s1: (this.param1 == 'land') ? 'x' : ' ',
+          s2: (this.param1 == 'building') ? 'x' : ' ',
+          s3: (this.param1 == 'machinery') ? 'x' : ' ',
+          s4: (this.param1 == 'others') ? 'x' : ' ',
+          no_of_storey: faas.no_of_storey,
+          desc_mchn: ' ',
+          desc_bldg: ' ',
+          others_specify: ' ',
+          class: faas.class,
+          area: faas.area,
+          market_val: faas.pa_market_value,
+          actual_use: faas.pa_actual_use,
+          assess_level: faas.pa_assessment_level,
+          assessed_val: faas.pa_assessed_value,
+          total_market_val: faas.pa_market_value,
+          total_assessed_val: faas.pa_total_assessed_value,
+          total_assessed_value_in_words: this.figureToWords(+faas.pa_total_assessed_value),
+          tax: (faas.pa_status == 'TAXABLE') ? 'x' : ' ',
+          exp: (faas.pa_status == 'EXEMPTED') ? 'x' : ' ',
+          pa_effectivity_assess_quarter: faas.pa_effectivity_assess_quarter,
+          pa_effectivity_assess_year: faas.pa_effectivity_assess_year,
+          approved_by1: this.holders[0].holder_name,
+          approver_title1: this.holders[0].position_name,
+          approved_by2: this.holders[1].holder_name,
+          approver_title2: this.holders[1].position_name,
+          approved_by_date: faas.approved_by_date,
+          previous_td_no: faas.superseded_td_no,
+          previous_owner: faas.superseded_previous_owner,
+          previous_assessed_value: faas.superseded_total_assessed_value,
+          memoranda: faas.memoranda,
+          diag_date_printed: moment(new Date()).format('MM-DD-YYYY'),
+          diag_printed_by: this.encoder,
+					reference_number: '',
+					username: this.username
+        }
+        let dataRefNum = {
+					type: 'TD',
+					reqIn: data.param1,
+					reqId: data.id
+				}
+				this.setRfNum.getNum(dataRefNum).subscribe(res => {
+					tmp.reference_number = res.ref;
+					this.taxDec.fileBldg(tmp).subscribe(resp => {
+						//console.log(resp)
+						this.matDialog.open(DialogFaasRecTD, { data: { pdf: resp.res }, width: '95%' });
+					})
+				})
+      });
     }
   }
 
