@@ -369,7 +369,9 @@ export class FaasRecComponent implements OnInit {
 				});
       })
     } else {
-      this.faas.generateBldg({ id: this.resdata.faas[0].id }).subscribe(res => {
+      this.faas.generateBldg({ id: this.resdata.faas[0].id }).subscribe(resp => {
+        console.log(resp)
+        let res = resp.faas
         let data: bldgFaasTmp = {
           transaction_code: res.transaction_code,
           arp_no: res.arp_no,
@@ -566,16 +568,16 @@ export class FaasRecComponent implements OnInit {
           admin_contact_nos: this.getAdmContact(admins),
           street_no: faas.street_no,
           brgy_district: faas.barangay,
-          oct_tct_no: faas.OCT_TCT_no,
-          survey_no: faas.survey_no,
-          condo_cert: '',
-          lot_no: faas.lot_no,
-          dated: (faas.date_created == '') ? '' : moment(faas.date_created).format('MM/DD/YYYY'),
-          block_no: faas.block_no,
-          north: faas.north,
-          south: faas.south,
-          east: faas.east,
-          west: faas.west,
+          oct_tct_no: faas.land_oct_tct_no,
+          survey_no: faas.land_survey_no,
+          condo_cert: faas.condominium_cert_title,
+          lot_no: faas.land_lot_no,
+          dated: '',
+          block_no: faas.land_block_no,
+          north: '',
+          south: '',
+          east: '',
+          west: '',
           s1: (this.param1 == 'land') ? 'x' : ' ',
           s2: (this.param1 == 'building') ? 'x' : ' ',
           s3: (this.param1 == 'machinery') ? 'x' : ' ',
@@ -584,8 +586,8 @@ export class FaasRecComponent implements OnInit {
           desc_mchn: ' ',
           desc_bldg: ' ',
           others_specify: ' ',
-          class: faas.class,
-          area: faas.area,
+          class: faas.type,
+          area: faas.total_floor_area,
           market_val: faas.pa_market_value,
           actual_use: faas.pa_actual_use,
           assess_level: faas.pa_assessment_level,
