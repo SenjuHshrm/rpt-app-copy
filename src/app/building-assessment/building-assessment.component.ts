@@ -11,6 +11,7 @@ import { selectOpt } from '../interfaces/selectOpt'
 import { MatDialog } from '@angular/material/dialog';
 import { BldgAsmtLnd } from './dialog-search-land/bldgasmt-search';
 import { BldgAsmtBg } from './dialog-search-bldg/bldgasmt-search';
+import { getBldgStructMat } from '../services/getBldgStructMat.service';
 
 
 export interface additionalItems {
@@ -106,14 +107,10 @@ export class BuildingAssessmentComponent implements OnInit {
     { value: 'Option 1', viewVal: 'Option 5' },
   ]
 
-  //Building Floors Options
-  bflr: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  areaBldgFlr: selectOpt[] = []
+  flooringBldgFlr: selectOpt[] = []
+  wallprtBldgFlr: selectOpt[] = []
+  roofMat: selectOpt[] = [];
 
   //Floor Area Options
   flrA: selectOpt[] = [
@@ -175,30 +172,11 @@ export class BuildingAssessmentComponent implements OnInit {
   ]
 
   //Materials Options
-  matsOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
 
-  //structuralDesc Bldg. flrs.
-  bldgflrsOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
 
-  bldgflrsOpts2: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+
+
+
   //walls and partitions bldg. flrs.
 
   //structuralDesc Mats
@@ -314,7 +292,8 @@ export class BuildingAssessmentComponent implements OnInit {
   constructor(
 		private router: Router,
 		private getBldgVl: GetBldgValues,
-		private mDialog: MatDialog) { }
+		private mDialog: MatDialog,
+    private structMat: getBldgStructMat) { }
 
   ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
   adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
@@ -331,7 +310,7 @@ export class BuildingAssessmentComponent implements OnInit {
       window.location.href = '/'
     }
     this.bldgAssessment = new FormGroup({
-      bldgCode: new FormControl('', [Validators.required]),
+      bldgCode: new FormControl(''),
       arpNo: new FormControl('', [Validators.required]),
 
       //PIN
@@ -400,7 +379,7 @@ export class BuildingAssessmentComponent implements OnInit {
 
       //structuralDescription
       strDescG: new FormGroup({
-        numStorey: new FormControl('', [Validators.required]),
+        numStorey: new FormControl(''),
         bldgflrs: new FormControl(''),
         flrArea: new FormControl(''),
         chckBoxFlrA: new FormControl(''),
@@ -521,6 +500,31 @@ export class BuildingAssessmentComponent implements OnInit {
 				})
 			})
 		})
+
+    this.structMat.getLs().subscribe(res => {
+      this.roofMat = []
+      this.flooringBldgFlr = []
+      this.wallprtBldgFlr = []
+      console.log(res)
+      _.forEach(res, (arr) => {
+        if(arr.type == 'ROOF') {
+          this.roofMat.push({
+            value: arr.sub_type,
+            viewVal: arr.sub_type
+          });
+        } else if(arr.type == 'FLOORING'){
+          this.flooringBldgFlr.push({
+            value: arr.sub_type,
+            viewVal: arr.sub_type
+          })
+        } else if(arr.type == 'WALL') {
+          this.wallprtBldgFlr.push({
+            value: arr.sub_type,
+            viewVal: arr.sub_type
+          })
+        }
+      })
+    })
   }
 
 	selectTrnsCode() {
@@ -551,6 +555,27 @@ export class BuildingAssessmentComponent implements OnInit {
   removeOwnerDetail(evt: any) {
     _.remove(ownerLs, evt)
     this.ownersLs = new MatTableDataSource(ownerLs)
+  }
+
+  areaSetBldgfloors(grp: any) {
+    this.areaBldgFlr = [];
+    this.flooringBldgFlr = [];
+    this.wallprtBldgFlr = []
+    let storey = +grp.controls['numStorey'].value;
+    for(let i = 1; i <= storey; i++) {
+      this.areaBldgFlr.push({
+        value: i.toString(),
+        viewVal: i.toString()
+      });
+      this.flooringBldgFlr.push({
+        value: i.toString(),
+        viewVal: i.toString()
+      });
+      this.wallprtBldgFlr.push({
+        value: i.toString(),
+        viewVal: i.toString()
+      });
+    }
   }
 
   //ADD - REMOVE
@@ -627,14 +652,18 @@ export class BuildingAssessmentComponent implements OnInit {
   smeAreaToggleBtn(grp: any) {
     this.ToggleVal = !this.ToggleVal
     if (this.ToggleVal) {
-      Object.keys(grp.controls).forEach(key => {
-        grp.controls[key].enable();
-      })
+      // Object.keys(grp.controls).forEach(key => {
+      //   grp.controls[key].enable();
+      // })
+      grp.controls['flr1'].enable();
+      grp.controls['flr2'].enable();
     } else {
-      Object.keys(grp.controls).forEach(key => {
-        grp.controls[key].disable()
-        grp.controls[key].reset()
-      })
+      // Object.keys(grp.controls).forEach(key => {
+      //   grp.controls[key].disable()
+      //   grp.controls[key].reset()
+      // })
+      grp.controls['flr1'].disable();
+      grp.controls['flr2'].disable();
     }
   }
 

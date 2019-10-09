@@ -20,77 +20,67 @@
           <br>
           <div class="cardMargin">
             <!-- Transaction Code -->
-            <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%' fxLayoutGap.xs='20px'>
-              <div fxFlex='25%'>
-                <mat-form-field fxFlex='100%'>
-                  <mat-label>Transaction Code</mat-label>
-                  <mat-select formControlName='bldgCode' required>
-                    <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value' (click)='selectTrnsCode()'>{{ bldg.viewVal }}</mat-option>
-                  </mat-select>
+            <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='2%' fxLayoutGap.xs='20px'>
+              <mat-form-field fxFlex='40%'>
+                <mat-label>Transaction Code</mat-label>
+                <mat-select formControlName='bldgCode'>
+                  <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value' (click)='selectTrnsCode()'>{{ bldg.viewVal }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class='container' fxLayout fxLayout.xs='row' fxLayoutAlign='left' fxLayoutGap='2%' fxLayoutGap.xs='20px'>
+              <mat-form-field class='item item-1' fxFlex='30%'>
+                  <input matInput type='text' placeholder='ARP No.' formControlName='arpNo' required>
+              </mat-form-field>
+              <div formGroupName='pin' class='item item-2' fxFlex='70%'>
+                <span>PIN* </span>
+                <mat-form-field class='width-10'>
+                  <input matInput type='text' formControlName='city' required>
                 </mat-form-field>
-              </div>
-              <div fxFlex='25%'>
-                <mat-form-field fxFlex='100%'>
-                    <input matInput type='text' placeholder='ARP No.' formControlName='arpNo' required>
-                  </mat-form-field>
-              </div>
-              <div fxFlex='46%'>
-                <div formGroupName='pin' class='item item-2' fxFlex='100%'>
-                  <span>PIN* </span>
-                  <mat-form-field class='width-10'>
-                    <input matInput type='text' formControlName='city' required>
-                  </mat-form-field>
-
-                  <span>-</span>
-                  <mat-form-field class='width-10'>
-                    <input matInput type='text' formControlName='district' required>
-                  </mat-form-field>
-
-                  <span>-</span>
-                  <mat-form-field class='width-10'>
-                    <input matInput type='text' formControlName='barangay' required>
-                  </mat-form-field>
-
-                  <span>-</span>
-                  <mat-form-field class='width-10'>
-                    <input matInput type='text' formControlName='section' required>
-                  </mat-form-field>
-
-                  <span>-</span>
-                  <mat-form-field class='width-10'>
-                    <input matInput type='text' formControlName='parcel' required>
-                  </mat-form-field>
-
-									<span>-</span>
-                  <mat-form-field class='width-10'>
-                    <input matInput type='text' formControlName='bldgno' required>
-                  </mat-form-field>
-
-                  <span>&nbsp;&nbsp;&nbsp;</span>
-                  <button class="cpBrdr" type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
-                  <span>&nbsp;&nbsp;&nbsp;</span>
-                  <span>
-                    <!-- spinner -->
-                    <span class="spinnerCon">
-                      <mat-icon>{{ checkpinresult }}</mat-icon>
-                    <div class="sk-fading-circle spnrMl" *ngIf='isVisible_spinner'>
-                      <div class="sk-circle1 sk-circle"></div>
-                      <div class="sk-circle2 sk-circle"></div>
-                      <div class="sk-circle3 sk-circle"></div>
-                      <div class="sk-circle4 sk-circle"></div>
-                      <div class="sk-circle5 sk-circle"></div>
-                      <div class="sk-circle6 sk-circle"></div>
-                      <div class="sk-circle7 sk-circle"></div>
-                      <div class="sk-circle8 sk-circle"></div>
-                      <div class="sk-circle9 sk-circle"></div>
-                      <div class="sk-circle10 sk-circle"></div>
-                      <div class="sk-circle11 sk-circle"></div>
-                      <div class="sk-circle12 sk-circle"></div>
-                    </div>
-                    </span>
-                    <!-- spinner end -->
+                <span>-</span>
+                <mat-form-field class='width-10'>
+                  <input matInput type='text' formControlName='district' required>
+                </mat-form-field>
+                <span>-</span>
+                <mat-form-field class='width-10'>
+                  <input matInput type='text' formControlName='barangay' required>
+                </mat-form-field>
+                <span>-</span>
+                <mat-form-field class='width-10'>
+                  <input matInput type='text' formControlName='section' required>
+                </mat-form-field>
+                <span>-</span>
+                <mat-form-field class='width-10'>
+                  <input matInput type='text' formControlName='parcel' required>
+                </mat-form-field>
+								<span>-</span>
+                <mat-form-field class='width-10'>
+                  <input matInput type='text' formControlName='bldgno' required>
+                </mat-form-field>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <button class="cpBrdr" type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAssessment.get('pin'))">Check PIN</button>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <span>
+                  <!-- spinner -->
+                  <span class="spinnerCon">
+                    <mat-icon>{{ checkpinresult }}</mat-icon>
+                  <div class="sk-fading-circle spnrMl" *ngIf='isVisible_spinner'>
+                    <div class="sk-circle1 sk-circle"></div>
+                    <div class="sk-circle2 sk-circle"></div>
+                    <div class="sk-circle3 sk-circle"></div>
+                    <div class="sk-circle4 sk-circle"></div>
+                    <div class="sk-circle5 sk-circle"></div>
+                    <div class="sk-circle6 sk-circle"></div>
+                    <div class="sk-circle7 sk-circle"></div>
+                    <div class="sk-circle8 sk-circle"></div>
+                    <div class="sk-circle9 sk-circle"></div>
+                    <div class="sk-circle10 sk-circle"></div>
+                    <div class="sk-circle11 sk-circle"></div>
+                    <div class="sk-circle12 sk-circle"></div>
+                  </div>
                   </span>
-                </div>
+                  <!-- spinner end -->
+                </span>
               </div>
             </div>
             <br>
@@ -505,7 +495,7 @@
                       fxLayoutGap.xs='10px' fxLayoutGap.sm='10px'>
                       <div fxFlex='100%'>
                         <mat-form-field class='item item-1' fxFlex='100%'>
-                          <input matInput type='text' formControlName='numStorey' placeholder='No. of Storey' required>
+                          <input matInput type='text' formControlName='numStorey' placeholder='No. of Storey' (keyup)="areaSetBldgfloors(bldgAssessment.get('strDescG'))">
                         </mat-form-field>
                       </div>
                     </div>
@@ -515,17 +505,18 @@
                   <mat-form-field class='item item-1' fxFlex='49%'>
                     <mat-label>Building Floors</mat-label>
                     <mat-select formControlName='bldgflrs'>
-                      <mat-option *ngFor='let bldgFloors of bflr' [value]='bldgFloors.value'>{{ bldgFloors.viewVal }}
+                      <mat-option *ngFor='let bldgFloors of areaBldgFlr' [value]='bldgFloors.value'>{{ bldgFloors.viewVal }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
 
                 <mat-form-field class='item item-2' fxFlex='49%'>
-                  <mat-label>Floor Area (m²)</mat-label>
+                  <!-- <mat-label>Floor Area (m²)</mat-label>
                   <mat-select formControlName='flrArea'>
                     <mat-option *ngFor='let floorArea of flrA' [value]='floorArea.value'>{{ floorArea.viewVal }}
                     </mat-option>
-                  </mat-select>
+                  </mat-select> -->
+                  <input matInput type='text' formControlName='flrArea' placeholder='Floor Area (sqm)'>
                 </mat-form-field>
                 </div>
 
@@ -573,7 +564,7 @@
                     <mat-form-field class="item item-1" fxFlex="100%">
                       <mat-label>Materials</mat-label>
                       <mat-select formControlName='mats'>
-                        <mat-option *ngFor='let matsOptions of matsOpts' [value]='matsOptions.value'>
+                        <mat-option *ngFor='let matsOptions of roofMat' [value]='matsOptions.value'>
                           {{ matsOptions.viewVal }}
                         </mat-option>
                       </mat-select>
@@ -606,7 +597,7 @@
                     <mat-form-field class="item item-1" fxFlex="100%">
                       <mat-label>Building Floors</mat-label>
                       <mat-select formControlName='bldgflrs2'>
-                        <mat-option *ngFor='let bflrs2 of bldgflrsOpts' [value]='bflrs2.value'>{{ bflrs2.viewVal }}
+                        <mat-option *ngFor='let bflrs2 of flooringBldgFlr' [value]='bflrs2.value'>{{ bflrs2.viewVal }}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -676,7 +667,7 @@
                     <mat-form-field class="item item-1" fxFlex="100%">
                       <mat-label>Building Floors</mat-label>
                       <mat-select formControlName='bldgflrs3'>
-                        <mat-option *ngFor='let bflrs3 of bldgflrsOpts2' [value]='bflrs3.value'>{{ bflrs3.viewVal }}
+                        <mat-option *ngFor='let bflrs3 of wallprtBldgFlr' [value]='bflrs3.value'>{{ bflrs3.viewVal }}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
