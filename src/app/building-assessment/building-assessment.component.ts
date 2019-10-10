@@ -667,16 +667,16 @@ export class BuildingAssessmentComponent implements OnInit {
     }
   }
 
-  toggleMats() {
+  toggleMats(grp: any) {
     this.roofCbToggle = !this.roofCbToggle
     if (this.roofCbToggle) {
-      this.bldgAssessment.get['strDescG'].controls['materials'].enable();
-      this.bldgAssessment.get['strDescG'].controls['mats'].disable();
-      this.bldgAssessment.get['strDescG'].controls['mats'].reset();
+      grp.controls['mats'].reset();
+      grp.controls['materials'].enable();
+      grp.controls['mats'].disable();
     } else {
-      this.bldgAssessment.get['strDescG'].controls['materials'].disable();
-      this.bldgAssessment.get['strDescG'].controls['materials'].reset();
-      this.bldgAssessment.get['strDescG'].controls['mats'].enable();
+      grp.controls['materials'].reset();
+      grp.controls['materials'].disable();
+      grp.controls['mats'].enable();
     }
   }
 

@@ -573,7 +573,7 @@
 
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                   fxLayoutGap.xs='10px'>
-                    <mat-checkbox formControlName='othrsCB' (click)='toggleMats()'>Others (Specify)</mat-checkbox>
+                    <mat-checkbox formControlName='othrsCB' (click)="toggleMats(bldgAssessment.get('strDescG'))">Others (Specify)</mat-checkbox>
                   </div>
 
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
