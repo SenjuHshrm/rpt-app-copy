@@ -6,6 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import * as _ from 'lodash';
 import { adminOwner } from '../interfaces/adminOwner';
 import { landOwner } from '../interfaces/landOwner';
+import { bldgStructDesc} from '../interfaces/bldgStructDesc';
 import { GetBldgValues } from '../services/GetBldgValues.service';
 import { selectOpt } from '../interfaces/selectOpt'
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +22,7 @@ export interface additionalItems {
 var ownerLs: landOwner[] = []
 var adminLs: adminOwner[] = []
 var addtnlItems: additionalItems[] = []
+var strDsc: bldgStructDesc[] = []
 
 @Component({
   selector: 'app-building-assessment',
@@ -33,6 +35,7 @@ export class BuildingAssessmentComponent implements OnInit {
   ownersLs = new MatTableDataSource(ownerLs)
   adminsLs = new MatTableDataSource(adminLs)
   addItemsTable = new MatTableDataSource(addtnlItems)
+  strcDesc = new MatTableDataSource(strDsc);
   mdpdateOccupied;
   ownAdd: boolean;
   adminAdd: boolean;
@@ -111,6 +114,8 @@ export class BuildingAssessmentComponent implements OnInit {
   flooringBldgFlr: selectOpt[] = []
   wallprtBldgFlr: selectOpt[] = []
   roofMat: selectOpt[] = [];
+  flrArea1: selectOpt[] = []
+  flrArea2: selectOpt[] = []
 
   //Floor Area Options
   flrA: selectOpt[] = [
@@ -122,21 +127,9 @@ export class BuildingAssessmentComponent implements OnInit {
   ]
 
   //Floor With Same Area Options
-  flrArea1: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
 
-  flrArea2: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+
+
 
   //flooring -floors w/ same mats
   flrArea3: selectOpt[] = [
@@ -561,6 +554,8 @@ export class BuildingAssessmentComponent implements OnInit {
     this.areaBldgFlr = [];
     this.flooringBldgFlr = [];
     this.wallprtBldgFlr = []
+    this.flrArea1 = []
+    this.flrArea2 = []
     let storey = +grp.controls['numStorey'].value;
     for(let i = 1; i <= storey; i++) {
       this.areaBldgFlr.push({
@@ -575,6 +570,14 @@ export class BuildingAssessmentComponent implements OnInit {
         value: i.toString(),
         viewVal: i.toString()
       });
+      this.flrArea1.push({
+        value: i.toString(),
+        viewVal: i.toString()
+      })
+      this.flrArea2.push({
+        value: i.toString(),
+        viewVal: i.toString()
+      })
     }
   }
 
@@ -655,6 +658,8 @@ export class BuildingAssessmentComponent implements OnInit {
       // Object.keys(grp.controls).forEach(key => {
       //   grp.controls[key].enable();
       // })
+      grp.controls['bldgflrs'].disable();
+      grp.controls['bldgflrs'].reset();
       grp.controls['flr1'].enable();
       grp.controls['flr2'].enable();
     } else {
@@ -664,6 +669,9 @@ export class BuildingAssessmentComponent implements OnInit {
       // })
       grp.controls['flr1'].disable();
       grp.controls['flr2'].disable();
+      grp.controls['bldgflrs'].enable();
+      grp.controls['flr1'].reset();
+      grp.controls['flr2'].reset();
     }
   }
 

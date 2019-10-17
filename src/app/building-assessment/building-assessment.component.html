@@ -511,11 +511,7 @@
                   </mat-form-field>
 
                 <mat-form-field class='item item-2' fxFlex='49%'>
-                  <!-- <mat-label>Floor Area (m²)</mat-label>
-                  <mat-select formControlName='flrArea'>
-                    <mat-option *ngFor='let floorArea of flrA' [value]='floorArea.value'>{{ floorArea.viewVal }}
-                    </mat-option>
-                  </mat-select> -->
+                  
                   <input matInput type='text' formControlName='flrArea' placeholder='Floor Area (sqm)'>
                 </mat-form-field>
                 </div>
@@ -830,7 +826,7 @@
           <br>
           <div>
             <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
-              <table mat-table class='mat-elevation-z0 owner-table item item-1' fxFlex='100%'>
+              <table mat-table class='mat-elevation-z0 owner-table item item-1' fxFlex='100%' [dataSource]='strcDesc'>
                 <ng-container matColumnDef='Floor No.'>
                   <th *matHeaderCellDef class="th-8">Floor No.</th>
                   <td *matCellDef='let data' class="th-8"></td>
