@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BldgAsmtLnd } from './dialog-search-land/bldgasmt-search';
 import { BldgAsmtBg } from './dialog-search-bldg/bldgasmt-search';
 import { getBldgStructMat } from '../services/getBldgStructMat.service';
+import { group } from '@angular/animations';
 
 
 export interface additionalItems {
@@ -116,6 +117,11 @@ export class BuildingAssessmentComponent implements OnInit {
   roofMat: selectOpt[] = [];
   flrArea1: selectOpt[] = []
   flrArea2: selectOpt[] = []
+  mats2: selectOpt[] = []
+  mats3: selectOpt[] = []
+  buildingFlrsOpts: selectOpt[] = []
+  flrArea5: selectOpt[] = []
+  flrArea6: selectOpt[] = []
 
   //Floor Area Options
   flrA: selectOpt[] = [
@@ -148,21 +154,9 @@ export class BuildingAssessmentComponent implements OnInit {
     { value: 'Option 1', viewVal: 'Option 5' },
   ]
 
-  flrArea5: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  
 
-  flrArea6: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  
 
   //Materials Options
 
@@ -173,22 +167,10 @@ export class BuildingAssessmentComponent implements OnInit {
   //walls and partitions bldg. flrs.
 
   //structuralDesc Mats
-  mats2: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  
 
   //walls and partition
-  mats3: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  
 
   //floortypeOpts
   floortypeOpts: selectOpt[] = [
@@ -200,13 +182,7 @@ export class BuildingAssessmentComponent implements OnInit {
   ]
 
   //buildingFloors4
-  buildingFlrsOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  
 
   //additionalItemsOpts
   aItemOpts: selectOpt[] = [
@@ -498,6 +474,8 @@ export class BuildingAssessmentComponent implements OnInit {
       this.roofMat = []
       this.flooringBldgFlr = []
       this.wallprtBldgFlr = []
+      this.mats2 = [];
+      this.mats3 = []
       console.log(res)
       _.forEach(res, (arr) => {
         if(arr.type == 'ROOF') {
@@ -506,12 +484,12 @@ export class BuildingAssessmentComponent implements OnInit {
             viewVal: arr.sub_type
           });
         } else if(arr.type == 'FLOORING'){
-          this.flooringBldgFlr.push({
+          this.mats2.push({
             value: arr.sub_type,
             viewVal: arr.sub_type
           })
         } else if(arr.type == 'WALL') {
-          this.wallprtBldgFlr.push({
+          this.mats3.push({
             value: arr.sub_type,
             viewVal: arr.sub_type
           })
@@ -556,6 +534,8 @@ export class BuildingAssessmentComponent implements OnInit {
     this.wallprtBldgFlr = []
     this.flrArea1 = []
     this.flrArea2 = []
+    this.buildingFlrsOpts = []
+    strDsc = [];
     let storey = +grp.controls['numStorey'].value;
     for(let i = 1; i <= storey; i++) {
       this.areaBldgFlr.push({
@@ -577,7 +557,37 @@ export class BuildingAssessmentComponent implements OnInit {
       this.flrArea2.push({
         value: i.toString(),
         viewVal: i.toString()
+      });
+      this.buildingFlrsOpts.push({
+        value: i.toString(),
+        viewVal: i.toString()
       })
+      this.flrArea5.push({
+        value: i.toString(),
+        viewVal: i.toString()
+      })
+      this.flrArea6.push({
+        value: i.toString(),
+        viewVal: i.toString()
+      })
+    strDsc.push({
+      floorNo: i.toString(),
+      area: '',
+      flooringMat: '',
+      wallMat: '',
+      floorHeight: '',
+      standardHeight: '',
+      adjBaseRate: '',
+      floorType: ''
+    })
+    }
+    this.strcDesc = new MatTableDataSource(strDsc);
+
+  }
+
+  applyStrDscArea(grp: any) {
+    if(grp.controls['flrArea'] != '') {
+      console.log('Area apply clicked')
     }
   }
 
@@ -688,68 +698,77 @@ export class BuildingAssessmentComponent implements OnInit {
     }
   }
 
-  cbtoggle() {
+  cbtoggle(grp: any) {
     this.flrCbToggleOthrs = !this.flrCbToggleOthrs
     if (this.flrCbToggleOthrs) {
-      this.bldgAssessment.get['strDescG'].controls['othrs2'].enable();
-      this.bldgAssessment.get['strDescG'].controls['mats2'].disable();
-      this.bldgAssessment.get['strDescG'].controls['mats2'].reset();
+      grp.controls['mats2'].reset();
+      grp.controls['mats2'].disable();
+      grp.controls['othrs2'].enable();
     } else {
-      this.bldgAssessment.get['strDescG'].controls['othrs2'].disable();
-      this.bldgAssessment.get['strDescG'].controls['mats2'].enable();
-      this.bldgAssessment.get['strDescG'].controls['othrs2'].reset();
+      grp.controls['othrs2'].reset();
+      grp.controls['othrs2'].disable();
+      grp.controls['mats2'].enable();
     }
   }
 
-  cbtoggle2() {
+  cbtoggle2(grp: any) {
     this.flrCbToggleOthrs2 = !this.flrCbToggleOthrs2
     if (this.flrCbToggleOthrs2) {
-      this.bldgAssessment.get['strDescG'].controls['othrs3'].enable();
-      this.bldgAssessment.get['strDescG'].controls['mats3'].disable();
-      this.bldgAssessment.get['strDescG'].controls['mats3'].reset();
+      grp.controls['mats3'].reset()
+      grp.controls['mats3'].disable()
+      grp.controls['othrs3'].enable()
     } else {
-      this.bldgAssessment.get['strDescG'].controls['othrs3'].disable();
-      this.bldgAssessment.get['strDescG'].controls['mats3'].enable();
-      this.bldgAssessment.get['strDescG'].controls['othrs3'].reset();
+      grp.controls['othrs3'].reset()
+      grp.controls['othrs3'].disable()
+      grp.controls['mats3'].enable()
     }
   }
 
-  flrsmeMatsToggle() {
+  flrsmeMatsToggle(grp: any) {
     this.flrsmeMatsToggleVal = !this.flrsmeMatsToggleVal
     if (this.flrsmeMatsToggleVal) {
-      this.bldgAssessment.get['strDescG'].controls['flr5'].enable();
-      this.bldgAssessment.get['strDescG'].controls['flr6'].enable();
+      grp.controls['bldgflrs3'].reset()
+      grp.controls['bldgflrs3'].disable()
+      grp.controls['flr5'].enable()
+      grp.controls['flr6'].enable()
     } else {
-      this.bldgAssessment.get['strDescG'].controls['flr5'].disable();
-      this.bldgAssessment.get['strDescG'].controls['flr6'].disable();
-      this.bldgAssessment.get['strDescG'].controls['flr5'].reset();
-      this.bldgAssessment.get['strDescG'].controls['flr6'].reset();
+      grp.controls['flr5'].reset()
+      grp.controls['flr6'].reset()
+      grp.controls['flr5'].disable()
+      grp.controls['flr6'].disable()
+      grp.controls['bldgflrs3'].enable()
     }
   }
 
-  flrMatsToggle() {
+  flrMatsToggle(grp: any) {
     this.flrsmeMatsToggleVal2 = !this.flrsmeMatsToggleVal2
     if (this.flrsmeMatsToggleVal2) {
-      this.bldgAssessment.get['strDescG'].controls['flr3'].enable();
-      this.bldgAssessment.get['strDescG'].controls['flr4'].enable();
+      grp.controls['bldgflrs2'].reset()
+      grp.controls['bldgflrs2'].disable()
+      grp.controls['flr3'].enable()
+      grp.controls['flr4'].enable()
     } else {
-      this.bldgAssessment.get['strDescG'].controls['flr3'].disable();
-      this.bldgAssessment.get['strDescG'].controls['flr4'].disable();
-      this.bldgAssessment.get['strDescG'].controls['flr3'].reset();
-      this.bldgAssessment.get['strDescG'].controls['flr4'].reset();
+      grp.controls['flr3'].reset()
+      grp.controls['flr4'].reset()
+      grp.controls['flr3'].disable()
+      grp.controls['flr4'].disable()
+      grp.controls['bldgflrs2'].enable()
     }
   }
 
-  flrMatsToggle2() {
+  flrMatsToggle2(grp: any) {
     this.flrsmeMatsToggleVal3 = !this.flrsmeMatsToggleVal3
     if (this.flrsmeMatsToggleVal3) {
-      this.bldgAssessment.get['strDescG'].controls['flr7'].enable();
-      this.bldgAssessment.get['strDescG'].controls['flr8'].enable();
+      grp.controls['buildingFlrs'].reset()
+      grp.controls['buildingFlrs'].disable()
+      grp.controls['flr7'].enable()
+      grp.controls['flr8'].enable()
     } else {
-      this.bldgAssessment.get['strDescG'].controls['flr7'].disable();
-      this.bldgAssessment.get['strDescG'].controls['flr8'].disable();
-      this.bldgAssessment.get['strDescG'].controls['flr7'].reset();
-      this.bldgAssessment.get['strDescG'].controls['flr8'].reset();
+      grp.controls['flr7'].reset()
+      grp.controls['flr8'].reset()
+      grp.controls['flr7'].disable()
+      grp.controls['flr8'].disable()
+      grp.controls['buildingFlrs'].enable()
     }
   }
 }

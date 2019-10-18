@@ -467,7 +467,7 @@
                 <input matInput type='text' formControlName='aob' placeholder='Age of Building' required>
               </mat-form-field>
             </div>
-
+                                   
           </mat-card-content>
         </div>
         <br>
@@ -541,7 +541,7 @@
 
                 <div class=''>
                   <div fxFlex='100%' (mousedown)='areaApply=true' (mouseup)='areaApply=false' (mouseleave)='areaApply=false'>
-                    <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !areaApply, 'applyBtn': areaApply}">Apply</button>
+                    <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !areaApply, 'applyBtn': areaApply}" (click)="applyStrDscArea(bldgAssessment.get('StrDescG'))">Apply</button>
                   </div>
                 </div>
 
@@ -610,7 +610,7 @@
                   </div>
 
                   <div class='container'>
-                    <mat-checkbox formControlName='othrsCB2' (click)='cbtoggle()'>Others (Specify)</mat-checkbox>
+                    <mat-checkbox formControlName='othrsCB2' (click)="cbtoggle(bldgAssessment.get('strDescG'))">Others (Specify)</mat-checkbox>
                   </div>
 
                   <div class='container'>
@@ -620,7 +620,7 @@
                   </div>
 
                   <div class='container'>
-                    <mat-checkbox formControlName='flrsameMatsCB' (click)='flrMatsToggle()'><span class="fsize">Floor w/ same Materials</span>
+                    <mat-checkbox formControlName='flrsameMatsCB' (click)="flrMatsToggle(bldgAssessment.get('strDescG'))"><span class="fsize">Floor w/ same Materials</span>
                     </mat-checkbox>
                   </div>
 
@@ -681,7 +681,7 @@
 
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                     fxLayoutGap.xs='10px'>
-                    <mat-checkbox formControlName='othrsCB3' (click)='cbtoggle2()'>Others (Specify)</mat-checkbox>
+                    <mat-checkbox formControlName='othrsCB3' (click)="cbtoggle2(bldgAssessment.get('strDescG'))">Others (Specify)</mat-checkbox>
                   </div>
 
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
@@ -693,7 +693,7 @@
 
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                     fxLayoutGap.xs='10px'>
-                    <mat-checkbox formControlName='flrsameMatsCB2' (click)='flrsmeMatsToggle()'><span class="fsize">Floor w/ same Materials</span>
+                    <mat-checkbox formControlName='flrsameMatsCB2' (click)="flrsmeMatsToggle(bldgAssessment.get('strDescG'))"><span class="fsize">Floor w/ same Materials</span>
                     </mat-checkbox>
                   </div>
 
@@ -790,7 +790,7 @@
                 </mat-form-field>
               </div>
               <div>
-                <mat-checkbox formControlName='flrsameMatsCB3' (click)='flrMatsToggle2()'>Floor w/ same Materials
+                <mat-checkbox formControlName='flrsameMatsCB3' (click)="flrMatsToggle2(bldgAssessment.get('strDescG'))">Floor w/ same Materials
                 </mat-checkbox>
               </div>
               <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='2%'
@@ -829,35 +829,35 @@
               <table mat-table class='mat-elevation-z0 owner-table item item-1' fxFlex='100%' [dataSource]='strcDesc'>
                 <ng-container matColumnDef='Floor No.'>
                   <th *matHeaderCellDef class="th-8">Floor No.</th>
-                  <td *matCellDef='let data' class="th-8"></td>
+                  <td *matCellDef='let data' class="th-8">{{ data.floorNo }}</td>
                 </ng-container>
                 <ng-container matColumnDef='Area'>
                   <th mat-header-cell *matHeaderCellDef class="th-8">Area</th>
-                  <td mat-cell *matCellDef='let data' class="th-8"></td>
+                  <td mat-cell *matCellDef='let data' class="th-8">{{ data.area }}</td>
                 </ng-container>
                 <ng-container matColumnDef='Flooring Material'>
                   <th mat-header-cell *matHeaderCellDef>Flooring Material</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <td mat-cell *matCellDef='let data'>{{ data.flooringMat }}</td>
                 </ng-container>
                 <ng-container matColumnDef='Wall Material'>
                   <th mat-header-cell *matHeaderCellDef>Wall Material</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <td mat-cell *matCellDef='let data'>{{ data.wallMat }}</td>
                 </ng-container>
                 <ng-container matColumnDef='Floor Height'>
                   <th mat-header-cell *matHeaderCellDef>Floor Height</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <td mat-cell *matCellDef='let data'>{{ data.floorHeight }}</td>
                 </ng-container>
                 <ng-container matColumnDef='Standard Height'>
                   <th mat-header-cell *matHeaderCellDef>Standard Height</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <td mat-cell *matCellDef='let data'>{{ data.standardHeight }}</td>
                 </ng-container>
                 <ng-container matColumnDef='Adjusted Basic Rate'>
                   <th mat-header-cell *matHeaderCellDef>Adjusted Basic Rate</th>
-                  <td mat-cell *matCellDef='let data'></td>
+                  <td mat-cell *matCellDef='let data'>{{ data.adjBaseRate }}</td>
                 </ng-container>
                 <ng-container matColumnDef='Floor Type'>
                   <th *matHeaderCellDef>Floor Type</th>
-                  <td *matCellDef='let data'></td>
+                  <td *matCellDef='let data'>{{ data.floorType }}</td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef='strDescHeader'></tr>
