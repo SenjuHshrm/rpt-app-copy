@@ -112,6 +112,7 @@ export class LndAsmtSearch implements OnInit {
 						_.forEach(res.data.faas, (arr: any) => {
 							this.idArray.push(arr.id)
 							dTable.push({
+								id: arr.id,
 								arpNo: arr.ARPNo,
 						    pin: arr.PIN,
 						    surveyNo: arr.SurveyNo,

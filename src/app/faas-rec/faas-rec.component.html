@@ -108,6 +108,10 @@
     <div class='info-con item item-1' fxFlex='100%'>
       <div class="h"></div>
       <table mat-table class='mat-elevation-z0' [dataSource]='infoLs' width='2000px'>
+        <ng-container>
+          <th *matHeaderCellDef></th>
+          <td *matCellDef='let data'>{{ data.id }}</td>
+        </ng-container>
         <ng-container matColumnDef='arpNo'>
           <th *matHeaderCellDef>ARP No.</th>
           <td *matCellDef='let data'>{{ data.arpNo }}</td>

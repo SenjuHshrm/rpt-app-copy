@@ -226,6 +226,7 @@ export class ClearanceComponent implements OnInit {
               case 'land':
                 _.forEach(this.faas, (arr: any)=> {
                   ltTableLs.push({
+                    id: arr.id,
                     arpNo: arr.ARPNo,
                     pin: arr.PIN,
                     surveyNo: arr.SurveyNo,
@@ -248,6 +249,7 @@ export class ClearanceComponent implements OnInit {
               case 'building':
                 _.forEach(this.faas, (arr: any) => {
                   ltTableBldgLs.push({
+                    id: arr.id,
                     arpNo: arr.ARPNo,
                     pin: arr.PIN,
                     brgy: arr.Barangay,

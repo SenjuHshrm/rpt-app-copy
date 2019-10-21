@@ -1,4 +1,5 @@
 export interface landTaxTable {
+   id: string;
    arpNo: string;
    pin: string;
    surveyNo: string;

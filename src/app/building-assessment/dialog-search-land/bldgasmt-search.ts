@@ -125,7 +125,8 @@ export class BldgAsmtLnd implements OnInit {
 						_.forEach(res.data.faas, (arr: any) => {
 							this.idArray.push(arr.id)
 							dTable.push({
-								arpNo: arr.ARPNo,
+							id: arr.id,
+							arpNo: arr.ARPNo,
 						    pin: arr.PIN,
 						    surveyNo: arr.SurveyNo,
 						    lotNo: arr.LotNo,

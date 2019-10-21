@@ -1,4 +1,5 @@
 export interface landTaxTableBldg {
+   id: string;
    arpNo: string;
    pin: string;
    brgy: string;

@@ -44,7 +44,8 @@ export class FaasRecComponent implements OnInit {
   tdmDwn: boolean;
 	holders: any;
 	encoder: any;
-	username: any;
+  username: any;
+  faasId: any;
 
   infoLs = new MatTableDataSource(info);
 	infoBldgLs = new MatTableDataSource(infoBldg);
@@ -147,13 +148,16 @@ export class FaasRecComponent implements OnInit {
 				admContact: arr.contact_no,
 				admTIN: arr.TIN
 			});
-		});
+    });
+    console.log(row)
+    this.faasId = row.id;
 		this.ownerLs = new MatTableDataSource(owner);
 		this.adminLs = new MatTableDataSource(admin);
 		console.table(this.selectedRow);
 		console.table(this.selectedOwner);
 		console.table(this.selectedAdmin);
     this.genFaasBtn = true;
+    console.log(this.faasId)
 	}
 
   isVisible_spinner = false
@@ -196,6 +200,7 @@ export class FaasRecComponent implements OnInit {
   							case 'land':
   								_.forEach(this.resfaas, arr => {
   		              info.push({
+                      id: arr.id,
   		                arpNo: arr.ARPNo,
   		                pin: arr.PIN,
   		                surveyNo: arr.SurveyNo,
@@ -218,6 +223,7 @@ export class FaasRecComponent implements OnInit {
   							case 'building':
   								_.forEach(this.resfaas, arr => {
   									infoBldg.push({
+                      id: arr.id,
   										arpNo: arr.ARPNo,
   			              pin: arr.PIN,
   			              brgy: arr.Barangay,
@@ -297,9 +303,9 @@ export class FaasRecComponent implements OnInit {
 
   generateFaas() {
     if(this.param1 == 'land') {
-      this.faas.generateLand({ id: this.resdata.faas[0].id }).subscribe(resp => {
+      this.faas.generateLand({ id: this.faasId }).subscribe(resp => {
 				console.log(resp)
-				let res = resp.faas;
+        let res = resp.faas;
         let info: landFaasTmp = {
           transaction_code: res.transaction_code,
           arp_no: res.arp_no,
@@ -309,14 +315,14 @@ export class FaasRecComponent implements OnInit {
           survey_no: res.survey_no,
           lot_no: res.lot_no,
           block: res.block_no,
-          owner_names: this.getOwners(this.resdata.owner[0]),
-          owner_addresses: this.resdata.owner[0][0].address,
-          owner_contact_nos: this.getOwnerContact(this.resdata.owner[0]),
-          owner_tins: this.getOwnerTIN(this.resdata.owner[0]),
-          admin_names: this.getAdmins(this.resdata.admin[0]),
-          admin_addresses: this.resdata.admin[0][0].address,
-          admin_contact_nos: this.getAdmContact(this.resdata.admin[0]),
-          admin_tins: this.getAdmTIN(this.resdata.admin[0]),
+          owner_names: this.getOwners(resp.owners),
+          owner_addresses: resp.owners[0].address,
+          owner_contact_nos: this.getOwnerContact(resp.owners),
+          owner_tins: this.getOwnerTIN(resp.owners),
+          admin_names: this.getAdmins(resp.admins),
+          admin_addresses: resp.admins[0].address,
+          admin_contact_nos: this.getAdmContact(resp.admins),
+          admin_tins: this.getAdmTIN(resp.admins),
           street_no: res.street_no,
           barangay_district: res.barangay,
           municipality: res.city,
@@ -467,7 +473,7 @@ export class FaasRecComponent implements OnInit {
   generateTD() {
     let data: any = {
       param1: this.param1,
-      id: this.resdata.faas[0].id
+      id: this.faasId
     }
     if(this.param1 == 'land') {
       this.taxDec.generateLand(data).subscribe(res => {
