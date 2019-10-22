@@ -4,6 +4,7 @@ import { login } from '../services/login.service';
 import { loginAuthRes } from '../classes/login';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SetAuthRoute } from '../services/auth.service';
+import { BnNgIdleService} from 'bn-ng-idle'
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: login,
     private setRoute: SetAuthRoute,
+    private BnIdle: BnNgIdleService
   ) { }
 
   ngOnInit() {
@@ -45,6 +47,7 @@ export class LoginComponent implements OnInit {
           this.isVisible_spinner = false
 					this.loginStat = res.status
         } else {
+          this.BnIdle.resetTimer();
           this.isVisible_spinner = true
           this.setRoute.storeToken(res.token)
         }

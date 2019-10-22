@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BldgAsmtLnd } from './dialog-search-land/bldgasmt-search';
 import { BldgAsmtBg } from './dialog-search-bldg/bldgasmt-search';
 import { getBldgStructMat } from '../services/getBldgStructMat.service';
+import { bldgStHeight } from '../services/bldgStHeight.service';
 import { group } from '@angular/animations';
 
 
@@ -156,22 +157,6 @@ export class BuildingAssessmentComponent implements OnInit {
 
   
 
-  
-
-  //Materials Options
-
-
-
-
-
-  //walls and partitions bldg. flrs.
-
-  //structuralDesc Mats
-  
-
-  //walls and partition
-  
-
   //floortypeOpts
   floortypeOpts: selectOpt[] = [
     { value: 'Option 1', viewVal: 'Option 1' },
@@ -262,7 +247,8 @@ export class BuildingAssessmentComponent implements OnInit {
 		private router: Router,
 		private getBldgVl: GetBldgValues,
 		private mDialog: MatDialog,
-    private structMat: getBldgStructMat) { }
+    private structMat: getBldgStructMat,
+    private StHeight: bldgStHeight) { }
 
   ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
   adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
@@ -495,6 +481,10 @@ export class BuildingAssessmentComponent implements OnInit {
           })
         }
       })
+    })
+
+    this.StHeight.getVal().subscribe(res => {
+      console.log(res)
     })
   }
 

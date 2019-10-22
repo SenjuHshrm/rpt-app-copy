@@ -40,6 +40,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SettingsComponent } from './settings/settings.component';
 import { BldgAsmtLnd } from './building-assessment/dialog-search-land/bldgasmt-search';
 import { BldgAsmtBg } from './building-assessment/dialog-search-bldg/bldgasmt-search';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { BldgAsmtBg } from './building-assessment/dialog-search-bldg/bldgasmt-se
   ],
   providers: [
     MatDatepickerModule,
+    BnNgIdleService
   ],
   entryComponents: [
     ClearanceComponent,
@@ -126,7 +128,7 @@ import { BldgAsmtBg } from './building-assessment/dialog-search-bldg/bldgasmt-se
 		LndReasmtSearch,
     ClearanceComponentErr,
 		BldgAsmtLnd,
-		BldgAsmtBg
+    BldgAsmtBg,
   ],
   bootstrap: [AppComponent]
 })
