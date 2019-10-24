@@ -750,7 +750,7 @@
                 <mat-form-field fxFlex="100%">
                   <mat-label>Floor Type</mat-label>
                   <mat-select formControlName='floortype'>
-                    <mat-option *ngFor='let ftype of floortypeOpts' [value]='ftype.value'>{{ ftype.viewVal }}</mat-option>
+                    <mat-option *ngFor='let ftype of floortypeOpts' [value]='ftype.value' (click)="setStandardHeight(bldgAssessment.get('strDescG'))">{{ ftype.viewVal }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>

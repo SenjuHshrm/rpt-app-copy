@@ -49,7 +49,7 @@ export class BuildingAssessmentComponent implements OnInit {
   aiRemuv: boolean;
   sveBtn: boolean;
   clrBtn: boolean;
-	isVisible_spinner: boolean;
+  isVisible_spinner: boolean;
 
   bldgOpt: selectOpt[] = [
     { value: 'DISCOVERY/NEW DECLARATION (DC)', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
@@ -123,6 +123,7 @@ export class BuildingAssessmentComponent implements OnInit {
   buildingFlrsOpts: selectOpt[] = []
   flrArea5: selectOpt[] = []
   flrArea6: selectOpt[] = []
+  floortypeOpts: selectOpt[] = []
 
   //Floor Area Options
   flrA: selectOpt[] = [
@@ -154,20 +155,6 @@ export class BuildingAssessmentComponent implements OnInit {
     { value: 'Option 1', viewVal: 'Option 4' },
     { value: 'Option 1', viewVal: 'Option 5' },
   ]
-
-  
-
-  //floortypeOpts
-  floortypeOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
-
-  //buildingFloors4
-  
 
   //additionalItemsOpts
   aItemOpts: selectOpt[] = [
@@ -437,6 +424,8 @@ export class BuildingAssessmentComponent implements OnInit {
       }),
     })
 
+    //this.bldgAssessment.controls['strDescG'].get('floortype').setValue('ONE-STOREY');
+
 		this.getBldgVl.getKind().subscribe((res: any) => {
 			this.bldgKindsLs = res.res;
 			let bldgKind = Array.from(new Set(res.res.map(x => x.type)));
@@ -485,7 +474,14 @@ export class BuildingAssessmentComponent implements OnInit {
 
     this.StHeight.getVal().subscribe(res => {
       console.log(res)
+      _.forEach(res, arr => {
+        this.floortypeOpts.push({
+          value: arr.typee,
+          viewVal: arr.type
+        })
+      })
     })
+
   }
 
 	selectTrnsCode() {
@@ -504,7 +500,11 @@ export class BuildingAssessmentComponent implements OnInit {
 				console.log(res);
 			}
 		})
-	}
+  }
+  
+  setStandardHeight(grp: any) {
+    
+  }
 
 	setRateVal() {
 		let kind = this.bldgAssessment.get('genDescG').get('genDesc').value;
