@@ -124,6 +124,7 @@ export class BuildingAssessmentComponent implements OnInit {
   flrArea5: selectOpt[] = []
   flrArea6: selectOpt[] = []
   floortypeOpts: selectOpt[] = []
+  stHeights: any = []
 
   //Floor Area Options
   flrA: selectOpt[] = [
@@ -251,180 +252,7 @@ export class BuildingAssessmentComponent implements OnInit {
     if (!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
-    this.bldgAssessment = new FormGroup({
-      bldgCode: new FormControl(''),
-      arpNo: new FormControl('', [Validators.required]),
-
-      //PIN
-      pin: new FormGroup({
-        city: new FormControl('', [Validators.required]),
-        district: new FormControl('', [Validators.required]),
-        barangay: new FormControl('', [Validators.required]),
-        section: new FormControl('', [Validators.required]),
-        parcel: new FormControl('', [Validators.required]),
-				bldgno: new FormControl('')
-      }),
-
-      //ownerDetails
-      ownerDetails: new FormGroup({
-        ownfName: new FormControl('', [Validators.required]),
-        ownmName: new FormControl(''),
-        ownlName: new FormControl('', [Validators.required]),
-        ownaddress: new FormControl('', [Validators.required]),
-        owncontact: new FormControl(''),
-        ownTIN: new FormControl(''),
-      }),
-
-      //admin
-      adminOwnerLs: new FormGroup({
-        admfName: new FormControl('', [Validators.required]),
-        admmName: new FormControl(''),
-        admlName: new FormControl('', [Validators.required]),
-        admaddress: new FormControl('', [Validators.required]),
-        admcontact: new FormControl(''),
-        admTIN: new FormControl(''),
-      }),
-
-      //buildingLocation
-      buildingLoc: new FormGroup({
-        numSt: new FormControl(''),
-        bldgLoc: new FormControl(''),
-        prov: new FormControl(''),
-        brgy: new FormControl(''),
-        subd: new FormControl(''),
-      }),
-
-      //landReference
-      landRef: new FormGroup({
-        lndOwnr: new FormControl(''),
-        lndcloa: new FormControl(''),
-        lndsno: new FormControl(''),
-        lndlotno: new FormControl(''),
-        lndblkno: new FormControl(''),
-        lndarp: new FormControl(''),
-        lndarea: new FormControl(''),
-      }),
-
-      //generalDescription
-      genDescG: new FormGroup({
-        genDesc: new FormControl('', [Validators.required]),
-        certcom: new FormControl('', [Validators.required]),
-        certOcc: new FormControl('', [Validators.required]),
-        strType: new FormControl('', [Validators.required]),
-        bldgPNo: new FormControl(''),
-        dateCC: new FormControl('', [Validators.required]),
-        permitIssue: new FormControl('', [Validators.required]),
-        dateOccupied: new FormControl('', [Validators.required]),
-        cct: new FormControl(''),
-        aob: new FormControl('', [Validators.required]),
-      }),
-
-      //structuralDescription
-      strDescG: new FormGroup({
-        numStorey: new FormControl(''),
-        bldgflrs: new FormControl(''),
-        flrArea: new FormControl(''),
-        chckBoxFlrA: new FormControl(''),
-        flr1: new FormControl({ value: '', disabled: true }),
-        flr2: new FormControl({ value: '', disabled: true }),
-        flr3: new FormControl({ value: '', disabled: true }),
-        flr4: new FormControl({ value: '', disabled: true }),
-        flr5: new FormControl({ value: '', disabled: true }),
-        flr6: new FormControl({ value: '', disabled: true }),
-        flr7: new FormControl({ value: '', disabled: true }),
-        flr8: new FormControl({ value: '', disabled: true }),
-        mats: new FormControl(''),
-        materials: new FormControl({ value: '', disabled: true }),
-        othrs: new FormControl(''),
-        othrs2: new FormControl({ value: '', disabled: true }),
-        othrs3: new FormControl({ value: '', disabled: true }),
-        othrsCB: new FormControl(''),
-        othrsCB2: new FormControl(''),
-        othrsCB3: new FormControl(''),
-        bldgflrs2: new FormControl(''),
-        bldgflrs3: new FormControl(''),
-        mats2: new FormControl(''),
-        mats3: new FormControl(''),
-        flrsameMatsCB: new FormControl(''),
-        flrsameMatsCB2: new FormControl(''),
-        flrsameMatsCB3: new FormControl(''),
-
-        flrheight: new FormControl(''),
-        stndrdheight: new FormControl(''),
-        xcessDefHeight: new FormControl(''),
-
-        basicRatePerMeter: new FormControl(''),
-        basicRateVal: new FormControl(''),
-        aCost: new FormControl(''),
-
-        adjstdBasicRate: new FormControl(''),
-        floortype: new FormControl(''),
-        buildingFlrs: new FormControl(''),
-
-        totalArea: new FormControl(''),
-        totalCost: new FormControl(''),
-      }),//structuralDescription END
-
-      //additionalItems
-      additionalItems: new FormGroup({
-        aItem: new FormControl(''),
-        subType: new FormControl(''),
-        szem2: new FormControl('', [Validators.required]),
-        uCost: new FormControl(''),
-        tCost: new FormControl(''),
-        aItemTotal: new FormControl(''),
-      }),
-
-      //propertyAppraisal
-      propertyAppraisal: new FormGroup({
-        unPainted: new FormControl(''),
-        scndhndMat: new FormControl(''),
-        tob: new FormControl('', [Validators.required]),
-        bldgRating: new FormControl('', [Validators.required]),
-        untConstCost: new FormControl(''),
-        subTotal: new FormControl(''),
-        CoAiSubTotal: new FormControl(''),
-        totalConstCost: new FormControl(''),
-        depRate: new FormControl(''),
-        totalDep: new FormControl(''),
-        depCost: new FormControl(''),
-        marketVal: new FormControl(''),
-      }),
-
-      //propertyAssessment
-      propertyAssessment: new FormGroup({
-        actualUse: new FormControl('', [Validators.required]),
-        propAsmtMarketVal: new FormControl(''),
-        AsmtLevel: new FormControl(''),
-        AsmtVal: new FormControl(''),
-        spclClass: new FormControl(''),
-        status: new FormControl('', [Validators.required]),
-        qrtr: new FormControl('', [Validators.required]),
-        yr: new FormControl('', [Validators.required]),
-        propAsmtTotal: new FormControl(''),
-        appraisedBy: new FormControl(''),
-        appraisedByDate: new FormControl(''),
-        recommending: new FormControl(''),
-        recommendingDate: new FormControl(''),
-        approvedBy: new FormControl(''),
-        approvedByDate: new FormControl(''),
-        txtArea: new FormControl('', [Validators.required]),
-      }),
-
-      //Record of Superseded Assessment
-      rsa: new FormGroup({
-        rsaPin: new FormControl(''),
-        rsaArp: new FormControl(''),
-        rsaTD: new FormControl(''),
-        totalAssessVal: new FormControl(''),
-        prevOwner: new FormControl(''),
-        effectivityAsmt: new FormControl(''),
-        recper: new FormControl(''),
-        rsaDate: new FormControl(''),
-      }),
-    })
-
-    //this.bldgAssessment.controls['strDescG'].get('floortype').setValue('ONE-STOREY');
+    this.initForm()
 
 		this.getBldgVl.getKind().subscribe((res: any) => {
 			this.bldgKindsLs = res.res;
@@ -473,13 +301,16 @@ export class BuildingAssessmentComponent implements OnInit {
     })
 
     this.StHeight.getVal().subscribe(res => {
-      console.log(res)
+      this.stHeights = res;
+      this.floortypeOpts = []
       _.forEach(res, arr => {
         this.floortypeOpts.push({
-          value: arr.typee,
+          value: arr.type,
           viewVal: arr.type
         })
       })
+      this.bldgAssessment.controls['strDescG'].get('floortype').setValue('ONE-STOREY');
+      this.setStandardHeight(this.bldgAssessment.get('strDescG'))
     })
 
   }
@@ -503,7 +334,9 @@ export class BuildingAssessmentComponent implements OnInit {
   }
   
   setStandardHeight(grp: any) {
-    
+    let x = grp.controls['floortype'].value
+    let obj = _.find(this.stHeights, { type: x });
+    grp.controls['stndrdheight'].setValue(obj.standard_height)
   }
 
 	setRateVal() {
@@ -527,58 +360,111 @@ export class BuildingAssessmentComponent implements OnInit {
     this.buildingFlrsOpts = []
     strDsc = [];
     let storey = +grp.controls['numStorey'].value;
-    for(let i = 1; i <= storey; i++) {
-      this.areaBldgFlr.push({
-        value: i.toString(),
-        viewVal: i.toString()
-      });
-      this.flooringBldgFlr.push({
-        value: i.toString(),
-        viewVal: i.toString()
-      });
-      this.wallprtBldgFlr.push({
-        value: i.toString(),
-        viewVal: i.toString()
-      });
-      this.flrArea1.push({
-        value: i.toString(),
-        viewVal: i.toString()
+    if(grp.controls['numStorey'].value == '') {
+      grp.controls['bldgflrs'].disable()
+      grp.controls['bldgflrs2'].disable()
+      grp.controls['bldgflrs3'].disable()
+      grp.controls['buildingFlrs'].disable()
+    } else {
+      grp.controls['bldgflrs'].enable()
+      grp.controls['bldgflrs2'].enable()
+      grp.controls['bldgflrs3'].enable()
+      grp.controls['buildingFlrs'].enable()
+      for(let i = 1; i <= storey; i++) {
+        this.areaBldgFlr.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        });
+        this.flooringBldgFlr.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        });
+        this.wallprtBldgFlr.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        });
+        this.flrArea1.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        })
+        this.flrArea2.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        });
+        this.buildingFlrsOpts.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        })
+        this.flrArea5.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        })
+        this.flrArea6.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        })
+      strDsc.push({
+        floorNo: i.toString(),
+        area: '0',
+        flooringMat: '',
+        wallMat: '',
+        floorHeight: '0',
+        standardHeight: '0',
+        adjBaseRate: '0',
+        floorType: ''
       })
-      this.flrArea2.push({
-        value: i.toString(),
-        viewVal: i.toString()
-      });
-      this.buildingFlrsOpts.push({
-        value: i.toString(),
-        viewVal: i.toString()
-      })
-      this.flrArea5.push({
-        value: i.toString(),
-        viewVal: i.toString()
-      })
-      this.flrArea6.push({
-        value: i.toString(),
-        viewVal: i.toString()
-      })
-    strDsc.push({
-      floorNo: i.toString(),
-      area: '',
-      flooringMat: '',
-      wallMat: '',
-      floorHeight: '',
-      standardHeight: '',
-      adjBaseRate: '',
-      floorType: ''
-    })
+      }
+      this.strcDesc = new MatTableDataSource(strDsc);
     }
-    this.strcDesc = new MatTableDataSource(strDsc);
 
   }
 
   applyStrDscArea(grp: any) {
-    if(grp.controls['flrArea'] != '') {
-      console.log('Area apply clicked')
+    if(grp.controls['numStorey'].value != '') {
+      if(!this.ToggleVal) {
+        if(grp.controls['flrArea'].value !='') {
+          let bf = grp.controls['bldgflrs'].value,
+            fa = grp.controls['flrArea'].value,
+            ind = _.findIndex(strDsc, { floorNo: bf });
+            strDsc.splice(ind, 1, {
+              floorNo: bf,
+              area: fa,
+              flooringMat: '',
+              wallMat: '',
+              floorHeight: '0',
+              standardHeight: '0',
+              adjBaseRate: '0',
+              floorType: '',
+            })
+          this.strcDesc = new MatTableDataSource(strDsc)
+        }
+      } else {
+        if(grp.controls['flr1'].value != '' || grp.controls['flr2'].value != '') {
+          let from = +grp.controls['flr1'].value,
+            to = +grp.controls['flr2'].value,
+            fa = grp.controls['flrArea'].value
+          for(let i = from; i <= to; i++) {
+            console.log(i)
+            let ind = _.findIndex(strDsc, { floorNo: i.toString() });
+            strDsc.splice(ind, 1, {
+              floorNo: i.toString(),
+              area: fa,
+              flooringMat: '',
+              wallMat: '',
+              floorHeight: '0',
+              standardHeight: '0',
+              adjBaseRate: '0',
+              floorType: '',
+            })
+          }
+          this.strcDesc = new MatTableDataSource(strDsc)
+        }
+      }
     }
+  }
+
+  applyFlooring(grp: any) {
+    
   }
 
   //ADD - REMOVE
@@ -760,6 +646,181 @@ export class BuildingAssessmentComponent implements OnInit {
       grp.controls['flr8'].disable()
       grp.controls['buildingFlrs'].enable()
     }
+  }
+
+  initForm() {
+    this.bldgAssessment = new FormGroup({
+      bldgCode: new FormControl(''),
+      arpNo: new FormControl('', [Validators.required]),
+
+      //PIN
+      pin: new FormGroup({
+        city: new FormControl('', [Validators.required]),
+        district: new FormControl('', [Validators.required]),
+        barangay: new FormControl('', [Validators.required]),
+        section: new FormControl('', [Validators.required]),
+        parcel: new FormControl('', [Validators.required]),
+				bldgno: new FormControl('')
+      }),
+
+      //ownerDetails
+      ownerDetails: new FormGroup({
+        ownfName: new FormControl('', [Validators.required]),
+        ownmName: new FormControl(''),
+        ownlName: new FormControl('', [Validators.required]),
+        ownaddress: new FormControl('', [Validators.required]),
+        owncontact: new FormControl(''),
+        ownTIN: new FormControl(''),
+      }),
+
+      //admin
+      adminOwnerLs: new FormGroup({
+        admfName: new FormControl('', [Validators.required]),
+        admmName: new FormControl(''),
+        admlName: new FormControl('', [Validators.required]),
+        admaddress: new FormControl('', [Validators.required]),
+        admcontact: new FormControl(''),
+        admTIN: new FormControl(''),
+      }),
+
+      //buildingLocation
+      buildingLoc: new FormGroup({
+        numSt: new FormControl(''),
+        bldgLoc: new FormControl(''),
+        prov: new FormControl(''),
+        brgy: new FormControl(''),
+        subd: new FormControl(''),
+      }),
+
+      //landReference
+      landRef: new FormGroup({
+        lndOwnr: new FormControl(''),
+        lndcloa: new FormControl(''),
+        lndsno: new FormControl(''),
+        lndlotno: new FormControl(''),
+        lndblkno: new FormControl(''),
+        lndarp: new FormControl(''),
+        lndarea: new FormControl(''),
+      }),
+
+      //generalDescription
+      genDescG: new FormGroup({
+        genDesc: new FormControl('', [Validators.required]),
+        certcom: new FormControl('', [Validators.required]),
+        certOcc: new FormControl('', [Validators.required]),
+        strType: new FormControl('', [Validators.required]),
+        bldgPNo: new FormControl(''),
+        dateCC: new FormControl('', [Validators.required]),
+        permitIssue: new FormControl('', [Validators.required]),
+        dateOccupied: new FormControl('', [Validators.required]),
+        cct: new FormControl(''),
+        aob: new FormControl('', [Validators.required]),
+      }),
+
+      //structuralDescription
+      strDescG: new FormGroup({
+        numStorey: new FormControl(''),
+        bldgflrs: new FormControl({ value:'', disabled: true }),
+        flrArea: new FormControl(''),
+        chckBoxFlrA: new FormControl(''),
+        flr1: new FormControl({ value: '', disabled: true }),
+        flr2: new FormControl({ value: '', disabled: true }),
+        flr3: new FormControl({ value: '', disabled: true }),
+        flr4: new FormControl({ value: '', disabled: true }),
+        flr5: new FormControl({ value: '', disabled: true }),
+        flr6: new FormControl({ value: '', disabled: true }),
+        flr7: new FormControl({ value: '', disabled: true }),
+        flr8: new FormControl({ value: '', disabled: true }),
+        mats: new FormControl(''),
+        materials: new FormControl({ value: '', disabled: true }),
+        othrs: new FormControl(''),
+        othrs2: new FormControl({ value: '', disabled: true }),
+        othrs3: new FormControl({ value: '', disabled: true }),
+        othrsCB: new FormControl(''),
+        othrsCB2: new FormControl(''),
+        othrsCB3: new FormControl(''),
+        bldgflrs2: new FormControl({ value:'', disabled: true }),
+        bldgflrs3: new FormControl({ value:'', disabled: true }),
+        mats2: new FormControl(''),
+        mats3: new FormControl(''),
+        flrsameMatsCB: new FormControl(''),
+        flrsameMatsCB2: new FormControl(''),
+        flrsameMatsCB3: new FormControl(''),
+
+        flrheight: new FormControl(''),
+        stndrdheight: new FormControl(''),
+        xcessDefHeight: new FormControl(''),
+
+        basicRatePerMeter: new FormControl(''),
+        basicRateVal: new FormControl(''),
+        aCost: new FormControl(''),
+
+        adjstdBasicRate: new FormControl(''),
+        floortype: new FormControl(''),
+        buildingFlrs: new FormControl({ value:'', disabled: true }),
+
+        totalArea: new FormControl(''),
+        totalCost: new FormControl(''),
+      }),//structuralDescription END
+
+      //additionalItems
+      additionalItems: new FormGroup({
+        aItem: new FormControl(''),
+        subType: new FormControl(''),
+        szem2: new FormControl('', [Validators.required]),
+        uCost: new FormControl(''),
+        tCost: new FormControl(''),
+        aItemTotal: new FormControl(''),
+      }),
+
+      //propertyAppraisal
+      propertyAppraisal: new FormGroup({
+        unPainted: new FormControl(''),
+        scndhndMat: new FormControl(''),
+        tob: new FormControl('', [Validators.required]),
+        bldgRating: new FormControl('', [Validators.required]),
+        untConstCost: new FormControl(''),
+        subTotal: new FormControl(''),
+        CoAiSubTotal: new FormControl(''),
+        totalConstCost: new FormControl(''),
+        depRate: new FormControl(''),
+        totalDep: new FormControl(''),
+        depCost: new FormControl(''),
+        marketVal: new FormControl(''),
+      }),
+
+      //propertyAssessment
+      propertyAssessment: new FormGroup({
+        actualUse: new FormControl('', [Validators.required]),
+        propAsmtMarketVal: new FormControl(''),
+        AsmtLevel: new FormControl(''),
+        AsmtVal: new FormControl(''),
+        spclClass: new FormControl(''),
+        status: new FormControl('', [Validators.required]),
+        qrtr: new FormControl('', [Validators.required]),
+        yr: new FormControl('', [Validators.required]),
+        propAsmtTotal: new FormControl(''),
+        appraisedBy: new FormControl(''),
+        appraisedByDate: new FormControl(''),
+        recommending: new FormControl(''),
+        recommendingDate: new FormControl(''),
+        approvedBy: new FormControl(''),
+        approvedByDate: new FormControl(''),
+        txtArea: new FormControl('', [Validators.required]),
+      }),
+
+      //Record of Superseded Assessment
+      rsa: new FormGroup({
+        rsaPin: new FormControl(''),
+        rsaArp: new FormControl(''),
+        rsaTD: new FormControl(''),
+        totalAssessVal: new FormControl(''),
+        prevOwner: new FormControl(''),
+        effectivityAsmt: new FormControl(''),
+        recper: new FormControl(''),
+        rsaDate: new FormControl(''),
+      }),
+    })
   }
 }
 

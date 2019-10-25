@@ -541,7 +541,7 @@
 
                 <div class=''>
                   <div fxFlex='100%' (mousedown)='areaApply=true' (mouseup)='areaApply=false' (mouseleave)='areaApply=false'>
-                    <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !areaApply, 'applyBtn': areaApply}" (click)="applyStrDscArea(bldgAssessment.get('StrDescG'))">Apply</button>
+                    <button mat-raised-button type='button' class='item item-3' color='primary' [ngClass]="{'addBtnMU': !areaApply, 'applyBtn': areaApply}" (click)="applyStrDscArea(bldgAssessment.get('strDescG'))">Apply</button>
                   </div>
                 </div>
 
@@ -645,7 +645,7 @@
                   <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                     fxLayoutGap.xs='10px'>
                     <div fxFlex="100%" (mousedown)='flrngApply=true' (mouseup)='flrngApply=false' (mouseleave)='flrngApply=false'>
-                      <button mat-raised-button type='button' class="item item-1" color='primary' [ngClass]="{'addBtnMU': !flrngApply, 'applyBtn': flrngApply}">Apply</button>
+                      <button mat-raised-button type='button' class="item item-1" color='primary' [ngClass]="{'addBtnMU': !flrngApply, 'applyBtn': flrngApply}" (click)="applyFlooring(bldgAssessment.get('strDescG'))">Apply</button>
                     </div>
                   </div>
                 </div>
