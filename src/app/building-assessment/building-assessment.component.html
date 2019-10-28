@@ -718,7 +718,7 @@
 
                   <div class='container'>
                     <div fxFlex="100%" (mousedown)='wpApply=true' (mouseup)='wpApply=false' (mouseleave)='wpApply=false'>
-                      <button mat-raised-button type='button' class="item item-1" color='primary' [ngClass]="{'addBtnMU': !wpApply, 'applyBtn': wpApply}">Apply</button>
+                      <button mat-raised-button type='button' class="item item-1" color='primary' [ngClass]="{'addBtnMU': !wpApply, 'applyBtn': wpApply}" (click)="applywallPart(bldgAssessment.get('strDescG'))">Apply</button>
                     </div>
                   </div>
                 </div>
@@ -733,7 +733,7 @@
             <div class="item item-1" fxFlex="32%">
               <div>
                 <mat-form-field fxFlex="100%">
-                  <input matInput type='text' formControlName='flrheight' placeholder="Floor Height">
+                  <input matInput type='text' formControlName='flrheight' placeholder="Floor Height" (keyup)="computeFloorHeight(bldgAssessment.get('strDescG'))">
                 </mat-form-field>
               </div>
               <div>

@@ -125,31 +125,11 @@ export class BuildingAssessmentComponent implements OnInit {
   flrArea6: selectOpt[] = []
   floortypeOpts: selectOpt[] = []
   stHeights: any = []
+  flrArea3: selectOpt[] = []
+  flrArea4: selectOpt[] = []
 
   //Floor Area Options
   flrA: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
-
-  //Floor With Same Area Options
-
-
-
-
-  //flooring -floors w/ same mats
-  flrArea3: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
-
-  flrArea4: selectOpt[] = [
     { value: 'Option 1', viewVal: 'Option 1' },
     { value: 'Option 1', viewVal: 'Option 2' },
     { value: 'Option 1', viewVal: 'Option 3' },
@@ -253,7 +233,6 @@ export class BuildingAssessmentComponent implements OnInit {
       window.location.href = '/'
     }
     this.initForm()
-
 		this.getBldgVl.getKind().subscribe((res: any) => {
 			this.bldgKindsLs = res.res;
 			let bldgKind = Array.from(new Set(res.res.map(x => x.type)));
@@ -270,8 +249,10 @@ export class BuildingAssessmentComponent implements OnInit {
 					value: arr,
 					viewVal: arr
 				})
-			})
-		})
+      })
+      this.setRateVal()
+    })
+    
 
     this.structMat.getLs().subscribe(res => {
       this.roofMat = []
@@ -312,6 +293,7 @@ export class BuildingAssessmentComponent implements OnInit {
       this.bldgAssessment.controls['strDescG'].get('floortype').setValue('ONE-STOREY');
       this.setStandardHeight(this.bldgAssessment.get('strDescG'))
     })
+    
 
   }
 
@@ -341,8 +323,8 @@ export class BuildingAssessmentComponent implements OnInit {
 
 	setRateVal() {
 		let kind = this.bldgAssessment.get('genDescG').get('genDesc').value;
-		let type = this.bldgAssessment.get('genDescG').get('strType').value;
-		let BRVal = _.find(this.bldgKindsLs, { type: kind, class: type });
+    let type = this.bldgAssessment.get('genDescG').get('strType').value;
+    let BRVal = _.find(this.bldgKindsLs, { type: kind, class: type });
 		this.bldgAssessment.get('strDescG').get('basicRateVal').setValue(BRVal.unit_market_value);
 	}
 
@@ -357,6 +339,10 @@ export class BuildingAssessmentComponent implements OnInit {
     this.wallprtBldgFlr = []
     this.flrArea1 = []
     this.flrArea2 = []
+    this.flrArea3 = []
+    this.flrArea4 = []
+    this.flrArea5 = []
+    this.flrArea6 = []
     this.buildingFlrsOpts = []
     strDsc = [];
     let storey = +grp.controls['numStorey'].value;
@@ -403,6 +389,14 @@ export class BuildingAssessmentComponent implements OnInit {
           value: i.toString(),
           viewVal: i.toString()
         })
+        this.flrArea3.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        })
+        this.flrArea4.push({
+          value: i.toString(),
+          viewVal: i.toString()
+        })
       strDsc.push({
         floorNo: i.toString(),
         area: '0',
@@ -426,17 +420,7 @@ export class BuildingAssessmentComponent implements OnInit {
           let bf = grp.controls['bldgflrs'].value,
             fa = grp.controls['flrArea'].value,
             ind = _.findIndex(strDsc, { floorNo: bf });
-            strDsc.splice(ind, 1, {
-              floorNo: bf,
-              area: fa,
-              flooringMat: '',
-              wallMat: '',
-              floorHeight: '0',
-              standardHeight: '0',
-              adjBaseRate: '0',
-              floorType: '',
-            })
-          this.strcDesc = new MatTableDataSource(strDsc)
+          strDsc[ind].area = fa
         }
       } else {
         if(grp.controls['flr1'].value != '' || grp.controls['flr2'].value != '') {
@@ -444,30 +428,63 @@ export class BuildingAssessmentComponent implements OnInit {
             to = +grp.controls['flr2'].value,
             fa = grp.controls['flrArea'].value
           for(let i = from; i <= to; i++) {
-            console.log(i)
             let ind = _.findIndex(strDsc, { floorNo: i.toString() });
-            strDsc.splice(ind, 1, {
-              floorNo: i.toString(),
-              area: fa,
-              flooringMat: '',
-              wallMat: '',
-              floorHeight: '0',
-              standardHeight: '0',
-              adjBaseRate: '0',
-              floorType: '',
-            })
+            strDsc[ind].area = fa
           }
-          this.strcDesc = new MatTableDataSource(strDsc)
         }
       }
     }
+    this.strcDesc = new MatTableDataSource(strDsc)
   }
 
   applyFlooring(grp: any) {
-    
+    let fMat = (!this.flrCbToggleOthrs) ? grp.controls['mats2'].value : grp.controls['othrs2'].value;
+    if(!this.flrsmeMatsToggleVal2) {
+      if(grp.controls['bldgflrs2'].value != '') {
+        let bf = grp.controls['bldgflrs2'].value,
+          ind = _.findIndex(strDsc, { floorNo: bf });
+        strDsc[ind].flooringMat = fMat;
+      }
+    } else {
+      if(grp.controls['flr3'].value != '' || grp.controls['flr4'].value != '') {
+        let from = +grp.controls['flr3'].value,
+          to = +grp.controls['flr4'].value;
+        for(let i = from; i <= to; i++) {
+          let ind = _.findIndex(strDsc, { floorNo: i.toString() })
+          strDsc[ind].flooringMat = fMat
+        }
+      }
+    }
+    this.strcDesc = new MatTableDataSource(strDsc)
   }
 
-  //ADD - REMOVE
+  applywallPart(grp: any) {
+    let fMat = (!this.flrCbToggleOthrs2) ? grp.controls['mats3'].value : grp.controls['othrs3'].value;
+    if(!this.flrsmeMatsToggleVal) {
+      if(grp.controls['bldgflrs3'].value != '') {
+        let bf = grp.controls['bldgflrs3'].value,
+          ind = _.findIndex(strDsc, { floorNo: bf });
+        strDsc[ind].wallMat = fMat
+      }
+    } else {
+      if(grp.controls['flr5'].value != '' || grp.controls['flr6'].value != '') {
+        let from = +grp.controls['flr5'].value,
+          to = +grp.controls['flr6'].value;
+        for(let i = from; i <= to; i++) {
+          let ind = _.findIndex(strDsc, { floorNo: i.toString() })
+          strDsc[ind].wallMat = fMat
+        }
+      }
+    }
+    this.strcDesc = new MatTableDataSource(strDsc)
+  }
+
+  computeFloorHeight(grp: any) {
+    let ht = +grp.controls['flrheight'].value,
+      stht = +grp.controls['stndrdheight'].value
+    console.log(Number(ht - stht).toFixed(2))
+  }
+
   addOwner(grp: any) {
     let ownerformData = grp.value;
     ownerLs.push({
@@ -577,11 +594,11 @@ export class BuildingAssessmentComponent implements OnInit {
   cbtoggle(grp: any) {
     this.flrCbToggleOthrs = !this.flrCbToggleOthrs
     if (this.flrCbToggleOthrs) {
-      grp.controls['mats2'].reset();
+      grp.controls['mats2'].setValue('');
       grp.controls['mats2'].disable();
       grp.controls['othrs2'].enable();
     } else {
-      grp.controls['othrs2'].reset();
+      grp.controls['othrs2'].setValue('');
       grp.controls['othrs2'].disable();
       grp.controls['mats2'].enable();
     }
@@ -590,11 +607,11 @@ export class BuildingAssessmentComponent implements OnInit {
   cbtoggle2(grp: any) {
     this.flrCbToggleOthrs2 = !this.flrCbToggleOthrs2
     if (this.flrCbToggleOthrs2) {
-      grp.controls['mats3'].reset()
+      grp.controls['mats3'].setValue('')
       grp.controls['mats3'].disable()
       grp.controls['othrs3'].enable()
     } else {
-      grp.controls['othrs3'].reset()
+      grp.controls['othrs3'].setValue('')
       grp.controls['othrs3'].disable()
       grp.controls['mats3'].enable()
     }
@@ -603,13 +620,13 @@ export class BuildingAssessmentComponent implements OnInit {
   flrsmeMatsToggle(grp: any) {
     this.flrsmeMatsToggleVal = !this.flrsmeMatsToggleVal
     if (this.flrsmeMatsToggleVal) {
-      grp.controls['bldgflrs3'].reset()
+      grp.controls['bldgflrs3'].setValue('')
       grp.controls['bldgflrs3'].disable()
       grp.controls['flr5'].enable()
       grp.controls['flr6'].enable()
     } else {
-      grp.controls['flr5'].reset()
-      grp.controls['flr6'].reset()
+      grp.controls['flr5'].setValue('')
+      grp.controls['flr6'].setValue('')
       grp.controls['flr5'].disable()
       grp.controls['flr6'].disable()
       grp.controls['bldgflrs3'].enable()
@@ -619,13 +636,13 @@ export class BuildingAssessmentComponent implements OnInit {
   flrMatsToggle(grp: any) {
     this.flrsmeMatsToggleVal2 = !this.flrsmeMatsToggleVal2
     if (this.flrsmeMatsToggleVal2) {
-      grp.controls['bldgflrs2'].reset()
+      grp.controls['bldgflrs2'].setValue('')
       grp.controls['bldgflrs2'].disable()
       grp.controls['flr3'].enable()
       grp.controls['flr4'].enable()
     } else {
-      grp.controls['flr3'].reset()
-      grp.controls['flr4'].reset()
+      grp.controls['flr3'].setValue('')
+      grp.controls['flr4'].setValue('')
       grp.controls['flr3'].disable()
       grp.controls['flr4'].disable()
       grp.controls['bldgflrs2'].enable()
@@ -635,13 +652,13 @@ export class BuildingAssessmentComponent implements OnInit {
   flrMatsToggle2(grp: any) {
     this.flrsmeMatsToggleVal3 = !this.flrsmeMatsToggleVal3
     if (this.flrsmeMatsToggleVal3) {
-      grp.controls['buildingFlrs'].reset()
+      grp.controls['buildingFlrs'].setValue('')
       grp.controls['buildingFlrs'].disable()
       grp.controls['flr7'].enable()
       grp.controls['flr8'].enable()
     } else {
-      grp.controls['flr7'].reset()
-      grp.controls['flr8'].reset()
+      grp.controls['flr7'].setValue('')
+      grp.controls['flr8'].setValue('')
       grp.controls['flr7'].disable()
       grp.controls['flr8'].disable()
       grp.controls['buildingFlrs'].enable()
@@ -705,10 +722,10 @@ export class BuildingAssessmentComponent implements OnInit {
 
       //generalDescription
       genDescG: new FormGroup({
-        genDesc: new FormControl('', [Validators.required]),
+        genDesc: new FormControl('ONE FAMILY RESIDENCE', [Validators.required]),
         certcom: new FormControl('', [Validators.required]),
         certOcc: new FormControl('', [Validators.required]),
-        strType: new FormControl('', [Validators.required]),
+        strType: new FormControl('I', [Validators.required]),
         bldgPNo: new FormControl(''),
         dateCC: new FormControl('', [Validators.required]),
         permitIssue: new FormControl('', [Validators.required]),
@@ -747,7 +764,7 @@ export class BuildingAssessmentComponent implements OnInit {
         flrsameMatsCB2: new FormControl(''),
         flrsameMatsCB3: new FormControl(''),
 
-        flrheight: new FormControl(''),
+        flrheight: new FormControl('0'),
         stndrdheight: new FormControl(''),
         xcessDefHeight: new FormControl(''),
 
