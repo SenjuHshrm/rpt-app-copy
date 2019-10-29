@@ -283,7 +283,7 @@ export class LandReassessmentComponent implements OnInit {
 		(grp.controls['area'].value == null || grp.controls['area'].value == '') ? this.lndAppArea = '0' : this.lndAppArea = grp.controls['area'].value;
 		let area: number = parseFloat(this.lndAppArea);
 		let unitVl: number = parseFloat(this.lndAppUnitVal);
-		this.lndAppBMV = (area * unitVl).toString();
+		this.lndAppBMV = (grp.controls['interiorLot'].value == 1) ? ((area * unitVl) / 2).toString() : (area * unitVl).toString();
 		this.stripNo = [];
     if(!this.otherTrns) {
 	    for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {

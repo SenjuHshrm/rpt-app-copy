@@ -57,6 +57,7 @@ export class LandAssessmentComponent implements OnInit {
 	lsSubd: selectOpt[] = [
 		{ value: 'NONE', viewVal: 'NONE' }
 	];
+  interiorLotToggle: boolean = false;
 
   stripToggle(grp: any) {
     this.stripToggleVal = !this.stripToggleVal
@@ -140,6 +141,15 @@ export class LandAssessmentComponent implements OnInit {
     if (!localStorage.getItem('auth')) {
       window.location.href = '/'
     }
+    stripInf = []
+    stripInf.push({
+      stripNum: '1',
+      stripArea: '0',
+      adjustment: '0',
+      adjustedBaseRate: '0',
+      stripMarkVal: '0'
+    })
+    this.stripSetInfo = new MatTableDataSource(stripInf)
 
 		this.getMrktVal.getValues().subscribe(res => {
 			_.forEach(res, arr => {
@@ -328,7 +338,7 @@ export class LandAssessmentComponent implements OnInit {
 		(grp.controls['area'].value == null || grp.controls['area'].value == '') ? this.lndAppArea = '0' : this.lndAppArea = grp.controls['area'].value;
 		let area: number = parseFloat(this.lndAppArea);
 		let unitVl: number = parseFloat(this.lndAppUnitVal);
-		this.lndAppBMV = (area * unitVl).toString();
+		this.lndAppBMV = (grp.controls['interiorLot'].value == 1) ? ((area * unitVl) / 2).toString() : (area * unitVl).toString();
 		this.stripNo = [];
     if(!this.otherTrns) {
 	    for(let i = 1; i <= (+this.landAssessment.get('stripSet').get('stripCount').value); i++) {
@@ -355,19 +365,37 @@ export class LandAssessmentComponent implements OnInit {
 				this.lndAppBMV = '0'
 				this.landAssessment.get('stripSet').get('remLandArea').setValue(grp.controls['area'].value);
 				this.landAssessment.get('stripSet').get('stripArea').setValue('')
-				let stripObj = _.find(stripInf, { stripNum: '1' });
-				stripObj.stripNum = '1'
-				stripObj.stripArea = '0'
-				stripObj.adjustment = '0'
-				stripObj.adjustedBaseRate = '0'
-				stripObj.stripMarkVal = '0'
-				stripInf = [];
-				stripInf.push(stripObj)
+				// let stripObj = _.find(stripInf, { stripNum: '1' });
+        // console.log(stripObj)
+				// stripObj.stripNum = '1'
+				// stripObj.stripArea = '0'
+				// stripObj.adjustment = '0'
+				// stripObj.adjustedBaseRate = '0'
+				// stripObj.stripMarkVal = '0'
+				// stripInf = [];
+				// stripInf.push(stripObj)
+        stripInf = []
+        stripInf.push({
+          stripNum: '1',
+          stripArea: '0',
+          adjustment: '0',
+          adjustedBaseRate: '0',
+          stripMarkVal: '0'
+        })
 				this.stripSetInfo = new MatTableDataSource(stripInf);
 			}
 		}
 		let prpAsmtVal = parseFloat(this.lndAppBMV) * (parseFloat(this.landAssessment.get('propertyAssessment').get('assessmentLvl').value) / 100)
 		this.landAssessment.get('propertyAssessment').get('assessedVal').setValue(prpAsmtVal.toString())
+  }
+
+  setInteriorLot(grp: any) {
+    this.interiorLotToggle = !this.interiorLotToggle
+    if(this.interiorLotToggle) {
+      grp.controls['stripping'].setValue(true);
+    } else {
+      grp.controls['stripping'].setValue(false);
+    }
   }
 
   save(form: any) {
@@ -730,9 +758,9 @@ export class LandAssessmentComponent implements OnInit {
 				area: data.area,
 				unitVal: data.unit_value,
 				baseMarketVal: data.base_market_value,
-				interiorLot: data.interior_lot,
-				cornerLot: data.corner_lot,
-				stripping: data.stripping
+				interiorLot: (data.interior_lot == 1) ? true : false,
+				cornerLot: (data.corner_lot == 1) ? true : false,
+				stripping: (data.stripping == 1) ? true : false
 			})
 			this.lndAppChngVal(this.landAssessment.get('landAppraisal'));
 			this.lnAppSubCUV(this.landAssessment.get('landAppraisal'));

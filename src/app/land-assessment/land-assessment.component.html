@@ -396,7 +396,7 @@
                 </div>
 
                 <div class='item item-3' fxFlex='32%'>
-                  <mat-checkbox formControlName='interiorLot'>Interior Lot</mat-checkbox>
+                  <mat-checkbox (change)="setInteriorLot(landAssessment.get('landAppraisal'))" formControlName='interiorLot'>Interior Lot</mat-checkbox>
                   <br>
                   <mat-checkbox formControlName='cornerLot'>Corner Lot</mat-checkbox>
                   <br>
