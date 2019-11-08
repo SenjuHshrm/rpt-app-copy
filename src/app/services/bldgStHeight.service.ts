@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import config from '../default/config'
 @Injectable({
     providedIn: 'root'
 })
@@ -15,7 +15,7 @@ export class bldgStHeight {
             'Authorization': 'Bearer ' + localStorage.getItem('auth')
         }),
         opt = { headers: headers }
-        return this.http.get('http://192.168.100.24:5000/api/get-bldg-heights', opt);
+        return this.http.get(config.api + '/api/get-bldg-heights', opt);
     }
-    
+
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import config from '../default/config'
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +19,7 @@ export class searchRec {
 				searchBy = data.SearchBy,
 				info = encodeURI(data.info),
 				sysCaller = data.sysCaller,
-				URI = 'http://192.168.100.24:5000/api/search-faas-record/' + sysCaller + '/' + searchIn + '/' + searchBy + '/' + info;
+				URI = config.api + '/api/search-faas-record/' + sysCaller + '/' + searchIn + '/' + searchBy + '/' + info;
     return this.http.get(URI, opt);
   }
 }

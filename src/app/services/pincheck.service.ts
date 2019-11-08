@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import config from '../default/config';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +15,6 @@ export class pincheck {
       'Authorization': 'Bearer ' + localStorage.getItem('auth')
     });
     let opt = { headers: headers };
-    return this.http.post('http://192.168.100.24:5000/api/check-pin-land', data, opt);
+    return this.http.post(config.api + '/api/check-pin-land', data, opt);
   }
 }

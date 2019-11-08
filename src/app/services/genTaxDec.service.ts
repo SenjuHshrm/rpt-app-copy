@@ -6,7 +6,7 @@ import * as JSZip from 'jszip';
 import * as JSZipUtils from 'jszip-utils';
 import { saveAs } from 'file-saver';
 import * as _ from 'lodash';
-
+import config from '../default/config';
 @Injectable({
    providedIn: 'root'
 })
@@ -22,7 +22,7 @@ export class genTaxDec {
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-      return this.http.get('http://192.168.100.24:5000/api/get-faas/land/' + data.id, opt);
+      return this.http.get(config.api + '/api/get-faas/land/' + data.id, opt);
    }
 
    fileLand(data: any): Observable<any> {
@@ -31,7 +31,7 @@ export class genTaxDec {
 				'Authorization': 'Bearer ' + localStorage.getItem('auth')
 		 });
 		 let opt = { headers: headers };
-		 return this.http.post('http://192.168.100.24:5000/api/gen-taxdec-land', data, opt);
+		 return this.http.post(config.api + '/api/gen-taxdec-land', data, opt);
    }
 
    generateBldg(data: any): Observable<any> {
@@ -40,7 +40,7 @@ export class genTaxDec {
         'Authorization': 'Bearer ' + localStorage.getItem('auth')
      });
      let opt = { headers: headers };
-     return this.http.get('http://192.168.100.24:5000/api/get-faas/bldg/' + data.id, opt);
+     return this.http.get(config.api + '/api/get-faas/bldg/' + data.id, opt);
    }
 
    fileBldg(data: any): Observable<any> {
@@ -49,6 +49,6 @@ export class genTaxDec {
         'Authorization': 'Bearer ' + localStorage.getItem('auth')
      });
      let opt = { headers: headers };
-     return this.http.post('http://192.168.100.24:5000/api/gen-taxdec-bldg', data, opt);
+     return this.http.post(config.api + '/api/gen-taxdec-bldg', data, opt);
    }
 }

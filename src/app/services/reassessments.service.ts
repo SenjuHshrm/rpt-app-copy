@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import config from '../default/config';
 @Injectable({
 	providedIn: 'root'
 })
@@ -19,11 +19,11 @@ export class reassessments {
 	}
 
 	public reassessLand(data: any): Observable<any> {
-		return this.http.put('http://192.168.100.24:5000/api/land-reasmt/reassess', data, this.setReqHeaders())
+		return this.http.put(config.api + '/api/land-reasmt/reassess', data, this.setReqHeaders())
 	}
 
 	public reassessBldg(data: any): Observable<any> {
-		return this.http.put('http://192.168.100.24:5000/api/bldg-reasmt/reassess', data, this.setReqHeaders())
+		return this.http.put(config.api + '/api/bldg-reasmt/reassess', data, this.setReqHeaders())
 	}
 
 }

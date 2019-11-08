@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import config from '../default/config';
 @Injectable({
 	providedIn: 'root'
 })
@@ -16,7 +16,7 @@ export class getBrgySubd {
 			'Authorization': 'Bearer ' + localStorage.getItem('auth')
 		}),
 				opt = { headers: headers };
-		return this.http.get('http://192.168.100.24:5000/api/get-brgys-subd', opt);
+		return this.http.get(config.api + '/api/get-brgys-subd', opt);
 	}
 
 }

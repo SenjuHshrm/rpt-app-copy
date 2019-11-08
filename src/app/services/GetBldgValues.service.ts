@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import config from '../default/config';
 @Injectable({
 	providedIn: 'root'
 })
@@ -19,7 +19,7 @@ export class GetBldgValues {
 	}
 
 	getKind(): Observable<any> {
-		return this.http.get('http://192.168.100.24:5000/api/bldg/kinds', this.setHeaders());
+		return this.http.get(config.api + '/api/bldg/kinds', this.setHeaders());
 	}
 
 }

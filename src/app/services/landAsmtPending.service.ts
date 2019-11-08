@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
-
+import config from '../default/config'
 @Injectable({
 	providedIn: 'root'
 })
@@ -27,13 +27,13 @@ export class landAsmtPending {
 		});
 		switch(data) {
 			case 'SUBDIVISION (SD)':
-				httpUrl = 'http://192.168.100.24:5000/api/pending/subdivision/' + encodeURI(encoder.name);
+				httpUrl = config.api + '/api/pending/subdivision/' + encodeURI(encoder.name);
 				break;
 			case 'SEGREGATION (SG)':
-				httpUrl = 'http://192.168.100.24:5000/api/pending/segregation/' + encodeURI(encoder.name);
+				httpUrl = config.api + '/api/pending/segregation/' + encodeURI(encoder.name);
 				break;
 			case 'CONSOLIDATION (CS)':
-				httpUrl = 'http://192.168.100.24:5000/api/pending/consolidation/' + encodeURI(encoder.name);
+				httpUrl = config.api + '/api/pending/consolidation/' + encodeURI(encoder.name);
 				break;
 		}
 		let opt = { headers: headers };

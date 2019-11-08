@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import config from '../default/config'
 @Injectable({
 	providedIn: 'root'
 })
@@ -19,11 +19,11 @@ export class assessLand {
 	}
 
 	public saveLand(data: any): Observable<any> {
-		return this.http.put('http://192.168.100.24:5000/api/land-asmt/add', data, this.setReqHeaders());
+		return this.http.put(config.api + '/api/land-asmt/add', data, this.setReqHeaders());
 	}
 
 	public updateLand(data: any): Observable<any> {
-		return this.http.put('http://192.168.100.24:5000/api/land-asmt/update', data, this.setReqHeaders());
+		return this.http.put(config.api + '/api/land-asmt/update', data, this.setReqHeaders());
 	}
 
 }

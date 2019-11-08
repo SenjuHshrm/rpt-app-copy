@@ -5,7 +5,7 @@ import * as JSZipUtils from 'jszip-utils';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { Observable } from 'rxjs';
-
+import config from '../default/config';
 @Injectable({
   providedIn: 'root'
 })
@@ -40,6 +40,6 @@ export class genLandTaxCl {
 			 'Authorization': 'Bearer ' + localStorage.getItem('auth')
 		});
 		let opt = { headers: headers };
-		return this.http.post('http://192.168.100.24:5000/api/gen-clearance', data, opt);
+		return this.http.post(config.api + '/api/gen-clearance', data, opt);
   }
 }

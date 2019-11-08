@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import config from '../default/config'
 @Injectable({
    providedIn: 'root'
 })
@@ -15,6 +15,6 @@ export class searchSG {
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-      return this.http.post('http://192.168.100.24:5000/api/segregation/get-data', data, opt);
+      return this.http.post(config.api + '/api/segregation/get-data', data, opt);
    }
 }

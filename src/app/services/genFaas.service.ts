@@ -9,7 +9,7 @@ import { landFaasTmp } from '../classes/landFaasTmp';
 import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { bldgFaasTmp } from '../classes/bldgFaasTmp';
-
+import config from '../default/config';
 @Injectable({
    providedIn: 'root'
 })
@@ -28,7 +28,7 @@ export class genFaas {
       });
       let opt = { headers: headers };
 			let id = data.id,
-					URI = 'http://192.168.100.24:5000/api/get-faas/land/' + id;
+					URI = config.api + '/api/get-faas/land/' + id;
       return this.http.get(URI, opt);
    }
 
@@ -39,7 +39,7 @@ export class genFaas {
       });
       let opt = { headers: headers };
 			let id = data.id,
-					URI = 'http://192.168.100.24:5000/api/get-faas/bldg/' + id;
+					URI = config.api + '/api/get-faas/bldg/' + id;
       return this.http.get(URI, opt);
    }
 
@@ -51,7 +51,7 @@ export class genFaas {
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-			return this.http.post('http://192.168.100.24:5000/api/gen-land-faas', data, opt);
+			return this.http.post(config.api + '/api/gen-land-faas', data, opt);
    }
 
    fileBldg(data: bldgFaasTmp) {
@@ -60,6 +60,6 @@ export class genFaas {
          'Authorization': 'Bearer ' + localStorage.getItem('auth')
       });
       let opt = { headers: headers };
-			return this.http.post('http://192.168.100.24:5000/api/gen-bldg-faas', data, opt);
+			return this.http.post(config.api + '/api/gen-bldg-faas', data, opt);
    }
 }
