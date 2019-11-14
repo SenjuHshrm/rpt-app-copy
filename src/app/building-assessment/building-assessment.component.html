@@ -433,7 +433,7 @@
               </mat-form-field>
 
               <mat-form-field class='item item-2' fxFlex='49%'>
-                <input matInput placeholder='Date Constructed / Completed' [matDatepicker]="dateCC" formControlName='dateCC'
+                <input matInput (dateChange)="bldgAge(bldgAssessment.get('genDescG'))" placeholder='Date Constructed / Completed' [matDatepicker]="dateCC" formControlName='dateCC'
                   required>
                 <mat-datepicker-toggle matSuffix [for]="dateCC"></mat-datepicker-toggle>
                 <mat-datepicker #dateCC></mat-datepicker>
@@ -453,7 +453,7 @@
                 <input matInput placeholder='Date Occupied' [matDatepicker]="mdpdateOccupied" formControlName='dateOccupied'
                   required>
                 <mat-datepicker-toggle matSuffix [for]="mdpdateOccupied"></mat-datepicker-toggle>
-                <mat-datepicker #permitIssue></mat-datepicker>
+                <mat-datepicker #mdpdateOccupied></mat-datepicker>
               </mat-form-field>
             </div>
 
@@ -467,7 +467,7 @@
                 <input matInput type='text' formControlName='aob' placeholder='Age of Building' required>
               </mat-form-field>
             </div>
-                                   
+
           </mat-card-content>
         </div>
         <br>
@@ -511,7 +511,7 @@
                   </mat-form-field>
 
                 <mat-form-field class='item item-2' fxFlex='49%'>
-                  
+
                   <input matInput type='text' formControlName='flrArea' placeholder='Floor Area (sqm)'>
                 </mat-form-field>
                 </div>
@@ -900,7 +900,7 @@
                 <mat-form-field fxFlex="100%">
                   <mat-label>Additional Item</mat-label>
                   <mat-select formControlName='aItem'>
-                    <mat-option *ngFor='let aiOpts of aItemOpts' [value]='aiOpts.value'>{{ aiOpts.viewVal }}</mat-option>
+                    <mat-option *ngFor='let aiOpts of aItemOpts' [value]='aiOpts.value' (click)="aiSubTypeItem(bldgAssessment.get('additionalItems'))">{{ aiOpts.viewVal }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -909,7 +909,7 @@
                 <mat-form-field fxFlex="100%">
                   <mat-label>Sub Type</mat-label>
                   <mat-select formControlName='subType'>
-                    <mat-option *ngFor='let sbtypOpts of stOpts' [value]='sbtypOpts.value'>{{ sbtypOpts.viewVal }}
+                    <mat-option *ngFor='let sbtypOpts of stOpts' [value]='sbtypOpts.value' (click)="getUnitCost(bldgAssessment.get('additionalItems'))">{{ sbtypOpts.viewVal }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -917,7 +917,7 @@
 
               <div>
                 <mat-form-field fxFlex="100%">
-                  <input matInput type='text' formControlName='szem2' placeholder='Size (m²)' required>
+                  <input matInput type='text' (keyup)="cmpAiTotalCost(bldgAssessment.get('additionalItems'))" formControlName='szem2' placeholder='Size (m²)' required>
                 </mat-form-field>
               </div>
 

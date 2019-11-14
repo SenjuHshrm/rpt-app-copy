@@ -8,6 +8,7 @@ import { adminOwner } from '../interfaces/adminOwner';
 import { landOwner } from '../interfaces/landOwner';
 import { bldgStructDesc} from '../interfaces/bldgStructDesc';
 import { GetBldgValues } from '../services/GetBldgValues.service';
+import { getBldgAddItems } from '../services/getBldgAddItems.service';
 import { selectOpt } from '../interfaces/selectOpt'
 import { MatDialog } from '@angular/material/dialog';
 import { BldgAsmtLnd } from './dialog-search-land/bldgasmt-search';
@@ -15,6 +16,7 @@ import { BldgAsmtBg } from './dialog-search-bldg/bldgasmt-search';
 import { getBldgStructMat } from '../services/getBldgStructMat.service';
 import { bldgStHeight } from '../services/bldgStHeight.service';
 import { group } from '@angular/animations';
+import * as moment from 'moment';
 
 
 export interface additionalItems {
@@ -127,7 +129,7 @@ export class BuildingAssessmentComponent implements OnInit {
   stHeights: any = []
   flrArea3: selectOpt[] = []
   flrArea4: selectOpt[] = []
-
+  bldgMrkValIncr: any;
   //Floor Area Options
   flrA: selectOpt[] = [
     { value: 'Option 1', viewVal: 'Option 1' },
@@ -138,22 +140,10 @@ export class BuildingAssessmentComponent implements OnInit {
   ]
 
   //additionalItemsOpts
-  aItemOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  aItemOpts: selectOpt[] = []
 
   //subTypeOpts
-  stOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
-  ]
+  stOpts: selectOpt[] = []
 
   //propertyAppraisal Type of Building Opts
   toBldg: selectOpt[] = [
@@ -184,20 +174,16 @@ export class BuildingAssessmentComponent implements OnInit {
 
   //propertyAsmt Status Opts
   statsOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
+    { value: 'TAXABLE', viewVal: 'TAXABLE' },
+    { value: 'EXEMPTED', viewVal: 'EXEMPTED' },
   ]
 
   //Quarter Opts
   qrtrOpts: selectOpt[] = [
-    { value: 'Option 1', viewVal: 'Option 1' },
-    { value: 'Option 1', viewVal: 'Option 2' },
-    { value: 'Option 1', viewVal: 'Option 3' },
-    { value: 'Option 1', viewVal: 'Option 4' },
-    { value: 'Option 1', viewVal: 'Option 5' },
+    { value: '1', viewVal: '1' },
+    { value: '2', viewVal: '2' },
+    { value: '3', viewVal: '3' },
+    { value: '4', viewVal: '4' },
   ]
 
   //year Opts
@@ -216,7 +202,8 @@ export class BuildingAssessmentComponent implements OnInit {
 		private getBldgVl: GetBldgValues,
 		private mDialog: MatDialog,
     private structMat: getBldgStructMat,
-    private StHeight: bldgStHeight) { }
+    private StHeight: bldgStHeight,
+    private addItm: getBldgAddItems) { }
 
   ownerHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
   adminHeader: string[] = ['fname', 'mname', 'lname', 'address', 'contact', 'tin', 'actions']
@@ -252,7 +239,7 @@ export class BuildingAssessmentComponent implements OnInit {
       })
       this.setRateVal()
     })
-    
+
 
     this.structMat.getLs().subscribe(res => {
       this.roofMat = []
@@ -293,8 +280,57 @@ export class BuildingAssessmentComponent implements OnInit {
       this.bldgAssessment.controls['strDescG'].get('floortype').setValue('ONE-STOREY');
       this.setStandardHeight(this.bldgAssessment.get('strDescG'))
     })
-    
 
+    this.addItm.getLs().subscribe(res => {
+      this.bldgMrkValIncr = res;
+      console.log(this.bldgMrkValIncr)
+      let type = Array.from(new Set(res.map(x => x.type)));
+      _.forEach(type, (arr: string) => {
+        this.aItemOpts.push({
+          value: arr,
+          viewVal: arr
+        })
+      })
+      this.bldgAssessment.get('additionalItems').get('aItem').setValue('FOUNDATIONS');
+      this.bldgAssessment.get('additionalItems').get('subType').setValue('III');
+      this.aiSubTypeItem(this.bldgAssessment.get('additionalItems'))
+      this.getUnitCost(this.bldgAssessment.get('additionalItems'))
+    })
+
+  }
+
+  aiSubTypeItem(grp: any) {
+    this.stOpts = []
+    let type = grp.controls['aItem'].value
+    grp.controls['uCost'].setValue('0');
+    _.forEach(this.bldgMrkValIncr, (arr: any) => {
+      if(arr.type == type) {
+        this.stOpts.push({
+          value: arr.sub_type,
+          viewVal: arr.sub_type
+        })
+      }
+    })
+    this.cmpAiTotalCost(grp)
+  }
+
+  getUnitCost(grp: any) {
+    let type = grp.controls['aItem'].value
+    let subType = grp.controls['subType'].value
+    _.forEach(this.bldgMrkValIncr, arr => {
+      if(arr.type == type){
+        if(arr.sub_type == subType) {
+          grp.controls['uCost'].setValue(arr.increment_value)
+        }
+      }
+    })
+    this.cmpAiTotalCost(grp)
+  }
+
+  cmpAiTotalCost(grp: any) {
+    let size = +grp.controls['szem2'].value
+    let ucost = +grp.controls['uCost'].value
+    grp.controls['tCost'].setValue(size * ucost);
   }
 
 	selectTrnsCode() {
@@ -314,7 +350,15 @@ export class BuildingAssessmentComponent implements OnInit {
 			}
 		})
   }
-  
+
+  bldgAge(grp: any) {
+    //console.log(grp.controls['dateCC'].value)
+    let inpYr = moment(grp.controls['dateCC'].value).format('YYYY'),
+      currYr = moment(new Date()).format('YYYY');
+    // console.log(+currYr - +inpYr);
+    grp.controls['aob'].setValue(+currYr - +inpYr);
+  }
+
   setStandardHeight(grp: any) {
     let x = grp.controls['floortype'].value
     let obj = _.find(this.stHeights, { type: x });
@@ -784,7 +828,7 @@ export class BuildingAssessmentComponent implements OnInit {
       additionalItems: new FormGroup({
         aItem: new FormControl(''),
         subType: new FormControl(''),
-        szem2: new FormControl('', [Validators.required]),
+        szem2: new FormControl('0', [Validators.required]),
         uCost: new FormControl(''),
         tCost: new FormControl(''),
         aItemTotal: new FormControl(''),
