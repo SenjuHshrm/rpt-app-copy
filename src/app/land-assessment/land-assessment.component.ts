@@ -152,9 +152,9 @@ export class LandAssessmentComponent implements OnInit {
     this.stripSetInfo = new MatTableDataSource(stripInf)
 
 		this.getMrktVal.getValues().subscribe(res => {
-			_.forEach(res, arr => {
-				this.landClassLs.push(arr)
-			})
+      this.landClassLs = res
+      this.lndAppChngVal(this.landAssessment.get('landAppraisal'));
+      this.lnAppSubCUV(this.landAssessment.get('landAppraisal'));
 		})
 		this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
 			this.approvedBy = res[0].holder_name;
@@ -223,14 +223,16 @@ export class LandAssessmentComponent implements OnInit {
   lndAppChngVal(grp: any) {
     let val = grp.controls['class'].value;
 		this.subClassLs = [];
-		Object.keys(this.landClassLs).forEach(key => {
-			if(this.landClassLs[key].class == val) {
-				this.subClassLs.push({
-					value: this.landClassLs[key].sub_class,
-					viewVal: this.landClassLs[key].sub_class
-				})
-			}
-		})
+    _.forEach(this.landClassLs, arr => {
+      if(arr.class == val) {
+        this.subClassLs.push({
+          value: arr.sub_class,
+          viewVal: arr.sub_class
+        })
+      }
+    })
+    grp.controls['subclass'].setValue(this.subClassLs[0].value);
+    this.lnAppSubCUV(this.landAssessment.get('landAppraisal'));
 		grp.controls['unitVal'].reset();
     grp.controls['baseMarketVal'].reset();
   }
@@ -305,7 +307,7 @@ export class LandAssessmentComponent implements OnInit {
 	}
 
 	compAssessedVal(propAsmt: any) {
-		let asmtVal = parseFloat(this.lndAppBMV) * (parseFloat(propAsmt.get('assessmentLvl').value) / 100);
+		let asmtVal = Math.ceil(parseFloat(this.lndAppBMV) * (parseFloat(propAsmt.get('assessmentLvl').value) / 100) / 10) * 10;
 		propAsmt.get('assessedVal').setValue(asmtVal);
 	}
 
@@ -385,7 +387,7 @@ export class LandAssessmentComponent implements OnInit {
 				this.stripSetInfo = new MatTableDataSource(stripInf);
 			}
 		}
-		let prpAsmtVal = parseFloat(this.lndAppBMV) * (parseFloat(this.landAssessment.get('propertyAssessment').get('assessmentLvl').value) / 100)
+		let prpAsmtVal = Math.ceil(parseFloat(this.lndAppBMV) * (parseFloat(this.landAssessment.get('propertyAssessment').get('assessmentLvl').value) / 100) / 10) * 10
 		this.landAssessment.get('propertyAssessment').get('assessedVal').setValue(prpAsmtVal.toString())
   }
 
@@ -393,9 +395,32 @@ export class LandAssessmentComponent implements OnInit {
     this.interiorLotToggle = !this.interiorLotToggle
     if(this.interiorLotToggle) {
       grp.controls['stripping'].setValue(true);
+      grp.controls['stripping'].disable();
+      stripInf = [];
+      stripInf.push({
+        stripNum: '1',
+        stripArea: grp.controls['area'].value,
+        adjustment: '-50',
+        adjustedBaseRate: (+this.lndAppUnitVal / 2).toString(),
+        stripMarkVal: (+grp.controls['area'].value * (+this.lndAppUnitVal / 2)).toString(),
+      })
+      this.lndAppBMV = (+grp.controls['area'].value * (+this.lndAppUnitVal / 2)).toString()
+      this.stripSetInfo = new MatTableDataSource(stripInf)
     } else {
       grp.controls['stripping'].setValue(false);
+      grp.controls['stripping'].enable();
+      stripInf = [];
+      stripInf.push({
+        stripNum: '1',
+        stripArea: grp.controls['area'].value,
+        adjustment: '0',
+        adjustedBaseRate: this.lndAppUnitVal,
+        stripMarkVal: (+grp.controls['area'].value * +this.lndAppUnitVal).toString(),
+      })
+      this.lndAppBMV = (+grp.controls['area'].value * +this.lndAppUnitVal).toString()
+      this.stripSetInfo = new MatTableDataSource(stripInf)
     }
+    this.compAssessedVal(this.landAssessment.get('propertyAssessment'));
   }
 
   save(form: any) {
@@ -891,7 +916,7 @@ export class LandAssessmentComponent implements OnInit {
 	        admTIN: new FormControl(''),
 	      }),
 	      landAppraisal: new FormGroup({
-	        class: new FormControl(''),
+	        class: new FormControl('COMMERCIAL'),
 	        subclass: new FormControl(''),
 	        area: new FormControl('0'),
 	        unitVal: new FormControl(''),
@@ -958,6 +983,8 @@ export class LandAssessmentComponent implements OnInit {
 	    })
 			this.lndAppUnitVal = '0';
 			this.lndAppBMV ='0';
+      //this.lndAppChngVal(this.landAssessment.get('landAppraisal'));
+      //this.landAssessment.controls['landAppraisal'].get('subclass').setValue('C-1');
 			this.landAssessment.controls['trnsCode'].setValue('DISCOVERY/NEW DECLARATION (DC)');
 			this.landAssessment.controls['propertyAssessment'].get('approvedName').setValue(this.approvedBy);
 			this.landAssessment.get('propertyAssessment').get('actualUse').setValue('COMMERCIAL');
