@@ -328,6 +328,16 @@ export class LandAssessmentComponent implements OnInit {
     this.compAssessedVal(this.lndAsmt.propAsmt);
   }
 
+  //interior lot
+  setInteriorLot(obj: any) {
+
+  }
+
+  //improvement
+  addImp(obj: any) {
+
+  }
+
   //sets the adjustment percentage on choosing adjustment factors
   setAdjPrc(obj: any) {
     let val: any;

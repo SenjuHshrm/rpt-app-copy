@@ -389,7 +389,7 @@
                   </mat-form-field>
                   </div>
                   <mat-form-field class='item item-3' fxFlex='32%'>
-                    <input matInput [disabled]='!enableStripping' type='text' placeholder='Strip Area' [(ngModel)]='lndAsmt.landAppraisal.stripArea' (change)='stripUpdated=false' name='stripArea'>
+                    <input matInput [disabled]='!enableStripping' type='text' placeholder='Strip Area' [(ngModel)]='lndAsmt.landAppraisal.stripArea' name='stripArea'>
                   </mat-form-field>
                 </div>
                 <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%' fxLayoutGap.xs='10px'>
@@ -474,7 +474,7 @@
                 <mat-form-field class='item item-2' fxFlex='32%'>
                   <input matInput type='text' [(ngModel)]='lndAsmt.othImp.basicMarketVal' placeholder='Base Market Value' name='othBMV'>
                 </mat-form-field>
-                <button fxFlex='32%' (click)="addImp(landAssessment.get('otherImprovements'))" mat-raised-button type='button' color='primary' class='item item-3'>Add</button>
+                <button fxFlex='32%' (click)="addImp(lndAsmt.othImp)" mat-raised-button type='button' color='primary' class='item item-3'>Add</button>
               </div>
                 <br><br>
               <div class='containerX' fxLayout fxLayout.xs='column' fxLayoutAlign='center'>
@@ -638,7 +638,7 @@
                   <div fxFlex='32%'>
                     <div class="inptOvrlay"></div>
                   <mat-form-field class='item item-1 width-100'>
-                    <input matInput type='text' [(ngModel)]='lndAsmt.propAsmt.marketVal' name='paMV' (keyup)="compAssessedVal(landAssessment.get('propertyAssessment'))" placeholder='Market Value' tabIndex="-1" [value]='lndAppBMV'>
+                    <input matInput type='text' [(ngModel)]='lndAsmt.propAsmt.marketVal' name='paMV' placeholder='Market Value' tabIndex="-1">
                   </mat-form-field>
                   </div>
                   <mat-form-field class='item item-2' fxFlex='32%'>
