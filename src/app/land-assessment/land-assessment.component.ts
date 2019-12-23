@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
@@ -54,24 +55,24 @@ export class LandAssessmentComponent implements OnInit {
   public mValHeader: string[] = ['bmval', 'adjfactor', 'adjperc', 'adjval', 'markval', 'actions'];
   public adjustmentFactorSel: any = {
     road: [
-      { factor: 'Provincial or National Road', value: '0' },
-      { factor: 'All weather Road', value: '-3' },
-      { factor: 'Along Dirt Road', value: '-6' },
-      { factor: 'No Road Outlet', value: '-9' }
+      { factor: 'PROVINCIAL OR NATIONAL ROAD', value: '0' },
+      { factor: 'ALL WEATHER ROAD', value: '-3' },
+      { factor: 'ALONG DIRT ROAD', value: '-6' },
+      { factor: 'NO ROAD OUTLET', value: '-9' }
     ],
     distRoad: [
       { factor: '0-1', type:'road', value: '0' },
       { factor: '1-3', type:'road', value: '-2' },
       { factor: '3-6', type:'road', value: '-4' },
       { factor: '6-9', type:'road', value: '-6' },
-      { factor: '9-Above', type:'road', value: '-8' }
+      { factor: '9-ABOVE', type:'road', value: '-8' }
     ],
     distTrade: [
       { factor: '0-1', type: 'trade', value: '5' },
       { factor: '1-3', type: 'trade', value: '0' },
       { factor: '3-6', type: 'trade', value: '-2' },
       { factor: '6-9', type: 'trade', value: '-4' },
-      { factor: '9-Above', type: 'trade', value: '-6' }
+      { factor: '9-ABOVE', type: 'trade', value: '-6' }
     ]
   }
   public quarter: selectOpt[] = [
@@ -81,7 +82,7 @@ export class LandAssessmentComponent implements OnInit {
     { value: '4', viewVal: '4' }
   ];
   public trnsLs: selectOpt[] = [
-    { value: 'DISCOVERY/NEW DECLARATION (DC)', viewVal: 'DISCOVERY/NEW DECLARATION (DC)' },
+    { value: 'DISCOVERY / NEW DECLARATION (DC)', viewVal: 'DISCOVERY / NEW DECLARATION (DC)' },
     { value: 'SUBDIVISION (SD)', viewVal: 'SUBDIVISION (SD)' },
     { value: 'CONSOLIDATION (CS)', viewVal: 'CONSOLIDATION (CS)' },
     { value: 'PHYSICAL CHANGE (PC)', viewVal: 'PHYSICAL CHANGE (PC)' },
@@ -112,6 +113,7 @@ export class LandAssessmentComponent implements OnInit {
   private stripEnabled: boolean = false;
   private InteriorEnabled: boolean = false;
   private cornerEnabled: boolean = false;
+  public username: string = '';
   ////////UI variables//////////////////////////////////
   public isVisible_spinner: boolean = false;
   public pinspinner: boolean = true;
@@ -127,7 +129,8 @@ export class LandAssessmentComponent implements OnInit {
     private getMrktVal: getMarketValues,
     private asmtLand: assessLand,
     private gPosHolder: getPosHolders,
-    private lsBrgySubd: getBrgySubd
+    private lsBrgySubd: getBrgySubd,
+    private route: ActivatedRoute
   ) { }
 
   /////////////Init component///////////////////////////
@@ -135,6 +138,7 @@ export class LandAssessmentComponent implements OnInit {
     if(!localStorage.getItem('auth')) {
       window.location.href = '/';
     } else {
+      this.username = this.route.snapshot.paramMap.get('username');
       this.initForm();
       this.getMrktVal.getValues().subscribe(res => {
         this.landClassLs = res;
@@ -153,6 +157,15 @@ export class LandAssessmentComponent implements OnInit {
           })
         })
       })
+      this.checkpinresult = '';
+      ownerLs = [];
+      adminLs = [];
+      imprInf = [];
+      mrktVal = [];
+      this.ownersLs = new MatTableDataSource(ownerLs);
+      this.adminsLs = new MatTableDataSource(adminLs);
+      this.impInf = new MatTableDataSource(imprInf);
+      this.marketValue = new MatTableDataSource(mrktVal);
       this.setAsmtLvl(this.lndAsmt.propAsmt)
     }
   }
@@ -316,10 +329,14 @@ export class LandAssessmentComponent implements OnInit {
 
   //compute for basic market value based on class and sub class changes
   computeBMV(obj: any) {
-    if(this.enableStripping) {
-      this.lndAsmt.landAppraisal.baseMarketVal = '0'
+
+    if(obj.stripping && !obj.cornerLot && !obj.interiorLot) {
+      this.lndAsmt.landAppraisal.baseMarketVal = '0.0000';
+    } else if(obj.stripping && !obj.cornerLot && obj.interiorLot) {
+      this.lndAsmt.landAppraisal.baseMarketVal = (((+obj.area * +obj.unitVal) / 2).toFixed(4)).toString()
+    } else if(obj.stripping && obj.cornerLot && !obj.interiorLot) {
+      this.lndAsmt.landAppraisal.baseMarketVal = '0.0000';
     } else {
-      //this.lndAsmt.landAppraisal.baseMarketVal = (Math.round(((+obj.area * +obj.unitVal) * 100)) / 100).toString();
       this.lndAsmt.landAppraisal.baseMarketVal = ((+obj.area * +obj.unitVal).toFixed(4)).toString();
     }
     this.setStrip(this.lndAsmt.landAppraisal)
@@ -328,9 +345,66 @@ export class LandAssessmentComponent implements OnInit {
     this.compAssessedVal(this.lndAsmt.propAsmt);
   }
 
-  //interior lot
-  setInteriorLot(obj: any) {
+  //interior lot toggle
+  interiorToggle(obj: any) {
+    this.InteriorEnabled = !this.InteriorEnabled;
+    (this.InteriorEnabled) ? obj.stripping = true : obj.stripping = false
+    this.computeBMV(obj);
+    this.setInteriorLot(obj)
+  }
 
+  //interior lot function
+  setInteriorLot(obj: any) {
+    if(this.InteriorEnabled) {
+      stripInf = [];
+      let unitVl = ((+obj.unitVal * 0.5).toFixed(4)).toString();
+      let bmv = ((+unitVl * +obj.area).toFixed(4)).toString();
+      stripInf.push({
+        stripNum: '1',
+        stripArea: obj.area,
+        adjustment: '-50',
+        adjustedBaseRate: unitVl,
+        stripMarkVal: bmv,
+      })
+      this.stripSetInfo = new MatTableDataSource(stripInf)
+    }
+  }
+
+  //corner lot toggle
+  cornerLotToggle(obj: any) {
+    this.cornerEnabled = !this.cornerEnabled;
+    this.enableStripping = !this.enableStripping;
+    (this.cornerEnabled) ? obj.stripping = true : obj.stripping = false
+    this.computeBMV(obj);
+    this.setCornerLot(obj)
+  }
+
+  //conrner lot function
+  setCornerLot(obj: any) {
+    if(obj.cornerLot) {
+      stripInf = [];
+      this.stripNm = [];
+      for(let i = 0; i < 3; i++) {
+        let x = i + 1;
+        let adj = '30'
+        if(x == 3) {
+          adj = '0'
+        }
+        stripInf.push({
+          stripNum: x.toString(),
+          stripArea: '0',
+          adjustment: adj.toString(),
+          adjustedBaseRate: ((0).toFixed(4)).toString(),
+          stripMarkVal: ((0).toFixed(4)).toString(),
+        })
+        this.stripNm.push({
+          value: x.toString(),
+          viewVal: x.toString()
+        })
+      }
+      this.lndAsmt.landAppraisal.stripCount = '3';
+      this.stripSetInfo = new MatTableDataSource(stripInf)
+    }
   }
 
   //improvement
@@ -341,10 +415,10 @@ export class LandAssessmentComponent implements OnInit {
   //sets the adjustment percentage on choosing adjustment factors
   setAdjPrc(obj: any) {
     let val: any;
-    if(obj.mAdjustFactor == 'Provincial or National Road' ||
-        obj.mAdjustFactor == 'All weather Road' ||
-        obj.mAdjustFactor == 'Along Dirt Road' ||
-        obj.mAdjustFactor == 'No Road Outlet') {
+    if(obj.mAdjustFactor == 'PROVINCIAL OR NATIONAL ROAD' ||
+        obj.mAdjustFactor == 'ALL WEATHER ROAD' ||
+        obj.mAdjustFactor == 'ALONG DIRT ROAD' ||
+        obj.mAdjustFactor == 'NO ROAD OUTLET') {
       val = _.find(this.adjustmentFactorSel.road, { factor: obj.mAdjustFactor })
       obj.mAdjustPercentage = val.value
     } else {
@@ -371,19 +445,19 @@ export class LandAssessmentComponent implements OnInit {
     //test equation: BMV - (BMV * ((adjPrc + 100) / 100))
     let adjFc = '';
 
-    if(obj.mAdjustFactor == 'Provincial or National Road' ||
-        obj.mAdjustFactor == 'All weather Road' ||
-        obj.mAdjustFactor == 'Along Dirt Road' ||
-        obj.mAdjustFactor == 'No Road Outlet') {
+    if(obj.mAdjustFactor == 'PROVINCIAL OR NATIONAL ROAD' ||
+        obj.mAdjustFactor == 'ALL WEATHER ROAD' ||
+        obj.mAdjustFactor == 'ALONG DIRT ROAD' ||
+        obj.mAdjustFactor == 'NO ROAD OUTLET') {
           adjFc = obj.mAdjustFactor;
     } else {
       let opt = obj.mAdjustFactor.split(' ');
       switch(opt[1]) {
         case 'road':
-          adjFc = 'Distance to all weather road: ' + opt[0];
+          adjFc = 'DISTANCE TO ALL WEATHER ROAD: ' + opt[0];
           break;
         case 'trade':
-          adjFc = 'Distance to trading center: ' + opt[0];
+          adjFc = 'DISTANCE TO TRADING CENTER: ' + opt[0];
           break;
       }
     }
@@ -455,10 +529,13 @@ export class LandAssessmentComponent implements OnInit {
         console.log(currArea)
         console.log(remLnd)
         obj.remLandArea = remLnd.toString();
+        let adjBRate;
         if(!obj.cornerLot && !obj.interiorLot) {
           i.adjustment = obj.adjustment
+          adjBRate = (parseFloat(obj.unitVal) * ((parseFloat(obj.adjustment) + 100) / 100)).toFixed(4)
+        } else if(obj.cornerLot) {
+          adjBRate = (parseFloat(obj.unitVal) * ((parseFloat(i.adjustment) + 100) / 100)).toFixed(4)
         }
-        let adjBRate = (parseFloat(obj.unitVal) * ((parseFloat(obj.adjustment) + 100) / 100)).toFixed(4)
         i.adjustedBaseRate = adjBRate.toString();
         i.stripMarkVal = ((parseFloat(i.stripArea) * parseFloat(i.adjustedBaseRate)).toFixed(4)).toString()
         let ind = _.findIndex(stripInf, { stripNum: obj.stripNo });
@@ -554,9 +631,99 @@ export class LandAssessmentComponent implements OnInit {
   }
 
   //save data
-  save(evt: MouseEvent, obj: any) {
+  save(evt: MouseEvent, form: any) {
     evt.defaultPrevented;
-    console.log(obj);
+    let data: landAsmtDataTemp = {
+      trnsCode: form.trnsCode,
+			arpNo: form.arpNo,
+			pin: {
+				city: form.pin.city,
+				district: form.pin.district,
+				barangay: form.pin.barangay,
+				section: form.pin.section,
+				parcel: form.pin.parcel,
+			},
+			OCT_TCT: form.OCT_TCT,
+			surveyNo: form.surveyNo,
+			lotNo: form.lotNo,
+			blockNo: form.blockNo,
+			propLoc: {
+				streetNo: form.propLoc.streetNo,
+				brgy: form.propLoc.barangay,
+				subd: form.propLoc.subdivision,
+				city: form.propLoc.city,
+				province: form.propLoc.province,
+				north: form.propLoc.north,
+				south: form.propLoc.south,
+				east: form.propLoc.east,
+				west: form.propLoc.west,
+			},
+			ownerDetails: ownerLs,
+			adminDetails: adminLs,
+			landAppraisal: {
+				class: form.landAppraisal.class,
+				subCls: form.landAppraisal.subCls,
+				area: form.landAppraisal.area,
+				unitVal: form.landAppraisal.unitVal,
+				baseMarketVal: form.landAppraisal.baseMarketVal,
+				interiorLot: (form.landAppraisal.interiorLot) ? 1 : 0,
+				cornerLot: (form.landAppraisal.cornerLot) ? 1 : 0,
+				stripping: (form.landAppraisal.stripping) ? 1 : 0,
+			},
+			stripSet: stripInf,
+			othImp: imprInf,
+			marketVal: mrktVal,
+			propAsmt: {
+				actualUse: form.propAsmt.actualUse,
+				marketVal: form.propAsmt.marketVal,
+				assessmentLvl: form.propAsmt.assessmentLvl,
+				assessedVal: form.propAsmt.assessedVal,
+				specialClass: (form.propAsmt.specialClass) ? 1 : 0,
+				status: form.propAsmt.status,
+				efftQ: form.propAsmt.efftQ,
+				effty: form.propAsmt.effty,
+				total: form.propAsmt.total,
+				appraisedName: form.propAsmt.appraisedName,
+				appraisedDate: (form.propAsmt.appraisedDate == '') ? '' : moment(form.propertyAssessment.appraisedDate).format('MM/DD/YYYY'),
+				recommendName: form.propAsmt.recommendName,
+				recommendDate: (form.propAsmt.recommendDate == '') ? '' : moment(form.propertyAssessment.recommendDate).format('MM/DD/YYYY'),
+				approvedName: form.propAsmt.approvedName,
+				approvedDate: (form.propAsmt.approvedDate == '') ? '' : moment(form.propertyAssessment.approvedDate).format('MM/DD/YYYY'),
+				memoranda: form.propAsmt.memoranda,
+			},
+			supersededRec: {
+				supPin: form.supersededRec.supPin,
+				supArpNo: form.supersededRec.supArpNo,
+				supTDNo: form.supersededRec.supTDNo,
+				supTotalAssessedVal: (form.supersededRec.supTotalAssessedVal == '') ? '0.0000' : form.supersededRec.supTotalAssessedVal,
+				supPrevOwner: form.supersededRec.supPrevOwner,
+				supEff: form.supersededRec.supEff,
+				supARPageNo: form.supersededRec.supARPageNo,
+				supRecPersonnel: form.supersededRec.supRecPersonnel,
+				supDate: (form.supersededRec.supDate == '') ? '' : moment(form.supersededRec.supDate).format('MM/DD/YYYY'),
+			},
+			status: (form.status == '') ? 'CURRENT' : form.status,
+			dateCreated: moment(new Date()).format('MM/DD/YYYY'),
+			encoder: this.username,
+			attachment: form.attachment,
+    }
+    console.log(data)
+    if(data.trnsCode == 'DISCOVERY / NEW DECLARATION (DC)' ||
+      data.trnsCode == 'PHYSICAL CHANGE (PC)' ||
+      data.trnsCode == 'DISPUTE IN ASSESSED VALUE (DP)' ||
+      data.trnsCode == 'TRANSFER (TR)' ||
+      data.trnsCode == 'RECLASSIFICATION (RC)' ||
+      data.trnsCode == 'SPECIAL PROJECT (SP)') {
+      this.asmtLand.saveLand(data).subscribe(res => {
+        if(res.res) {
+          this.resetForm();
+        }
+      })
+    } else {
+      this.asmtLand.updateLand(data).subscribe(res => {
+        console.log(res)
+      })
+    }
   }
 
   //resets form
@@ -568,7 +735,7 @@ export class LandAssessmentComponent implements OnInit {
   //initialize whole form onInit
   initForm() {
     this.lndAsmt = {
-      trnsCode: 'DISCOVERY/NEW DECLARATION (DC)',
+      trnsCode: 'DISCOVERY / NEW DECLARATION (DC)',
     	arpNo: '',
     	pin: {
     		city: '130',
@@ -614,9 +781,9 @@ export class LandAssessmentComponent implements OnInit {
     		area: '0',
     		unitVal: '',
     		baseMarketVal: '',
-    		interiorLot: '',
-    		cornerLot: '',
-    		stripping: '',
+    		interiorLot: false,
+    		cornerLot: false,
+    		stripping: false,
         stripCount: '1',
         remLandArea: '0',
         stripArea: '0',
@@ -643,7 +810,7 @@ export class LandAssessmentComponent implements OnInit {
     		marketVal: '0',
     		assessmentLvl: '',
     		assessedVal: '0',
-    		specialClass: '',
+    		specialClass: false,
     		status: 'TAXABLE',
     		efftQ: '1',
     		effty: '',
@@ -676,12 +843,17 @@ export class LandAssessmentComponent implements OnInit {
 
   //populates whole form
   populateForm(id: number, trnsCode: string) {
+
     let data = {
       id: id
     }
     this.gLndFaas.generateLand(data).subscribe(res => {
       console.log(res);
       let xobj = res.faas;
+      let owners = res.owners;
+      let admins = res.admins;
+      let strips = res.strips;
+      let mVal = res.marketval;
       this.lndAsmt = {
         trnsCode: trnsCode,
       	arpNo: xobj.arp_no,
@@ -725,7 +897,7 @@ export class LandAssessmentComponent implements OnInit {
         },
       	landAppraisal: {
       		class: xobj.class,
-      		subCls: xobj.sub_class,
+      		subCls: '',
       		area: xobj.area,
       		unitVal: xobj.unit_value,
       		baseMarketVal: xobj.base_market_value,
@@ -787,6 +959,64 @@ export class LandAssessmentComponent implements OnInit {
       	encoder: xobj.encoder_id,
       	attachment: xobj.attachment_file,
       };
+      this.lndAppChngVal(this.lndAsmt.landAppraisal);
+      this.lndAsmt.landAppraisal.subCls = xobj.sub_class;
+      this.lnAppSubCUV(this.lndAsmt.landAppraisal);
+      ownerLs = [];
+      adminLs = [];
+      stripInf = [];
+      imprInf = [];
+      mrktVal = [];
+      if(owners.length > 0) {
+        _.forEach(owners, arr => {
+          ownerLs.push({
+            ownFName: arr.first_name,
+      			ownMName: arr.middle_name,
+      			ownLName: arr.last_name,
+            ownAddress: arr.address,
+            ownContact: arr.contact_no,
+            ownTIN: arr.TIN,
+          })
+        });
+      }
+      if(admins.length > 0) {
+        _.forEach(admins, arr => {
+          adminLs.push({
+            admFName: arr.first_name,
+            admMName: arr.middle_name,
+            admLName: arr.last_name,
+            admAddress: arr.address,
+            admContact: arr.contact_no,
+            admTIN: arr.TIN,
+          })
+        });
+      }
+      if(strips.length > 0) {
+        _.forEach(strips, arr => {
+          stripInf.push({
+            stripNum: arr.land_strip_no,
+            stripArea: arr.area,
+            adjustment: arr.adjustment_percentage,
+            adjustedBaseRate: arr.adjusted_unit_value,
+            stripMarkVal: arr.adjusted_market_value,
+          });
+        });
+      }
+      if(mVal.length > 0) {
+        _.forEach(mVal, arr => {
+          mrktVal.push({
+            mBaseVal: arr.base_market_value,
+            mAdjustFactor: arr.type,
+            mAdjustPercentage: arr.adjustment_percentage,
+            mAdjustValue: arr.adjustment_value,
+            mMarketVal: arr.market_value,
+          })
+        })
+      }
+      this.ownersLs = new MatTableDataSource(ownerLs);
+      this.adminsLs = new MatTableDataSource(adminLs);
+      this.stripSetInfo = new MatTableDataSource(stripInf);
+      this.marketValue = new MatTableDataSource(mrktVal);
     })
   }
 }

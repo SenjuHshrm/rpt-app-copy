@@ -37,9 +37,9 @@ export class landAsmtDataTemp {
 		area: string;
 		unitVal: string;
 		baseMarketVal: string;
-		interiorLot: string;
-		cornerLot: string;
-		stripping: string;
+		interiorLot: number;
+		cornerLot: number;
+		stripping: number;
 	};
 	stripSet: stripInfo[];
 	othImp: improvementInfo[];
@@ -49,7 +49,7 @@ export class landAsmtDataTemp {
 		marketVal: string;
 		assessmentLvl: string;
 		assessedVal: string;
-		specialClass: string;
+		specialClass: number;
 		status: string;
 		efftQ: string;
 		effty: string;

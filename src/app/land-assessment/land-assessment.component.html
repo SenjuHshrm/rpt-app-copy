@@ -364,9 +364,9 @@
                     </mat-form-field>
                   </div>
                   <div class='item item-3' fxFlex='32%'>
-                    <mat-checkbox (change)="setInteriorLot(lndAsmt.landAppraisal)" [(ngModel)]='lndAsmt.landAppraisal.interiorLot' name='lndAppIL'>Interior Lot</mat-checkbox>
+                    <mat-checkbox (change)="interiorToggle(lndAsmt.landAppraisal)" [(ngModel)]='lndAsmt.landAppraisal.interiorLot' name='lndAppIL'>Interior Lot</mat-checkbox>
                     <br>
-                    <mat-checkbox [(ngModel)]='lndAsmt.landAppraisal.cornerLot' name='lndAppCL'>Corner Lot</mat-checkbox>
+                    <mat-checkbox (change)="cornerLotToggle(lndAsmt.landAppraisal)" [(ngModel)]='lndAsmt.landAppraisal.cornerLot' name='lndAppCL'>Corner Lot</mat-checkbox>
                     <br>
                     <mat-checkbox (change)="stripToggle(lndAsmt.landAppraisal)" [(ngModel)]='lndAsmt.landAppraisal.stripping' name='lndAppStp'>Stripping
                     </mat-checkbox>
