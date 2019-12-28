@@ -256,12 +256,12 @@ export class LandAssessmentComponent implements OnInit {
   //add owner
   addOwner(obj: any) {
     ownerLs.push({
-      ownFName: obj.ownFName,
-			ownMName: obj.ownMName,
-			ownLName: obj.ownLName,
-      ownAddress: obj.ownAddress,
-      ownContact: obj.ownContact,
-      ownTIN: obj.ownTIN
+      ownFName: obj.ownFName.toUpperCase(),
+			ownMName: obj.ownMName.toUpperCase(),
+			ownLName: obj.ownLName.toUpperCase(),
+      ownAddress: obj.ownAddress.toUpperCase(),
+      ownContact: obj.ownContact.toUpperCase(),
+      ownTIN: obj.ownTIN.toUpperCase()
     });
     this.ownersLs = new MatTableDataSource(ownerLs);
     Object.keys(obj).forEach(key => {
@@ -279,12 +279,12 @@ export class LandAssessmentComponent implements OnInit {
   //add admin / beneficial user
   addAdmin(obj: any) {
     adminLs.push({
-      admFName: obj.admFName,
-      admMName: obj.admMName,
-      admLName: obj.admLName,
-      admAddress: obj.admAddress,
-      admContact: obj.admContact,
-      admTIN: obj.admTIN,
+      admFName: obj.admFName.toUpperCase(),
+      admMName: obj.admMName.toUpperCase(),
+      admLName: obj.admLName.toUpperCase(),
+      admAddress: obj.admAddress.toUpperCase(),
+      admContact: obj.admContact.toUpperCase(),
+      admTIN: obj.admTIN.toUpperCase(),
     });
     this.adminsLs = new MatTableDataSource(adminLs);
     Object.keys(obj).forEach(key => {
@@ -644,19 +644,19 @@ export class LandAssessmentComponent implements OnInit {
 				parcel: form.pin.parcel,
 			},
 			OCT_TCT: form.OCT_TCT,
-			surveyNo: form.surveyNo,
-			lotNo: form.lotNo,
-			blockNo: form.blockNo,
+			surveyNo: form.surveyNo.toUpperCase(),
+			lotNo: form.lotNo.toUpperCase(),
+			blockNo: form.blockNo.toUpperCase(),
 			propLoc: {
-				streetNo: form.propLoc.streetNo,
+				streetNo: form.propLoc.streetNo.toUpperCase(),
 				brgy: form.propLoc.barangay,
 				subd: form.propLoc.subdivision,
 				city: form.propLoc.city,
 				province: form.propLoc.province,
-				north: form.propLoc.north,
-				south: form.propLoc.south,
-				east: form.propLoc.east,
-				west: form.propLoc.west,
+				north: form.propLoc.north.toUpperCase(),
+				south: form.propLoc.south.toUpperCase(),
+				east: form.propLoc.east.toUpperCase(),
+				west: form.propLoc.west.toUpperCase(),
 			},
 			ownerDetails: ownerLs,
 			adminDetails: adminLs,
@@ -683,23 +683,23 @@ export class LandAssessmentComponent implements OnInit {
 				efftQ: form.propAsmt.efftQ,
 				effty: form.propAsmt.effty,
 				total: form.propAsmt.total,
-				appraisedName: form.propAsmt.appraisedName,
-				appraisedDate: (form.propAsmt.appraisedDate == '') ? '' : moment(form.propertyAssessment.appraisedDate).format('MM/DD/YYYY'),
-				recommendName: form.propAsmt.recommendName,
-				recommendDate: (form.propAsmt.recommendDate == '') ? '' : moment(form.propertyAssessment.recommendDate).format('MM/DD/YYYY'),
+				appraisedName: form.propAsmt.appraisedName.toUpperCase(),
+				appraisedDate: (form.propAsmt.appraisedDate == '') ? '' : moment(form.propAsmt.appraisedDate).format('MM/DD/YYYY'),
+				recommendName: form.propAsmt.recommendName.toUpperCase(),
+				recommendDate: (form.propAsmt.recommendDate == '') ? '' : moment(form.propAsmt.recommendDate).format('MM/DD/YYYY'),
 				approvedName: form.propAsmt.approvedName,
-				approvedDate: (form.propAsmt.approvedDate == '') ? '' : moment(form.propertyAssessment.approvedDate).format('MM/DD/YYYY'),
+				approvedDate: (form.propAsmt.approvedDate == '') ? '' : moment(form.propAsmt.approvedDate).format('MM/DD/YYYY'),
 				memoranda: form.propAsmt.memoranda,
 			},
 			supersededRec: {
 				supPin: form.supersededRec.supPin,
-				supArpNo: form.supersededRec.supArpNo,
-				supTDNo: form.supersededRec.supTDNo,
+				supArpNo: form.supersededRec.supArpNo.toUpperCase(),
+				supTDNo: form.supersededRec.supTDNo.toUpperCase(),
 				supTotalAssessedVal: (form.supersededRec.supTotalAssessedVal == '') ? '0.0000' : form.supersededRec.supTotalAssessedVal,
-				supPrevOwner: form.supersededRec.supPrevOwner,
+				supPrevOwner: form.supersededRec.supPrevOwner.toUpperCase(),
 				supEff: form.supersededRec.supEff,
 				supARPageNo: form.supersededRec.supARPageNo,
-				supRecPersonnel: form.supersededRec.supRecPersonnel,
+				supRecPersonnel: form.supersededRec.supRecPersonnel.toUpperCase(),
 				supDate: (form.supersededRec.supDate == '') ? '' : moment(form.supersededRec.supDate).format('MM/DD/YYYY'),
 			},
 			status: (form.status == '') ? 'CURRENT' : form.status,
