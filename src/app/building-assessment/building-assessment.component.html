@@ -21,7 +21,7 @@
                 <mat-form-field fxFlex='40%'>
                   <mat-label>Transaction Code</mat-label>
                   <mat-select [(ngModel)]='bldgAsmt.trnsCode' name='trnsCode'>
-                    <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value' (click)='selectTrnsCode()'>{{ bldg.viewVal }}</mat-option>
+                    <mat-option *ngFor='let bldg of bldgOpt' [value]='bldg.value' (click)='selectTrnsCode(bldgAsmt.trnsCode)'>{{ bldg.viewVal }}</mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
@@ -32,27 +32,27 @@
                 <div class='item item-2' fxFlex='70%'>
                   <span>PIN* </span>
                   <mat-form-field class='width-10'>
-                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.city' name='pinCity'>
+                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.city' name='pinCity' maxlength='3'>
                   </mat-form-field>
                   <span>-</span>
                   <mat-form-field class='width-10'>
-                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.district' name='pinDistr'>
+                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.district' name='pinDistr' maxlength='2'>
                   </mat-form-field>
                   <span>-</span>
                   <mat-form-field class='width-10'>
-                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.barangay' name='pinBrgy'>
+                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.barangay' name='pinBrgy' maxlength='3'>
                   </mat-form-field>
                   <span>-</span>
                   <mat-form-field class='width-10'>
-                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.section' name='pinSect'>
+                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.section' name='pinSect' maxlength='2'>
                   </mat-form-field>
                   <span>-</span>
                   <mat-form-field class='width-10'>
-                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.parcel' name='pinParcel'>
+                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.parcel' name='pinParcel' maxlength='4'>
                   </mat-form-field>
   								<span>-</span>
                   <mat-form-field class='width-10'>
-                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.bldgNo' name='pinBldgNo'>
+                    <input matInput type='text' [(ngModel)]='bldgAsmt.pin.bldgNo' name='pinBldgNo' maxlength='4'>
                   </mat-form-field>
                   <span>&nbsp;&nbsp;&nbsp;</span>
                   <button class="cpBrdr" type='button' mat-raised-button color='primary' (click)="chckPIN(bldgAsmt.pin)">Check PIN</button>
@@ -347,28 +347,28 @@
                   <mat-form-field class='item item-1' fxFlex='49%'>
                     <mat-label>Kind of Building</mat-label>
                     <mat-select [(ngModel)]='bldgAsmt.genDesc.kind' name='genDesc'>
-                      <mat-option *ngFor='let kindOfBldg of kof' [value]='kindOfBldg.value'>{{ kindOfBldg.viewVal }}
+                      <mat-option *ngFor='let kindOfBldg of kof' [value]='kindOfBldg.value' (click)='setBldgTypes(bldgAsmt.genDesc)'>{{ kindOfBldg.viewVal }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
                   <mat-form-field class='item item-2' fxFlex='49%'>
-                    <input matInput placeholder='Cert. of Completion Issued On' [matDatepicker]="certcom" [(ngModel)]='bldgAsmt.genDesc.cCertCompIssue' name='cCertCompIssue'>
+                    <input matInput placeholder='Cert. of Completion Issued On' [matDatepicker]="certcom" [(ngModel)]='bldgAsmt.genDesc.cCertCompIssue' name='cCertCompIssue' disabled>
                     <mat-datepicker-toggle matSuffix [for]="certcom"></mat-datepicker-toggle>
-                    <mat-datepicker #certcom></mat-datepicker>
+                    <mat-datepicker #certcom disabled='false'></mat-datepicker>
                   </mat-form-field>
                 </div>
                 <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%' fxLayoutGap.xs='10px'>
                   <mat-form-field class='item item-1' fxFlex='49%'>
                     <mat-label>Structural Type</mat-label>
                     <mat-select [(ngModel)]='bldgAsmt.genDesc.strctType' name='strctType'>
-                      <mat-option *ngFor='let sType of st' [value]='sType.value' (click)='setRateVal()'>{{ sType.viewVal }}</mat-option>
+                      <mat-option *ngFor='let sType of st' [value]='sType.value' (click)='setRateVal(bldgAsmt.genDesc)'>{{ sType.viewVal }}</mat-option>
                     </mat-select>
                   </mat-form-field>
 
                   <mat-form-field class='item item-2' fxFlex='49%'>
-                    <input matInput placeholder='Cert. of Occupancy Issued On' [matDatepicker]="certOcc" [(ngModel)]='bldgAsmt.genDesc.certOccDate' name='certOccDate'>
+                    <input matInput placeholder='Cert. of Occupancy Issued On' [matDatepicker]="certOcc" [(ngModel)]='bldgAsmt.genDesc.certOccDate' name='certOccDate' disabled>
                     <mat-datepicker-toggle matSuffix [for]="certOcc"></mat-datepicker-toggle>
-                    <mat-datepicker #certOcc></mat-datepicker>
+                    <mat-datepicker #certOcc disabled='false'></mat-datepicker>
                   </mat-form-field>
                 </div>
 
@@ -378,23 +378,23 @@
                   </mat-form-field>
 
                   <mat-form-field class='item item-2' fxFlex='49%'>
-                    <input matInput (dateChange)="bldgAge(bldgAsmt.genDesc)" placeholder='Date Constructed / Completed' [matDatepicker]="dateCC" [(ngModel)]='bldgAsmt.genDesc.dateComp' name='dateComp'>
+                    <input matInput (dateChange)="bldgAge(bldgAsmt.genDesc)" placeholder='Date Constructed / Completed' [matDatepicker]="dateCC" [(ngModel)]='bldgAsmt.genDesc.dateComp' name='dateComp' disabled>
                     <mat-datepicker-toggle matSuffix [for]="dateCC"></mat-datepicker-toggle>
-                    <mat-datepicker #dateCC></mat-datepicker>
+                    <mat-datepicker #dateCC disabled='false'></mat-datepicker>
                   </mat-form-field>
                 </div>
 
                 <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%' fxLayoutGap.xs='10px'>
                   <mat-form-field class='item item-1' fxFlex='49%'>
-                    <input matInput placeholder='Permit Issued On' [matDatepicker]="permitIssue" [(ngModel)]='bldgAsmt.genDesc.permitIssueOn' name='permitIssueOn'>
+                    <input matInput placeholder='Permit Issued On' [matDatepicker]="permitIssue" [(ngModel)]='bldgAsmt.genDesc.permitIssueOn' name='permitIssueOn' disabled>
                     <mat-datepicker-toggle matSuffix [for]="permitIssue"></mat-datepicker-toggle>
-                    <mat-datepicker #permitIssue></mat-datepicker>
+                    <mat-datepicker #permitIssue disabled='false'></mat-datepicker>
                   </mat-form-field>
 
                   <mat-form-field class='item item-2' fxFlex='49%'>
-                    <input matInput placeholder='Date Occupied' [matDatepicker]="mdpdateOccupied" [(ngModel)]='bldgAsmt.genDesc.dateOcc' name='dateOcc'>
+                    <input matInput placeholder='Date Occupied' [matDatepicker]="mdpdateOccupied" [(ngModel)]='bldgAsmt.genDesc.dateOcc' name='dateOcc' disabled>
                     <mat-datepicker-toggle matSuffix [for]="mdpdateOccupied"></mat-datepicker-toggle>
-                    <mat-datepicker #mdpdateOccupied></mat-datepicker>
+                    <mat-datepicker #mdpdateOccupied disabled='false'></mat-datepicker>
                   </mat-form-field>
                 </div>
 
@@ -441,7 +441,7 @@
                       <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='2%' fxLayoutGap.xs='10px'>
                         <mat-form-field class='item item-1' fxFlex='49%'>
                           <mat-label>Building Floors</mat-label>
-                          <mat-select [(ngModel)]='bldgAsmt.strDesc.areaBldgFlrs' name='areaBldgFlrs' >
+                          <mat-select [(ngModel)]='bldgAsmt.strDesc.areaBldgFlrs' name='areaBldgFlrs' [disabled]='bldgAsmt.strDesc.cbSameArea'>
                             <mat-option *ngFor='let bldgFloors of areaBldgFlr' [value]='bldgFloors.value'>{{ bldgFloors.viewVal }}
                             </mat-option>
                           </mat-select>
@@ -451,21 +451,20 @@
                         </mat-form-field>
                       </div>
                       <div class='container' fxLayout fxLayout.sm='column' fxLayout.xs='column' fxLayoutGap='10px' fxLayoutGap.sm='10px' fxLayoutGap.xs='10px'>
-                        <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbSameArea' name='cbSameArea' class='item item-1' (click)="smeAreaToggleBtn(bldgAssessment.get('strDescG'))">Floor with
-                          same Area</mat-checkbox>
+                        <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbSameArea' name='cbSameArea' class='item item-1'>Floor with same Area</mat-checkbox>
                       </div>
                       <div class='container' fxLayout fxLayout.sm='column' fxLayout.xs='column' fxLayoutGap='2%' fxLayoutGap.sm='10px' fxLayoutGap.xs='10px'>
                         <mat-form-field class='item item-1' fxFlex='49%'>
                           <mat-label>From</mat-label>
-                          <mat-select [(ngModel)]='bldgAsmt.strDesc.flrAFr' name='flrAFr'>
-                            <mat-option *ngFor='let floorAreaFrom of flrArea1' [value]='floorAreaFrom.value'>
+                          <mat-select [(ngModel)]='bldgAsmt.strDesc.flrAFr' name='flrAFr' [disabled]='!bldgAsmt.strDesc.cbSameArea'>
+                            <mat-option *ngFor='let floorAreaFrom of flrAreaFrom' [value]='floorAreaFrom.value'>
                               {{ floorAreaFrom.viewVal }}</mat-option>
                           </mat-select>
                         </mat-form-field>
                         <mat-form-field class='item item-2' fxFlex='49%'>
                           <mat-label>To</mat-label>
-                          <mat-select [(ngModel)]='bldgAsmt.strDesc.flrATo' name='flrATo'>
-                            <mat-option *ngFor='let floorAreaTo of flrArea2' [value]='floorAreaTo.value'>
+                          <mat-select [(ngModel)]='bldgAsmt.strDesc.flrATo' name='flrATo' [disabled]='!bldgAsmt.strDesc.cbSameArea'>
+                            <mat-option *ngFor='let floorAreaTo of flrAreaTo' [value]='floorAreaTo.value'>
                               {{ floorAreaTo.viewVal }}</mat-option>
                           </mat-select>
                         </mat-form-field>
@@ -487,7 +486,7 @@
                     <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="100%">
                         <mat-label>Materials</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.roofMat' name='roofMat'>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.roofMat' name='roofMat' [disabled]='bldgAsmt.strDesc.cbRoofOth'>
                           <mat-option *ngFor='let matsOptions of roofMat' [value]='matsOptions.value'>
                             {{ matsOptions.viewVal }}
                           </mat-option>
@@ -497,13 +496,13 @@
 
                     <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                     fxLayoutGap.xs='10px'>
-                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbRoofOth' name='cbRoofOth' (click)="toggleMats(bldgAssessment.get('strDescG'))">Others (Specify)</mat-checkbox>
+                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbRoofOth' name='cbRoofOth'>Others (Specify)</mat-checkbox>
                     </div>
 
                     <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                       fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="100%">
-                        <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.roofOthInput' name='roofOthInput'>
+                        <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.roofOthInput' name='roofOthInput' [disabled]='!bldgAsmt.strDesc.cbRoofOth'>
                       </mat-form-field>
                     </div>
                   </div>
@@ -520,7 +519,7 @@
                     fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="100%">
                         <mat-label>Building Floors</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringFlrs' name='flooringFlrs'>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringFlrs' name='flooringFlrs' [disabled]='bldgAsmt.strDesc.cbFlooringSameMat'>
                           <mat-option *ngFor='let bflrs2 of flooringBldgFlr' [value]='bflrs2.value'>{{ bflrs2.viewVal }}
                           </mat-option>
                         </mat-select>
@@ -531,40 +530,40 @@
                     fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="100%">
                         <mat-label>Material</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringMat' name='flooringMat'>
-                          <mat-option *ngFor='let mtrl of mats2' [value]='mtrl.value'>{{ mtrl.viewVal }}</mat-option>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringMat' name='flooringMat' [disabled]='bldgAsmt.strDesc.cbFlooringOth'>
+                          <mat-option *ngFor='let mtrl of flooringMat' [value]='mtrl.value'>{{ mtrl.viewVal }}</mat-option>
                         </mat-select>
                       </mat-form-field>
                     </div>
 
                     <div class='container'>
-                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbFlooringOth' name='cbFlooringOth' (click)="cbtoggle(bldgAsmt.strDesc)">Others (Specify)</mat-checkbox>
+                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbFlooringOth' name='cbFlooringOth'>Others (Specify)</mat-checkbox>
                     </div>
 
                     <div class='container'>
                       <mat-form-field fxFlex="100%">
-                        <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.flooringOthInput' name='flooringOthInput'>
+                        <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.flooringOthInput' name='flooringOthInput' [disabled]='!bldgAsmt.strDesc.cbFlooringOth'>
                       </mat-form-field>
                     </div>
 
                     <div class='container'>
-                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbFlooringSameMat' name='cbFlooringSameMat' (click)="flrMatsToggle(bldgAsmt.strDesc)"><span class="fsize">Floor w/ same Materials</span>
+                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbFlooringSameMat' name='cbFlooringSameMat'><span class="fsize">Floor w/ same Materials</span>
                       </mat-checkbox>
                     </div>
 
                     <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='2%' fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="49%">
                         <mat-label>From</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringFr' name='flooringFr'>
-                          <mat-option *ngFor='let floorAreaFrom3 of flrArea3' [value]='floorAreaFrom3.value'>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringFr' name='flooringFr' [disabled]='!bldgAsmt.strDesc.cbFlooringSameMat'>
+                          <mat-option *ngFor='let floorAreaFrom3 of flrFloorMatFr' [value]='floorAreaFrom3.value'>
                             {{ floorAreaFrom3.viewVal }}</mat-option>
                         </mat-select>
                       </mat-form-field>
 
                       <mat-form-field class="item item-2" fxFlex="49%">
                         <mat-label>To</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringTo' name='flooringTo'>
-                          <mat-option *ngFor='let floorAreaFrom4 of flrArea4' [value]='floorAreaFrom4.value'>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.flooringTo' name='flooringTo' [disabled]='!bldgAsmt.strDesc.cbFlooringSameMat'>
+                          <mat-option *ngFor='let floorAreaFrom4 of flrFloorMatTo' [value]='floorAreaFrom4.value'>
                             {{ floorAreaFrom4.viewVal }}</mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -588,8 +587,8 @@
                     fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="100%">
                         <mat-label>Building Floors</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallFlrs' name='wallFlrs'>
-                          <mat-option *ngFor='let bflrs3 of wallprtBldgFlr' [value]='bflrs3.value'>{{ bflrs3.viewVal }}
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallFlrs' name='wallFlrs' [disabled]='bldgAsmt.strDesc.cbWallSameMat'>
+                          <mat-option *ngFor='let bflrs3 of wallPrtFlrs' [value]='bflrs3.value'>{{ bflrs3.viewVal }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -599,27 +598,27 @@
                     fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="100%">
                         <mat-label>Material</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallMat' name='wallMat'>
-                          <mat-option *ngFor='let mtrls2 of mats3' [value]='mtrls2.value'>{{ mtrls2.viewVal }}</mat-option>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallMat' name='wallMat' [disabled]='bldgAsmt.strDesc.cbWallOth'>
+                          <mat-option *ngFor='let mtrls2 of wallMat' [value]='mtrls2.value'>{{ mtrls2.viewVal }}</mat-option>
                         </mat-select>
                       </mat-form-field>
                     </div>
 
                     <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                       fxLayoutGap.xs='10px'>
-                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbWallOth' name='cbWallOth' (click)="cbtoggle2(bldgAsmt.strDesc)">Others (Specify)</mat-checkbox>
+                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbWallOth' name='cbWallOth'>Others (Specify)</mat-checkbox>
                     </div>
 
                     <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                     fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="100%">
-                        <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.wallOthInput' name='wallOthInput'>
+                        <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.wallOthInput' name='wallOthInput' [disabled]='!bldgAsmt.strDesc.cbWallOth'>
                       </mat-form-field>
                     </div>
 
                     <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px'
                       fxLayoutGap.xs='10px'>
-                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbWallSameMat' name='cbWallSameMat' (click)="flrsmeMatsToggle(bldgAsmt.strDesc)"><span class="fsize">Floor w/ same Materials</span>
+                      <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbWallSameMat' name='cbWallSameMat'><span class="fsize">Floor w/ same Materials</span>
                       </mat-checkbox>
                     </div>
 
@@ -627,16 +626,16 @@
                       fxLayoutGap.xs='10px'>
                       <mat-form-field class="item item-1" fxFlex="48%">
                         <mat-label>From</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallFr' name='wallFr'>
-                          <mat-option *ngFor='let floorAreaFrom5 of flrArea5' [value]='floorAreaFrom5.value'>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallFr' name='wallFr' [disabled]='!bldgAsmt.strDesc.cbWallSameMat'>
+                          <mat-option *ngFor='let floorAreaFrom5 of wallPrtFr' [value]='floorAreaFrom5.value'>
                             {{ floorAreaFrom5.viewVal }}</mat-option>
                         </mat-select>
                       </mat-form-field>
 
                       <mat-form-field class="item item-2" fxFlex="48%">
                         <mat-label>To</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallTo' name='wallTo'>
-                          <mat-option *ngFor='let floorAreaFrom6 of flrArea6' [value]='floorAreaFrom6.value'>
+                        <mat-select [(ngModel)]='bldgAsmt.strDesc.wallTo' name='wallTo' [disabled]='!bldgAsmt.strDesc.cbWallSameMat'>
+                          <mat-option *ngFor='let floorAreaFrom6 of wallPrtTo' [value]='floorAreaFrom6.value'>
                             {{ floorAreaFrom6.viewVal }}</mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -699,8 +698,8 @@
                 <div>
                   <mat-form-field fxFlex="100%">
                     <mat-label>Building Floors</mat-label>
-                    <mat-select [(ngModel)]='bldgAsmt.strDesc.bldgFlrs' name='bldgFlrs'>
-                      <mat-option *ngFor='let bflrsopts of buildingFlrsOpts' [value]='bflrsopts.value'>
+                    <mat-select [(ngModel)]='bldgAsmt.strDesc.bldgFlrs' name='bldgFlrs' [disabled]='bldgAsmt.strDesc.cbFloorSameArea'>
+                      <mat-option *ngFor='let bflrsopts of bldgHtFlrs' [value]='bflrsopts.value'>
                         {{ bflrsopts.viewVal }}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -714,29 +713,29 @@
                   </mat-form-field>
                 </div>
                 <div>
-                  <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbFloorSameArea' name='cbFloorSameArea' (click)="flrMatsToggle2(bldgAsmt.strDesc)">Floor w/ same Materials
+                  <mat-checkbox [(ngModel)]='bldgAsmt.strDesc.cbFloorSameArea' name='cbFloorSameArea'>Floor w/ same Materials
                   </mat-checkbox>
                 </div>
                 <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='2%'
                   fxLayoutGap.xs='10px'>
                   <mat-form-field class="item item-2" fxFlex="49%">
                     <mat-label>From</mat-label>
-                    <mat-select [(ngModel)]='bldgAsmt.strDesc.floorHtFrom' name='floorHtFrom'>
-                      <mat-option *ngFor='let floorAreaFrom5 of flrArea5' [value]='floorAreaFrom5.value'>
+                    <mat-select [(ngModel)]='bldgAsmt.strDesc.floorHtFrom' name='floorHtFrom' [disabled]='!bldgAsmt.strDesc.cbFloorSameArea'>
+                      <mat-option *ngFor='let floorAreaFrom5 of flrHtFr' [value]='floorAreaFrom5.value'>
                         {{ floorAreaFrom5.viewVal }}</mat-option>
                     </mat-select>
                   </mat-form-field>
 
                   <mat-form-field class="item item-2" fxFlex="49%">
                     <mat-label>To</mat-label>
-                    <mat-select [(ngModel)]='bldgAsmt.strDesc.floorHtTo' name='floorHtTo'>
-                      <mat-option *ngFor='let floorAreaFrom6 of flrArea6' [value]='floorAreaFrom6.value'>
+                    <mat-select [(ngModel)]='bldgAsmt.strDesc.floorHtTo' name='floorHtTo' [disabled]='!bldgAsmt.strDesc.cbFloorSameArea'>
+                      <mat-option *ngFor='let floorAreaFrom6 of flrHtTo' [value]='floorAreaFrom6.value'>
                         {{ floorAreaFrom6.viewVal }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div>
-                  <button mat-raised-button fxFlex="100%" type='button' color='primary'>Apply</button>
+                  <button mat-raised-button fxFlex="100%" type='button' color='primary' (click)='applyStHeight(bldgAsmt.strDesc)'>Apply</button>
                 </div>
               </div>
             </div>
@@ -795,7 +794,7 @@
                 <div fxFlex='25%'></div>
 
                 <mat-form-field fxFlex='25%'>
-                  <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.totalCost' name='totalCost' placeholder="Total Cost">
+                  <input matInput type='text' [(ngModel)]='bldgAsmt.strDesc.totalCost' name='stTotalCost' placeholder="Total Cost">
                 </mat-form-field>
 
                 <div fxFlex='25%'></div>
@@ -832,7 +831,7 @@
                   <mat-form-field fxFlex="100%">
                     <mat-label>Sub Type</mat-label>
                     <mat-select [(ngModel)]='bldgAsmt.additionalItems.subType' name='subType'>
-                      <mat-option *ngFor='let sbtypOpts of stOpts' [value]='sbtypOpts.value' (click)="getUnitCost(bldgAssessment.get('additionalItems'))">{{ sbtypOpts.viewVal }}
+                      <mat-option *ngFor='let sbtypOpts of stOpts' [value]='sbtypOpts.value' (click)="getUnitCost(bldgAsmt.additionalItems)">{{ sbtypOpts.viewVal }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -840,7 +839,7 @@
 
                 <div>
                   <mat-form-field fxFlex="100%">
-                    <input matInput type='text' (keyup)="cmpAiTotalCost(bldgAssessment.get('additionalItems'))" [(ngModel)]='bldgAsmt.additionalItems.size' name='size' placeholder='Size (m²)' required>
+                    <input matInput type='text' (keyup)="cmpAiTotalCost(bldgAsmt.additionalItems)" [(ngModel)]='bldgAsmt.additionalItems.size' name='size' placeholder='Size (m²)'>
                   </mat-form-field>
                 </div>
 
@@ -852,16 +851,13 @@
 
                 <div>
                   <mat-form-field fxFlex="100%">
-                    <input matInput type='text' [(ngModel)]='bldgAsmt.additionalItems.totalCost' name='totalCost' placeholder='Total Cost'>
+                    <input matInput type='text' [(ngModel)]='bldgAsmt.additionalItems.totalCost' name='addTotalCost' placeholder='Total Cost'>
                   </mat-form-field>
                 </div>
 
                 <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='left' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
-                  <div class="item item-1" fxFlex="50%">
-                    <button mat-raised-button type='button' color='primary' fxFlex="100%" (click)="addAddItems(bldgAssessment.get('additionalItems'))" [ngClass]="{'applyBtn': aiApply, 'addBtnMU': !aiApply}">Add</button>
-                  </div>
-                  <div class="item item-2" fxFlex="50%">
-                    <button mat-raised-button fxFlex="100%" type='button' color='primary' [ngClass]="{'applyBtn': aiRemuv, 'addBtnMU': !aiRemuv}">Remove</button>
+                  <div class="item item-1" fxFlex="100%">
+                    <button mat-raised-button type='button' color='primary' fxFlex="100%" (click)="addAddItems(bldgAsmt.additionalItems)" >Add</button>
                   </div>
                 </div>
                 <br><br>
@@ -871,23 +867,23 @@
                     <table mat-table class='mat-elevation-z0' [dataSource]='addItemsTable' width='1000px'>
                       <ng-container matColumnDef='aItm'>
                         <th *matHeaderCellDef class="fNmNlNtin">Additional Item</th>
-                        <td *matCellDef='let data' class="fNmNlNtin">{{ data.adItms }}</td>
+                        <td *matCellDef='let data' class="fNmNlNtin">{{ data.addItem }}</td>
                       </ng-container>
                       <ng-container matColumnDef='sType'>
                         <th mat-header-cell *matHeaderCellDef class="fNmNlNtin">Sub Type</th>
-                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.sTyp }}</td>
+                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.subType }}</td>
                       </ng-container>
                       <ng-container matColumnDef='sizem2'>
                         <th mat-header-cell *matHeaderCellDef class="fNmNlNtin">Size (m²)</th>
-                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.sizeSqrd }}</td>
+                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.size }}</td>
                       </ng-container>
                       <ng-container matColumnDef='untCost'>
                         <th mat-header-cell *matHeaderCellDef class="fNmNlNtin">Unit Cost</th>
-                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.uc }}</td>
+                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.unitCost }}</td>
                       </ng-container>
                       <ng-container matColumnDef='totalC'>
                         <th mat-header-cell *matHeaderCellDef class="fNmNlNtin">Total Cost</th>
-                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.tc }}</td>
+                        <td mat-cell *matCellDef='let data' class="fNmNlNtin">{{ data.totalCost }}</td>
                       </ng-container>
                       <ng-container matColumnDef='actions'>
                         <th *matHeaderCellDef class="delCol"></th>
@@ -921,9 +917,9 @@
               <mat-card-content>
                 <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
                   <div class='item item-1' fxFlex='100%'>
-                    <mat-checkbox [(ngModel)]='bldgAsmt.propAppraisal.cbUnpainted' name='cbUnpainted'>Unpainted</mat-checkbox>
+                    <mat-checkbox [(ngModel)]='bldgAsmt.propAppraisal.cbUnpainted' name='cbUnpainted' (change)='setDepreciation(bldgAsmt.propAppraisal)'>Unpainted</mat-checkbox>
                     &nbsp;&nbsp;
-                    <mat-checkbox [(ngModel)]='bldgAsmt.propAppraisal.cbSecHandMat' name='cbSecHandMat'>Second Hand Material</mat-checkbox>
+                    <mat-checkbox [(ngModel)]='bldgAsmt.propAppraisal.cbSecHandMat' name='cbSecHandMat' (change)='setDepreciation(bldgAsmt.propAppraisal)'>Second Hand Material</mat-checkbox>
                   </div>
                 </div>
                 <div class='container' fxLayout fxLayout.xs='column' fxLayoutAlign='center' fxLayoutGap='10px' fxLayoutGap.xs='10px'>
@@ -931,7 +927,7 @@
                     <mat-form-field fxFlex='100%'>
                       <mat-label>Type of Building</mat-label>
                       <mat-select [(ngModel)]='bldgAsmt.propAppraisal.bldgType' name='bldgType'>
-                        <mat-option *ngFor='let typOfBldg of toBldg' [value]='typOfBldg.value'>{{ typOfBldg.viewVal }}
+                        <mat-option *ngFor='let typOfBldg of toBldg' [value]='typOfBldg.value' (click)='setDepreciation(bldgAsmt.propAppraisal)'>{{ typOfBldg.viewVal }}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -940,7 +936,7 @@
                     <mat-form-field fxFlex='100%'>
                       <mat-label>Building Rating</mat-label>
                       <mat-select [(ngModel)]='bldgAsmt.propAppraisal.bldgRating' name='bldgRating'>
-                        <mat-option *ngFor='let bldgRtng of bRating' [value]='bldgRtng.value'>{{ bldgRtng.viewVal }}
+                        <mat-option *ngFor='let bldgRtng of bRating' [value]='bldgRtng.value' (click)='setDepreciation(bldgAsmt.propAppraisal)'>{{ bldgRtng.viewVal }}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -1033,7 +1029,7 @@
                       <mat-form-field fxFlex="100%">
                         <mat-label>Actual Use</mat-label>
                         <mat-select [(ngModel)]='bldgAsmt.propAsmt.actualUse' name='actualUse'>
-                          <mat-option *ngFor='let auOpts of actualUseOpts' [value]='auOpts.value'>{{ auOpts.viewVal }}
+                          <mat-option *ngFor='let auOpts of actualUseOpts' [value]='auOpts.value' (click)='compAsdVal(bldgAsmt.propAsmt)'>{{ auOpts.viewVal }}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
@@ -1061,7 +1057,7 @@
                     <div>
                       <mat-form-field fxFlex="100%">
                         <mat-label>Status</mat-label>
-                        <mat-select [(ngModel)]='bldgAsmt.propAsmt.status' name='status' required>
+                        <mat-select [(ngModel)]='bldgAsmt.propAsmt.status' name='status'>
                           <mat-option *ngFor='let statusOpt of statsOpts' [value]='statusOpt.value'>{{ statusOpt.viewVal }}
                           </mat-option>
                         </mat-select>
@@ -1080,10 +1076,7 @@
                       </div>
                       <div class="item item-2" fxFlex="48%">
                         <mat-form-field fxFlex="100%">
-                          <mat-label>Year</mat-label>
-                          <mat-select [(ngModel)]='bldgAsmt.propAsmt.effY' name='effY' (click)='yrOptions()'>
-                            <mat-option *ngFor='let years of yrOpts' [value]='years.value'>{{ years.viewVal }}</mat-option>
-                          </mat-select>
+                          <input matInput type='text' [(ngModel)]='bldgAsmt.propAsmt.effY' name='effY' placeholder='Year'>
                         </mat-form-field>
                       </div>
                     </div>
@@ -1217,12 +1210,12 @@
         <br>
         <mat-card-actions align='center'>
           <div class='container' fxLayout fxLayoutAlign='center' fxLayoutGap='20px'>
-            <div fxFlex='15%'>
-              <button class='addBtMU addBtnMD' mat-raised-button color='primary' type='submit'>Save</button>
-            </div>
-            <div fxFlex='15%'>
-              <button class='clrBtnMD clrBtnMU' mat-raised-button color='warn'>Clear</button>
-            </div>
+          <div fxFlex='15%'>
+            <button mat-raised-button color='primary' type='submit' [ngClass]="{'applyBtn': true, 'addBtnMU': false}">Save</button>
+          </div>
+          <div fxFlex='15%'>
+            <button mat-raised-button color='warn' [ngClass]="{'clrBtnMD': true, 'clrBtnMU': false}" type='button' (click)='resetForm()'>Clear</button>
+          </div>
           </div>
         </mat-card-actions>
       </mat-card-content>
