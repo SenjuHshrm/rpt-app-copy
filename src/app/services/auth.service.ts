@@ -20,12 +20,16 @@ export class SetAuthRoute {
       name: token.name,
       username: token.username
     }
-    window.location.href = '/user/' + tokenObj.username;
+    this.router.navigate(['/user/' + tokenObj.username]);
   }
 
   alreadyAuth(): void {
     let dcd: any = jwt_decode(localStorage.getItem('auth'));
     let route = '/user/' + dcd.username
     this.router.navigate([route])
+  }
+
+  isUserAuthenticated(): boolean {
+    return (localStorage.getItem('auth')) ? true : false;
   }
 }

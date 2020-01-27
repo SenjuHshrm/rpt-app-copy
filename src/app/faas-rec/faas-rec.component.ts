@@ -91,9 +91,6 @@ export class FaasRecComponent implements OnInit {
 		private setRfNum: setRefNum ) { }
 
   ngOnInit() {
-    if(!localStorage.getItem('auth')) {
-      window.location.href = '/'
-    }
 		this.posHolders.getPosHoldersCl('TAX DECLARATION').subscribe(res => {
 			this.holders = res;
 		});

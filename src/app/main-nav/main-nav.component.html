@@ -8,10 +8,10 @@
       <span class='w-150'>Menu</span>
       <span class='navLogoMT'><img src='../assets/SPCLOGO.png'></span>
     </mat-toolbar>
-    <mat-nav-list *ngIf='nonAuth()' (click)="drawer.toggle()">
+    <!-- <mat-nav-list *ngIf='nonAuth()' (click)="drawer.toggle()">
       <a mat-list-item routerLink="/login">Login</a>
       <a mat-list-item routerLink="/register">Register</a>
-    </mat-nav-list>
+    </mat-nav-list> -->
     <mat-nav-list *ngIf='loggedIn()'>
     <div>
       <div class='hdeShwNme'>
@@ -19,15 +19,15 @@
       </div>
         <hr width='90%' class='hdeShwNme'>
 
-      <div class="sidenav" *ngFor='let nav of navs' (click)="drawer.toggle();">
-        <a mat-list-item routerLink="{{nav.route}}">{{nav.text}}</a>
+      <div class="sidenav">
+        <a mat-list-item *ngFor='let nav of navs' routerLink="{{ nav.route }}" (click)="drawer.toggle()">{{nav.text}}</a>
       </div>
-      <a mat-list-item (click)="ltLinks = !ltLinks; xpandLtLinks()" ng-model="show">
+      <!-- <a mat-list-item (click)="ltLinks = !ltLinks; xpandLtLinks()" ng-model="show">
         <div>Land Tax</div>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <mat-icon *ngIf="!ltLinks">expand_more</mat-icon>
         <mat-icon *ngIf="ltLinks">expand_less</mat-icon>
-      </a>
+      </a> -->
 
       <!--<div [ngClass]="{ 'show': ltLinks, 'hide': !ltLinks }">
         <a mat-list-item (click)='drawer.toggle(); gotoClearance();' class='fsze'>
@@ -40,7 +40,7 @@
           <mat-icon>arrow_right</mat-icon>&nbsp;Arrears
         </a>
       </div>-->
-      <mat-accordion>
+      <!-- <mat-accordion>
         <mat-expansion-panel class="mat-elevation-z0" [expanded]='expandLt'>
           <a mat-list-item (click)='drawer.toggle(); gotoClearance();' class='fsze'>
             <mat-icon>arrow_right</mat-icon>&nbsp;Clearance
@@ -52,14 +52,11 @@
             <mat-icon>arrow_right</mat-icon>&nbsp;Arrears
           </a>
         </mat-expansion-panel>
-      </mat-accordion>
+      </mat-accordion> -->
 
       <hr width='90%'>
-			<div *ngIf="checkAcctLvl()" (click)='drawer.toggle()'>
-				<a mat-list-item (click)="gotoSettings()">Settings</a>
-			</div>
-      <div (click)="drawer.toggle()">
-        <a mat-list-item (click)="logOut(); ltLinks=false">Logout</a>
+      <div>
+        <a mat-list-item (click)="drawer.toggle(); logOut(); ltLinks=false">Logout</a>
       </div>
       <!-- <div class='gtSettings'>
         Go to settings
@@ -75,7 +72,9 @@
       <span class='spanRPT fntSze'>RPT Web Application</span>
       <span *ngIf='loggedIn()' class="fntSze hdeNme uprCaseName">{{ userFullName }}</span>
     </mat-toolbar>
-    <ng-content></ng-content>
+    <router-outlet>
+
+    </router-outlet>
     <!-- Add Content Here -->
   </mat-sidenav-content>
 </mat-sidenav-container>

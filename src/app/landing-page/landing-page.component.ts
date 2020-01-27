@@ -12,18 +12,7 @@ export class LandingPageComponent implements OnInit {
   constructor(private route: Router) { }
 
   ngOnInit() {
-    if(localStorage.getItem('auth')){
-      // if(jwt_decode(localStorage.getItem('auth')) instanceof Object) {
-			// 	window.location.href = '/'
-			// }
-			try {
-				jwt_decode(localStorage.getItem('auth'));
-			} catch (e) {
-				window.location.href = '/'
-			}
-    } else {
-			window.location.href = '/'
-		}
+
   }
 
 }

@@ -21,58 +21,63 @@ import { SegregationComponent } from './segregation/segregation.component';
 import { SubdivisionComponent } from './subdivision/subdivision.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SettingsComponent } from './settings/settings.component';
+import { AuthGuard } from "./guard/auth-guard.service";
 
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user/:username', component: LandingPageComponent },
-  { path: 'user/:username/assessments', component: AssessmentsComponent },
-  { path: 'user/:username/assessments/land', component: LandAssessmentComponent },
-  { path: 'user/:username/assessments/building', component: BuildingAssessmentComponent },
-  { path: 'user/:username/assessments/machinery', component: MachAssessmentComponent },
-  { path: 'user/:username/reassessments', component: ReassessmentsComponent },
-  { path: 'user/:username/reassessments/land', component: LandReassessmentComponent },
-  { path: 'user/:username/reassessments/building', component: BuildingReassessmentComponent },
-  { path: 'user/:username/reassessments/machinery', component: MachReassessmentComponent },
-  { path: 'user/:username/faas-records', component: FaasRecComponent },
-  { path: 'user/:username/land-tax', component: LandTaxComponent },
-  { path: 'user/:username/land-tax/clearance', component: ClearanceComponent },
-  { path: 'user/:username/land-tax/rptop', component: RPTOPComponent },
-  { path: 'user/:username/land-tax/arrears', component: ArrearsComponent },
-  { path: 'user/:username/print/:file', component: PrintingComponent },
-  { path: 'user/:username/segregation', component: SegregationComponent },
-  { path: 'user/:username/subdivision', component: SubdivisionComponent },
-	{ path: 'user/:username/settings', component: SettingsComponent },
+  // { path: 'user/:username/land-tax', component: LandTaxComponent },
+  // { path: 'user/:username/land-tax/clearance', component: ClearanceComponent },
+  // { path: 'user/:username/land-tax/rptop', component: RPTOPComponent },
+  // { path: 'user/:username/land-tax/arrears', component: ArrearsComponent },
+  // { path: 'user/:username/print/:file', component: PrintingComponent },
+  { path: 'user/:username', component: LandingPageComponent,
+    children:[
+      { path: '', redirectTo: 'assessments', pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'assessments', component: AssessmentsComponent, canActivate: [AuthGuard] },
+      { path: 'assessments/land', component: LandAssessmentComponent, canActivate: [AuthGuard] },
+      { path: 'assessments/building', component: BuildingAssessmentComponent, canActivate: [AuthGuard] },
+      { path: 'assessments/machinery', component: MachAssessmentComponent, canActivate: [AuthGuard] },
+      { path: 'reassessments', component: ReassessmentsComponent, canActivate: [AuthGuard] },
+      { path: 'reassessments/land', component: LandReassessmentComponent, canActivate: [AuthGuard] },
+      { path: 'reassessments/building', component: BuildingReassessmentComponent, canActivate: [AuthGuard] },
+      { path: 'reassessments/machinery', component: MachReassessmentComponent, canActivate: [AuthGuard] },
+      { path: 'faas-records', component: FaasRecComponent, canActivate: [AuthGuard] },
+      { path: 'segregation', component: SegregationComponent, canActivate: [AuthGuard] },
+      { path: 'subdivision', component: SubdivisionComponent, canActivate: [AuthGuard] },
+    	{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+    ]
+  },
 	{ path: 'path/404', component: NotFoundComponent },
 	{ path: '**', redirectTo: '/path/404' }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [
-  LoginComponent,
-  RegisterComponent,
-  LandingPageComponent,
-  LandAssessmentComponent,
-  AssessmentsComponent,
-  BuildingAssessmentComponent,
-  ReassessmentsComponent,
-  LandReassessmentComponent,
-  BuildingReassessmentComponent,
-  FaasRecComponent,
-  LandTaxComponent,
-  ClearanceComponent,
-  RPTOPComponent,
-  ArrearsComponent,
-  MachAssessmentComponent,
-  MachReassessmentComponent,
-  PrintingComponent,
-  SegregationComponent,
-  SubdivisionComponent,
-	NotFoundComponent,
-	SettingsComponent
-]
+// export const routingComponents = [
+//   LoginComponent,
+//   RegisterComponent,
+//   LandingPageComponent,
+//   LandAssessmentComponent,
+//   AssessmentsComponent,
+//   BuildingAssessmentComponent,
+//   ReassessmentsComponent,
+//   LandReassessmentComponent,
+//   BuildingReassessmentComponent,
+//   FaasRecComponent,
+//   LandTaxComponent,
+//   ClearanceComponent,
+//   RPTOPComponent,
+//   ArrearsComponent,
+//   MachAssessmentComponent,
+//   MachReassessmentComponent,
+//   PrintingComponent,
+//   SegregationComponent,
+//   SubdivisionComponent,
+// 	NotFoundComponent,
+// 	SettingsComponent
+// ]

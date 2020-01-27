@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +15,7 @@ export interface Nav {
   templateUrl: './main-nav.component.html',
   styleUrls: ['./main-nav.component.css']
 })
-export class MainNavComponent {
+export class MainNavComponent implements OnInit {
   private userFullName: String;
 	ltLinks: boolean;
 
@@ -26,12 +26,15 @@ export class MainNavComponent {
 
   constructor(private breakpointObserver: BreakpointObserver, private route: Router) { }
 
-  navs: Nav[] = [
-    { route: '/user/' + this.getUser() + '/assessments', text: 'Assessments' },
-    { route: '/user/' + this.getUser() + '/reassessments', text: 'Reassessments' },
-    { route: '/user/' + this.getUser() + '/segregation', text: 'Segregation' },
-    { route: '/user/' + this.getUser() + '/subdivision', text: 'Subdivision' },
-    { route: '/user/' + this.getUser() + '/faas-records', text: 'Faas Records' },
+  ngOnInit() { }
+
+  navs: any = [
+    { route: 'assessments', text: 'Assessments' },
+    { route: 'reassessments', text: 'Reassessments' },
+    { route: 'segregation', text: 'Segregation' },
+    { route: 'subdivision', text: 'Subdivision' },
+    { route: 'faas-records', text: 'Faas Records' },
+    { route: 'settings', text: 'Settings' },
     //{ route: '/user/' + this.getUser() + '/land-tax', text: 'Land Tax'},
   ]
 
@@ -44,17 +47,15 @@ export class MainNavComponent {
 	}
 
 	gotoSettings() {
-		let token = jwt_decode(localStorage.getItem('auth'))
-    let route = '/user/' + this.getUser() + '/settings'
-    this.route.navigate([route])
+		// let token = jwt_decode(localStorage.getItem('auth'))
+    // let route = '/user/' + this.getUser() + '/settings'
+    this.route.navigate(['/settings'])
 	}
 
   getUser() {
-    if (localStorage.getItem('auth')) {
-      let token: any = jwt_decode(localStorage.getItem('auth'))
-      this.userFullName = token.name
-      return token.username
-    }
+    let token: any = jwt_decode(localStorage.getItem('auth'))
+    this.userFullName = token.name
+    return token.username
   }
 
   gotoClearance() {
@@ -84,8 +85,8 @@ export class MainNavComponent {
   }
 
   logOut() {
-    localStorage.removeItem('auth')
-    window.location.href = '/'
+    localStorage.clear()
+    this.route.navigate(['/'])
   }
 
   expandLt: boolean = false;

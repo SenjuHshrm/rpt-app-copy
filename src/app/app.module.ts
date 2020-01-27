@@ -41,6 +41,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { BldgAsmtLnd } from './building-assessment/dialog-search-land/bldgasmt-search';
 import { BldgAsmtBg } from './building-assessment/dialog-search-bldg/bldgasmt-search';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { AuthGuard } from './guard/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { BnNgIdleService } from 'bn-ng-idle';
   ],
   providers: [
     MatDatepickerModule,
-    BnNgIdleService
+    BnNgIdleService,
+    AuthGuard
   ],
   entryComponents: [
     ClearanceComponent,

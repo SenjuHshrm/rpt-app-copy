@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
+import * as jwt_decode from 'jwt-decode'
 import { selectOpt } from '../interfaces/selectOpt';
 import { landOwner } from '../interfaces/landOwner';
 import { adminOwner } from '../interfaces/adminOwner';
@@ -134,9 +135,8 @@ export class LandReassessmentComponent implements OnInit {
 	) { }
 
   ngOnInit() {
-    if (!localStorage.getItem('auth')) {
-      window.location.href = '/'
-    }
+    let token: any = jwt_decode(localStorage.getItem('auth'));
+    this.username = token.username
     this.resetForm();
 		this.getMrktVal.getValues().subscribe(res => {
 			_.forEach(res, arr => {
@@ -147,7 +147,6 @@ export class LandReassessmentComponent implements OnInit {
 			this.approvedBy = res[0].holder_name;
 			this.landAssessment.get('propertyAssessment').get('approvedName').setValue(res[0].holder_name)
 		})
-		this.username = this.router.snapshot.paramMap.get('username');
 		this.lsBrgySubd.get().subscribe(res => {
 			this.brgySubdLs = res.res;
 			let brgys = Array.from(new Set(res.res.map(x => x.barangay_name)));

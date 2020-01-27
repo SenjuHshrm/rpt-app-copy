@@ -21,9 +21,7 @@ export class SegregationComponent implements OnInit {
   constructor(private ssg: searchSG) { }
 
   ngOnInit() {
-    if(!localStorage.getItem('auth')) {
-      window.location.href ='/';
-    }
+
   }
 
   search() {

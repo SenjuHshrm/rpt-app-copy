@@ -19,9 +19,7 @@ export class AssessmentsComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
-    if(!localStorage.getItem('auth')){
-      window.location.href = '/'
-    }
+
   }
 
   landAssessment() {

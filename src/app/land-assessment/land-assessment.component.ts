@@ -135,39 +135,35 @@ export class LandAssessmentComponent implements OnInit {
 
   /////////////Init component///////////////////////////
   ngOnInit() {
-    if(!localStorage.getItem('auth')) {
-      window.location.href = '/';
-    } else {
-      this.username = this.route.snapshot.paramMap.get('username');
-      this.initForm();
-      this.getMrktVal.getValues().subscribe(res => {
-        this.landClassLs = res;
-        this.lndAppChngVal(this.lndAsmt.landAppraisal);
-      });
-      this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
-        this.lndAsmt.propAsmt.approvedName = res[0].holder_name;
-      });
-      this.lsBrgySubd.get().subscribe(res => {
-        this.brgySubdLs = res.res;
-        let brgys = Array.from(new Set(res.res.map(x => x.barangay_name)));
-        _.forEach(brgys, (arr: string) => {
-          this.lsBrgy.push({
-            value: arr,
-            viewVal: arr
-          })
+    this.username = this.route.snapshot.paramMap.get('username');
+    this.initForm();
+    this.getMrktVal.getValues().subscribe(res => {
+      this.landClassLs = res;
+      this.lndAppChngVal(this.lndAsmt.landAppraisal);
+    });
+    this.gPosHolder.getPosHoldersCl("FAAS").subscribe(res => {
+      this.lndAsmt.propAsmt.approvedName = res[0].holder_name;
+    });
+    this.lsBrgySubd.get().subscribe(res => {
+      this.brgySubdLs = res.res;
+      let brgys = Array.from(new Set(res.res.map(x => x.barangay_name)));
+      _.forEach(brgys, (arr: string) => {
+        this.lsBrgy.push({
+          value: arr,
+          viewVal: arr
         })
       })
-      this.checkpinresult = '';
-      ownerLs = [];
-      adminLs = [];
-      imprInf = [];
-      mrktVal = [];
-      this.ownersLs = new MatTableDataSource(ownerLs);
-      this.adminsLs = new MatTableDataSource(adminLs);
-      this.impInf = new MatTableDataSource(imprInf);
-      this.marketValue = new MatTableDataSource(mrktVal);
-      this.setAsmtLvl(this.lndAsmt.propAsmt)
-    }
+    })
+    this.checkpinresult = '';
+    ownerLs = [];
+    adminLs = [];
+    imprInf = [];
+    mrktVal = [];
+    this.ownersLs = new MatTableDataSource(ownerLs);
+    this.adminsLs = new MatTableDataSource(adminLs);
+    this.impInf = new MatTableDataSource(imprInf);
+    this.marketValue = new MatTableDataSource(mrktVal);
+    this.setAsmtLvl(this.lndAsmt.propAsmt)
   }
 
   ///////////////////////////////Event handlers//////////////////////////////////////////////

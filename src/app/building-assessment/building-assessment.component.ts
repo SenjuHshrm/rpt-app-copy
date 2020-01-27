@@ -56,6 +56,9 @@ export class BuildingAssessmentComponent implements OnInit {
   public bldgMrkVl: any;
   public bldgAsmtLvl: any;
   public bldgPosHolder: any;
+  public isVisible_spinner: boolean = false
+  public qrtrOpts: selectOpt[] = []
+  public statsOpts: selectOpt[] = []
   //struct materials
   public roofMat: selectOpt[] = []
   public flooringMat: selectOpt[] = []
@@ -108,117 +111,113 @@ export class BuildingAssessmentComponent implements OnInit {
 
   ////////////////Init component/////////////
   ngOnInit() {
-    if(!localStorage.getItem('auth')) {
-      window.location.href = '/'
-    } else {
-      this.bldgVals.getVals().subscribe(res => {
-        console.log(res)
-        this.bldgIncr = res.res.bldgInc
-        this.bldgRate = res.res.bldgRate
-        this.bldgSpDpr = res.res.bldgSpDepr
-        this.bldgStHt = res.res.bldgStHt
-        this.bldgStrcMat = res.res.bldgStrcMat
-        this.bldgType = res.res.bldgType
-        this.bldgMrkVl = res.res.bldgMrkVal
-        this.bldgAsmtLvl = res.res.bldgAsmtLvl
-        this.bldgPosHolder = res.res.bldgPosHolders
+    this.bldgVals.getVals().subscribe(res => {
+      console.log(res)
+      this.bldgIncr = res.res.bldgInc
+      this.bldgRate = res.res.bldgRate
+      this.bldgSpDpr = res.res.bldgSpDepr
+      this.bldgStHt = res.res.bldgStHt
+      this.bldgStrcMat = res.res.bldgStrcMat
+      this.bldgType = res.res.bldgType
+      this.bldgMrkVl = res.res.bldgMrkVal
+      this.bldgAsmtLvl = res.res.bldgAsmtLvl
+      this.bldgPosHolder = res.res.bldgPosHolders
 
-        //struct mat
-        _.forEach(this.bldgStrcMat, arr => {
-          switch(arr.type) {
-            case 'ROOF':
-              this.roofMat.push({
-                value: arr.sub_type,
-                viewVal: arr.sub_type
-              })
-              break;
-            case 'WALL':
-              this.wallMat.push({
-                value: arr.sub_type,
-                viewVal: arr.sub_type
-              })
-              break;
-            default:
-              this.flooringMat.push({
-                value: arr.sub_type,
-                viewVal: arr.sub_type
-              })
-          }
-        })
-
-        //gendesc type subtype
-        let kb = Array.from(new Set(this.bldgMrkVl.map(x => x.type)))
-        _.forEach(kb, (arr: string) => {
-          this.kof.push({
-            value: arr,
-            viewVal: arr
-          })
-        })
-        _.forEach(this.bldgMrkVl, arr => {
-          if(arr.type == 'ONE FAMILY RESIDENCE') {
-            this.st.push({
-              value: arr.class,
-              viewVal: arr.class
-            })
-          }
-        })
-
-        //standard height
-        _.forEach(this.bldgStHt, arr => {
-          this.floortypeOpts.push({
-            value: arr.type,
-            viewVal: arr.type
-          })
-        })
-
-        //market value increment
-        let addItem = Array.from(new Set(this.bldgIncr.map(x => x.type)))
-        _.forEach(addItem, (arr: string) => {
-          this.aItemOpts.push({
-            value: arr,
-            viewVal: arr
-          })
-        })
-        _.forEach(this.bldgIncr, arr => {
-          if(arr.type == 'FOUNDATIONS') {
-            this.stOpts.push({
+      //struct mat
+      _.forEach(this.bldgStrcMat, arr => {
+        switch(arr.type) {
+          case 'ROOF':
+            this.roofMat.push({
               value: arr.sub_type,
               viewVal: arr.sub_type
             })
-          }
-        })
-
-        //bldg type
-        _.forEach(this.bldgType, arr => {
-          this.toBldg.push({
-            value: arr.type,
-            viewVal: arr.type
-          })
-        })
-
-        //bldg rate
-        _.forEach(this.bldgRate, arr => {
-          this.bRating.push({
-            value: arr.type,
-            viewVal: arr.type
-          })
-        })
-
-        //asmt lvl
-        let asmtLvls = Array.from(new Set(this.bldgAsmtLvl.map(x => x.class)))
-        _.forEach(asmtLvls, (arr: string) => {
-          this.actualUseOpts.push({
-            value: arr,
-            viewVal: arr
-          })
-        })
-
-
-
-
+            break;
+          case 'WALL':
+            this.wallMat.push({
+              value: arr.sub_type,
+              viewVal: arr.sub_type
+            })
+            break;
+          default:
+            this.flooringMat.push({
+              value: arr.sub_type,
+              viewVal: arr.sub_type
+            })
+        }
       })
-      this.initForm()
-    }
+
+      //gendesc type subtype
+      let kb = Array.from(new Set(this.bldgMrkVl.map(x => x.type)))
+      _.forEach(kb, (arr: string) => {
+        this.kof.push({
+          value: arr,
+          viewVal: arr
+        })
+      })
+      _.forEach(this.bldgMrkVl, arr => {
+        if(arr.type == 'ONE FAMILY RESIDENCE') {
+          this.st.push({
+            value: arr.class,
+            viewVal: arr.class
+          })
+        }
+      })
+
+      //standard height
+      _.forEach(this.bldgStHt, arr => {
+        this.floortypeOpts.push({
+          value: arr.type,
+          viewVal: arr.type
+        })
+      })
+
+      //market value increment
+      let addItem = Array.from(new Set(this.bldgIncr.map(x => x.type)))
+      _.forEach(addItem, (arr: string) => {
+        this.aItemOpts.push({
+          value: arr,
+          viewVal: arr
+        })
+      })
+      _.forEach(this.bldgIncr, arr => {
+        if(arr.type == 'FOUNDATIONS') {
+          this.stOpts.push({
+            value: arr.sub_type,
+            viewVal: arr.sub_type
+          })
+        }
+      })
+
+      //bldg type
+      _.forEach(this.bldgType, arr => {
+        this.toBldg.push({
+          value: arr.type,
+          viewVal: arr.type
+        })
+      })
+
+      //bldg rate
+      _.forEach(this.bldgRate, arr => {
+        this.bRating.push({
+          value: arr.type,
+          viewVal: arr.type
+        })
+      })
+
+      //asmt lvl
+      let asmtLvls = Array.from(new Set(this.bldgAsmtLvl.map(x => x.class)))
+      _.forEach(asmtLvls, (arr: string) => {
+        this.actualUseOpts.push({
+          value: arr,
+          viewVal: arr
+        })
+      })
+
+
+
+
+    })
+    this.initForm()
   }
 
   ///////////////Methods/////////////////////

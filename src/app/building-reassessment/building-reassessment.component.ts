@@ -333,9 +333,6 @@ export class BuildingReassessmentComponent implements OnInit {
   aItemHeader: string[] = ['aItm', 'sType', 'sizem2', 'untCost', 'totalC', 'actions']
 
   ngOnInit() {
-    if (!localStorage.getItem('auth')) {
-      window.location.href = '/'
-    }
     this.bldgReassessment = new FormGroup({
       bldgCode: new FormControl('', [Validators.required]),
       arpNo: new FormControl('', [Validators.required]),
