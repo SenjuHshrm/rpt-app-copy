@@ -34,7 +34,7 @@
     "jszip": "^2.6.1",
     "jszip-utils": "0.0.2",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "ngx-extended-pdf-viewer": "^0.9.45",
     "rxjs": "~6.3.3",
