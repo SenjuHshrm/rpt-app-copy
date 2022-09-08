@@ -31,7 +31,7 @@
     "file-saver": "^2.0.2",
     "fs": "0.0.1-security",
     "hammerjs": "^2.0.8",
-    "jszip": "^2.6.1",
+    "jszip": "^2.7.0",
     "jszip-utils": "0.0.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
